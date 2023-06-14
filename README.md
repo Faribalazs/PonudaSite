@@ -23,15 +23,15 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Install Project
 
-copy env.example and rename it to .env
-fill app the database section
-run php artisan migrate:fresh --seed
-run composer install on root
-run npm install on root
-run npm run dev on root
-run php artisan key:generate
-run php artisan storage:link
-and done!
+copy env.example and rename it to .env<br>
+fill app the database section<br>
+run php artisan migrate:fresh --seed<br>
+run composer install on root<br>
+run npm install on root<br>
+run npm run dev on root<br>
+run php artisan key:generate<br>
+run php artisan storage:link<br>
+and done!<br>
 
 ## License
 
