@@ -18,6 +18,7 @@ class CustomSubcategories extends Migration
             $table->bigInteger('worker_id')->unsigned();
             $table->bigInteger('custom_category_id')->unsigned();
             $table->string('name');
+            $table->tinyInteger('is_subcategory_deleted')->nullable();
         });
     }
 

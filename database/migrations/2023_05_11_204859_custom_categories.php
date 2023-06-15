@@ -17,6 +17,7 @@ class CustomCategories extends Migration
             $table->id()->startingValue(500);
             $table->bigInteger('worker_id')->unsigned();
             $table->string('name');
+            $table->tinyInteger('is_category_deleted')->nullable();
         });
         DB::table('custom_categories')->insert(
             array(

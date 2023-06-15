@@ -54,7 +54,7 @@ class NewOptions extends Controller
    {
       $worker_id = $this->worker();
       $categories = DB::select('select * from categories');
-      $custom_categories = DB::select('select * from custom_categories where worker_id = ?',[$worker_id]);
+      $custom_categories = DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker_id]);
       return view('worker.views.add-new-subcategory',['categories' => $categories, 'custom_categories' => $custom_categories]);
    }
 
@@ -85,7 +85,7 @@ class NewOptions extends Controller
       $custom_categories = DB::select('select * from custom_categories where worker_id = ?',[$worker_id]);
       $subcategories = DB::select('select * from subcategories');
       $units = DB::select('select * from units');
-      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ?',[$worker_id]);
+      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker_id]);
       return view('worker.views.add-new-pozicija',['categories' => $categories, 'custom_categories' => $custom_categories, 'subcategories' => $subcategories, 'custom_subcategories' => $custom_subcategories, 'units'=> $units]);
    }
 

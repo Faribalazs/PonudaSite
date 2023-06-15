@@ -30,19 +30,21 @@ class NewPonuda extends Controller
       $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_category, s.id AS
       id_subcategory, s.name AS name_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, poz.title, poz.description 
+      AS id_pozicija, poz.unit_id, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description
       FROM ponuda p JOIN categories c ON p.categories_id = c.id 
       JOIN subcategories s ON p.subcategories_id = s.id 
       JOIN pozicija poz ON p.pozicija_id = poz.id 
+      LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
       where p.ponuda_id = ? and p.worker_id = ?',[$counter,$worker_id]);
       $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_custom_category, s.id AS
       id_subcategory, s.name AS name_custom_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description 
+      AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description, s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description
       FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
       JOIN custom_subcategories s ON p.subcategories_id = s.id 
       JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
-      where p.ponuda_id = ? and p.worker_id = ?',[$counter,$worker_id]);
+      LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
+      where p.ponuda_id = ? and p.worker_id = ? and s.is_subcategory_deleted IS NULL and c.is_category_deleted IS NULL and poz.is_pozicija_deleted IS NULL',[$counter,$worker_id]);
       $mergedData = array_merge($ponuda, $custom_ponuda);
       $subTotal = 0;
       foreach($mergedData as $mData){
@@ -56,9 +58,9 @@ class NewPonuda extends Controller
       $subcategories = DB::select('select * from subcategories');
       $pozicija = DB::select('select * from pozicija p JOIN units u WHERE p.unit_id = u.id_unit');
       //custom
-      $custom_categories = DB::select('select * from custom_categories where worker_id = ?',[$worker_id]);
-      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ?',[$worker_id]);
-      $custom_pozicija = DB::select('SELECT * FROM custom_pozicija p JOIN units u ON u.id_unit= p.unit_id WHERE p.worker_id = ?', [$worker_id]);
+      $custom_categories = DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker_id]);
+      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker_id]);
+      $custom_pozicija = DB::select('SELECT * FROM custom_pozicija p JOIN units u ON u.id_unit= p.unit_id WHERE p.worker_id = ? and is_pozicija_deleted IS NULL', [$worker_id]);
 
       return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'subTotal' => $subTotal]);
       }
@@ -70,7 +72,7 @@ class NewPonuda extends Controller
 
    public function storePonuda(Request $request)
    {
-
+      // dd($request);
       try {
          $request->validate([
             'category' => 'required|regex:/^[0-9\s]+$/i',
@@ -83,6 +85,7 @@ class NewPonuda extends Controller
          $worker_id = $this->worker();
          $worker = DB::select('select * from workers where id = ?',[$worker_id]);
          $counter = $worker[0]->ponuda_counter;
+         $des = request('edit-des');
          if(request('quantity') > 0 && request('price') > 0)
          {
          $addPonuda = new Ponuda();
@@ -95,16 +98,26 @@ class NewPonuda extends Controller
          $addPonuda->unit_price = request('price'); //request('unit_price');
          $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
          $addPonuda->save();
+            $db = DB::select('select id,description from pozicija where id = ?', [request('pozicija-id')]);
+            // $custom_db = DB::select('select * from custom_pozicija where id = ?', [request('pozicija-id')]);
+            // $maxId = DB::table('ponuda'->where('worker_id',$worker_id);
+            $id_of_ponuda = DB::table('ponuda')->where('worker_id',$worker_id)->max('id');
+            if(empty($des))
+               $des="";
+            if($des != $db[0]->description)
+            {
+               DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
+            }
          Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda")); 
          }
          else
          {
-            Alert::error('Nešto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
          }
        } catch (Exception $e) {
-            Alert::error('Nešto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error($e->getMessage())->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
        }
    }
@@ -112,11 +125,11 @@ class NewPonuda extends Controller
    public function ponudaDone(Request $request)
    {
       $validator =  Validator::make($request->all(), [
-         'ponuda_name' => 'required|max:64|regex:/^[a-z\s]+$/i'
+         'ponuda_name' => 'required|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/'
      ]);
  
      if ($validator->fails()) {
-      Alert::error('Mora imati vrednost i ne sme biti prazno. Ne sme biti duže od 64 karaktera. Može sadržati samo slova (i velika i mala) i razmake. ')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::error('Mora imati vrednost i ne sme biti prazno. Ne sme biti duže od 64 karaktera. Dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
      } else {
       $ponuda_name = $request->ponuda_name;

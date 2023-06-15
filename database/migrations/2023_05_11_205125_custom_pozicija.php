@@ -20,6 +20,7 @@ class CustomPozicija extends Migration
             $table->bigInteger('unit_id')->unsigned();
             $table->string('custom_title');
             $table->text('custom_description');
+            $table->tinyInteger('is_pozicija_deleted')->nullable();
         });
     }
 

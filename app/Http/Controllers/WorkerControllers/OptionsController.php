@@ -28,9 +28,9 @@ class OptionsController extends Controller
       $categories = DB::select('select * from categories');
       $subcategories = DB::select('select * from subcategories');
       $pozicija = DB::select('select * from pozicija p JOIN units u WHERE p.unit_id = u.id_unit');
-      $custom_categories = DB::select('select * from custom_categories where worker_id = ?',[$worker_id]);
-      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ?',[$worker_id]);
-      $custom_pozicija = DB::select('select * from custom_pozicija where worker_id = ?',[$worker_id]);
+      $custom_categories = DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker_id]);
+      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker_id]);
+      $custom_pozicija = DB::select('select * from custom_pozicija where worker_id = ? and is_pozicija_deleted IS NULL',[$worker_id]);
       return view('worker.views.update-options', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
       // return view('worker.views.update-options', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija]);
       }
@@ -41,17 +41,17 @@ class OptionsController extends Controller
    }
 
    public function showCategory($id){
-      $category = DB::select('select * from custom_categories where id = ? and worker_id = ?', [$id, $this->worker()]);
+      $category = DB::select('select * from custom_categories where id = ? and worker_id = ? and is_category_deleted IS NULL', [$id, $this->worker()]);
       return view('worker.views.save-category',['category' => $category, 'id'=> $id]);
    }
 
    public function showSubcategory($id){
-      $subcategory = DB::select('select * from custom_subcategories where id = ? and worker_id = ?', [$id, $this->worker()]);
+      $subcategory = DB::select('select * from custom_subcategories where id = ? and worker_id = ? and is_subcategory_deleted IS NULL', [$id, $this->worker()]);
       return view('worker.views.save-subcategory',['subcategory' => $subcategory, 'id'=> $id]);
    }
 
    public function showPozicija($id){
-      $pozicija = DB::select('select * from custom_pozicija where id = ? and worker_id = ?', [$id, $this->worker()]);
+      $pozicija = DB::select('select * from custom_pozicija where id = ? and worker_id = ? and is_pozicija_deleted IS NULL', [$id, $this->worker()]);
       return view('worker.views.save-pozicija',['pozicija' => $pozicija, 'id'=> $id]);
    }
 
@@ -115,23 +115,33 @@ class OptionsController extends Controller
       $n = DB::select('select id, name from custom_categories where id = ?', [$id]);
       $name = $n[0]->name;
       // DB::table('custom_categories')->where('id', $id)->where('worker_id', $this->worker())->delete();
-      DB::table('custom_categories')->where('id', $id)->delete();
+      // DB::table('custom_categories')->where('id', $id)->delete();
+      DB::update('update custom_categories set is_category_deleted = ? where id = ?',[1,$id]);
+      $subcategories = DB::select('select * from custom_subcategories where custom_category_id = ?', [$id]);
+      DB::update('update custom_subcategories set is_subcategory_deleted = ? where custom_category_id = ?',[1,$id]);
+      foreach($subcategories as $subcategory)
+      {
+      DB::update('update custom_pozicija set is_pozicija_deleted = ? where custom_subcategory_id = ?',[1,$subcategory->id]);
+      }
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
       }
 
    public function deleteSubcategory($id){
       $n = DB::select('select id, name from custom_subcategories where id = ?', [$id]);
       $name = $n[0]->name;
-      DB::table('custom_subcategories')->where('id', $id)->delete();
+      // DB::table('custom_subcategories')->where('id', $id)->delete();
       // DB::table('custom_subcategories')->where('id', $id)->where('worker_id', $this->worker())->delete();
+      DB::update('update custom_subcategories set is_subcategory_deleted = ? where id = ?',[1,$id]);
+      DB::update('update custom_pozicija set is_pozicija_deleted = ? where custom_subcategory_id = ?',[1,$id]);
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
    }
 
    public function deletePozicija($id){
       $n = DB::select('select id, custom_title from custom_pozicija where id = ?', [$id]);
       $name = $n[0]->custom_title;
-      DB::table('custom_pozicija')->where('id', $id)->delete();
+      // DB::table('custom_pozicija')->where('id', $id)->delete();
       // DB::table('custom_pozicija')->where('id', $id)->where('worker_id', $this->worker())->delete();
+      DB::update('update custom_pozicija set is_pozicija_deleted = ? where id = ?',[1,$id]);
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
    }
 }

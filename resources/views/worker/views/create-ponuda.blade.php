@@ -15,8 +15,6 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Kategorija</th>
-                        <th scope="col">Subkategorija</th>
                         <th scope="col">Pozicija</th>
                         <th scope="col">Obracun po</th>
                         <th scope="col">Kolicina</th>
@@ -29,16 +27,12 @@
                         <tr>
                             <td>{{ $i++ }}</td>
                             @if (isset($data->name_category))
-                                <td>{{ $data->name_category }}</td>
-                                <td>{{ $data->name_subcategory }}</td>
-                                <td>{{ $data->title }}</td>
+                                <td>{{ $data->title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }}@else{{ $data->description }}@endif</td>
                                 @php
                                     $title = $data->title;
                                 @endphp
                             @else
-                                <td>{{ $data->name_custom_category }}</td>
-                                <td>{{ $data->name_custom_subcategory }}</td>
-                                <td>{{ $data->custom_title }}</td>
+                                <td>{{ $data->custom_title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }}@else{{ $data->custom_description }}@endif</td>
                                 @php
                                     $title = $data->custom_title;
                                 @endphp
