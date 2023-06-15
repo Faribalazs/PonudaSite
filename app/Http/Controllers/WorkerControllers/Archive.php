@@ -95,12 +95,12 @@ class Archive extends Controller
     {
         $worker_id = $this->worker();
         $mergedData = $this->mergedData();
-        $collection = collect($mergedData);
-        $selected_ponuda = $collection->where('ponuda_id', intval($id));
-        $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         usort($mergedData, function($a, $b) {
             return $a->id - $b->id;
         });
+        $collection = collect($mergedData);
+        $selected_ponuda = $collection->where('ponuda_id', intval($id));
+        $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
 
         
         return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all()]);

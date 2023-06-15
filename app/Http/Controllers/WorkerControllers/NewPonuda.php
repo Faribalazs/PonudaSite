@@ -83,7 +83,7 @@ class NewPonuda extends Controller
         ]);
 
          $worker_id = $this->worker();
-         $worker = DB::select('select * from workers where id = ?',[$worker_id]);
+         $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
          $counter = $worker[0]->ponuda_counter;
          $des = request('edit-des');
          if(request('quantity') > 0 && request('price') > 0)
@@ -99,12 +99,12 @@ class NewPonuda extends Controller
          $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
          $addPonuda->save();
             $db = DB::select('select id,description from pozicija where id = ?', [request('pozicija-id')]);
-            // $custom_db = DB::select('select * from custom_pozicija where id = ?', [request('pozicija-id')]);
-            // $maxId = DB::table('ponuda'->where('worker_id',$worker_id);
+            $custom_db = DB::select('select id,custom_description from custom_pozicija where id = ?', [request('pozicija-id')]);
             $id_of_ponuda = DB::table('ponuda')->where('worker_id',$worker_id)->max('id');
+            $default_desc = count($db)>0?$db[0]->description:$custom_db[0]->custom_description;
             if(empty($des))
                $des="";
-            if($des != $db[0]->description)
+            if($des != $default_desc)
             {
                DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
             }
