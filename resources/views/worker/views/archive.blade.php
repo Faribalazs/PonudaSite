@@ -11,26 +11,45 @@
     @endphp
     <form method="GET" action="{{ route('worker.archive.search') }}" class="mt-16">
         <input type="text" name="query" id="search-input">
+        <button type="submit" class="add-new-btn my-3">Trazi</button>
+    </form>
+
+    <form method="GET" action="{{ route('worker.archive.search') }}" class="mt-16">
+        <div class="select-menu">
+            <div class="select-btn">
+                <span class="sBtn-text">Sortiraj</span>
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+            <ul class="options">
+                <li class="option">
+                    <span class="option-text">Najnoviji</span>
+                </li>
+                <li class="option">
+                    <span class="option-text">Najstariji</span>
+                </li>
+            </ul>
+        </div>
         <select name="sort_order">
             <option value="desc">Najnoviji</option>
             <option value="asc">Najstariji</option>
         </select>
-        <button type="submit" class="add-new-btn my-3">Pritrazi</button>
+        <button type="submit" class="add-new-btn my-3">Filtriraj</button>
     </form>
     @if ($data != null)
         <div class="flex mt-4 flex-col justify-start">
-            <hr>
             @foreach ($data as $ponuda)
-                <div class=" h-12 items-center flex">
-                    <a href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">{{ $ponuda->ponuda_name }}
-                        ({{ $ponuda->created_at }})
+                <div class=" justify-between items-center flex p-3 archive-container my-2">
+                    <a class="w-full" href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">
+                        Naziv : <b>{{ $ponuda->ponuda_name }}</b>
+                        <p>
+                            Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
+                        </p>
                     </a>
                     <button class="delete-btn-table"
                         onclick="actionSwall('{{ route('worker.archive.delete', ['ponuda' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>
-                <hr>
             @endforeach
         </div>
     @else
@@ -58,5 +77,23 @@
                 }
             })
         }
+
+        const optionMenu = document.querySelector(".select-menu"),
+            selectBtn = optionMenu.querySelector(".select-btn"),
+            options = optionMenu.querySelectorAll(".option"),
+            sBtn_text = optionMenu.querySelector(".sBtn-text");
+
+        selectBtn.addEventListener("click", () =>
+            optionMenu.classList.toggle("active")
+        );
+
+        options.forEach((option) => {
+            option.addEventListener("click", () => {
+                let selectedOption = option.querySelector(".option-text").innerText;
+                sBtn_text.innerText = selectedOption;
+
+                optionMenu.classList.remove("active");
+            });
+        });
     </script>
 </x-app-layout>
