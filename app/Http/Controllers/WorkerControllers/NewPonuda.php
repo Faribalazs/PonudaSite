@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Worker;
 
 class NewPonuda extends Controller
 {
@@ -158,18 +159,19 @@ class NewPonuda extends Controller
    }
    }
    private function ponudaCounter($worker){
-      return DB::select('select ponuda_counter from workers where id = ?', [$worker]);
+      return Worker::where('id', $worker)->first();
    }
    private function checkPonudaDone($worker)
    {
-      return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)[0]->ponuda_counter]);
+      return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)->ponuda_counter]);
    }
    private function successsponudaDone($request, $worker){
       $ponuda_name = $request->ponuda_name;
       date_default_timezone_set('Europe/Belgrade');
       $date = date('Y-m-d H:i:s');
-      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name) values (?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)[0]->ponuda_counter, $date, $ponuda_name]);
-      DB::update('update workers set ponuda_counter = ? where id = ?', [++$this->ponudaCounter($worker)[0]->ponuda_counter,$worker]);
+      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name) values (?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name]);
+      $this->ponudaCounter($worker)->increment('ponuda_counter');
+      DB::update('update workers set ponuda_counter = ? where id = ?', [$this->ponudaCounter($worker)->ponuda_counter,$worker]);
    }
    
    public function deletePonuda($id){
