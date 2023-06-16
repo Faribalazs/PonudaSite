@@ -46,7 +46,7 @@ return [
         'dont-have-acc'                     => "Don't have an account ?",
         'have-acc'                          => "Have an account ?",
         'log-in-text'                       => "Log in",
-        'sing-up'                           => "Sing up",
+        'sing-up'                           => "Sign up",
         'forgot-pass'                       => "Forgot password ?",
         'name'                              => "Name",
         'conf-password'                     => "Confirm password",

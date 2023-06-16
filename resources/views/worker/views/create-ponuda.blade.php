@@ -99,10 +99,10 @@
             </div>
         </div>
         <div id="subCategory-dropdown" class="category-div">
-            <span class="input-label pl-2">Odaberi Subcategoriju:</span>
+            <span class="input-label pl-2">Odaberi Subkategoriju:</span>
             <div class="select-menu-subcategory mt-3">
                 <div class="select-btn-subcategory">
-                    <span class="sBtn-text-subcategory">Izaberi subcategoriju</span>
+                    <span class="sBtn-text-subcategory">Izaberi subkategoriju</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -151,7 +151,7 @@
                             <input class="poz-value" hidden value="{{ $poz->custom_description }}">
                             <p class="poz-id">{{ $poz->custom_subcategory_id }}</p>
                             <p class="poz-unit">{{ $poz->name }}</p>
-                            <p class="pozicija-id">{{ $poz->id }}</p>
+                            <p class="pozicija_id">{{ $poz->id }}</p>
                         </li>
                         <hr>
                     @endforeach
@@ -161,7 +161,7 @@
                             <input class="poz-value" hidden value="{{ $poz->description }}">
                             <p class="poz-id">{{ $poz->subcategory_id }}</p>
                             <p class="poz-unit">{{ $poz->name }}</p>
-                            <p class="pozicija-id">{{ $poz->id }}</p>
+                            <p class="pozicija_id">{{ $poz->id }}</p>
                         </li>
                         <hr>
                     @endforeach
@@ -268,12 +268,12 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Izaberi subcategoriju ';
+            sBtn_textSub.innerText = 'Izaberi subkategoriju ';
             sBtn_text.innerText = 'Izaberi poziciju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             var unit = document.getElementById("unit");
-            var existPozId = document.getElementById("pozicija-id");
+            var existPozId = document.getElementById("pozicija_id");
             if (existInput) {
                 existInput.remove();
                 unit.remove();
@@ -358,7 +358,7 @@
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             var unit = document.getElementById("unit");
-            var existPozId = document.getElementById("pozicija-id");
+            var existPozId = document.getElementById("pozicija_id");
             if (existInput) {
                 existInput.remove();
                 unit.remove();
@@ -482,13 +482,13 @@
                 let selectedOption = option.querySelector(".option-text").innerText;
                 var selectedValue = option.querySelector(".poz-value").value;
                 var unitValue = option.querySelector(".poz-unit").innerText;
-                var unitID = option.querySelector(".pozicija-id").innerText;
+                var unitID = option.querySelector(".pozicija_id").innerText;
                 var btn = document.getElementById("add-new");
                 var clearBtn = document.getElementById("clear-btn");
                 var existInput = document.getElementById("editField");
                 var existInputTitle = document.getElementById("editTitle");
                 var existUnit = document.getElementById("unit");
-                var existPozId = document.getElementById("pozicija-id");
+                var existPozId = document.getElementById("pozicija_id");
                 sBtn_text.innerText = selectedOption;
                 var quantityInput = document.getElementById("quantity-input");
                 var textDiv = document.getElementById("quantity-text");
@@ -501,8 +501,8 @@
                     var pozID = document.createElement("input");
                     pozID.defaultValue = unitID;
                     pozID.type = "hidden";
-                    pozID.name = "pozicija-id"
-                    pozID.id = "pozicija-id"
+                    pozID.name = "pozicija_id"
+                    pozID.id = "pozicija_id"
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
@@ -518,7 +518,7 @@
                     inputValue.type = "hidden";
                     div.appendChild(inputValue);
                     input.id = "editField";
-                    input.name = "edit-des";
+                    input.name = "edit_des";
                     input.cols = 50;
                     input.rows = 6;
                     input.appendChild(value);
@@ -532,8 +532,8 @@
                     var pozID = document.createElement("input");
                     pozID.defaultValue = unitID;
                     pozID.type = "hidden";
-                    pozID.name = "pozicija-id"
-                    pozID.id = "pozicija-id"
+                    pozID.name = "pozicija_id"
+                    pozID.id = "pozicija_id"
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
@@ -549,7 +549,7 @@
                     inputValue.type = "hidden";
                     div.appendChild(inputValue);
                     input.id = "editField";
-                    input.name = "edit-des";
+                    input.name = "edit_des";
                     input.cols = 50;
                     input.rows = 6;
                     input.appendChild(value);

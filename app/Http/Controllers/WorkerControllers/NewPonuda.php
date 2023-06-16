@@ -24,7 +24,38 @@ class NewPonuda extends Controller
       if(Auth::guard('worker'))
       {
       $worker_id = $this->worker();
-      //ponuda
+      $mergedData = $this->mergedData($worker_id);
+      $subTotal = 0;
+      foreach($mergedData as $mData){
+         $subTotal += $mData->overall_price;
+      }
+      usort($mergedData, function($a, $b) {
+          return $a->id - $b->id;
+      });
+      
+      list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija) = $this->selectData($worker_id);
+
+      return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'subTotal' => $subTotal]);
+      }
+      else
+      {
+         return view('worker.views.create-ponuda');
+      }
+   }
+   private function selectData($worker_id)
+   {
+      //default
+      $categories = DB::select('select * from categories');
+      $subcategories = DB::select('select * from subcategories');
+      $pozicija = DB::select('select * from pozicija p JOIN units u WHERE p.unit_id = u.id_unit');
+      //custom
+      $custom_categories = DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker_id]);
+      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker_id]);
+      $custom_pozicija = DB::select('SELECT * FROM custom_pozicija p JOIN units u ON u.id_unit= p.unit_id WHERE p.worker_id = ? and is_pozicija_deleted IS NULL', [$worker_id]);
+      return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija);
+   }
+   private function mergedData($worker_id)
+   {
       $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
       $counter = $worker[0]->ponuda_counter;
       $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
@@ -45,29 +76,7 @@ class NewPonuda extends Controller
       JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
       where p.ponuda_id = ? and p.worker_id = ? and s.is_subcategory_deleted IS NULL and c.is_category_deleted IS NULL and poz.is_pozicija_deleted IS NULL',[$counter,$worker_id]);
-      $mergedData = array_merge($ponuda, $custom_ponuda);
-      $subTotal = 0;
-      foreach($mergedData as $mData){
-         $subTotal += $mData->overall_price;
-      }
-      usort($mergedData, function($a, $b) {
-          return $a->id - $b->id;
-      });
-      //default
-      $categories = DB::select('select * from categories');
-      $subcategories = DB::select('select * from subcategories');
-      $pozicija = DB::select('select * from pozicija p JOIN units u WHERE p.unit_id = u.id_unit');
-      //custom
-      $custom_categories = DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker_id]);
-      $custom_subcategories = DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker_id]);
-      $custom_pozicija = DB::select('SELECT * FROM custom_pozicija p JOIN units u ON u.id_unit= p.unit_id WHERE p.worker_id = ? and is_pozicija_deleted IS NULL', [$worker_id]);
-
-      return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'subTotal' => $subTotal]);
-      }
-      else
-      {
-         return view('worker.views.create-ponuda');
-      }
+      return $mergedData = array_merge($ponuda, $custom_ponuda);
    }
 
    public function storePonuda(Request $request)
@@ -78,36 +87,13 @@ class NewPonuda extends Controller
             'category' => 'required|regex:/^[0-9\s]+$/i',
             'subcategory' => 'required|regex:/^[0-9\s]+$/i',
             'quantity' => 'required|regex:/^[0-9\s]+$/i',
-            'pozicija-id' => 'required|regex:/^[0-9\s]+$/i',
+            'pozicija_id' => 'required|regex:/^[0-9\s]+$/i',
             'price' => 'required|regex:/^[0-9\s]+$/i',
         ]);
 
-         $worker_id = $this->worker();
-         $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
-         $counter = $worker[0]->ponuda_counter;
-         $des = request('edit-des');
          if(request('quantity') > 0 && request('price') > 0)
          {
-         $addPonuda = new Ponuda();
-         $addPonuda->worker_id = $worker_id;
-         $addPonuda->ponuda_id = $counter; //request('ponuda_id');
-         $addPonuda->categories_id = request('category');
-         $addPonuda->subcategories_id = request('subcategory');
-         $addPonuda->pozicija_id = request('pozicija-id');
-         $addPonuda->quantity = request('quantity');
-         $addPonuda->unit_price = request('price'); //request('unit_price');
-         $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
-         $addPonuda->save();
-            $db = DB::select('select id,description from pozicija where id = ?', [request('pozicija-id')]);
-            $custom_db = DB::select('select id,custom_description from custom_pozicija where id = ?', [request('pozicija-id')]);
-            $id_of_ponuda = DB::table('ponuda')->where('worker_id',$worker_id)->max('id');
-            $default_desc = count($db)>0?$db[0]->description:$custom_db[0]->custom_description;
-            if(empty($des))
-               $des="";
-            if($des != $default_desc)
-            {
-               DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
-            }
+         $this->successPonuda($request);
          Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda")); 
          }
@@ -117,11 +103,37 @@ class NewPonuda extends Controller
             return redirect(route("worker.new.ponuda"));
          }
        } catch (Exception $e) {
-            Alert::error($e->getMessage())->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
        }
    }
+   private function successPonuda($request){
+      $worker_id = $this->worker();
+      $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
+      $counter = $worker[0]->ponuda_counter;
+      $des = $request->edit_des;
+      $addPonuda = new Ponuda();
+      $addPonuda->worker_id = $worker_id;
+      $addPonuda->ponuda_id = $counter; //request('ponuda_id');
+      $addPonuda->categories_id = $request->category;
+      $addPonuda->subcategories_id = $request->subcategory;
+      $addPonuda->pozicija_id = $request->pozicija_id;
+      $addPonuda->quantity = $request->quantity;
+      $addPonuda->unit_price = $request->price; //request('unit_price');
+      $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
+      $addPonuda->save();
 
+      $db = DB::select('select id,description from pozicija where id = ?', [$request->pozicija_id]);
+      $custom_db = DB::select('select id,custom_description from custom_pozicija where id = ?', [$request->pozicija_id]);
+      $id_of_ponuda = DB::table('ponuda')->where('worker_id',$worker_id)->max('id');
+      $default_desc = count($db)>0?$db[0]->description:$custom_db[0]->custom_description;
+      if(empty($des))
+         $des="";
+      if($des != $default_desc)
+      {
+         DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
+      }
+   }
    public function ponudaDone(Request $request)
    {
       $validator =  Validator::make($request->all(), [
@@ -132,15 +144,9 @@ class NewPonuda extends Controller
       Alert::error('Mora imati vrednost i ne sme biti prazno. Ne sme biti duže od 64 karaktera. Dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
      } else {
-      $ponuda_name = $request->ponuda_name;
       $worker_id = $this->worker();
-      date_default_timezone_set('Europe/Belgrade');
-      $date = date('Y-m-d H:i:s');
-      $ponuda_counter = DB::select('select ponuda_counter from workers where id = ?', [$worker_id]);
-      $result = DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker_id, $ponuda_counter[0]->ponuda_counter]);
-      if(!empty($result)){
-         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name) values (?, ?, ?, ?)', [$worker_id, $ponuda_counter[0]->ponuda_counter, $date, $ponuda_name]);
-         DB::update('update workers set ponuda_counter = ? where id = ?', [++$ponuda_counter[0]->ponuda_counter,$worker_id]);
+      if(!empty($this->checkPonudaDone($worker_id))){
+         $this->successsponudaDone($request, $worker_id);
          Alert::success('Ponuda uspesno dodato, mozete videti u arhivu!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda"));
       }
@@ -151,11 +157,29 @@ class NewPonuda extends Controller
       }
    }
    }
-
+   private function ponudaCounter($worker){
+      return DB::select('select ponuda_counter from workers where id = ?', [$worker]);
+   }
+   private function checkPonudaDone($worker)
+   {
+      return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)[0]->ponuda_counter]);
+   }
+   private function successsponudaDone($request, $worker){
+      $ponuda_name = $request->ponuda_name;
+      date_default_timezone_set('Europe/Belgrade');
+      $date = date('Y-m-d H:i:s');
+      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name) values (?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)[0]->ponuda_counter, $date, $ponuda_name]);
+      DB::update('update workers set ponuda_counter = ? where id = ?', [++$this->ponudaCounter($worker)[0]->ponuda_counter,$worker]);
+   }
+   
    public function deletePonuda($id){
-      DB::table('ponuda')->where('id', $id)->where('worker_id',$this->worker())->delete();
+      $this->delPonuda($id);
       Alert::success('Element ponude je uspešno obrisan!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
+   }
+
+   private function delPonuda($id){
+      return DB::table('ponuda')->where('id', $id)->where('worker_id',$this->worker())->delete();
    }
 
    public function profile()

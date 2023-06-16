@@ -83,7 +83,7 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Izaberi subcategoriju ';
+            sBtn_textSub.innerText = 'Izaberi subkategoriju ';
             sBtn_text.innerText = 'Izaberi poziciju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");

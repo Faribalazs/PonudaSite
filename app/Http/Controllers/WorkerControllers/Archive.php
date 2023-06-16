@@ -18,12 +18,19 @@ class Archive extends Controller
         return null;
     }
     
+    private function showPrivate($worker){
+        return DB::select('select * from ponuda_date where worker_id = ? ORDER BY created_at DESC', [$worker]);
+    }
     public function show()
     {
         $worker_id = $this->worker();
-        $data = DB::select('select * from ponuda_date where worker_id = ? ORDER BY created_at DESC', [$worker_id]);
+        $data = $this->showPrivate($worker_id);
         
         return view('worker.views.archive',['data' => $data]);
+    }
+    private function orderByDate($worker, $search, $order)
+    {
+        return DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND ponuda_name LIKE ? ORDER BY created_at $order", [$worker, $search]);
     }
 
     public function search(Request $request)
@@ -31,32 +38,42 @@ class Archive extends Controller
         $worker_id = $this->worker();
         $sortOrder = $request->input('sort_order', 'asc');
         $searchQuery = '%'.$request->input('query').'%';
-        if($sortOrder == "asc")
-        {
-            $data = DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND ponuda_name LIKE ? ORDER BY created_at ASC", [$worker_id, $searchQuery]);
-        }
-        else
-        {
-            $data = DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND ponuda_name LIKE ? ORDER BY created_at DESC", [$worker_id, $searchQuery]);
-        }
+        $data = $this->orderByDate($worker_id,$searchQuery,$sortOrder);
+  
         return view('worker.views.archive',['data' => $data]);
     }
-
+    private function ponudaInfo($id, $worker_id){
+        return DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id);
+    }
+    private function ponudaDate($id, $worker_id){
+        return DB::table('ponuda_date')->where('id_ponuda', $id)->where('worker_id',$worker_id);
+    }
+    private function temporaryDesc($id){
+        return DB::table('pozicija_temporary')->where('id_of_ponuda', $id)->delete();
+    }
+    private function ponudaId($worker, $id){
+        return DB::select('select id, worker_id, ponuda_id from ponuda where worker_id = ? and ponuda_id = ?',[$worker,$id]);
+    }
     public function delete($id)
     {
         $worker_id = $this->worker();
-        DB::table('ponuda_date')->where('id_ponuda', $id)->where('worker_id',$worker_id)->delete();
-        DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id)->delete();
+        foreach($this->ponudaId($worker_id,$id) as $toDel)
+        {
+            $this->temporaryDesc($toDel->id);
+        }
+        $this->ponudaDate($id, $worker_id)->delete();
+        $this->ponudaInfo($id, $worker_id)->delete();
         return $this->show();
     }
 
     public function deleteElement($id,$ponuda_id)
     {
         $worker_id = $this->worker();
-        DB::table('ponuda')->where('id', $id)->where('ponuda_id',$ponuda_id)->where('worker_id',$worker_id)->delete();
-        if(DB::table('ponuda')->where('ponuda_id',$ponuda_id)->where('worker_id',$worker_id)->count()<1)
+        $this->ponudaInfo($ponuda_id,$worker_id)->where('id', $id)->delete();
+        $this->temporaryDesc($id);
+        if($this->ponudaInfo($ponuda_id,$worker_id)->count()<1)
         {
-            DB::table('ponuda_date')->where('id_ponuda', $ponuda_id)->where('worker_id',$worker_id)->delete();
+            $this->ponudaDate($ponuda_id,$worker_id)->delete();
             return $this->show();
         }
         return $this->selectedArchive($ponuda_id);
@@ -105,7 +122,10 @@ class Archive extends Controller
         
         return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all()]);
     }
-
+    private function PDFname($id, $worker)
+    {
+        return DB::select('select ponuda_name from ponuda_date where id_ponuda = ? and worker_id = ?', [$id, $worker]);
+    }
     public function createPDF($id) {
         
         $worker_id = $this->worker();
@@ -113,7 +133,7 @@ class Archive extends Controller
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
-        $pdf_name = DB::select('select ponuda_name from ponuda_date where id_ponuda = ? and worker_id = ?', [$id, $worker_id]);
+        $pdf_name = $this->PDFname($id,$worker_id);
 
         $pdf = PDF::loadView('worker.views.archive-pdf',['mergedData' => $selectedWorkerPonuda->all()]);
         return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
