@@ -8,6 +8,7 @@
         $i = 1;
         $title = '';
         $formatedPrice = number_format($subTotal, 0, ',', ' ');
+        $desc_now = "";
     @endphp
     @if ($mergedData != null)
         <div class="overflow-x-auto">
@@ -28,12 +29,12 @@
                         <tr>
                             <td>{{ $i++ }}</td>
                             @if (isset($data->name_category))
-                                <td>{{ $data->title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }}@else{{ $data->description }}@endif</td>
+                                <td>{{ $data->title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp @else{{ $data->description }} @php $desc_now = $data->description @endphp @endif</td>
                                 @php
                                     $title = $data->title;
                                 @endphp
                             @else
-                                <td>{{ $data->custom_title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }}@else{{ $data->custom_description }}@endif</td>
+                                <td>{{ $data->custom_title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp @endif</td>
                                 @php
                                     $title = $data->custom_title;
                                 @endphp
@@ -43,7 +44,7 @@
                             <td class="whitespace-nowrap">{{ number_format($data->overall_price, 0, ',', ' ') }} RSD</td>
                             <td>
                                 <button class="edit-btn-table mx-2"
-                                    onclick="UpdateSwall(this.getAttribute('data'))" data="{{ $data->id }}">
+                                    onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
                                     <i class="ri-edit-line"></i>
                                 </button>
                             </td>
@@ -235,7 +236,8 @@
             })
         }
 
-        function UpdateSwall(id) {
+        function UpdateSwall(getData) {
+            var { realId, tempDesc } = getData();
             Swal.fire({
                 title: 'Update description',
                 icon: 'question',
@@ -243,8 +245,9 @@
                 '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
                     '<span>Unesite nova description:</span>' +
-                    '<input name="real_id" hidden value="'+id+'">'+
-                    '<input class="mt-3 swal-input" type="text" name="new_description" />' +
+                    '<input name="real_id" hidden value="'+realId+'">' +
+                    '<input class="mt-3 swal-input" type="text" name="new_description" id="updateData" value="'+tempDesc+'"/>' +
+                    '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn my-3">Izbrisi</button>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi</button>' +
                 '</form>',
                 showCancelButton: false,
@@ -624,6 +627,9 @@
         function clearData() {
             var textarea = document.getElementById("editField");
             textarea.value = '';
+        }
+        function clearUpdateData() {
+            document.getElementById("updateData").value = '';
         }
     </script>
 </x-app-layout>
