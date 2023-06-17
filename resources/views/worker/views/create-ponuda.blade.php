@@ -191,16 +191,6 @@
     </form>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("form").addEventListener("submit", function (e) {
-                e.preventDefault();
-            });
-            document.getElementById("formDone").addEventListener("submit", function (e) {
-                e.preventDefault();
-            });
-        });
-
-
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
                 if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
@@ -209,17 +199,9 @@
                 }
             }
         }, true);
-
-        var numberInputs = document.querySelectorAll('input[type="number"]');
-        for (var i = 0; i < numberInputs.length; i++) {
-            numberInputs[i].addEventListener("wheel", function(event) {
-            event.preventDefault();
-            }); 
-        }
         let categoryId = "";
         let subCategoryId = "";
         let pozicijaId = "";
-        
 
         function actionSwall(url, name) {
             Swal.fire({

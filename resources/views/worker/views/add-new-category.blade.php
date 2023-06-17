@@ -16,5 +16,4 @@
             <button type="submit" class="submit-btn m-auto">Dodaj kategoriju</button>
         </form>
     </div>
-    <script src="{{ asset('js/preventForm.js') }}"></script>
 </x-app-layout>
