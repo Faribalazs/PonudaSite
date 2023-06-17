@@ -25,4 +25,9 @@
         <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
     </form>
     </div>
+    <script>
+        document.getElementById("formPozicija").addEventListener("submit", function (e) {
+            e.preventDefault();
+        });
+    </script>
 </x-app-layout>

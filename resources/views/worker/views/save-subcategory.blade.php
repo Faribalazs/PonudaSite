@@ -22,4 +22,9 @@
         <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
     </form>
     </div>
+    <script>
+        document.getElementById("formSubcategory").addEventListener("submit", function (e) {
+            e.preventDefault();
+        });
+    </script>
 </x-app-layout>

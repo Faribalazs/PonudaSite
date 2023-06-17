@@ -73,6 +73,7 @@
             <button type="submit" class="submit-btn m-auto">Dodaj poziciju</button>
         </div>
     </form>
+    <script src="{{ asset('js/preventForm.js') }}"></script>
     <script>
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
