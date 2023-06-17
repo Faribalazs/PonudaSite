@@ -135,6 +135,27 @@ class NewPonuda extends Controller
          DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
       }
    }
+   public function updateDescription(Request $request)
+   {
+      $temp = $request->new_description;
+      $id = $request->real_id;
+      if(empty($temp))
+         $temp="";
+      $this->updateDesc($temp,$id);
+      return $this->create();
+   }
+   private function updateDesc($temp_desc,$real_id)
+   {
+      $ponuda = DB::select('select * from ponuda p JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda where p.id = ?', [$real_id]);
+      if(count($ponuda)>0)
+      {
+         DB::update('update pozicija_temporary set temporary_description = ? where id_of_ponuda = ?', [$temp_desc, $real_id]);
+      }
+      else
+      {
+         DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$real_id, $temp_desc]);
+      }
+   }
    public function ponudaDone(Request $request)
    {
       $validator =  Validator::make($request->all(), [

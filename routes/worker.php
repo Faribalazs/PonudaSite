@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker']], function() {
     Route::post('contractor/new/store', 'App\Http\Controllers\WorkerControllers\NewPonuda@storePonuda')->name('worker.store.new.ponuda');
     Route::post('contractor/new/store/done', 'App\Http\Controllers\WorkerControllers\NewPonuda@ponudaDone')->name('worker.store.new.ponuda.done');
     Route::get('contractor/new/store/delete/{ponuda}', 'App\Http\Controllers\WorkerControllers\NewPonuda@deletePonuda')->name('worker.store.new.ponuda.delete');
+    Route::post('contractor/new/store/updatedesc/', 'App\Http\Controllers\WorkerControllers\NewPonuda@updateDescription')->name('worker.store.new.update.desc');
     //nove kategorije
     Route::get('contractor/new/options', 'App\Http\Controllers\WorkerControllers\NewOptions@create')->name('worker.new.options');
     Route::get('contractor/new/category', 'App\Http\Controllers\WorkerControllers\NewOptions@CategoryCreate')->name('worker.create.new.category');

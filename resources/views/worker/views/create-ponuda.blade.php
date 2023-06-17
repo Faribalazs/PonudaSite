@@ -19,6 +19,7 @@
                         <th scope="col">Obracun po</th>
                         <th scope="col">Kolicina</th>
                         <th scope="col">Cena</th>
+                        <th scope="col">Update</th>
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
@@ -40,6 +41,12 @@
                             <td>{{ $data->quantity }}</td>
                             <td>{{ $data->unit_price }}</td>
                             <td class="whitespace-nowrap">{{ number_format($data->overall_price, 0, ',', ' ') }} RSD</td>
+                            <td>
+                                <button class="edit-btn-table mx-2"
+                                    onclick="UpdateSwall(this.getAttribute('data'))" data="{{ $data->id }}">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+                            </td>
                             <td>
                                 <button class="delete-btn-table"
                                     onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
@@ -178,7 +185,7 @@
                 </div>
                 <input type="number" name="quantity" class="quantity-input mt-3 mb-1">
                 <div class="mt-5">
-                    <span>Cena(RSD)</span>
+                    <span>Cena (RSD)</span>
                 </div>
                 <input type="number" name="price" class="quantity-input mt-3 mb-1">
             </div>
@@ -199,6 +206,14 @@
                 }
             }
         }, true);
+
+        var numberInputs = document.querySelectorAll('input[type="number"]');
+        for (var i = 0; i < numberInputs.length; i++) {
+            numberInputs[i].addEventListener("wheel", function(event) {
+            event.preventDefault();
+            }); 
+        }
+
         let categoryId = "";
         let subCategoryId = "";
         let pozicijaId = "";
@@ -217,6 +232,26 @@
                 if (result.isConfirmed) {
                     window.location = url;
                 }
+            })
+        }
+
+        function UpdateSwall(id) {
+            Swal.fire({
+                title: 'Update description',
+                icon: 'question',
+                html:
+                '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
+                    '@csrf' +
+                    '<span>Unesite nova description:</span>' +
+                    '<input name="real_id" hidden value="'+id+'">'+
+                    '<input class="mt-3 swal-input" type="text" name="new_description" />' +
+                    '<button type="submit" class="add-new-btn my-3">Zavrsi</button>' +
+                '</form>',
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: true,
+                confirmButtonColor: '#22ff00',
+                cancelButtonColor: '#d33',
             })
         }
 
