@@ -17,13 +17,6 @@ class Units extends Migration
             $table->bigIncrements('id_unit');
             $table->string('name');
         });
-        DB::table('units')->insert(
-            array(
-                [
-                    'name' => 'Obračun po m²'
-                ]
-            )
-        );
     }
 
     /**

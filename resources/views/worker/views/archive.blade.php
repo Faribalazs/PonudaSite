@@ -15,17 +15,17 @@
     </form>
 
     <form method="GET" action="{{ route('worker.archive.search') }}" class="mt-16">
-        <div class="select-menu">
-            <div class="select-btn">
-                <span class="sBtn-text">Sortiraj</span>
+        <div class="select-menu-archive">
+            <div class="select-btn-archive">
+                <span class="sBtn-text-archive">Sortiraj</span>
                 <i class="ri-arrow-down-s-line"></i>
             </div>
-            <ul class="options">
-                <li class="option">
-                    <span class="option-text">Najnoviji</span>
+            <ul class="options-archive">
+                <li class="option-archive">
+                    <span class="option-text-archive">Najnoviji</span>
                 </li>
-                <li class="option">
-                    <span class="option-text">Najstariji</span>
+                <li class="option-archive">
+                    <span class="option-text-archive">Najstariji</span>
                 </li>
             </ul>
         </div>
@@ -78,10 +78,10 @@
             })
         }
 
-        const optionMenu = document.querySelector(".select-menu"),
-            selectBtn = optionMenu.querySelector(".select-btn"),
-            options = optionMenu.querySelectorAll(".option"),
-            sBtn_text = optionMenu.querySelector(".sBtn-text");
+        const optionMenu = document.querySelector(".select-menu-archive"),
+            selectBtn = optionMenu.querySelector(".select-btn-archive"),
+            options = optionMenu.querySelectorAll(".option-archive"),
+            sBtn_text = optionMenu.querySelector(".sBtn-text-archive");
 
         selectBtn.addEventListener("click", () =>
             optionMenu.classList.toggle("active")
@@ -89,7 +89,7 @@
 
         options.forEach((option) => {
             option.addEventListener("click", () => {
-                let selectedOption = option.querySelector(".option-text").innerText;
+                let selectedOption = option.querySelector(".option-text-archive").innerText;
                 sBtn_text.innerText = selectedOption;
 
                 optionMenu.classList.remove("active");

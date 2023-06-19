@@ -18,26 +18,6 @@ class Subcategories extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->string('name');
         });
-        DB::table('subcategories')->insert(
-            array(
-                [
-                    'category_id' => '1',
-                    'name' => 'Pripremni radovi'
-                ],
-                [
-                    'category_id' => '1',
-                    'name' => 'Unutrašnji zidovi i plafoni'
-                ],
-                [
-                    'category_id' => '1',
-                    'name' => 'Vrata i prozori'
-                ],
-                [
-                    'category_id' => '1',
-                    'name' => 'Fasada'
-                ]
-            )
-        );
     }
 
     /**

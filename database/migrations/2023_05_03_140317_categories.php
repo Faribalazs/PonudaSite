@@ -17,16 +17,6 @@ class Categories extends Migration
             $table->id();
             $table->string('name');
         });
-        DB::table('categories')->insert(
-            array( 
-                [
-                    'name' => 'Molersko farbarski radovi'
-                ],
-                [
-                    'name' => 'mas valami'
-                ],
-            )
-        );
     }
 
     /**

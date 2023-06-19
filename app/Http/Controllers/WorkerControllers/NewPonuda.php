@@ -59,22 +59,25 @@ class NewPonuda extends Controller
    {
       $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
       $counter = $worker[0]->ponuda_counter;
+      
       $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_category, s.id AS
       id_subcategory, s.name AS name_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description
+      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description
       FROM ponuda p JOIN categories c ON p.categories_id = c.id 
       JOIN subcategories s ON p.subcategories_id = s.id 
-      JOIN pozicija poz ON p.pozicija_id = poz.id 
+      JOIN pozicija poz ON p.pozicija_id = poz.id
+      JOIN units u ON poz.unit_id = u.id_unit 
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
       where p.ponuda_id = ? and p.worker_id = ?',[$counter,$worker_id]);
       $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_custom_category, s.id AS
       id_subcategory, s.name AS name_custom_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description, s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description
+      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.custom_title, poz.custom_description, s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description
       FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
       JOIN custom_subcategories s ON p.subcategories_id = s.id 
       JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
+      JOIN units u ON poz.unit_id = u.id_unit
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
       where p.ponuda_id = ? and p.worker_id = ? and s.is_subcategory_deleted IS NULL and c.is_category_deleted IS NULL and poz.is_pozicija_deleted IS NULL',[$counter,$worker_id]);
       return $mergedData = array_merge($ponuda, $custom_ponuda);

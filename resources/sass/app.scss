@@ -816,6 +816,12 @@ body.nav-active .nav__list-item:nth-child(4) {
     border-radius: 20px;
 }
 
+.bold-title {
+    background-color: #333 !important;
+    color: #ccc !important;
+    text-align: start !important;
+}
+
 .category-div {
     display: none;
 }
@@ -1051,7 +1057,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     display: flex;
     height: auto;
     cursor: pointer;
-    padding: 10px 16px;
+    padding: 15px 16px;
     border-radius: 8px;
     align-items: center;
     background: #fff;
@@ -1224,11 +1230,11 @@ body.nav-active .nav__list-item:nth-child(4) {
     box-shadow: 0 0 11px rgba(33, 33, 33, 0.5);
 }
 
-.select-menu {
+.select-menu-archive {
     max-width: 330px;
     margin: 50px auto;
   }
-  .select-menu .select-btn {
+  .select-menu-archive .select-btn-archive {
     display: flex;
     height: 55px;
     background: #fff;
@@ -1241,7 +1247,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     justify-content: space-between;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
-  .select-menu .options {
+  .select-menu-archive .options-archive {
     position: absolute;
     width: 330px;
     overflow-y: auto;
@@ -1258,7 +1264,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     -webkit-animation-duration: 0.35s;
     -webkit-animation-fill-mode: both;
   }
-  .select-menu .options .option {
+  .select-menu-archive .options-archive .option-archive {
     display: flex;
     height: 55px;
     cursor: pointer;
@@ -1267,27 +1273,27 @@ body.nav-active .nav__list-item:nth-child(4) {
     align-items: center;
     background: #fff;
   }
-  .select-menu .options .option:hover {
+  .select-menu-archive .options-archive .option-archive:hover {
     background: #f2f2f2;
   }
-  .select-menu .options .option i {
+  .select-menu-archive .options-archive .option-archive i {
     font-size: 25px;
     margin-right: 12px;
   }
-  .select-menu .options .option .option-text {
+  .select-menu-archive .options-archive .option-archive .option-text-archive {
     font-size: 18px;
     color: #333;
   }
   
-  .select-btn i {
+  .select-btn-archive i {
     font-size: 25px;
     transition: 0.3s;
   }
   
-  .select-menu.active .select-btn i {
+  .select-menu-archive.active .select-btn-archive i {
     transform: rotate(-180deg);
   }
-  .select-menu.active .options {
+  .select-menu-archive.active .options-archive {
     display: block;
     opacity: 0;
     z-index: 10;
@@ -1299,24 +1305,5 @@ body.nav-active .nav__list-item:nth-child(4) {
     -webkit-animation-fill-mode: both;
   }
   
-  @keyframes fadeInUp {
-    from {
-      transform: translate3d(0, 30px, 0);
-    }
-    to {
-      transform: translate3d(0, 0, 0);
-      opacity: 1;
-    }
-  }
-  @keyframes fadeInDown {
-    from {
-      transform: translate3d(0, 0, 0);
-      opacity: 1;
-    }
-    to {
-      transform: translate3d(0, 20px, 0);
-      opacity: 0;
-    }
-  }
 
 /* Archive design end */

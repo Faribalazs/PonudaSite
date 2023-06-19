@@ -8,57 +8,119 @@
         $i = 1;
         $title = '';
         $formatedPrice = number_format($subTotal, 0, ',', ' ');
-        $desc_now = "";
+        $desc_now = '';
+        $collection = collect($mergedData);
+        $mergedData = $collection->groupBy('id_category')->toArray();
+        $titleBold = 0;
+        $subPrice = 0;
+        $limit = 0;
+        $counter = 0;
+        
     @endphp
     @if ($mergedData != null)
-        <div class="overflow-x-auto">
-            <table class="table table-striped mt-20 text-center ponuda-table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Pozicija</th>
-                        <th scope="col">Obracun po</th>
-                        <th scope="col">Kolicina</th>
-                        <th scope="col">Cena</th>
-                        <th scope="col">Update</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($mergedData as $data)
+
+        @foreach ($mergedData as $id)
+            <div class="overflow-x-auto">
+                <table class="table table-striped mt-20 text-center ponuda-table">
+                    <thead>
                         <tr>
-                            <td>{{ $i++ }}</td>
-                            @if (isset($data->name_category))
-                                <td>{{ $data->title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp @else{{ $data->description }} @php $desc_now = $data->description @endphp @endif</td>
-                                @php
-                                    $title = $data->title;
-                                @endphp
-                            @else
-                                <td>{{ $data->custom_title }}<br>@if(isset($data->temporary_description)){{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp @endif</td>
-                                @php
-                                    $title = $data->custom_title;
-                                @endphp
-                            @endif
-                            <td>{{ $data->quantity }}</td>
-                            <td>{{ $data->unit_price }}</td>
-                            <td class="whitespace-nowrap">{{ number_format($data->overall_price, 0, ',', ' ') }} RSD</td>
-                            <td>
-                                <button class="edit-btn-table mx-2"
-                                    onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="delete-btn-table"
-                                    onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </td>
+                            <th scope="col">r.br.</th>
+                            <th scope="col">Naziv</th>
+                            <th scope="col">j.m.</th>
+                            <th scope="col">Količina</th>
+                            <th scope="col">jed.cena</th>
+                            <th scope="col">ukupno</th>
+                            <th scope="col">Izmeni</th>
+                            <th scope="col">Izbrisi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @if (isset($id[0]->name_category))
+                            <tr>
+                                <td colspan="8" class="bold-title">{{ $id[0]->name_category }}</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="8" class="bold-title">{{ $id[0]->name_custom_category }}</td>
+                            </tr>
+                        @endif
+                        @php
+                            $limit = count($id);
+                            $counter = 0;
+                            $subPrice = 0;
+                            $i = 1;
+                        @endphp
+                        @foreach ($id as $data)
+                            @php
+                                $subPrice += $data->overall_price;
+                            @endphp
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                @if (isset($data->name_category))
+                                    <td><b>{{ $data->title }}</b><br>
+                                        @if (isset($data->temporary_description))
+                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
+                                            @else{{ $data->description }} @php $desc_now = $data->description @endphp
+                                        @endif
+                                    </td>
+                                    @php
+                                        $title = $data->title;
+                                    @endphp
+                                @else
+                                    <td><b>{{ $data->custom_title }}</b><br>
+                                        @if (isset($data->temporary_description))
+                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
+                                            @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
+                                        @endif
+                                    </td>
+                                    @php
+                                        $title = $data->custom_title;
+                                    @endphp
+                                @endif
+                                <td>{{ $data->unit_name }}</td>
+                                <td>{{ $data->quantity }}</td>
+                                <td>{{ $data->unit_price }}&nbsp;RSD</td>
+                                <td class="whitespace-nowrap">{{ number_format($data->overall_price, 0, ',', ' ') }}
+                                    RSD
+                                </td>
+                                <td>
+                                    <button class="edit-btn-table mx-auto"
+                                        onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
+                                        <i class="ri-edit-line"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="delete-btn-table mx-auto"
+                                        onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            @if ($limit - 1 == $counter)
+                                @if (isset($data->name_category))
+                                    <tr>
+                                        <td colspan="8">
+                                            Svega&nbsp;{{ $data->name_category }}&nbsp;{{ $subPrice }}&nbsp;RSD
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td colspan="8">
+                                            Svega&nbsp;{{ $data->name_custom_category }}&nbsp;{{ $subPrice }}&nbsp;RSD
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endif
+                            @php
+                                $counter++;
+                            @endphp
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endforeach
+
         <div class="flex w-full justify-end">
             <div class="flex justify-end text-center total-price">
                 <span><b>Ukupna cena:</b><br>{{ $formatedPrice }} RSD</span>
@@ -66,7 +128,7 @@
         </div>
         <div class="flex w-full justify-center">
             <div class="flex">
-                    <button onclick="NameSwall()" class="add-new-btn my-3">Zavrsi ponudu</button>
+                <button onclick="NameSwall()" class="add-new-btn my-3">Zavrsi ponudu</button>
                 {{-- <form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">
                     @csrf
                     <button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>
@@ -211,8 +273,8 @@
         var numberInputs = document.querySelectorAll('input[type="number"]');
         for (var i = 0; i < numberInputs.length; i++) {
             numberInputs[i].addEventListener("wheel", function(event) {
-            event.preventDefault();
-            }); 
+                event.preventDefault();
+            });
         }
 
         let categoryId = "";
@@ -237,19 +299,22 @@
         }
 
         function UpdateSwall(getData) {
-            var { realId, tempDesc } = getData();
+            var {
+                realId,
+                tempDesc
+            } = getData();
             Swal.fire({
                 title: 'Update description',
                 icon: 'question',
-                html:
-                '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
+                html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
                     '<span>Unesite nova description:</span>' +
-                    '<input name="real_id" hidden value="'+realId+'">' +
-                    '<input class="mt-3 swal-input" type="text" name="new_description" id="updateData" value="'+tempDesc+'"/>' +
+                    '<input name="real_id" hidden value="' + realId + '">' +
+                    '<input class="mt-3 swal-input" type="text" name="new_description" id="updateData" value="' +
+                    tempDesc + '"/>' +
                     '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn my-3">Izbrisi</button>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi</button>' +
-                '</form>',
+                    '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
                 showCloseButton: true,
@@ -262,13 +327,12 @@
             Swal.fire({
                 title: 'Sacuvaj ponudu',
                 icon: 'question',
-                html:
-                '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
+                html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<span>Unesite ime ponude:</span>' +
                     '<input class="mt-3 swal-input" type="text" name="ponuda_name" />' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
-                '</form>',
+                    '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
                 showCloseButton: true,
@@ -312,10 +376,12 @@
             var btn = document.getElementById("btn");
             var unit = document.getElementById("unit");
             var existPozId = document.getElementById("pozicija_id");
+            var quantity = document.getElementById("quantity-input");
             if (existInput) {
                 existInput.remove();
                 unit.remove();
                 existPozId.remove();
+                quantity.classList.remove("show-div");
                 btn.style.display = "none"
             }
         });
@@ -397,11 +463,13 @@
             var btn = document.getElementById("btn");
             var unit = document.getElementById("unit");
             var existPozId = document.getElementById("pozicija_id");
+            var quantity = document.getElementById("quantity-input");
             if (existInput) {
                 existInput.remove();
                 unit.remove();
                 existInput.remove();
-                btn.style.display = "none"
+                quantity.classList.remove("show-div");
+                btn.style.display = "none";
             }
             for (var i = 0; i < selectedOptionId.length; i++) {
                 var sebId = selectedOptionId[i].innerText;
@@ -628,6 +696,7 @@
             var textarea = document.getElementById("editField");
             textarea.value = '';
         }
+
         function clearUpdateData() {
             document.getElementById("updateData").value = '';
         }
