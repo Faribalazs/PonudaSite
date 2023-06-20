@@ -18,10 +18,9 @@
         
     @endphp
     @if ($mergedData != null)
-
         @foreach ($mergedData as $id)
             <div class="overflow-x-auto">
-                <table class="table table-striped mt-20 text-center ponuda-table">
+                <table class="table mt-20 text-center ponuda-table">
                     <thead>
                         <tr>
                             <th scope="col">r.br.</th>
@@ -57,7 +56,7 @@
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 @if (isset($data->name_category))
-                                    <td><b>{{ $data->title }}</b><br>
+                                    <td class="text-left"><b>{{ $data->title }}</b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
@@ -67,7 +66,7 @@
                                         $title = $data->title;
                                     @endphp
                                 @else
-                                    <td><b>{{ $data->custom_title }}</b><br>
+                                    <td class="text-left"><b>{{ $data->custom_title }}</b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
@@ -100,14 +99,14 @@
                             @if ($limit - 1 == $counter)
                                 @if (isset($data->name_category))
                                     <tr>
-                                        <td colspan="8">
-                                            Svega&nbsp;{{ $data->name_category }}&nbsp;{{ $subPrice }}&nbsp;RSD
+                                        <td colspan="8" class="svega-design">
+                                            <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @else
                                     <tr>
-                                        <td colspan="8">
-                                            Svega&nbsp;{{ $data->name_custom_category }}&nbsp;{{ $subPrice }}&nbsp;RSD
+                                        <td colspan="8" class="svega-design">
+                                            <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ $subPrice }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -120,11 +119,30 @@
                 </table>
             </div>
         @endforeach
-
-        <div class="flex w-full justify-end">
-            <div class="flex justify-end text-center total-price">
-                <span><b>Ukupna cena:</b><br>{{ $formatedPrice }} RSD</span>
-            </div>
+        <div class="overflow-x-auto">
+            <table class="table mt-20 text-center ponuda-table">
+                <tr>
+                    <td class="text-right">
+                        Ukupno: {{ $formatedPrice }} RSD
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        @php
+                            $pdv = intval($subTotal) * 0.20;
+                        @endphp
+                        PDV: {{ $pdv }} RSD
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        @php
+                            $final = $pdv + $subTotal;
+                        @endphp
+                        <b>Ukupno sa PDV:</b> {{ $final }} RSD
+                    </td>
+                </tr>
+            </table>
         </div>
         <div class="flex w-full justify-center">
             <div class="flex">
@@ -304,16 +322,15 @@
                 tempDesc
             } = getData();
             Swal.fire({
-                title: 'Update description',
+                title: 'Izmeni deskripciju',
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
-                    '<span>Unesite nova description:</span>' +
+                    '<span>Unesite novu deskripciju:</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
-                    '<input class="mt-3 swal-input" type="text" name="new_description" id="updateData" value="' +
-                    tempDesc + '"/>' +
-                    '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn my-3">Izbrisi</button>' +
-                    '<button type="submit" class="add-new-btn my-3">Zavrsi</button>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">'+tempDesc+'</textarea>' +
+                    '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn my-3 mx-1">Zavrsi</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -330,7 +347,7 @@
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<span>Unesite ime ponude:</span>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" />' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,

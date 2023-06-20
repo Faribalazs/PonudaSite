@@ -40,7 +40,7 @@ class Archive extends Controller
         $searchQuery = '%'.$request->input('query').'%';
         $data = $this->orderByDate($worker_id,$searchQuery,$sortOrder);
   
-        return view('worker.views.archive',['data' => $data]);
+        return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder]);
     }
     private function ponudaInfo($id, $worker_id){
         return DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id);

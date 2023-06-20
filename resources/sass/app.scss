@@ -816,10 +816,26 @@ body.nav-active .nav__list-item:nth-child(4) {
     border-radius: 20px;
 }
 
+.svega-design {
+    text-align: end !important;
+}
+
 .bold-title {
-    background-color: #333 !important;
-    color: #ccc !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
     text-align: start !important;
+    font-weight: 700;
+}
+
+.del-btn-swal {
+    border: none;
+    padding: 10px 20px 10px 20px;
+    background-color: #ac1902;
+    color: #ffffff;
+    border-radius: 20px;
+}
+
+.swall-input {
+    border-radius: 10px !important;
 }
 
 .category-div {
@@ -879,10 +895,17 @@ body.nav-active .nav__list-item:nth-child(4) {
 
 .ponuda-table td {
     vertical-align: middle;
+    border: 1px solid gray;
 }
+
+.ponuda-table tr {
+    background-color: #ffffff !important;
+}
+
 .ponuda-table th {
     vertical-align: middle;
     white-space: nowrap;
+    border: 1px solid gray;
 }
 
 .total-price {
@@ -907,6 +930,12 @@ body.nav-active .nav__list-item:nth-child(4) {
 
 .swal-input {
     width: 100%;
+    border-radius: 10px !important;
+}
+
+.swal-input:focus {
+   border: 1px solod black !important;
+   box-shadow: none !important;
 }
 
 .edit-btn-table {
@@ -1232,9 +1261,10 @@ body.nav-active .nav__list-item:nth-child(4) {
 
 .select-menu-archive {
     max-width: 330px;
-    margin: 50px auto;
-  }
-  .select-menu-archive .select-btn-archive {
+    width: 330px;
+}
+
+.select-menu-archive .select-btn-archive {
     display: flex;
     height: 55px;
     background: #fff;
@@ -1305,5 +1335,10 @@ body.nav-active .nav__list-item:nth-child(4) {
     -webkit-animation-fill-mode: both;
   }
   
+  @media (max-width: 950px) {
+    .filter-search-div {
+        flex-direction: column;
+    }
+}
 
 /* Archive design end */
