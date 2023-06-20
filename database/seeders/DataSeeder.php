@@ -22,6 +22,15 @@ class DataSeeder extends Seeder
                 [
                     'name' => 'Suvomontažni radovi'
                 ],
+                [
+                    'name' => 'Keramičarski radovi'
+                ],
+                [
+                    'name' => 'Parketarski radovi'
+                ],
+                [
+                    'name' => 'Podopolagački radovi'
+                ],
             )
         );
 
@@ -66,6 +75,42 @@ class DataSeeder extends Seeder
                 [
                     'category_id' => '2',
                     'name' => 'Oblaganje instalacija'
+                ],
+                [
+                    'category_id' => '3',
+                    'name' => 'Pripremni i završni radovi'
+                ],
+                [
+                    'category_id' => '3',
+                    'name' => 'Zidovi'
+                ],
+                [
+                    'category_id' => '3',
+                    'name' => 'Podovi'
+                ],
+                [
+                    'category_id' => '4',
+                    'name' => 'Demontaža'
+                ],
+                [
+                    'category_id' => '4',
+                    'name' => 'Priprema podloge'
+                ],
+                [
+                    'category_id' => '4',
+                    'name' => 'Podovi'
+                ],
+                [
+                    'category_id' => '5',
+                    'name' => 'Demontaža'
+                ],
+                [
+                    'category_id' => '5',
+                    'name' => 'Priprema podloge'
+                ],
+                [
+                    'category_id' => '5',
+                    'name' => 'Podovi'
                 ],
             )
         );
@@ -820,6 +865,444 @@ class DataSeeder extends Seeder
                     'unit_id' => '4',
                     'title' => 'Izrada obloge ventilacionih kanala - četvorostrana',
                     'description' => 'Obloga se sastoji od sopstvene noseće metalne konstrukcije preko koje se po potrebi postavlja izolacija od kamene vune i montiraju odgovarajuće gipskarton ploče.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje pločica postavljenih u cementni malter sa zidova',
+                    'description' => 'Pločice se obijaju ručno ili mašinski. Šut se iznosi iz objekta i deponuje na gradilišnu deponiju otpada.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje pločica postavljenih u lepak sa zidova',
+                    'description' => 'Pločice se obijaju ručno ili mašinski. Šut se iznosi iz objekta i deponuje na gradilišnu deponiju otpada.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje pločica postavljenih u cementni malter sa podova',
+                    'description' => 'Pločice se obijaju ručno ili mašinski. Šut se iznosi iz objekta i deponuje na gradilišnu deponiju otpada.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje pločica postavljenih u lepak sa podova',
+                    'description' => 'Pločice se obijaju ručno ili mašinski. Šut se iznosi iz objekta i deponuje na gradilišnu deponiju otpada.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Izravnavanje obijenih površina',
+                    'description' => 'Obijene površine se izravnavaju upotrebom građevinskog lepka u cilju pripreme za postavljanje novih pločica.'
+                ],
+                [
+                    'subcategory_id' => '11',
+                    'unit_id' => '1',
+                    'title' => 'Čišćenje gradilišta nakon završenih radova',
+                    'description' => 'Sav otpadni materijal utovariti u kamion i odvesti na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje zidnih keramičkih pločica u cementnom malteru',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje zidnih keramičkih pločica u lepku',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje zidnog keramičkog mozaika',
+                    'description' => 'Mozaik se postavlja u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljeni mozaik se fuguje odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenog mozaika.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje zidne keramičke bordure',
+                    'description' => 'Bordura se postavlja u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljena bordura se fuguje odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljene bordure.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje zidnih keramičkih listela',
+                    'description' => 'Listela se postavlja u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene listele se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih listela.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje bazenskih zidnih keramičkih pločica',
+                    'description' => 'Pločice se uz pomoć lepka određenog od strane projektanta postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '4',
+                    'title' => 'Silikoniranje negativnih uglova na spojevima keramičkih pločica',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje prefabrikovanih lajsni na pozitivne uglove spojeva keramičkih pločica',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '12',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje prefabrikovanih lajsni na gornju ivicu ugrađenih sokli od keramičkih pločica',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje podnih keramičkih pločica u cementnom malteru',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje podnih keramičkih pločica u lepku',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje keramičke sokle visine do 15cm',
+                    'description' => 'Sokla se postavlja u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljena sokla  se fuguje odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine sokle.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje podnog keramičkog mozaika',
+                    'description' => 'Mozaik se postavlja u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljeni mozaik se fuguje odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenog mozaika.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje bazenskih podnih keramičkih pločica',
+                    'description' => 'Pločice se uz pomoć lepka određenog od strane projektanta postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje protivkliznih podnih keramičkih pločica oko bazena',
+                    'description' => 'Pločice se uz pomoć lepka određenog od strane projektanta postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje prefabrikovanih profilisanih keramičkih preliva po obimu bazena',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje prefabrikovanih profilisanih keramičkih prelivnih kanala po obimu bazena zajedno sa PVC ili prohrom rešetkama',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje keramičkih pločica na čelo stepenika',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje keramičkih pločica na gazište stepenika',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica.'
+                ],
+                [
+                    'subcategory_id' => '13',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje keramičkih pločica na stepenice (gazište i čelo stepenika)',
+                    'description' => 'Pločice se postavljaju u dogovorenom rasporedu i slogu na pripremljenu podlogu. Postavljene pločice se fuguju odabranom masom za fugovanje. Nakon fugovanja, vrši se čišćenje celokupne površine postavljenih pločica. '
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Iznošenje postojećeg nameštaja iz prostora u kome se vrše parketarski radovi',
+                    'description' => 'Nameštaj se deponuje u okviru objekta.'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Pomeranje nameštaja u prostoriji gde se vrše parketarski radovi',
+                    'description' => 'Nameštaj se nakon izvršenih radova vraća na svoje prvobitno mesto'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža stare podne obloge od parketa',
+                    'description' => 'Parket i lajsne se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža stare podne obloge od parketa i slepog poda',
+                    'description' => 'Parket, lajsne i gredice se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Pesak, šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža stare podne obloge od brodskog poda',
+                    'description' => 'Brodski pod i lajsne se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža stare podne obloge od brodskog poda sa slepim podom',
+                    'description' => 'Brodski pod, lajsne i gredice se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Pesak, šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km'
+                ],
+                [
+                    'subcategory_id' => '14',
+                    'unit_id' => '1',
+                    'title' => 'Sortiranje i povezivanje demontiranog parketa',
+                    'description' => 'Demontirani parket se sortira i povezuje u buntove i odlaže u okviru gradilišta na mesto koje odredi investitor.'
+                ],
+                [
+                    'subcategory_id' => '15',
+                    'unit_id' => '1',
+                    'title' => 'Delimično krpljenje velikih oštećenja u podlozi',
+                    'description' => 'Oštećenja podloge se isecaju, obijaju, čiste, otprašuju i impregniraju radi boljeg prijanjanja, nakon čega se popunjavaju sitnozrnim betonom i nivelišu u odnosu na okolnu  površinu podloge. Finalno se perdaše radi postizanja potrebne glatkoće.'
+                ],
+                [
+                    'subcategory_id' => '15',
+                    'unit_id' => '1',
+                    'title' => 'Izravnavanje postojeće rapave podloge',
+                    'description' => 'Kompletna površina postijeće podloge se otprašuje i impregnira radi boljeg prijanjanja, nakon čega se nanosi samonivelirajuća masa za izravnavanje. Nakon sušenja izravnavajuće mase, po potrebi se vrši mašinsko brušenje.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje hrastovog parketa d=22mm ukivanjem u podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje hrastovog parketa d=22mm lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje hrastovog parketa d=22mm preko vrućeg bitumena',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje i hoblovanje hrastovog parketa d=22mm ukivanjem u podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje i hoblovanje hrastovog parketa d=22mm lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje i hoblovanje hrastovog parketa d=22mm preko vrućeg bitumena',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje, hoblovanje i lakiranje hrastovog parketa d=22mm ukivanjem u podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje, hoblovanje i lakiranje hrastovog parketa d=22mm lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje,  hoblovanje i lakiranje hrastovog parketa d=22mm preko vrućeg bitumena',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje hrastovog lamel parketa lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje i hoblovanje hrastovog lamel parketa lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje, hoblovanjei lakiranje hrastovog lamel parketa lepljenjem za  podlogu',
+                    'description' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje, hoblovanjei lakiranje hrastovog lamel parketa kao „plivajućeg“ poda',
+                    'description' => 'Preko očišćene podloge se postavlja PVC folija i filc. Parket se postavlja podužno, kao brodski pod. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '1',
+                    'title' => 'Hoblovanje i lakiranje postojećeg parketa sa sitnim popravkama',
+                    'description' => 'Sitna oštećenja i otvorene fuge se kituju smesom pilotine i laka.'
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '3',
+                    'title' => 'Krpljenje parketa na mestu demontirane peći',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '3',
+                    'title' => 'Krpljenje parketa na mestu probijanja otvora za vrata u zidu',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '4',
+                    'title' => 'Krpljenje parketa na mestu uklanjanja zida',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '16',
+                    'unit_id' => '3',
+                    'title' => 'Postavljanje i lakiranje novih hrastovih pragova',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od itisona u rolnama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od itisona u pločama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža PVC poda u rolnama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža PVC poda u pločama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od gume u rolnama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od gume u pločama',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '17',
+                    'unit_id' => '1',
+                    'title' => 'Mašinsko i ručno obijanje postojećeg poda od samorazlivajućeg epoksidnog (sintetičkog) materijala',
+                    'description' => 'Otpad utovariti u prevozno sredstvo i odvesti na gradsku deponiju udaljenu do 10km'
+                ],
+                [
+                    'subcategory_id' => '18',
+                    'unit_id' => '1',
+                    'title' => 'Delimično krpljenje velikih oštećenja u podlozi',
+                    'description' => 'Oštećenja podloge se isecaju, obijaju, čiste, otprašuju i impregniraju radi boljeg prijanjanja, nakon čega se popunjavaju sitnozrnim betonom i nivelišu u odnosu na okolnu  površinu podloge. Finalno se perdaše radi postizanja potrebne glatkoće.'
+                ],
+                [
+                    'subcategory_id' => '18',
+                    'unit_id' => '1',
+                    'title' => 'Izravnavanje postojeće rapave podloge',
+                    'description' => 'Kompletna površina postijeće podloge se otprašuje i impregnira radi boljeg prijanjanja, nakon čega se nanosi samonivelirajuća masa za izravnavanje. Nakon sušenja izravnavajuće mase, po potrebi se vrši mašinsko brušenje.'
+                ],
+                [
+                    'subcategory_id' => '18',
+                    'unit_id' => '1',
+                    'title' => 'Mašinsko brušenje neravne betonske podloge dijamantskim diskovima',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje tekstilne podne obloge – itisona u pločama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje tekstilne podne obloge – itisona u rolnama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem.'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje podne obloge od industrijske gume u pločama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem.'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje podne obloge od industrijske gume u rolnama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem.'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje PVC podne obloge u pločama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje PVC podne obloge u rolnama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje elektrootporne podne obloge u pločama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '1',
+                    'title' => 'Postavljanje elektroprovodne podne obloge u pločama',
+                    'description' => 'Podna obloga se na pripremljenu, očišćenu i suvu podlogu pričvršćuje lepljenjem grafitnim lepkom preko mreže provodnika fiksiranih za podlogu'
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje tvrdih PVC  lajsni na spoju poda i zidova',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '19',
+                    'unit_id' => '4',
+                    'title' => 'Postavljanje mekih PVC lajsni na spoju poda i zidova',
+                    'description' => ''
                 ],
             )
         );
