@@ -9,22 +9,34 @@
         $ponuda_ct = -1;
         $title = '';
     @endphp
-    <div class="flex items-center mt-16 filter-search-div">
+    <div class="flex mt-16 filter-search-div">
         <form method="GET" action="{{ route('worker.archive.search') }}" class="">
-            <input type="text" name="query" id="search-input">
-            <button type="submit" class="add-new-btn my-3">Trazi</button>
+            @if (isset($search_data))
+                <input type="text" name="query" value="{{ $search_data }}" id="search-input">
+                <button type="button" onclick="searchIcon()" class="my-3 search-icon-div" id="close">
+                    <i class="ri-close-line"></i>
+                </button>
+                <button type="submit" class="my-3 search-icon hidden" id="search">
+                    <i class="ri-search-2-line"></i>
+                </button>
+            @else
+                <input type="text" name="query" id="search-input">
+                <button type="submit" class="my-3 search-icon">
+                    <i class="ri-search-2-line"></i>
+                </button>
+            @endif
         </form>
-    
-        <form method="GET" action="{{ route('worker.archive.search') }}" class="ml-5 items-center flex">
+
+        <form method="GET" action="{{ route('worker.archive.search') }}" class="items-center flex">
             <div class="select-menu-archive">
                 <div class="select-btn-archive">
                     @if (isset($sort))
-                    @if ($sort == "asc")
-                        <span class="sBtn-text-archive">Najstariji</span>
-                    @endif
-                    @if ($sort == "desc")
-                        <span class="sBtn-text-archive">Najnoviji</span>
-                    @endif
+                        @if ($sort == 'asc')
+                            <span class="sBtn-text-archive">Najstariji</span>
+                        @endif
+                        @if ($sort == 'desc')
+                            <span class="sBtn-text-archive">Najnoviji</span>
+                        @endif
                     @else
                         <span class="sBtn-text-archive">Sortiraj</span>
                     @endif
@@ -32,25 +44,25 @@
                 </div>
                 <ul class="options-archive">
                     @if (isset($sort))
-                    <li class="option-archive">
-                        <a href="{{route('worker.archive')}}" class="option-text-archive">Izbrisi filter</a>
-                    </li>
+                        <li class="option-archive">
+                            <a href="{{ route('worker.archive') }}" class="clear-filter">Izbrisi filter</a>
+                        </li>
                     @endif
                     <li class="option-archive">
-                        <span class="option-text-archive">Najnoviji</span>
+                        <button class="option-text-archive" type="submit">Najnoviji</button>
                     </li>
                     <li class="option-archive">
-                        <span class="option-text-archive">Najstariji</span>
+                        <button class="option-text-archive" type="submit">Najstariji</button>
                     </li>
                 </ul>
             </div>
-            <button type="submit" class="add-new-btn my-3 ml-3">Filtriraj</button>
+
             <div id="filter-div" class="hidden">
-            </div>  
+            </div>
         </form>
     </div>
     @if ($data != null)
-        <div class="flex mt-4 flex-col justify-start">
+        <div class="flex mt-8 flex-col justify-start">
             @foreach ($data as $ponuda)
                 <div class=" justify-between items-center flex p-3 archive-container my-2">
                     <a class="w-full" href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">
@@ -151,5 +163,14 @@
                 optionMenu.classList.remove("active");
             });
         });
+
+        function searchIcon() {
+            var close = document.getElementById("close");
+            var search = document.getElementById("search");
+            var searchInput = document.getElementById("search-input");
+            close.style.display = "none";
+            searchInput.value = "";
+            search.style.display = "initial";
+        }
     </script>
 </x-app-layout>

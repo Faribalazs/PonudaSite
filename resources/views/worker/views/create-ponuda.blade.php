@@ -9,6 +9,7 @@
         $title = '';
         $formatedPrice = number_format($subTotal, 0, ',', ' ');
         $desc_now = '';
+        $finalPrice = 0;
         $collection = collect($mergedData);
         $mergedData = $collection->groupBy('id_category')->toArray();
         $titleBold = 0;
@@ -18,139 +19,189 @@
         
     @endphp
     @if ($mergedData != null)
-        @foreach ($mergedData as $id)
-            <div class="overflow-x-auto">
-                <table class="table mt-20 text-center ponuda-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">r.br.</th>
-                            <th scope="col">Naziv</th>
-                            <th scope="col">j.m.</th>
-                            <th scope="col">Količina</th>
-                            <th scope="col">jed.cena</th>
-                            <th scope="col">ukupno</th>
-                            <th scope="col">Izmeni</th>
-                            <th scope="col">Izbrisi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (isset($id[0]->name_category))
+        <div class="overflow-x-auto">
+            @foreach ($mergedData as $id)
+                <div>
+                    <table class="table mt-20 text-center ponuda-table">
+                        <thead>
                             <tr>
-                                <td colspan="8" class="bold-title">{{ $id[0]->name_category }}</td>
+                                <th scope="col">r.br.</th>
+                                <th scope="col">Naziv</th>
+                                <th scope="col">j.m.</th>
+                                <th scope="col">Količina</th>
+                                <th scope="col">jed.cena</th>
+                                <th scope="col">ukupno</th>
+                                <th scope="col">izmeni</th>
+                                <th scope="col">izbrisi</th>
                             </tr>
-                        @else
-                            <tr>
-                                <td colspan="8" class="bold-title">{{ $id[0]->name_custom_category }}</td>
-                            </tr>
-                        @endif
-                        @php
-                            $limit = count($id);
-                            $counter = 0;
-                            $subPrice = 0;
-                            $i = 1;
-                        @endphp
-                        @foreach ($id as $data)
-                            @php
-                                $subPrice += $data->overall_price;
-                            @endphp
-                            <tr>
-                                <td>{{ $i++ }}</td>
-                                @if (isset($data->name_category))
-                                    <td class="text-left"><b>{{ $data->title }}</b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->description }} @php $desc_now = $data->description @endphp
-                                        @endif
-                                    </td>
-                                    @php
-                                        $title = $data->title;
-                                    @endphp
-                                @else
-                                    <td class="text-left"><b>{{ $data->custom_title }}</b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
-                                        @endif
-                                    </td>
-                                    @php
-                                        $title = $data->custom_title;
-                                    @endphp
-                                @endif
-                                <td>{{ $data->unit_name }}</td>
-                                <td>{{ $data->quantity }}</td>
-                                <td>{{ $data->unit_price }}&nbsp;RSD</td>
-                                <td class="whitespace-nowrap">{{ number_format($data->overall_price, 0, ',', ' ') }}
-                                    RSD
-                                </td>
-                                <td>
-                                    <button class="edit-btn-table mx-auto"
-                                        onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
-                                        <i class="ri-edit-line"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="delete-btn-table mx-auto"
-                                        onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            @if ($limit - 1 == $counter)
-                                @if (isset($data->name_category))
-                                    <tr>
-                                        <td colspan="8" class="svega-design">
-                                            <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td colspan="8" class="svega-design">
-                                            <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ $subPrice }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @endif
+                        </thead>
+                        <tbody>
+                            @if (isset($id[0]->name_category))
+                                <tr>
+                                    <td colspan="8" class="bold-title">{{ $id[0]->name_category }}</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan="8" class="bold-title">{{ $id[0]->name_custom_category }}</td>
+                                </tr>
                             @endif
                             @php
-                                $counter++;
+                                $limit = count($id);
+                                $counter = 0;
+                                $subPrice = 0;
+                                $i = 1;
                             @endphp
+                            @foreach ($id as $data)
+                                @php
+                                    $subPrice += $data->overall_price;
+                                @endphp
+                                <tr>
+                                    <td>{{ $i++ }}</td>
+                                    @if (isset($data->name_category))
+                                        <td class="text-left ponuda-table-des"><b>{{ $data->title }}</b><br>
+                                            @if (isset($data->temporary_description))
+                                                {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
+                                                @else{{ $data->description }} @php $desc_now = $data->description @endphp
+                                            @endif
+                                        </td>
+                                        @php
+                                            $title = $data->title;
+                                        @endphp
+                                    @else
+                                        <td class="text-left ponuda-table-des"><b>{{ $data->custom_title }}</b><br>
+                                            @if (isset($data->temporary_description))
+                                                {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
+                                                @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
+                                            @endif
+                                        </td>
+                                        @php
+                                            $title = $data->custom_title;
+                                        @endphp
+                                    @endif
+                                    <td>{{ $data->unit_name }}</td>
+                                    <td>{{ $data->quantity }}</td>
+                                    <td>{{ $data->unit_price }}&nbsp;RSD</td>
+                                    <td class="whitespace-nowrap">
+                                        {{ number_format($data->overall_price, 0, ',', ' ') }}
+                                        RSD
+                                    </td>
+                                    <td>
+                                        <button class="edit-btn-table mx-auto"
+                                            onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
+                                            <i class="ri-edit-line"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="delete-btn-table mx-auto"
+                                            onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                @if ($limit - 1 == $counter)
+                                    @if (isset($data->name_category))
+                                        <tr>
+                                            <td colspan="8" class="svega-design">
+                                                <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="8" class="svega-design">
+                                                <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ $subPrice }}&nbsp;RSD
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endif
+                                @php
+                                    $counter++;
+                                @endphp
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
+            <div>
+                <table class="ponuda-table mt-5">
+                    <tbody>
+                        <tr>
+                            <td colspan="8" class="text-left border-bold px-1"
+                                style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
+                        </tr>
+                        @foreach ($mergedData as $id)
+                            @php
+                                $limit = count($id);
+                                $counter = 0;
+                                $subPrice = 0;
+                                $i = 1;
+                            @endphp
+                            @foreach ($id as $data)
+                                @php
+                                    $subPrice += $data->overall_price;
+                                @endphp
+
+                                @if ($limit - 1 == $counter)
+                                    @php
+                                        $finalPrice += $subPrice;
+                                    @endphp
+                                    @if (isset($data->name_category))
+                                        <tr>
+                                            <td class="text-left w-full px-1">
+                                                {{ $data->name_category }}&nbsp;
+                                            </td>
+                                            <td class="px-1 text-center whitespace-nowrap">
+                                                {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td class="text-left w-full px-1">
+                                                {{ $data->name_custom_category }}&nbsp;
+                                            </td>
+                                            <td class="px-1 text-center whitespace-nowrap">
+                                                {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endif
+                                @php
+                                    $counter++;
+                                @endphp
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        @endforeach
-        <div class="overflow-x-auto">
-            <table class="table mt-20 text-center ponuda-table">
-                <tr>
-                    <td class="text-right">
-                        Ukupno: {{ $formatedPrice }} RSD
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-right">
-                        @php
-                            $pdv = intval($subTotal) * 0.20;
-                        @endphp
-                        PDV: {{ $pdv }} RSD
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-right">
-                        @php
-                            $final = $pdv + $subTotal;
-                        @endphp
-                        <b>Ukupno sa PDV:</b> {{ $final }} RSD
-                    </td>
-                </tr>
-            </table>
+            <div>
+                <table class="table mt-20 text-center ponuda-table">
+                    <tr>
+                        <td class="text-right">
+                            Ukupno: {{ $formatedPrice }} RSD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            @php
+                                $pdv = intval($subTotal) * 0.2;
+                            @endphp
+                            PDV: {{ $pdv }} RSD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            @php
+                                $final = $pdv + $subTotal;
+                            @endphp
+                            <b>Ukupno sa PDV:</b> {{ $final }} RSD
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="flex w-full justify-center">
             <div class="flex">
                 <button onclick="NameSwall()" class="add-new-btn my-3">Zavrsi ponudu</button>
-                {{-- <form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">
-                    @csrf
-                    <button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>
-                </form> --}}
             </div>
         </div>
     @endif
@@ -328,9 +379,10 @@
                     '@csrf' +
                     '<span>Unesite novu deskripciju:</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">'+tempDesc+'</textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
+                    tempDesc + '</textarea>' +
                     '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
-                    '<button type="submit" class="add-new-btn my-3 mx-1">Zavrsi</button>' +
+                    '<button type="submit" class="add-new-btn my-3 mx-1">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,

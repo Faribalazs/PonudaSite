@@ -57,7 +57,6 @@ input[type="number"] {
         top: 0px !important;
     }
 
-
     .page-padding {
         width: 100%;
         margin: auto;
@@ -886,11 +885,13 @@ body.nav-active .nav__list-item:nth-child(4) {
 }
 
 @media (max-width: 1030px) {
-
     .ponuda-table {
         min-width: 1000px;
         overflow-x: auto;
     }
+}
+.ponuda-table-des {
+    width: 100%;
 }
 
 .ponuda-table td {
@@ -934,8 +935,8 @@ body.nav-active .nav__list-item:nth-child(4) {
 }
 
 .swal-input:focus {
-   border: 1px solod black !important;
-   box-shadow: none !important;
+    border: 1px solod black !important;
+    box-shadow: none !important;
 }
 
 .edit-btn-table {
@@ -1255,6 +1256,10 @@ body.nav-active .nav__list-item:nth-child(4) {
     border-radius: 10px;
 }
 
+.border-bold {
+    border: 2px solid black !important;
+}
+
 .archive-container:hover {
     box-shadow: 0 0 11px rgba(33, 33, 33, 0.5);
 }
@@ -1276,14 +1281,14 @@ body.nav-active .nav__list-item:nth-child(4) {
     cursor: pointer;
     justify-content: space-between;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-  .select-menu-archive .options-archive {
-    position: absolute;
+}
+.select-menu-archive .options-archive {
+    display: none;
     width: 330px;
     overflow-y: auto;
     max-height: 295px;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 12px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1293,8 +1298,8 @@ body.nav-active .nav__list-item:nth-child(4) {
     animation-fill-mode: both;
     -webkit-animation-duration: 0.35s;
     -webkit-animation-fill-mode: both;
-  }
-  .select-menu-archive .options-archive .option-archive {
+}
+.select-menu-archive .options-archive .option-archive {
     display: flex;
     height: 55px;
     cursor: pointer;
@@ -1302,30 +1307,116 @@ body.nav-active .nav__list-item:nth-child(4) {
     border-radius: 8px;
     align-items: center;
     background: #fff;
-  }
-  .select-menu-archive .options-archive .option-archive:hover {
+}
+.select-menu-archive .options-archive .option-archive:hover {
     background: #f2f2f2;
-  }
-  .select-menu-archive .options-archive .option-archive i {
+}
+.select-menu-archive .options-archive .option-archive i {
     font-size: 25px;
     margin-right: 12px;
-  }
-  .select-menu-archive .options-archive .option-archive .option-text-archive {
+}
+.select-menu-archive .options-archive .option-archive .option-text-archive {
     font-size: 18px;
     color: #333;
-  }
-  
-  .select-btn-archive i {
+}
+
+.select-btn-archive i {
     font-size: 25px;
     transition: 0.3s;
-  }
-  
-  .select-menu-archive.active .select-btn-archive i {
+}
+
+.option-text-archive {
+    width: 100%;
+    height: 100%;
+    text-align: start;
+}
+
+.clear-filter {
+    font-size: 18px;
+}
+
+#search-input {
+    border: 1px solid #ccc !important;
+    border-radius: 10px !important;
+    margin-right: 5px;
+    padding-right: 45px;
+    height: 55px;
+}
+
+.search-icon {
+    position: relative;
+    right: 44px;
+    bottom: 22px;
+}
+
+.search-icon-div {
+    position: relative;
+    right: 50px;
+    bottom: 30px; 
+}
+
+.search-icon-div i {
+    position: absolute;
+    font-size: 33px;
+}
+
+.search-icon i {
+    position: absolute;
+    font-size: 23px;
+}
+
+.filter-search-div {
+    justify-content: space-between;
+}
+
+@media (max-width: 780px) {
+    .filter-search-div {
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+    }
+
+    #search-input {
+        width: 100%;
+    }
+
+    .search-icon-div {
+        position: inherit;
+    }
+
+    .search-icon-div i {
+        position: absolute;
+        font-size: 26px;
+        right: 30px;
+        top: 169px;
+    }
+
+    .search-icon {
+        position: inherit;
+    }
+
+    .search-icon i {
+        position: absolute;
+        font-size: 26px;
+        right: 30px;
+        top: 169px;
+    }
+
+    .select-menu-archive {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .options-archive {
+        width: 100% !important;
+    }
+}
+
+.select-menu-archive.active .select-btn-archive i {
     transform: rotate(-180deg);
-  }
-  .select-menu-archive.active .options-archive {
+}
+.select-menu-archive.active .options-archive {
     display: block;
-    opacity: 0;
     z-index: 10;
     animation-name: fadeInUp;
     -webkit-animation-name: fadeInUp;
@@ -1333,12 +1424,6 @@ body.nav-active .nav__list-item:nth-child(4) {
     animation-fill-mode: both;
     -webkit-animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
-  }
-  
-  @media (max-width: 950px) {
-    .filter-search-div {
-        flex-direction: column;
-    }
 }
 
 /* Archive design end */

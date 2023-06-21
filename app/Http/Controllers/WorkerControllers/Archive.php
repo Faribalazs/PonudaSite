@@ -38,9 +38,10 @@ class Archive extends Controller
         $worker_id = $this->worker();
         $sortOrder = $request->input('sort_order', 'asc');
         $searchQuery = '%'.$request->input('query').'%';
+        $search_data = $request->input('query');
         $data = $this->orderByDate($worker_id,$searchQuery,$sortOrder);
   
-        return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder]);
+        return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder, 'search_data' => $search_data]);
     }
     private function ponudaInfo($id, $worker_id){
         return DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id);
@@ -135,7 +136,7 @@ class Archive extends Controller
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         $pdf_name = $this->PDFname($id,$worker_id);
 
-        $pdf = PDF::loadView('worker.views.archive-pdf',['mergedData' => $selectedWorkerPonuda->all()]);
+        $pdf = PDF::loadView('worker.views.archive-pdf',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
         return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
     }
 }
