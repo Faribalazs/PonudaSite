@@ -20,7 +20,7 @@
                     <i class="ri-search-2-line"></i>
                 </button>
             @else
-                <input type="text" name="query" id="search-input">
+                <input type="text" name="query" placeholder="Tarži..." id="search-input">
                 <button type="submit" class="my-3 search-icon">
                     <i class="ri-search-2-line"></i>
                 </button>
