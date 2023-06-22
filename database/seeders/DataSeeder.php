@@ -132,6 +132,17 @@ class DataSeeder extends Seeder
             )
         );
 
+        DB::table('services')->insert(
+            array(
+                [
+                    'name_service' => 'Materijal i uslugu',
+                ],
+                [
+                    'name_service' => 'Samo uslugu',
+                ]
+            )
+        );
+
         DB::table('pozicija')->insert(
             array(
                 [

@@ -123,6 +123,7 @@
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
                                         @endif
+                                        <br>{{ $data->name_service }}
                                     </td>
                                     @php
                                         $title = $data->title;
@@ -133,6 +134,7 @@
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
                                         @endif
+                                        <br>{{ $data->name_service }}
                                     </td>
                                     @php
                                         $title = $data->custom_title;

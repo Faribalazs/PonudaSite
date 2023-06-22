@@ -63,6 +63,7 @@
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->description }} @php $desc_now = $data->description @endphp
                                             @endif
+                                            <br>{{ $data->name_service }}
                                         </td>
                                         @php
                                             $title = $data->title;
@@ -73,6 +74,7 @@
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
                                             @endif
+                                            <br>{{ $data->name_service }}
                                         </td>
                                         @php
                                             $title = $data->custom_title;
@@ -312,7 +314,15 @@
                         class="del-btn my-3">Izbrisi</button>
                 </div>
             </div>
+            
             <div class="quantity-div" id="quantity-input">
+                <div class="mt-5 mb-2">
+                    <span>Cena pozicija sadrži:</span>
+                </div>
+                <input type="radio" id="material" name="radioButton" value="1" checked>
+                <label for="service">Materijal i uslugu</label><br>
+                <input type="radio" id="service" name="radioButton" value="2">
+                <label for="service">Samo uslugu</label><br>
                 <div id="quantity-text" class="mt-5">
                 </div>
                 <input type="number" name="quantity" class="quantity-input mt-3 mb-1">
@@ -398,8 +408,10 @@
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
-                    '<span>Unesite ime ponude:</span>' +
+                    '<label for="ponuda_name">Ime ponude:</label>' +
                     '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
+                    '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
+                    '<input class="mt-3 swal-input" type="text" name="note"/>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,

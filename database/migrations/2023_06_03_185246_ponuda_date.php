@@ -18,6 +18,7 @@ class PonudaDate extends Migration
             $table->bigInteger('worker_id')->unsigned();
             $table->bigInteger('id_ponuda')->unsigned();
             $table->string('ponuda_name');
+            $table->string('note')->nullable();
             $table->timestampTz('created_at');
         });
     }

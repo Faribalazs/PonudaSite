@@ -17,12 +17,6 @@
         $counter = 0;
     @endphp
     @if ($mergedData != null)
-        <div class="flex mt-16">
-            <div class="flex justify-end w-full">
-                <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
-                    class="add-new-btn">Skini PDF</a>
-            </div>
-        </div>
         <div class="overflow-auto">
             @foreach ($mergedData as $id)
                 <table class="ponuda-table w-full mt-5">
@@ -71,6 +65,7 @@
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
                                         @endif
+                                        <br>{{ $data->name_service }}
                                     </td>
                                     @php
                                         $title = $data->title;
@@ -80,7 +75,8 @@
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
-                                        @endif
+                                        @endif        
+                                        <br>{{ $data->name_service }}
                                     </td>
                                     @php
                                         $title = $data->custom_title;
@@ -201,6 +197,12 @@
                         </td>
                     </tr>
                 </table>
+            </div>
+        </div>
+        <div class="flex mt-16">
+            <div class="flex justify-center w-full">
+                <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="add-new-btn">Skini PDF</a>
             </div>
         </div>
     @endif

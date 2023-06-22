@@ -20,6 +20,7 @@ class Ponuda extends Migration
             $table->bigInteger('categories_id')->unsigned();
             $table->bigInteger('subcategories_id')->unsigned();
             $table->bigInteger('pozicija_id')->unsigned();
+            $table->integer('service_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->double('unit_price')->unsigned();
             $table->double('overall_price')->unsigned();

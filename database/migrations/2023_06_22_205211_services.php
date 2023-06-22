@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Pozicija extends Migration
+class Services extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class Pozicija extends Migration
      */
     public function up()
     {
-        Schema::create('pozicija', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('subcategory_id')->unsigned();
-            $table->integer('unit_id')->unsigned();
-            $table->string('title');
-            $table->text('description');
+        Schema::create('services', function (Blueprint $table) {
+            $table->bigIncrements('id_service');
+            $table->string('name_service');
         });
     }
 
@@ -29,6 +26,6 @@ class Pozicija extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pozicija');
+        Schema::dropIfExists('services');
     }
 }

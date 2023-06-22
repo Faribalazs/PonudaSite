@@ -17,7 +17,7 @@ class CustomPozicija extends Migration
             $table->id()->startingValue(10000);
             $table->bigInteger('worker_id')->unsigned();
             $table->bigInteger('custom_subcategory_id')->unsigned();
-            $table->bigInteger('unit_id')->unsigned();
+            $table->integer('unit_id')->unsigned();
             $table->string('custom_title');
             $table->text('custom_description');
             $table->tinyInteger('is_pozicija_deleted')->nullable();

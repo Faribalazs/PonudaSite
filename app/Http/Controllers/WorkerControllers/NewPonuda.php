@@ -63,22 +63,27 @@ class NewPonuda extends Controller
       $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_category, s.id AS
       id_subcategory, s.name AS name_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description
+      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description,
+      serv.id_service, serv.name_service
       FROM ponuda p JOIN categories c ON p.categories_id = c.id 
       JOIN subcategories s ON p.subcategories_id = s.id 
       JOIN pozicija poz ON p.pozicija_id = poz.id
       JOIN units u ON poz.unit_id = u.id_unit 
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
+      JOIN services serv ON p.service_id = serv.id_service
       where p.ponuda_id = ? and p.worker_id = ?',[$counter,$worker_id]);
-      $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
+      $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.service_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_custom_category, s.id AS
       id_subcategory, s.name AS name_custom_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.custom_title, poz.custom_description, s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description
+      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.custom_title, poz.custom_description, 
+      s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description,
+      serv.id_service, serv.name_service
       FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
       JOIN custom_subcategories s ON p.subcategories_id = s.id 
       JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
       JOIN units u ON poz.unit_id = u.id_unit
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
+      JOIN services serv ON p.service_id = serv.id_service
       where p.ponuda_id = ? and p.worker_id = ? and s.is_subcategory_deleted IS NULL and c.is_category_deleted IS NULL and poz.is_pozicija_deleted IS NULL',[$counter,$worker_id]);
       return $mergedData = array_merge($ponuda, $custom_ponuda);
    }
@@ -93,6 +98,7 @@ class NewPonuda extends Controller
             'quantity' => 'required|regex:/^[0-9\s]+$/i',
             'pozicija_id' => 'required|regex:/^[0-9\s]+$/i',
             'price' => 'required|regex:/^[0-9\s]+$/i',
+            'radioButton' => 'required|in:1,2',
         ]);
 
          if(request('quantity') > 0 && request('price') > 0)
@@ -122,6 +128,7 @@ class NewPonuda extends Controller
       $addPonuda->categories_id = $request->category;
       $addPonuda->subcategories_id = $request->subcategory;
       $addPonuda->pozicija_id = $request->pozicija_id;
+      $addPonuda->service_id = $request->radioButton;
       $addPonuda->quantity = $request->quantity;
       $addPonuda->unit_price = $request->price; //request('unit_price');
       $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
@@ -162,11 +169,12 @@ class NewPonuda extends Controller
    public function ponudaDone(Request $request)
    {
       $validator =  Validator::make($request->all(), [
-         'ponuda_name' => 'required|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/'
+         'ponuda_name' => 'required|min:3|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/',
+         'note' => 'nullable|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/'
      ]);
  
      if ($validator->fails()) {
-      Alert::error('Mora imati vrednost i ne sme biti prazno. Ne sme biti duže od 64 karaktera. Dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::error('Ime ponude mora imati najmanje 3 znaka. Ime ponude i napomena ne sme biti duže od 64 karaktera, dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
      } else {
       $worker_id = $this->worker();
@@ -193,7 +201,7 @@ class NewPonuda extends Controller
       $ponuda_name = $request->ponuda_name;
       date_default_timezone_set('Europe/Belgrade');
       $date = date('Y-m-d H:i:s');
-      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name) values (?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name]);
+      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name, $request->note]);
       $this->ponudaCounter($worker)->increment('ponuda_counter');
       DB::update('update workers set ponuda_counter = ? where id = ?', [$this->ponudaCounter($worker)->ponuda_counter,$worker]);
    }
