@@ -203,6 +203,9 @@
             <div class="flex justify-center w-full">
                 <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="add-new-btn">Skini PDF</a>
+                <p>ili</p>
+                <a href="{{ route('worker.archive.create.mail', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="add-new-btn">Pošalji PDF</a>
             </div>
         </div>
     @endif

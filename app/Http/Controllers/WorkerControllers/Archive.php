@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+use Mail;
 
 class Archive extends Controller
 {
@@ -133,16 +135,44 @@ class Archive extends Controller
     {
         return DB::select('select ponuda_name from ponuda_date where id_ponuda = ? and worker_id = ?', [$id, $worker]);
     }
+    public function createMAIL($id)
+    {
+        return view('worker.views.mail-send',['id_archive' => $id]);
+    }
     public function createPDF($id) {
-        
+        list($pdf, $pdf_name) = $this->PDFdata($id);
+        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+    }
+    public function sendPDF(Request $request, $id)
+    {
+        $request->validate([
+            'mailTo' => 'required|string|email:rfc|max:255',
+            'mailSubject' => 'nullable|string|max:64',
+            'mailBody' => 'nullable|string|max:1024',
+        ]);
+        list($pdf, $pdf_name) = $this->PDFdata($id);
+        $data["mailFrom"] = DB::select('select email from workers where id = ?', [$this->worker()])[0]->email;
+        $data["mailTo"] = $request->mailTo;
+        $data["mailSubject"] = $request->mailSubject;
+        $data["mailBody"] = $request->mailBody;
+        Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdf, $pdf_name) {
+            $message->from($data["mailFrom"]);
+            $message->to($data["mailTo"]);
+            $message->subject($data["mailSubject"] ?: 'PDF ponuda');
+            $message->attachData($pdf->output(),$pdf_name[0]->ponuda_name . '.pdf');
+        });
+        Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
+        return $this->show();
+    }
+    private function PDFdata($id)
+    {
         $worker_id = $this->worker();
         $mergedData = $this->mergedData();
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         $pdf_name = $this->PDFname($id,$worker_id);
-
         $pdf = PDF::loadView('worker.views.archive-pdf',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
-        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+        return array($pdf, $pdf_name);
     }
 }
