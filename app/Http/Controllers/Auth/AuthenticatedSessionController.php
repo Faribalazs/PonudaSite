@@ -17,6 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        if (Auth::guard('worker')->check() || Auth::user()) {
+            return redirect()->intended(route('home'));
+        }
         return view('auth.login');
     }
 
@@ -33,6 +36,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        if (Auth::guard('worker')->check() || Auth::user()) {
+            return redirect()->intended(route('home'));
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
