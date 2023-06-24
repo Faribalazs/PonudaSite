@@ -155,13 +155,22 @@ class Archive extends Controller
         $data["mailTo"] = $request->mailTo;
         $data["mailSubject"] = $request->mailSubject;
         $data["mailBody"] = $request->mailBody;
-        Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdf, $pdf_name) {
-            $message->from($data["mailFrom"]);
-            $message->to($data["mailTo"]);
-            $message->subject($data["mailSubject"] ?: 'PDF ponuda');
-            $message->attachData($pdf->output(),$pdf_name[0]->ponuda_name . '.pdf');
-        });
-        Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
+        $pdfContent = $pdf->output();
+        $pdfSize = strlen($pdfContent);
+        if($pdfSize < 10485760)
+        {
+            Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdfContent, $pdf_name) {
+                $message->from($data["mailFrom"]);
+                $message->to($data["mailTo"]);
+                $message->subject($data["mailSubject"] ?: 'PDF ponuda');
+                $message->attachData($pdfContent,$pdf_name[0]->ponuda_name . '.pdf', [
+                    'mime' => 'application/pdf',
+                ]);
+            });
+            Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
+            return $this->show();
+        }
+        Alert::error('Max 10 MB')->showCloseButton()->showConfirmButton('Zatvori');
         return $this->show();
     }
     private function PDFdata($id)
