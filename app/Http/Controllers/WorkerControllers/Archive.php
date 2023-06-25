@@ -87,7 +87,7 @@ class Archive extends Controller
         $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
         AS id_category, c.name AS name_category, s.id AS
         id_subcategory, s.name AS name_subcategory, poz.id 
-        AS id_pozicija, poz.unit_id, poz.title, poz.description, pd.worker_id, pd.id_ponuda, pd.created_at, u.id_unit, u.name AS unit_name,
+        AS id_pozicija, poz.unit_id, poz.title, poz.description, pd.worker_id, pd.id_ponuda, pd.note, pd.created_at, u.id_unit, u.name AS unit_name,
         temp.id_of_ponuda, temp.temporary_description,
         serv.id_service, serv.name_service
         FROM ponuda p JOIN categories c ON p.categories_id = c.id 
@@ -101,7 +101,7 @@ class Archive extends Controller
         $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
         AS id_category, c.name AS name_custom_category, s.id AS
         id_subcategory, s.name AS name_custom_subcategory, poz.id 
-        AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description, pd.worker_id, pd.id_ponuda, pd.created_at, u.id_unit, u.name AS unit_name,
+        AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description, pd.worker_id, pd.id_ponuda, pd.note, pd.created_at, u.id_unit, u.name AS unit_name,
         s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description,
         serv.id_service, serv.name_service
         FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
