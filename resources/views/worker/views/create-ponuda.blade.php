@@ -105,13 +105,13 @@
                                     @if (isset($data->name_category))
                                         <tr>
                                             <td colspan="8" class="svega-design">
-                                                <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
+                                                <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                             </td>
                                         </tr>
                                     @else
                                         <tr>
                                             <td colspan="8" class="svega-design">
-                                                <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ $subPrice }}&nbsp;RSD
+                                                <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                             </td>
                                         </tr>
                                     @endif
@@ -187,7 +187,7 @@
                             @php
                                 $pdv = intval($subTotal) * 0.2;
                             @endphp
-                            PDV: {{ $pdv }} RSD
+                            PDV: {{ number_format($pdv, 0, ',', ' ') }} RSD
                         </td>
                     </tr>
                     <tr>
@@ -195,15 +195,15 @@
                             @php
                                 $final = $pdv + $subTotal;
                             @endphp
-                            <b>Ukupno sa PDV:</b> {{ $final }} RSD
+                            <b>Ukupno sa PDV:</b> {{ number_format($final, 0, ',', ' ') }} RSD
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
-        <div class="flex w-full justify-center">
+        <div class="flex w-full justify-center mt-3">
             <div class="flex">
-                <button onclick="NameSwall()" class="add-new-btn my-3">Zavrsi ponudu</button>
+                <button onclick="NameSwall()" class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
     @endif
@@ -314,31 +314,34 @@
                         class="del-btn my-3">Izbrisi</button>
                 </div>
             </div>
-            
+
             <div class="quantity-div" id="quantity-input">
                 <div class="mt-5 mb-2">
-                    <span>Cena pozicija sadrži:</span>
+                    <span>Cena pozicija sadrži:*</span>
                 </div>
-                <input type="radio" id="material" name="radioButton" value="1" checked>
-                <label for="service">Materijal i uslugu</label><br>
-                <input type="radio" id="service" name="radioButton" value="2">
-                <label for="service">Samo uslugu</label><br>
+                <p class="py-3">
+                    <input type="radio" id="material" name="radioButton" value="1">
+                    <label for="material">Cena pozicije sadrži material i uslugu</label>
+                </p>
+                <p class="py-3">
+                    <input type="radio" id="service" name="radioButton" value="2">
+                    <label for="service">Cena pozicije sadrži samo uslugu</label>
+                </p>
                 <div id="quantity-text" class="mt-5">
                 </div>
                 <input type="number" name="quantity" class="quantity-input mt-3 mb-1">
                 <div class="mt-5">
-                    <span>Cena (RSD)</span>
+                    <span>Cena (RSD)*</span>
                 </div>
                 <input type="number" name="price" class="quantity-input mt-3 mb-1">
             </div>
         </div>
-        <div id="add-new" class="category-div">
+        <div id="add-new" class="category-div mt-5">
             <div class="flex justify-center">
                 <button type="submit" class="add-new-btn my-3">Dodaj element</button>
             </div>
         </div>
     </form>
-
     <script>
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
@@ -693,7 +696,7 @@
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
-                    span.innerText = "Upisi kolicinu ( " + unitValue + " )";
+                    span.innerText = "Upisi kolicinu ( " + unitValue + " )*";
                     textDiv.appendChild(span);
                     var span_div = document.getElementById("quantity-input");
                     var inputValue = document.createElement("input");
