@@ -71,6 +71,18 @@
                             Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
                         </p>
                     </a>
+                    <a class="share-btn-table mr-3 mobile-show"
+                        href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
+                        <i class="ri-eye-line"></i>
+                    </a>
+                    <a class="share-btn-table mr-3 destop-show" target="_blank"
+                        href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
+                        <i class="ri-eye-line"></i>
+                    </a>
+                    <a class="share-btn-table mr-3"
+                        href="{{ route('worker.archive.create.mail', ['id' => $ponuda->id_ponuda]) }}">
+                        <i class="ri-share-line"></i>
+                    </a>
                     <button class="delete-btn-table"
                         onclick="actionSwall('{{ route('worker.archive.delete', ['ponuda' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
                         <i class="ri-delete-bin-line"></i>

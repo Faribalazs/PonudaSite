@@ -414,7 +414,7 @@
                     '<label for="ponuda_name">Ime ponude:</label>' +
                     '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="note"/>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,

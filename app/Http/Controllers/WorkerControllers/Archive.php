@@ -23,6 +23,7 @@ class Archive extends Controller
     private function showPrivate($worker){
         return DB::select('select * from ponuda_date where worker_id = ? ORDER BY created_at DESC', [$worker]);
     }
+
     public function show()
     {
         $worker_id = $this->worker();
@@ -45,18 +46,23 @@ class Archive extends Controller
   
         return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder, 'search_data' => $search_data]);
     }
+
     private function ponudaInfo($id, $worker_id){
         return DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id);
     }
+
     private function ponudaDate($id, $worker_id){
         return DB::table('ponuda_date')->where('id_ponuda', $id)->where('worker_id',$worker_id);
     }
+
     private function temporaryDesc($id){
         return DB::table('pozicija_temporary')->where('id_of_ponuda', $id)->delete();
     }
+
     private function ponudaId($worker, $id){
         return DB::select('select id, worker_id, ponuda_id from ponuda where worker_id = ? and ponuda_id = ?',[$worker,$id]);
     }
+
     public function delete($id)
     {
         $worker_id = $this->worker();
@@ -66,7 +72,7 @@ class Archive extends Controller
         }
         $this->ponudaDate($id, $worker_id)->delete();
         $this->ponudaInfo($id, $worker_id)->delete();
-        return $this->show();
+        return redirect()->intended(route('worker.archive'));
     }
 
     public function deleteElement($id,$ponuda_id)
@@ -77,7 +83,7 @@ class Archive extends Controller
         if($this->ponudaInfo($ponuda_id,$worker_id)->count()<1)
         {
             $this->ponudaDate($ponuda_id,$worker_id)->delete();
-            return $this->show();
+            return redirect()->intended(route('worker.archive'));
         }
         return $this->selectedArchive($ponuda_id);
     }
@@ -131,18 +137,28 @@ class Archive extends Controller
         
         return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all()]);
     }
+
     private function PDFname($id, $worker)
     {
         return DB::select('select ponuda_name from ponuda_date where id_ponuda = ? and worker_id = ?', [$id, $worker]);
     }
+
     public function createMAIL($id)
     {
-        return view('worker.views.mail-send',['id_archive' => $id]);
+        $name = DB::select('select ponuda_name from ponuda_date where id_ponuda = ?', [$id]);
+        return view('worker.views.mail-send',['id_archive' => $id , 'name' => $name]);
     }
+
     public function createPDF($id) {
         list($pdf, $pdf_name) = $this->PDFdata($id);
         return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
     }
+
+    public function viewPDF($id) {
+        list($pdf, $pdf_name) = $this->PDFdata($id);
+        return $pdf->stream($pdf_name[0]->ponuda_name);
+    }
+
     public function sendPDF(Request $request, $id)
     {
         $request->validate([
@@ -168,11 +184,12 @@ class Archive extends Controller
                 ]);
             });
             Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
-            return $this->show();
+            return redirect()->intended(route('worker.archive'));
         }
         Alert::error('Max 10 MB')->showCloseButton()->showConfirmButton('Zatvori');
-        return $this->show();
+        return redirect()->intended(route('worker.archive'));
     }
+
     private function PDFdata($id)
     {
         $worker_id = $this->worker();

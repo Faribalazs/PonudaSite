@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker']], function() {
     Route::get('contractor/archive', 'App\Http\Controllers\WorkerControllers\Archive@show')->name('worker.archive');
     Route::get('contractor/archive/{id}', 'App\Http\Controllers\WorkerControllers\Archive@selectedArchive')->name('worker.archive.selected')->middleware('restrictUserAccess');
     Route::get('contractor/pdf/{id}', 'App\Http\Controllers\WorkerControllers\Archive@createPDF')->name('worker.archive.pdf')->middleware('restrictUserAccess');
+    Route::get('contractor/view/pdf/{id}', 'App\Http\Controllers\WorkerControllers\Archive@viewPDF')->name('worker.archive.view.pdf')->middleware('restrictUserAccess');
     Route::get('contractor/createmail/{id}', 'App\Http\Controllers\WorkerControllers\Archive@createMAIL')->name('worker.archive.create.mail')->middleware('restrictUserAccess');
     Route::post('contractor/mail/pdf/{id}', 'App\Http\Controllers\WorkerControllers\Archive@sendPDF')->name('worker.archive.send.mail')->middleware('restrictUserAccess');
     Route::get('contractor/archive/search/filter', 'App\Http\Controllers\WorkerControllers\Archive@search')->name('worker.archive.search');

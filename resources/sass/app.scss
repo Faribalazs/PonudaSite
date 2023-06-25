@@ -454,7 +454,7 @@ body.nav-active .nav__list-item:nth-child(4) {
 }
 
 .swal2-container.swal2-center > .swal2-popup {
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .swal2-close {
@@ -812,7 +812,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     padding: 10px 20px 10px 20px;
     background-color: #ed5840;
     color: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .finish-btn {
@@ -820,7 +820,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     padding: 12px 60px 12px 60px;
     background-color: #068100;
     color: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 18px;
 }
 
@@ -901,7 +901,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     padding: 10px 20px 10px 20px;
     background-color: #ac1902;
     color: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .swall-input {
@@ -993,6 +993,20 @@ body.nav-active .nav__list-item:nth-child(4) {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+}
+
+.share-btn-table {
+    background-color: #ed5840;
+    padding: 7px 13px 7px 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.share-btn-table i {
+    color: white;
+    font-size: 20px;
 }
 
 .delete-btn-table i {
@@ -1299,7 +1313,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     padding: 10px 20px 10px 20px;
     background-color: #ed5840;
     color: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* Dodaj novo design end */
@@ -1440,6 +1454,20 @@ body.nav-active .nav__list-item:nth-child(4) {
     justify-content: space-between;
 }
 
+.mobile-show {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .mobile-show {
+        display: block !important;
+    }
+
+    .destop-show {
+        display: none;
+    }
+}
+
 @media (max-width: 780px) {
     .filter-search-div {
         flex-direction: column;
@@ -1495,6 +1523,23 @@ body.nav-active .nav__list-item:nth-child(4) {
     animation-fill-mode: both;
     -webkit-animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
+}
+
+.archive-pdf-btn {
+    border: none;
+    padding: 10px 20px 10px 20px;
+    background-color: #ed5840;
+    color: #ffffff;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.archive-pdf-btn i {
+    font-size: 20px;
+    padding-right: 10px;
+    position: relative;
+    top: 1px;
 }
 
 /* Archive design end */

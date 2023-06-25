@@ -11,24 +11,39 @@
         $collection = collect($mergedData);
         $finalPrice = 0;
         $mergedData = $collection->groupBy('id_category')->toArray();
+        $note = $collection->groupBy('id_category');
         $titleBold = 0;
         $subPrice = 0;
         $limit = 0;
         $counter = 0;
     @endphp
     @if ($mergedData != null)
+        <div class="flex mt-16">
+            <div class="flex justify-center flex-col sm:flex-row w-full items-center gap-4">
+                <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="archive-pdf-btn">
+                    <i class="ri-download-2-line"></i>Skini PDF</a>
+                <a href="{{ route('worker.archive.create.mail', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="archive-pdf-btn">
+                    <i class="ri-share-line"></i>Pošalji PDF</a>
+                <a target="_blank"
+                    href="{{ route('worker.archive.view.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="archive-pdf-btn">
+                    <i class="ri-eye-line"></i>Pogledaj PDF</a>
+            </div>
+        </div>
         <div class="overflow-auto">
             @foreach ($mergedData as $id)
                 <table class="ponuda-table w-full mt-5">
                     <thead>
                         <tr>
-                            <th scope="col" class="px-1">r.br.</th>
-                            <th scope="col" class="px-1">Naziv</th>
-                            <th scope="col" class="px-1">j.m.</th>
-                            <th scope="col" class="px-1">količina</th>
-                            <th scope="col" class="px-1">jed.cena</th>
-                            <th scope="col" class="px-1">ukupno</th>
-                            <th scope="col" class="px-1">izbrisi</th>
+                            <th scope="col" class="px-1 text-center">r.br.</th>
+                            <th scope="col" class="px-1 text-center">Naziv</th>
+                            <th scope="col" class="px-1 text-center">j.m.</th>
+                            <th scope="col" class="px-1 text-center">količina</th>
+                            <th scope="col" class="px-1 text-center">jed.cena</th>
+                            <th scope="col" class="px-1 text-center">ukupno</th>
+                            <th scope="col" class="px-1 text-center">izbrisi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,7 +90,7 @@
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
-                                        @endif        
+                                        @endif
                                         <br>{{ $data->name_service }}
                                     </td>
                                     @php
@@ -89,9 +104,9 @@
                                     {{ number_format($data->overall_price, 0, ',', ' ') }}&nbsp;RSD
                                 </td>
                                 <td><button class="delete-btn-table mx-auto"
-                                    onclick="actionSwall('{{ route('worker.archive.delete.element', ['ponuda' => $data->id, 'ponuda_id' => $data->ponuda_id]) }}','{{ $title }}')">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button></td>
+                                        onclick="actionSwall('{{ route('worker.archive.delete.element', ['ponuda' => $data->id, 'ponuda_id' => $data->ponuda_id]) }}','{{ $title }}')">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button></td>
 
                             </tr>
 
@@ -199,15 +214,17 @@
                 </table>
             </div>
         </div>
-        <div class="flex mt-16">
-            <div class="flex justify-center w-full">
-                <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
-                    class="add-new-btn">Skini PDF</a>
-                <p>ili</p>
-                <a href="{{ route('worker.archive.create.mail', ['id' => $collection->first()->id_ponuda]) }}" Skini
-                    class="add-new-btn">Pošalji PDF</a>
+        @if (isset($note->first()[0]->note))
+            <div>
+                <p class="mt-10 font-bold">
+                    Napomena :
+                </p>
+                <br>
+                <p>
+                    {{ $note->first()[0]->note }}
+                </p>
             </div>
-        </div>
+        @endif
     @endif
     <script>
         function actionSwall(url, name) {

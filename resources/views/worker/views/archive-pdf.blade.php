@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>{{ $ponuda_name }}</title>
 </head>
 <style type="text/css">
     * {
@@ -55,6 +55,10 @@
     .border-bold {
         border: 2px solid black !important;
     }
+
+    .text-bold {
+        font-weight: 600;
+    }
 </style>
 
 <body style="padding-left: 20px; padding-right: 20px;">
@@ -64,6 +68,7 @@
         $collection = collect($mergedData);
         $finalPrice = 0;
         $mergedData = $collection->groupBy('id_category')->toArray();
+        $note = $collection->groupBy('id_category');
         $titleBold = 0;
         $subPrice = 0;
         $limit = 0;
@@ -73,7 +78,7 @@
         <table class="ponuda-table">
             <tr>
                 <td class="text-center no-wrap">
-                   {{$ponuda_name}}
+                    {{ $ponuda_name }}
                 </td>
             </tr>
         </table>
@@ -254,6 +259,16 @@
                     </td>
                 </tr>
             </table>
+            @if (isset($note->first()[0]->note))
+                <div>
+                    <p class="text-bold" style="margin-top: 20px; font-size: 12px;">
+                        Napomena :
+                    </p>
+                    <p>
+                        {{ $note->first()[0]->note }}
+                    </p>
+                </div>
+            @endif
         </div>
     @endif
 </body>
