@@ -580,6 +580,12 @@ class DataSeeder extends Seeder
                 [
                     'subcategory_id' => '7',
                     'unit_id' => '1',
+                    'title' => 'Demontaža i rušenje postojećih pregradnih gipskarton zidova',
+                    'description' => 'Postojeći zidovi se u potpunosti uklanjaju, uključujući i kompletnu podkonstrukciju. Demontirani materijal se iznosi van objekta i deponuje na unaped predviđeno mesto. Horizontalni i vertikalni transport šuta i smeća se organizuje u skladu sa uslovima gradilišta.'
+                ],
+                [
+                    'subcategory_id' => '7',
+                    'unit_id' => '1',
                     'title' => 'Izrada pregradnog zida ukupne debljine 80 mm - GKB15mm+CW50+GKB15mm',
                     'description' => 'Zid se sastoji od jednostruke metalne podkonstrukcije širine 50mm (CW50), koja se obostrano oblaže običnim gipskarton pločama u jednom sloju (GKB). Debljina ploča iznosi 15mm. Unutrašnjost zida se popunjava kamenom vunom debljine 50mm. Sastavi ploča se obrađuju masom za ispunu i bandaž trakom.'
                 ],
@@ -726,6 +732,18 @@ class DataSeeder extends Seeder
                     'unit_id' => '1',
                     'title' => 'Izrada protivpožarnog pregradnog zida ukupne debljine 215 mm - 2xGKF12,5mm+CW75+1xGKF12,5mm+CW75+2xGKF12,5mm - sa dodatom 5. pločom',
                     'description' => 'Zid se sastoji od dvostruke metalne podkonstrukcije širine 2x75mm (2xCW75), koja se obostrano oblaže protivpožarnim  gipskarton pločama u dva sloja (GKF). Između CW profila se postavlja jednostruka protivpožarna gipskarton ploča (GKF). Debljina svih ploča iznosi 12,5mm. Unutrašnjost zida se popunjava kamenom vunom debljine 2x75mm. Sastavi ploča se obrađuju masom za ispunu i bandaž trakom.'
+                ],
+                [
+                    'subcategory_id' => '8',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža i rušenje postojećih monolitnih plafona',
+                    'description' => 'Postojeći monolitni plafoni se u potpunosti uklanjaju, uključujući i kompletnu podkonstrukciju. Demontirani materijal se iznosi van objekta i deponuje na unaped predviđeno mesto. Horizontalni i vertikalni transport šuta i smeća se organizuje u skladu sa uslovima gradilišta.'
+                ],
+                [
+                    'subcategory_id' => '8',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža i rušenje postojećih kasetiranih plafona',
+                    'description' => 'Postojeći kasetirani plafoni se u potpunosti uklanjaju, uključujući i kompletnu podkonstrukciju. Demontirani materijal se iznosi van objekta i deponuje na unaped predviđeno mesto. Horizontalni i vertikalni transport šuta i smeća se organizuje u skladu sa uslovima gradilišta.'
                 ],
                 [
                     'subcategory_id' => '8',
