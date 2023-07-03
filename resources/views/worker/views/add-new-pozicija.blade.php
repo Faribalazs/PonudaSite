@@ -10,10 +10,10 @@
     <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.store.new.pozicija') }}">
         @csrf
         <div id="subCategory-dropdown">
-            <span class="input-label pl-2">Odaberi Subkategoriju:</span>
+            <span class="input-label pl-2">Odaberi Podkategoriju:</span>
             <div class="select-menu-subcategory mt-3">
                 <div class="select-btn-subcategory">
-                    <span class="sBtn-text-subcategory">Izaberi subkategoriju</span>
+                    <span class="sBtn-text-subcategory">Izaberi podkategoriju</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -113,7 +113,7 @@
         selectBtnSub.addEventListener("click", function() {
             var optionMenu = document.querySelector(".select-menu");
             var sBtn_text = optionMenuSub.querySelector(".sBtn-text-subcategory");
-            sBtn_text.innerText = 'Izaberi Subkategoriju';
+            sBtn_text.innerText = 'Izaberi Podkategoriju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {

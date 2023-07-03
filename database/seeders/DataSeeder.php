@@ -135,10 +135,10 @@ class DataSeeder extends Seeder
         DB::table('services')->insert(
             array(
                 [
-                    'name_service' => 'Cena pozicije sadrži material i uslugu.',
+                    'name_service' => 'Cena pozicije sadrži vrednost materiala i usluge.',
                 ],
                 [
-                    'name_service' => 'Cena pozicije sadrži samo uslugu.',
+                    'name_service' => 'Cena pozicije sadrži vrednost uslugu (bez materiala).',
                 ]
             )
         );

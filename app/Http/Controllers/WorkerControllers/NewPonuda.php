@@ -104,8 +104,8 @@ class NewPonuda extends Controller
          if(request('quantity') > 0 && request('price') > 0)
          {
          $this->successPonuda($request);
-         Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-         return redirect(route("worker.new.ponuda")); 
+         // Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect(route("worker.new.ponuda"))->with('msg', 'added'); 
          }
          else
          {

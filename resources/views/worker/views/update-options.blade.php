@@ -33,10 +33,10 @@
     </div>
 
     <div class="mt-8 category-con">
-        <span><b>Moje subkategorije :</b></span>
+        <span><b>Moje podkategorije :</b></span>
         <div class="flex">
             @if ($custom_subcategories == [])
-                <span class="mt-3">Nema dodato subkategorija!</span>
+                <span class="mt-3">Nema dodato podkategorija!</span>
             @endif
             @foreach ($custom_subcategories as $custom_subcategory)
                 <div class="flex items-center justify-center">

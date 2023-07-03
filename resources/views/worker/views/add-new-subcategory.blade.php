@@ -41,7 +41,7 @@
             <div class="flex w-full flex-col">
                 <span class="input-label py-2">Upisi naziv kategorije:</span>
                 <input type="text" name="subcategory_name" class="input-style mb-10">
-                <button type="submit" class="submit-btn m-auto">Dodaj subkategoriju</button>
+                <button type="submit" class="submit-btn m-auto">Dodaj podkategoriju</button>
             </div>
         </div>
     </form>
@@ -83,7 +83,7 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Izaberi subkategoriju ';
+            sBtn_textSub.innerText = 'Izaberi podkategoriju ';
             sBtn_text.innerText = 'Izaberi poziciju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");

@@ -18,6 +18,26 @@
         $counter = 0;
         
     @endphp
+    @if (Session::has('msg'))
+        <script>
+            Swal.fire({
+                    title: 'Uspesno dodato!',
+                    icon: 'success',
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    confirmButtonText: 'Zavrsi ponudu',
+                    cancelButtonText: 'Dodaj novu poziciju',
+                    reverseButtons: true
+                }).then((result) => {
+                        if (result.isConfirmed) {
+                            NameSwall();
+                        }
+                    })
+        </script>
+        @php
+            Session::forget('msg');
+        @endphp
+    @endif
     @if ($mergedData != null)
         <div class="overflow-x-auto">
             @foreach ($mergedData as $id)
@@ -201,16 +221,11 @@
                 </table>
             </div>
         </div>
-        <div class="flex w-full justify-center mt-3">
-            <div class="flex">
-                <button onclick="NameSwall()" class="finish-btn my-3">Zavrsi ponudu</button>
-            </div>
-        </div>
     @endif
     <form method="POST" id="form" action="{{ route('worker.store.new.ponuda') }}">
         @csrf
         <div id="category-dropdown" class="mt-14">
-            <span class="input-label pl-2">Odaberi Kategoriju:</span>
+            <span class="input-label pl-2">Odaberi Kategoriju:*</span>
             <div class="select-menu-category pt-3">
                 <div class="select-btn-category">
                     <span class="sBtn-text-category">Izaberi kategoriju</span>
@@ -240,10 +255,10 @@
             </div>
         </div>
         <div id="subCategory-dropdown" class="category-div">
-            <span class="input-label pl-2">Odaberi Subkategoriju:</span>
+            <span class="input-label pl-2">Odaberi Podkategoriju:*</span>
             <div class="select-menu-subcategory mt-3">
                 <div class="select-btn-subcategory">
-                    <span class="sBtn-text-subcategory">Izaberi subkategoriju</span>
+                    <span class="sBtn-text-subcategory">Izaberi podkategoriju</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -272,7 +287,7 @@
             </div>
         </div>
         <div id="poz-dropdown" class="category-div">
-            <span class="input-label pl-2">Odaberi Poziciju:</span>
+            <span class="input-label pl-2">Odaberi Poziciju:*</span>
             <div class="select-menu mt-3">
                 <div class="select-btn">
                     <span class="sBtn-text">Izaberi poziciju</span>
@@ -321,11 +336,11 @@
                 </div>
                 <p class="py-3">
                     <input type="radio" id="material" name="radioButton" value="1">
-                    <label for="material">Cena pozicije sadrži material i uslugu</label>
+                    <label for="material">Cena pozicije sadrži vrednost materiala i usluge</label>
                 </p>
                 <p class="py-3">
                     <input type="radio" id="service" name="radioButton" value="2">
-                    <label for="service">Cena pozicije sadrži samo uslugu</label>
+                    <label for="service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>
                 </p>
                 <div id="quantity-text" class="mt-5">
                 </div>
@@ -337,11 +352,19 @@
             </div>
         </div>
         <div id="add-new" class="category-div mt-5">
-            <div class="flex justify-center">
-                <button type="submit" class="add-new-btn my-3">Dodaj element</button>
+            <div class="flex justify-center mb-5">
+                <button type="submit" class="finish-btn my-3">Dodaj poziciju</button>
             </div>
+            <hr>
         </div>
     </form>
+    @if ($mergedData != null)
+        <div class="flex w-full justify-center mt-5">
+            <div class="flex">
+                <button onclick="NameSwall()" class="finish-btn my-3">Zavrsi ponudu</button>
+            </div>
+        </div>
+    @endif
     <script>
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
@@ -454,7 +477,7 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Izaberi subkategoriju ';
+            sBtn_textSub.innerText = 'Izaberi podkategoriju ';
             sBtn_text.innerText = 'Izaberi poziciju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");

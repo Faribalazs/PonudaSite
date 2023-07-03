@@ -18,9 +18,9 @@
         <div class="flex-[33%]">
             <a href="{{ route('worker.create.new.subcategory') }}" class="box-a">
                 <div class="box">
-                    <p class="add-new-title my-3 text-center">Dodaj Subkategoriju</p>
+                    <p class="add-new-title my-3 text-center">Dodaj Podkategoriju</p>
                     <p class="text-center pb-3">
-                        Dodaj subkategoriju koju posle mozes koristiti kad pravis ponudu!
+                        Dodaj podkategoriju koju posle mozes koristiti kad pravis ponudu!
                     </p>
                 </div>
             </a>
