@@ -75,27 +75,35 @@
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 @if (isset($data->name_category))
-                                    <td class="text-left w-full px-1"><b>{{ $data->title }}</b><br>
+                                    <td class="text-left w-full px-1"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
+                                        @php
+                                            $title = $data->temporary_title
+                                        @endphp
+                                        @else
+                                        {{ $data->title }} @php
+                                            $title = $data->title
+                                        @endphp @endif</b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
                                         @endif
                                         <br>{{ $data->name_service }}
                                     </td>
-                                    @php
-                                        $title = $data->title;
-                                    @endphp
                                 @else
-                                    <td class="text-left w-full px-1"><b>{{ $data->custom_title }}</b><br>
+                                    <td class="text-left w-full px-1"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
+                                        @php
+                                            $title = $data->temporary_title
+                                        @endphp
+                                        @else
+                                        {{ $data->custom_title }} @php
+                                            $title = $data->custom_title
+                                        @endphp @endif</b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
                                         @endif
                                         <br>{{ $data->name_service }}
                                     </td>
-                                    @php
-                                        $title = $data->custom_title;
-                                    @endphp
                                 @endif
                                 <td class="text-center">{{ $data->unit_name }}</td>
                                 <td class="text-center">{{ $data->quantity }}</td>

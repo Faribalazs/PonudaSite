@@ -63,26 +63,28 @@ class NewPonuda extends Controller
       $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_category, s.id AS
       id_subcategory, s.name AS name_subcategory, poz.id 
-      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description,
+      AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description, title.id_of_ponuda, title.temporary_title,
       serv.id_service, serv.name_service
       FROM ponuda p JOIN categories c ON p.categories_id = c.id 
       JOIN subcategories s ON p.subcategories_id = s.id 
       JOIN pozicija poz ON p.pozicija_id = poz.id
       JOIN units u ON poz.unit_id = u.id_unit 
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
+      LEFT JOIN title_temporary title ON p.id = title.id_of_ponuda
       JOIN services serv ON p.service_id = serv.id_service
       where p.ponuda_id = ? and p.worker_id = ?',[$counter,$worker_id]);
       $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.service_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_custom_category, s.id AS
       id_subcategory, s.name AS name_custom_subcategory, poz.id 
       AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.custom_title, poz.custom_description, 
-      s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description,
+      s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description, title.id_of_ponuda, title.temporary_title,
       serv.id_service, serv.name_service
       FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
       JOIN custom_subcategories s ON p.subcategories_id = s.id 
       JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
       JOIN units u ON poz.unit_id = u.id_unit
       LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
+      LEFT JOIN title_temporary title ON p.id = title.id_of_ponuda
       JOIN services serv ON p.service_id = serv.id_service
       where p.ponuda_id = ? and p.worker_id = ? and s.is_subcategory_deleted IS NULL and c.is_category_deleted IS NULL and poz.is_pozicija_deleted IS NULL',[$counter,$worker_id]);
       return $mergedData = array_merge($ponuda, $custom_ponuda);
@@ -100,7 +102,7 @@ class NewPonuda extends Controller
             'price' => 'required|regex:/^[0-9\s]+$/i',
             'radioButton' => 'required|in:1,2',
         ]);
-
+         // dd($request);
          if(request('quantity') > 0 && request('price') > 0)
          {
          $this->successPonuda($request);
@@ -117,11 +119,15 @@ class NewPonuda extends Controller
             return redirect(route("worker.new.ponuda"));
        }
    }
+
    private function successPonuda($request){
       $worker_id = $this->worker();
       $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
-      $counter = $worker[0]->ponuda_counter;
+      $swap = DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$worker_id]);
+      $counter = count($swap)>0?$swap[0]->swap_id:$worker[0]->ponuda_counter;
       $des = $request->edit_des;
+      $title = $request->edit_title;
+
       $addPonuda = new Ponuda();
       $addPonuda->worker_id = $worker_id;
       $addPonuda->ponuda_id = $counter; //request('ponuda_id');
@@ -134,25 +140,38 @@ class NewPonuda extends Controller
       $addPonuda->overall_price = $addPonuda->quantity*$addPonuda->unit_price;
       $addPonuda->save();
 
-      $db = DB::select('select id,description from pozicija where id = ?', [$request->pozicija_id]);
-      $custom_db = DB::select('select id,custom_description from custom_pozicija where id = ?', [$request->pozicija_id]);
+      $db = DB::select('select id,description,title from pozicija where id = ?', [$request->pozicija_id]);
+      $custom_db = DB::select('select id,custom_description,custom_title from custom_pozicija where id = ?', [$request->pozicija_id]);
       $id_of_ponuda = DB::table('ponuda')->where('worker_id',$worker_id)->max('id');
       $default_desc = count($db)>0?$db[0]->description:$custom_db[0]->custom_description;
+      $default_title = count($db)>0?$db[0]->title:$custom_db[0]->custom_title;
+      // dd($request);
       if(empty($des))
          $des="";
-      if($des != $default_desc)
+      if(empty($title))
+         $title = "";
+      if($des != $default_desc && $title != $default_title)
       {
          DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$id_of_ponuda,$des]);
+      }
+      if($title != $default_title)
+      {
+         DB::insert('insert into title_temporary (id_of_ponuda, temporary_title) values (?, ?)', [$id_of_ponuda,$title]);
       }
    }
    public function updateDescription(Request $request)
    {
       $temp = $request->new_description;
+      $title = $request->new_title;
       $id = $request->real_id;
       if(empty($temp))
          $temp="";
+      if(empty($title))
+         $title ="";
       $this->updateDesc($temp,$id);
-      return $this->create();
+      $this->updateTitle($title,$id);
+
+      return redirect()->intended(route('worker.new.ponuda'));
    }
    private function updateDesc($temp_desc,$real_id)
    {
@@ -164,6 +183,18 @@ class NewPonuda extends Controller
       else
       {
          DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$real_id, $temp_desc]);
+      }
+   }
+   private function updateTitle($temp_title,$real_id)
+   {
+      $ponuda = DB::select('select * from ponuda p JOIN title_temporary temp ON p.id = temp.id_of_ponuda where p.id = ?', [$real_id]);
+      if(count($ponuda)>0)
+      {
+         DB::update('update title_temporary set temporary_title = ? where id_of_ponuda = ?', [$temp_title, $real_id]);
+      }
+      else
+      {
+         DB::insert('insert into title_temporary (id_of_ponuda, temporary_title) values (?, ?)', [$real_id, $temp_title]);
       }
    }
    public function ponudaDone(Request $request)
@@ -195,15 +226,30 @@ class NewPonuda extends Controller
    }
    private function checkPonudaDone($worker)
    {
-      return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)->ponuda_counter]);
+      $swap = DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$worker]);
+      if(count($swap)>0)
+         return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $swap[0]->swap_id]);
+      else
+         return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)->ponuda_counter]);
    }
    private function successsponudaDone($request, $worker){
       $ponuda_name = $request->ponuda_name;
       date_default_timezone_set('Europe/Belgrade');
       $date = date('Y-m-d H:i:s');
-      DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name, $request->note]);
-      $this->ponudaCounter($worker)->increment('ponuda_counter');
-      DB::update('update workers set ponuda_counter = ? where id = ?', [$this->ponudaCounter($worker)->ponuda_counter,$worker]);
+      $swap = DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$worker]);
+      if(count($swap)>0)
+      {
+         DB::update('update workers set ponuda_counter = ? where id = ?', [$swap[0]->original_id,$worker]);
+         DB::table('ponuda_date')->where('id_ponuda', $swap[0]->swap_id)->where('worker_id',$worker)->delete();
+         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $swap[0]->swap_id, $date, $ponuda_name, $request->note]);
+         DB::table('swap_ponuda')->where('worker_id', $worker)->delete();
+      }
+      else
+      {
+         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name, $request->note]);
+         $this->ponudaCounter($worker)->increment('ponuda_counter');
+         DB::update('update workers set ponuda_counter = ? where id = ?', [$this->ponudaCounter($worker)->ponuda_counter,$worker]);
+      }
    }
    
    public function deletePonuda($id){

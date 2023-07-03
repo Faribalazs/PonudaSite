@@ -78,27 +78,36 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     @if (isset($data->name_category))
-                                        <td class="text-left ponuda-table-des"><b>{{ $data->title }}</b><br>
+                                        <td class="text-left ponuda-table-des"><b>
+                                            @if (isset($data->temporary_title)) {{ $data->temporary_title }}
+                                            @php
+                                                $title = $data->temporary_title
+                                            @endphp
+                                            @else
+                                            {{ $data->title }} @php
+                                                $title = $data->title
+                                            @endphp @endif</b><br>
                                             @if (isset($data->temporary_description))
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->description }} @php $desc_now = $data->description @endphp
                                             @endif
                                             <br>{{ $data->name_service }}
                                         </td>
-                                        @php
-                                            $title = $data->title;
-                                        @endphp
                                     @else
-                                        <td class="text-left ponuda-table-des"><b>{{ $data->custom_title }}</b><br>
+                                        <td class="text-left ponuda-table-des"><b>@if (isset($data->temporary_title) && $data->temporary_title != -1) {{ $data->temporary_title }}
+                                            @php
+                                                $title = $data->temporary_title
+                                            @endphp
+                                            @else
+                                            {{ $data->custom_title }} @php
+                                                $title = $data->custom_title
+                                            @endphp @endif</b><br>
                                             @if (isset($data->temporary_description))
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
                                             @endif
                                             <br>{{ $data->name_service }}
                                         </td>
-                                        @php
-                                            $title = $data->custom_title;
-                                        @endphp
                                     @endif
                                     <td>{{ $data->unit_name }}</td>
                                     <td>{{ $data->quantity }}</td>
@@ -109,7 +118,7 @@
                                     </td>
                                     <td>
                                         <button class="edit-btn-table mx-auto"
-                                            onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}' }))">
+                                            onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}' }))">
                                             <i class="ri-edit-line"></i>
                                         </button>
                                     </td>
@@ -406,15 +415,19 @@
         function UpdateSwall(getData) {
             var {
                 realId,
-                tempDesc
+                tempDesc,
+                tempTitle
             } = getData();
             Swal.fire({
-                title: 'Izmeni deskripciju',
+                title: 'Izmeni poziciju',
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
-                    '<span>Unesite novu deskripciju:</span>' +
+                    '<span>Unesite novu poziciju:</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
+                    '<textarea class="mt-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +
+                    tempTitle + '</textarea>' +
+                    '<button id="btn" type="button" onclick="clearUpdateTitle()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
                     '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
                     tempDesc + '</textarea>' +
                     '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
@@ -726,7 +739,7 @@
                     var inputTitle = document.createTextNode(selectedOption);
                     var value = document.createTextNode(selectedValue);
                     inputValue.id = "editTitle";
-                    inputValue.name = "edit-title";
+                    inputValue.name = "edit_title";
                     inputValue.defaultValue = selectedOption;
                     inputValue.type = "hidden";
                     div.appendChild(inputValue);
@@ -757,7 +770,7 @@
                     var inputvalue = document.createTextNode(selectedOption);
                     var value = document.createTextNode(selectedValue);
                     inputValue.id = "editTitle";
-                    inputValue.name = "edit-title";
+                    inputValue.name = "edit_title";
                     inputValue.defaultValue = selectedOption;
                     inputValue.type = "hidden";
                     div.appendChild(inputValue);
@@ -806,6 +819,9 @@
 
         function clearUpdateData() {
             document.getElementById("updateData").value = '';
+        }
+        function clearUpdateTitle() {
+            document.getElementById("updateTitle").value = '';
         }
     </script>
 </x-app-layout>

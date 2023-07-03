@@ -71,6 +71,10 @@
                             Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
                         </p>
                     </a>
+                    <button class="edit-btn-table mr-3"
+                        onclick="updateSwall('{{ route('worker.archive.edit', ['ponuda_id' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
+                        <i class="ri-edit-line"></i>
+                    </button>
                     <a class="share-btn-table mr-3 mobile-show"
                         href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
                         <i class="ri-eye-line"></i>
@@ -103,6 +107,24 @@
                 title: 'Stvarno hocete da izbrisite ponudu "' + name + '"?',
                 icon: 'question',
                 confirmButtonText: "Izbrisi",
+                cancelButtonText: "Nazad",
+                showConfirmButton: true,
+                showCancelButton: true,
+                showCloseButton: true,
+                confirmButtonColor: '#22ff00',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = url;
+                }
+            })
+        }
+
+        function updateSwall(url, name) {
+            Swal.fire({
+                title: 'Stvarno hocete da menjate nesto u "' + name + '"?',
+                icon: 'question',
+                confirmButtonText: "Izmeni",
                 cancelButtonText: "Nazad",
                 showConfirmButton: true,
                 showCancelButton: true,

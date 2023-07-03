@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker']], function() {
     Route::get('contractor/archive/search/filter', 'App\Http\Controllers\WorkerControllers\Archive@search')->name('worker.archive.search');
     Route::get('contractor/archive/delete/{ponuda}', 'App\Http\Controllers\WorkerControllers\Archive@delete')->name('worker.archive.delete');
     Route::get('contractor/archive/element/delete/{ponuda}/{ponuda_id}', 'App\Http\Controllers\WorkerControllers\Archive@deleteElement')->name('worker.archive.delete.element');
+    Route::get('contractor/archive/edit/{ponuda_id}', 'App\Http\Controllers\WorkerControllers\Archive@editPonuda')->name('worker.archive.edit');
 });
 
 
