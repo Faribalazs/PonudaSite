@@ -21,18 +21,18 @@
     @if (Session::has('msg'))
         <script>
             Swal.fire({
-                    title: 'Uspesno dodato!',
-                    icon: 'success',
-                    showCancelButton: true,
-                    showCloseButton: true,
-                    confirmButtonText: 'Zavrsi ponudu',
-                    cancelButtonText: 'Dodaj novu poziciju',
-                    reverseButtons: true
-                }).then((result) => {
-                        if (result.isConfirmed) {
-                            NameSwall();
-                        }
-                    })
+                title: 'Uspesno dodato!',
+                icon: 'success',
+                showCancelButton: true,
+                showCloseButton: true,
+                confirmButtonText: 'Zavrsi ponudu',
+                cancelButtonText: 'Dodaj novu poziciju',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    EndPonuda();
+                }
+            })
         </script>
         @php
             Session::forget('msg');
@@ -79,14 +79,17 @@
                                     <td>{{ $i++ }}</td>
                                     @if (isset($data->name_category))
                                         <td class="text-left ponuda-table-des"><b>
-                                            @if (isset($data->temporary_title)) {{ $data->temporary_title }}
-                                            @php
-                                                $title = $data->temporary_title
-                                            @endphp
-                                            @else
-                                            {{ $data->title }} @php
-                                                $title = $data->title
-                                            @endphp @endif</b><br>
+                                                @if (isset($data->temporary_title))
+                                                    {{ $data->temporary_title }}
+                                                    @php
+                                                        $title = $data->temporary_title;
+                                                    @endphp
+                                                @else
+                                                    {{ $data->title }} @php
+                                                        $title = $data->title;
+                                                    @endphp
+                                                @endif
+                                            </b><br>
                                             @if (isset($data->temporary_description))
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->description }} @php $desc_now = $data->description @endphp
@@ -94,14 +97,18 @@
                                             <br>{{ $data->name_service }}
                                         </td>
                                     @else
-                                        <td class="text-left ponuda-table-des"><b>@if (isset($data->temporary_title) && $data->temporary_title != -1) {{ $data->temporary_title }}
-                                            @php
-                                                $title = $data->temporary_title
-                                            @endphp
-                                            @else
-                                            {{ $data->custom_title }} @php
-                                                $title = $data->custom_title
-                                            @endphp @endif</b><br>
+                                        <td class="text-left ponuda-table-des"><b>
+                                                @if (isset($data->temporary_title) && $data->temporary_title != -1)
+                                                    {{ $data->temporary_title }}
+                                                    @php
+                                                        $title = $data->temporary_title;
+                                                    @endphp
+                                                @else
+                                                    {{ $data->custom_title }} @php
+                                                        $title = $data->custom_title;
+                                                    @endphp
+                                                @endif
+                                            </b><br>
                                             @if (isset($data->temporary_description))
                                                 {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                                 @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
@@ -208,7 +215,7 @@
                 <table class="table mt-20 text-center ponuda-table">
                     <tr>
                         <td class="text-right">
-                            Ukupno: {{ $formatedPrice }} RSD
+                            <b>Ukupno: {{ $formatedPrice }} RSD</b>
                         </td>
                     </tr>
                     <tr>
@@ -224,7 +231,7 @@
                             @php
                                 $final = $pdv + $subTotal;
                             @endphp
-                            <b>Ukupno sa PDV:</b> {{ number_format($final, 0, ',', ' ') }} RSD
+                            <b>Ukupno sa PDV: {{ number_format($final, 0, ',', ' ') }} RSD</b>
                         </td>
                     </tr>
                 </table>
@@ -370,7 +377,7 @@
     @if ($mergedData != null)
         <div class="flex w-full justify-center mt-5">
             <div class="flex">
-                <button onclick="NameSwall()" class="finish-btn my-3">Zavrsi ponudu</button>
+                <button onclick="EndPonuda()" class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
     @endif
@@ -458,6 +465,49 @@
                 showCloseButton: true,
                 confirmButtonColor: '#22ff00',
                 cancelButtonColor: '#d33',
+            })
+        }
+
+        function OpisSwall() {
+            Swal.fire({
+                title: 'Sacuvaj ponudu',
+                icon: 'question',
+                html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
+                    '@csrf' +
+                    '<label for="ponuda_name">Ime ponude:</label>' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
+                    '<label for="opis" class="mt-3">Opis:</label>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
+                    '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
+                    '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
+                    '</form>',
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: true,
+                confirmButtonColor: '#22ff00',
+                cancelButtonColor: '#d33',
+            })
+        }
+
+
+        function EndPonuda() {
+            Swal.fire({
+                title: 'Hocete dodati opis?',
+                icon: 'question',
+                showCancelButton: true,
+                showConfirmButton: true,
+                showCloseButton: false,
+                confirmButtonText: 'Ne',
+                cancelButtonText: 'Da',
+                confirmButtonColor: '#22ff00',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    NameSwall();
+                } else {
+                    OpisSwall();
+                }
             })
         }
 
@@ -820,6 +870,7 @@
         function clearUpdateData() {
             document.getElementById("updateData").value = '';
         }
+
         function clearUpdateTitle() {
             document.getElementById("updateTitle").value = '';
         }

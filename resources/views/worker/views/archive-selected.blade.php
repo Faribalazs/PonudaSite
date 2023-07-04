@@ -163,9 +163,7 @@
                                 @endphp
 
                                 @if ($limit - 1 == $counter)
-                                    @php
-                                        $finalPrice += $subPrice;
-                                    @endphp
+                                  
                                     @if (isset($data->name_category))
                                         <tr>
                                             <td class="text-left w-full px-1">
@@ -198,7 +196,7 @@
                 <table class="table mt-20 text-end ponuda-table">
                     <tr>
                         <td class="text-right whitespace-nowrap">
-                            UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD
+                            <b>UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
