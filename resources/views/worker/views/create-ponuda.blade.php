@@ -125,7 +125,7 @@
                                     </td>
                                     <td>
                                         <button class="edit-btn-table mx-auto"
-                                            onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}' }))">
+                                            onclick="UpdateSwall(() => ({ realId: {{ $data->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}', quantity: '{{ $data->quantity }}', unit_price: '{{ $data->unit_price }}', radioBtn: '{{ $data->service_id }}' }))">
                                             <i class="ri-edit-line"></i>
                                         </button>
                                     </td>
@@ -423,8 +423,23 @@
             var {
                 realId,
                 tempDesc,
-                tempTitle
+                tempTitle,
+                quantity,
+                unit_price,
+                radioBtn
             } = getData();
+            var radioHtml = '';
+            if (radioBtn == 1) {
+                radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1" checked>' +
+                '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                '<input type="radio" id="new_service" name="new_radioButton" value="2">' +
+                '<label for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+            } else if (radioBtn == 2) {
+                radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1">' +
+                '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                '<input type="radio" id="new_service" name="new_radioButton" value="2" checked>' +
+                '<label for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+            }
             Swal.fire({
                 title: 'Izmeni poziciju',
                 icon: 'question',
@@ -438,6 +453,12 @@
                     '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
                     tempDesc + '</textarea>' +
                     '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
+                    '<br>Cena pozicija sadrži:' +
+                    radioHtml +
+                    '<br><label for="new_quantity">Novu kolicinu:</label>' +
+                    '<input type="number" name="new_quantity" id="new_quantity" value="' + quantity + '">' +
+                    '<label for="new_unit_price">Nova cena:</label>' +
+                    '<input type="number" name="new_unit_price" id="new_unit_price" value="' + unit_price + '">' +
                     '<button type="submit" class="add-new-btn my-3 mx-1">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -477,7 +498,7 @@
                     '<label for="ponuda_name">Ime ponude:</label>' +
                     '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
                     '<label for="opis" class="mt-3">Opis:</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="opis"></textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
                     '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +

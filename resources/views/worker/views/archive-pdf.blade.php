@@ -267,6 +267,16 @@
                     </td>
                 </tr>
             </table>
+            @if (isset($note->first()[0]->opis))
+                <div>
+                    <p class="text-bold" style="margin-top: 20px; font-size: 12px;">
+                        Opis :
+                    </p>
+                    <p>
+                        {{ $note->first()[0]->opis }}
+                    </p>
+                </div>
+            @endif
             @if (isset($note->first()[0]->note))
                 <div>
                     <p class="text-bold" style="margin-top: 20px; font-size: 12px;">

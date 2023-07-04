@@ -60,7 +60,7 @@ class NewPonuda extends Controller
       $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
       $counter = $worker[0]->ponuda_counter;
       
-      $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
+      $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.service_id, p.quantity, p.unit_price, p.overall_price, c.id 
       AS id_category, c.name AS name_category, s.id AS
       id_subcategory, s.name AS name_subcategory, poz.id 
       AS id_pozicija, poz.unit_id, u.id_unit, u.name AS unit_name, poz.title, poz.description, temp.id_of_ponuda, temp.temporary_description, title.id_of_ponuda, title.temporary_title,
@@ -170,6 +170,7 @@ class NewPonuda extends Controller
          $title ="";
       $this->updateDesc($temp,$id);
       $this->updateTitle($title,$id);
+      DB::update('update ponuda set service_id = ?, quantity = ?, unit_price = ?, overall_price = ? where id = ?', [$request->new_radioButton, $request->new_quantity, $request->new_unit_price, $request->new_quantity*$request->new_unit_price, $id]);
 
       return redirect()->intended(route('worker.new.ponuda'));
    }
@@ -234,6 +235,7 @@ class NewPonuda extends Controller
    }
    private function successsponudaDone($request, $worker){
       $ponuda_name = $request->ponuda_name;
+      // dd($request);
       date_default_timezone_set('Europe/Belgrade');
       $date = date('Y-m-d H:i:s');
       $swap = DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$worker]);
@@ -241,12 +243,12 @@ class NewPonuda extends Controller
       {
          DB::update('update workers set ponuda_counter = ? where id = ?', [$swap[0]->original_id,$worker]);
          DB::table('ponuda_date')->where('id_ponuda', $swap[0]->swap_id)->where('worker_id',$worker)->delete();
-         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $swap[0]->swap_id, $date, $ponuda_name, $request->note]);
+         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note, opis) values (?, ?, ?, ?, ?, ?)', [$worker, $swap[0]->swap_id, $date, $ponuda_name, $request->note, $request->opis]);
          DB::table('swap_ponuda')->where('worker_id', $worker)->delete();
       }
       else
       {
-         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note) values (?, ?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name, $request->note]);
+         DB::insert('insert into ponuda_date (worker_id, id_ponuda,created_at,ponuda_name, note, opis) values (?, ?, ?, ?, ?, ?)', [$worker, $this->ponudaCounter($worker)->ponuda_counter, $date, $ponuda_name, $request->note, $request->opis]);
          $this->ponudaCounter($worker)->increment('ponuda_counter');
          DB::update('update workers set ponuda_counter = ? where id = ?', [$this->ponudaCounter($worker)->ponuda_counter,$worker]);
       }

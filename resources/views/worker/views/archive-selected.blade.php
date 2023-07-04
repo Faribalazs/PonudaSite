@@ -220,6 +220,17 @@
                 </table>
             </div>
         </div>
+        @if (isset($note->first()[0]->opis))
+            <div>
+                <p class="mt-10 font-bold">
+                    Opis :
+                </p>
+                <br>
+                <p>
+                    {{ $note->first()[0]->opis }}
+                </p>
+            </div>
+        @endif
         @if (isset($note->first()[0]->note))
             <div>
                 <p class="mt-10 font-bold">
