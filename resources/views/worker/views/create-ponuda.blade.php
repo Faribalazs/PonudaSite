@@ -16,8 +16,18 @@
         $subPrice = 0;
         $limit = 0;
         $counter = 0;
+        $tempPonudaName = null;
+        $tempOpis = null;
+        $tempNote = null;
         
     @endphp
+    @foreach ($swap as $s)
+        @php
+            $tempPonudaName = $s->temp_ponuda_name;
+            $tempOpis = $s->temp_opis;
+            $tempNote = $s->temp_note;    
+        @endphp    
+    @endforeach
     @if (Session::has('msg'))
         <script>
             Swal.fire({
@@ -30,7 +40,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    EndPonuda();
+                    EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}));
                 }
             })
         </script>
@@ -377,7 +387,7 @@
     @if ($mergedData != null)
         <div class="flex w-full justify-center mt-5">
             <div class="flex">
-                <button onclick="EndPonuda()" class="finish-btn my-3">Zavrsi ponudu</button>
+                <button onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}))" class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
     @endif
@@ -469,16 +479,16 @@
             })
         }
 
-        function NameSwall() {
+        function NameSwall(tempPonudaName, tempNote) {
             Swal.fire({
                 title: 'Sacuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<label for="ponuda_name">Ime ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="'+tempPonudaName+'"/>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">'+tempNote+'</textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -489,18 +499,18 @@
             })
         }
 
-        function OpisSwall() {
+        function OpisSwall(tempPonudaName, tempOpis, tempNote) {
             Swal.fire({
                 title: 'Sacuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<label for="ponuda_name">Ime ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name"/>' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="'+tempPonudaName+'"/>' +
                     '<label for="opis" class="mt-3">Opis:</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="opis"></textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="opis">'+tempOpis+'</textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note"></textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">'+tempNote+'</textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -512,7 +522,12 @@
         }
 
 
-        function EndPonuda() {
+        function EndPonuda(getData) {
+            var {
+                tempPonudaName,
+                tempOpis,
+                tempNote
+            } = getData();
             Swal.fire({
                 title: 'Hocete dodati opis?',
                 icon: 'question',
@@ -525,9 +540,9 @@
                 cancelButtonColor: '#d33',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    NameSwall();
+                    NameSwall(tempPonudaName, tempNote);
                 } else {
-                    OpisSwall();
+                    OpisSwall(tempPonudaName, tempOpis, tempNote);
                 }
             })
         }

@@ -18,6 +18,9 @@ class SwapPonuda extends Migration
             $table->bigInteger('worker_id')->unsigned();
             $table->bigInteger('original_id')->unsigned();
             $table->bigInteger('swap_id')->unsigned();
+            $table->string('temp_ponuda_name');
+            $table->string('temp_note')->nullable();
+            $table->text('temp_opis')->nullable();
         });
     }
 

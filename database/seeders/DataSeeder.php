@@ -31,6 +31,9 @@ class DataSeeder extends Seeder
                 [
                     'name' => 'Podopolagački radovi'
                 ],
+                [
+                    'name' => 'Pripremni i završni radovi'
+                ],
             )
         );
 
@@ -112,6 +115,18 @@ class DataSeeder extends Seeder
                     'category_id' => '5',
                     'name' => 'Podovi'
                 ],
+                [
+                    'category_id' => '6',
+                    'name' => 'Priprema i zaštita'
+                ],
+                [
+                    'category_id' => '6',
+                    'name' => 'Čišćenje i pranje'
+                ],
+                [
+                    'category_id' => '6',
+                    'name' => 'Otpad i šut'
+                ],
             )
         );
 
@@ -128,6 +143,9 @@ class DataSeeder extends Seeder
                 ],
                 [
                     'name' => 'm¹',
+                ],
+                [
+                    'name' => 'turi prevoza',
                 ]
             )
         );
@@ -1331,6 +1349,114 @@ class DataSeeder extends Seeder
                     'subcategory_id' => '19',
                     'unit_id' => '4',
                     'title' => 'Postavljanje mekih PVC lajsni na spoju poda i zidova',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Pomeranje postojećeg nameštaja iz prostora koji se adaptira.',
+                    'description' => 'Nameštaj se po završenim radovima vraća na prvobitno mesto.'
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Iznošenje postojećeg nameštaja iz prostora koji se adaptira.',
+                    'description' => 'Nameštaj se deponuje u okviru objekta.'
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Nabavka i postavljanje polietilenske folije preko otvora, vrata i prozora, radi zaštite.',
+                    'description' => 'Folija se učvršćuje, vodeći računa da se ne ošteti postojeća stolarija.'
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Nabavka i postavljanje polietilenske folije preko nameštaja, radi zaštite.',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Nabavka i postavljanje deblje polietilenske folije za zaštitu podova.',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '20',
+                    'unit_id' => '1',
+                    'title' => 'Montaža i demontaža pomoćne skele u objektu, za rad u prostorijama.',
+                    'description' => 'Skela se izrađuje po svim propisima.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Čišćenje i pranje prozora i vrata po završetku radova.',
+                    'description' => 'Pranje se obavlja vodom sa dodatkom odgovarajućih hemijskih sredstava.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Detaljno čišćenje celog gradilišta, pranje svih staklenih površina, čišćenje i fino pranje svih unutrašnjih prostora i spoljnih površina.',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje gradilišta (u i oko objekta) od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje trotoara oko objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '1',
+                    'title' => 'Završno čišćenje objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '21',
+                    'unit_id' => '5',
+                    'title' => 'Utovar otpadnog materijala u kamion i odvoz na gradsku deponiju udaljenu do 10km.',
+                    'description' => ''
+                ],
+                [
+                    'subcategory_id' => '22',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '22',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje gradilišta (u i oko objekta) od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '22',
+                    'unit_id' => '1',
+                    'title' => 'Periodično grubo čišćenje trotoara oko objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '22',
+                    'unit_id' => '1',
+                    'title' => 'Završno čišćenje objekta od građevinskog šuta i otpada sa prenosom otpadnog materijala na gradilišnu deponiju.',
+                    'description' => 'Plaća se jedanput bez obzira na broj čišćenja.'
+                ],
+                [
+                    'subcategory_id' => '22',
+                    'unit_id' => '5',
+                    'title' => 'Utovar otpadnog materijala u kamion i odvoz na gradsku deponiju udaljenu do 10km.',
                     'description' => ''
                 ],
             )
