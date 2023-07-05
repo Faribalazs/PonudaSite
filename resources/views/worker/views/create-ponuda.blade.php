@@ -25,8 +25,8 @@
         @php
             $tempPonudaName = $s->temp_ponuda_name;
             $tempOpis = $s->temp_opis;
-            $tempNote = $s->temp_note;    
-        @endphp    
+            $tempNote = $s->temp_note;
+        @endphp
     @endforeach
     @if (Session::has('msg'))
         <script>
@@ -40,7 +40,11 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}));
+                    EndPonuda(() => ({
+                        tempPonudaName: '{{ $tempPonudaName }}',
+                        tempOpis: '{{ $tempOpis }}',
+                        tempNote: '{{ $tempNote }}'
+                    }));
                 }
             })
         </script>
@@ -247,6 +251,17 @@
                 </table>
             </div>
         </div>
+        @if (isset($tempOpis))
+            <div class="flex flex-col">
+                <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
+                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{!! $tempOpis !!}</textarea>
+            </div>
+        @else
+            <div class="flex flex-col">
+                <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
+                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis"></textarea>
+            </div>
+        @endif
     @endif
     <form method="POST" id="form" action="{{ route('worker.store.new.ponuda') }}">
         @csrf
@@ -381,13 +396,17 @@
             <div class="flex justify-center mb-5">
                 <button type="submit" class="finish-btn my-3">Dodaj poziciju</button>
             </div>
-            <hr>
+            @if ($mergedData != null)
+                <hr>
+            @endif
         </div>
     </form>
     @if ($mergedData != null)
         <div class="flex w-full justify-center mt-5">
             <div class="flex">
-                <button onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}))" class="finish-btn my-3">Zavrsi ponudu</button>
+                <button
+                    onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{! nl2br($tempOpis, true) !}', tempNote: '{{ $tempNote }}'}))"
+                    class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
     @endif
@@ -441,35 +460,34 @@
             var radioHtml = '';
             if (radioBtn == 1) {
                 radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1" checked>' +
-                '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
-                '<input type="radio" id="new_service" name="new_radioButton" value="2">' +
-                '<label for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+                    '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                    '<input type="radio" id="new_service" name="new_radioButton" value="2">' +
+                    '<label class="mt-2" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
             } else if (radioBtn == 2) {
                 radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1">' +
-                '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
-                '<input type="radio" id="new_service" name="new_radioButton" value="2" checked>' +
-                '<label for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+                    '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                    '<input type="radio" id="new_service" name="new_radioButton" value="2" checked>' +
+                    '<label class="mt-2" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
             }
             Swal.fire({
                 title: 'Izmeni poziciju',
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
-                    '<span>Unesite novu poziciju:</span>' +
+                    '<span class="font-bold text-black">Ime pozicija :</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
-                    '<textarea class="mt-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +
+                    '<textarea class="mt-3 mb-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +
                     tempTitle + '</textarea>' +
-                    '<button id="btn" type="button" onclick="clearUpdateTitle()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
+                    '<span class="font-bold text-black">Opis pozicije :</span>' +
+                    '<textarea class="mt-3 mb-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
                     tempDesc + '</textarea>' +
-                    '<button id="btn" type="button" onclick="clearUpdateData()" class="del-btn-swal my-3 mx-1">Izbrisi</button>' +
-                    '<br>Cena pozicija sadrži:' +
+                    '<br><p class="mb-3 font-bold text-black">Cena pozicija sadrži:</p>' +
                     radioHtml +
-                    '<br><label for="new_quantity">Novu kolicinu:</label>' +
-                    '<input type="number" name="new_quantity" id="new_quantity" value="' + quantity + '">' +
-                    '<label for="new_unit_price">Nova cena:</label>' +
-                    '<input type="number" name="new_unit_price" id="new_unit_price" value="' + unit_price + '">' +
-                    '<button type="submit" class="add-new-btn my-3 mx-1">Izmeni</button>' +
+                    '<br><label class="mt-3 mb-2 font-bold text-black" for="new_quantity">Novu kolicinu:</label>' +
+                    '<input type="number" name="new_quantity" class="swal-input" id="new_quantity" value="' + quantity + '">' +
+                    '<label class="mt-3 mb-2 font-bold text-black" for="new_unit_price">Nova cena:</label>' +
+                    '<input type="number" name="new_unit_price" class="swal-input" id="new_unit_price" value="' + unit_price + '">' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -480,15 +498,18 @@
         }
 
         function NameSwall(tempPonudaName, tempNote) {
+            let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Sacuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<label for="ponuda_name">Ime ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="'+tempPonudaName+'"/>' +
-                    '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">'+tempNote+'</textarea>' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
+                    '"/>' +
+                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezan):</label>' +
+                    '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
+                    '</textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -500,17 +521,21 @@
         }
 
         function OpisSwall(tempPonudaName, tempOpis, tempNote) {
+            let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Sacuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<label for="ponuda_name">Ime ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="'+tempPonudaName+'"/>' +
-                    '<label for="opis" class="mt-3">Opis:</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="opis">'+tempOpis+'</textarea>' +
+                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
+                    '"/>' +
+                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezan):</label>' +
+                    '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
+                    '</textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">'+tempNote+'</textarea>' +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">' + tempNote +
+                    '</textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -528,12 +553,13 @@
                 tempOpis,
                 tempNote
             } = getData();
+            let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Hocete dodati opis?',
                 icon: 'question',
                 showCancelButton: true,
                 showConfirmButton: true,
-                showCloseButton: false,
+                showCloseButton: true,
                 confirmButtonText: 'Ne',
                 cancelButtonText: 'Da',
                 confirmButtonColor: '#22ff00',
@@ -541,7 +567,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     NameSwall(tempPonudaName, tempNote);
-                } else {
+                }
+                if (result.dismiss == 'cancel') {
                     OpisSwall(tempPonudaName, tempOpis, tempNote);
                 }
             })

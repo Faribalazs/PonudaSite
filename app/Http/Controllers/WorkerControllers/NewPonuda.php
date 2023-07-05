@@ -43,6 +43,7 @@ class NewPonuda extends Controller
          return view('worker.views.create-ponuda');
       }
    }
+
    private function selectData($worker_id)
    {
       //default
@@ -58,6 +59,7 @@ class NewPonuda extends Controller
   
       return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap);
    }
+
    private function mergedData($worker_id)
    {
       $worker = DB::select('select id, ponuda_counter from workers where id = ?',[$worker_id]);
@@ -95,7 +97,6 @@ class NewPonuda extends Controller
 
    public function storePonuda(Request $request)
    {
-      // dd($request);
       try {
          $request->validate([
             'category' => 'required|regex:/^[0-9\s]+$/i',
@@ -162,6 +163,7 @@ class NewPonuda extends Controller
          DB::insert('insert into title_temporary (id_of_ponuda, temporary_title) values (?, ?)', [$id_of_ponuda,$title]);
       }
    }
+
    public function updateDescription(Request $request)
    {
       $temp = $request->new_description;
@@ -177,6 +179,7 @@ class NewPonuda extends Controller
 
       return redirect()->intended(route('worker.new.ponuda'));
    }
+
    private function updateDesc($temp_desc,$real_id)
    {
       $ponuda = DB::select('select * from ponuda p JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda where p.id = ?', [$real_id]);
@@ -189,6 +192,7 @@ class NewPonuda extends Controller
          DB::insert('insert into pozicija_temporary (id_of_ponuda, temporary_description) values (?, ?)', [$real_id, $temp_desc]);
       }
    }
+
    private function updateTitle($temp_title,$real_id)
    {
       $ponuda = DB::select('select * from ponuda p JOIN title_temporary temp ON p.id = temp.id_of_ponuda where p.id = ?', [$real_id]);
@@ -201,11 +205,14 @@ class NewPonuda extends Controller
          DB::insert('insert into title_temporary (id_of_ponuda, temporary_title) values (?, ?)', [$real_id, $temp_title]);
       }
    }
+
    public function ponudaDone(Request $request)
    {
+      
       $validator =  Validator::make($request->all(), [
          'ponuda_name' => 'required|min:3|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/',
-         'note' => 'nullable|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/'
+         'opis' => 'nullable',
+         'note' => 'nullable|max:64'
      ]);
  
      if ($validator->fails()) {
@@ -225,9 +232,11 @@ class NewPonuda extends Controller
       }
    }
    }
+
    private function ponudaCounter($worker){
       return Worker::where('id', $worker)->first();
    }
+
    private function checkPonudaDone($worker)
    {
       $swap = DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$worker]);
@@ -236,6 +245,7 @@ class NewPonuda extends Controller
       else
          return DB::select('select * from ponuda where worker_id = ? and ponuda_id = ?', [$worker, $this->ponudaCounter($worker)->ponuda_counter]);
    }
+   
    private function successsponudaDone($request, $worker){
       $ponuda_name = $request->ponuda_name;
       // dd($request);

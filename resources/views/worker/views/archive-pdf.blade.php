@@ -67,7 +67,7 @@
         $title = '';
         $collection = collect($mergedData);
         $finalPrice = 0;
-        $mergedData = $collection->groupBy('id_category')->toArray();
+        $mergedData = $collection->sortBy('id')->groupBy('id_category')->toArray();
         $note = $collection->groupBy('id_category');
         $titleBold = 0;
         $subPrice = 0;
@@ -99,7 +99,8 @@
                         @if (isset($id[0]->name_category))
                             <tr>
                                 <td colspan="8" class="text-left border-bold padding-5"
-                                    style="background-color: rgba(0, 0, 0, 0.05);"><b>{{ $id[0]->name_category }}</b>
+                                    style="background-color: rgba(0, 0, 0, 0.05);">
+                                    <b>{{ $id[0]->name_category }}</b>
                                 </td>
                             </tr>
                         @else
@@ -123,14 +124,18 @@
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 @if (isset($data->name_category))
-                                    <td class="text-left w-100 padding-5"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
-                                        @php
-                                            $title = $data->temporary_title
-                                        @endphp
-                                        @else
-                                        {{ $data->title }} @php
-                                            $title = $data->title
-                                        @endphp @endif</b><br>
+                                    <td class="text-left w-100 padding-5"><b>
+                                            @if (isset($data->temporary_title))
+                                                {{ $data->temporary_title }}
+                                                @php
+                                                    $title = $data->temporary_title;
+                                                @endphp
+                                            @else
+                                                {{ $data->title }} @php
+                                                    $title = $data->title;
+                                                @endphp
+                                            @endif
+                                        </b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
@@ -141,14 +146,18 @@
                                         $title = $data->title;
                                     @endphp
                                 @else
-                                    <td class="text-left w-100 padding-5"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
-                                        @php
-                                            $title = $data->temporary_title
-                                        @endphp
-                                        @else
-                                        {{ $data->custom_title }} @php
-                                            $title = $data->custom_title
-                                        @endphp @endif</b><br>
+                                    <td class="text-left w-100 padding-5"><b>
+                                            @if (isset($data->temporary_title))
+                                                {{ $data->temporary_title }}
+                                                @php
+                                                    $title = $data->temporary_title;
+                                                @endphp
+                                            @else
+                                                {{ $data->custom_title }} @php
+                                                    $title = $data->custom_title;
+                                                @endphp
+                                            @endif
+                                        </b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
@@ -268,24 +277,13 @@
                 </tr>
             </table>
             @if (isset($note->first()[0]->opis))
-                <div>
-                    <p class="text-bold" style="margin-top: 20px; font-size: 12px;">
-                        Opis :
-                    </p>
-                    <p>
-                        {{ $note->first()[0]->opis }}
-                    </p>
-                </div>
-            @endif
-            @if (isset($note->first()[0]->note))
-                <div>
-                    <p class="text-bold" style="margin-top: 20px; font-size: 12px;">
-                        Napomena :
-                    </p>
-                    <p>
-                        {{ $note->first()[0]->note }}
-                    </p>
-                </div>
+                <p class="text-bold" style="font-size: 12px;">
+                    Napomene :
+                </p>
+                <br>
+                <p style="margin-top: -15px;">
+                    {!! nl2br($note->first()[0]->opis, false) !!}
+                </p>
             @endif
         </div>
     @endif

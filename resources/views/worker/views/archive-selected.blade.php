@@ -19,7 +19,7 @@
     @endphp
     @if ($mergedData != null)
         <div class="flex mt-16">
-            <div class="flex justify-center flex-col sm:flex-row w-full items-center gap-4">
+            <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
                 <a href="{{ route('worker.archive.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Skini PDF</a>
@@ -30,6 +30,9 @@
                     href="{{ route('worker.archive.view.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-eye-line"></i>Pogledaj PDF</a>
+                <a href="{{ route('worker.archive.edit', ['ponuda_id' => $collection->first()->id_ponuda]) }}" Skini
+                    class="archive-pdf-btn">
+                    <i class="ri-edit-line"></i>Izmeni ponudu</a>
             </div>
         </div>
         <div class="overflow-auto">
@@ -75,14 +78,18 @@
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 @if (isset($data->name_category))
-                                    <td class="text-left w-full px-1"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
-                                        @php
-                                            $title = $data->temporary_title
-                                        @endphp
-                                        @else
-                                        {{ $data->title }} @php
-                                            $title = $data->title
-                                        @endphp @endif</b><br>
+                                    <td class="text-left w-full px-1"><b>
+                                            @if (isset($data->temporary_title))
+                                                {{ $data->temporary_title }}
+                                                @php
+                                                    $title = $data->temporary_title;
+                                                @endphp
+                                            @else
+                                                {{ $data->title }} @php
+                                                    $title = $data->title;
+                                                @endphp
+                                            @endif
+                                        </b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->description }} @php $desc_now = $data->description @endphp
@@ -90,14 +97,18 @@
                                         <br>{{ $data->name_service }}
                                     </td>
                                 @else
-                                    <td class="text-left w-full px-1"><b>@if (isset($data->temporary_title)) {{ $data->temporary_title }}
-                                        @php
-                                            $title = $data->temporary_title
-                                        @endphp
-                                        @else
-                                        {{ $data->custom_title }} @php
-                                            $title = $data->custom_title
-                                        @endphp @endif</b><br>
+                                    <td class="text-left w-full px-1"><b>
+                                            @if (isset($data->temporary_title))
+                                                {{ $data->temporary_title }}
+                                                @php
+                                                    $title = $data->temporary_title;
+                                                @endphp
+                                            @else
+                                                {{ $data->custom_title }} @php
+                                                    $title = $data->custom_title;
+                                                @endphp
+                                            @endif
+                                        </b><br>
                                         @if (isset($data->temporary_description))
                                             {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
                                             @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
@@ -163,7 +174,6 @@
                                 @endphp
 
                                 @if ($limit - 1 == $counter)
-                                  
                                     @if (isset($data->name_category))
                                         <tr>
                                             <td class="text-left w-full px-1">
@@ -223,22 +233,11 @@
         @if (isset($note->first()[0]->opis))
             <div>
                 <p class="mt-10 font-bold">
-                    Opis :
+                    Napomene :
                 </p>
                 <br>
                 <p>
-                    {{ $note->first()[0]->opis }}
-                </p>
-            </div>
-        @endif
-        @if (isset($note->first()[0]->note))
-            <div>
-                <p class="mt-10 font-bold">
-                    Napomena :
-                </p>
-                <br>
-                <p>
-                    {{ $note->first()[0]->note }}
+                    {!! nl2br($note->first()[0]->opis, false) !!}
                 </p>
             </div>
         @endif

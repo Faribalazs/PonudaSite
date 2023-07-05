@@ -35,9 +35,15 @@ class Archive extends Controller
         
         return view('worker.views.archive',['data' => $data]);
     }
+
     private function orderByDate($worker, $search, $order)
     {
         return DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND ponuda_name LIKE ? ORDER BY created_at $order", [$worker, $search]);
+    }
+
+    private function orderByDateNapomena($worker, $search, $order)
+    {
+        return DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND note LIKE ? ORDER BY created_at $order", [$worker, $search]);
     }
 
     public function search(Request $request)
@@ -53,6 +59,21 @@ class Archive extends Controller
         $data = $this->orderByDate($worker_id,$searchQuery,$sortOrder);
   
         return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder, 'search_data' => $search_data]);
+    }
+
+    public function searchNapomena(Request $request)
+    {
+        if(count($this->returnBack())>0)
+        {
+            return redirect()->intended(route('worker.new.ponuda'));
+        }
+        $worker_id = $this->worker();
+        $sortOrder = $request->input('sort_order', 'asc');
+        $searchQuery = '%'.$request->input('query').'%';
+        $search_data = $request->input('query');
+        $data = $this->orderByDateNapomena($worker_id,$searchQuery,$sortOrder);
+  
+        return view('worker.views.archive',['data' => $data, 'sort' => $sortOrder, 'search_data_napomena' => $search_data]);
     }
 
     private function ponudaInfo($id, $worker_id){
@@ -159,9 +180,10 @@ class Archive extends Controller
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
+        $ponuda_name = DB::select('select ponuda_name from ponuda_date where id_ponuda = ?',[$id]);
 
         
-        return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all()]);
+        return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $ponuda_name]);
     }
 
     private function PDFname($id, $worker)

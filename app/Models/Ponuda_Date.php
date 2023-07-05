@@ -12,4 +12,6 @@ class Ponuda_Date extends Model
     protected $table = 'ponuda_date';
 
     const UPDATED_AT = null;
+    const CREATED_AT = null;
+    public $timestamps = false;
 }

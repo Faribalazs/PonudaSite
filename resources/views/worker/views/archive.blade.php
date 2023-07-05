@@ -8,19 +8,44 @@
         $i = 1;
         $ponuda_ct = -1;
         $title = '';
+        $collection = collect($data);
+        $note = $collection->groupBy('id_category');
     @endphp
     <div class="flex mt-16 filter-search-div">
         <form method="GET" action="{{ route('worker.archive.search') }}" class="">
             @if (isset($search_data))
-                <input type="text" name="query" value="{{ $search_data }}" id="search-input">
+                <input type="text" name="query" value="{{ $search_data }}" placeholder="Traži po nazivu..."
+                    id="search-input">
                 <button type="button" onclick="searchIcon()" class="my-3 search-icon-div" id="close">
-                    <i class="ri-close-line"></i>
+                    <a href="{{ route('worker.archive') }}">
+                        <i class="ri-close-line"></i>
+                    </a>
                 </button>
                 <button type="submit" class="my-3 search-icon hidden" id="search">
                     <i class="ri-search-2-line"></i>
                 </button>
             @else
-                <input type="text" name="query" placeholder="Traži..." id="search-input">
+                <input type="text" name="query" placeholder="Traži po nazivu..." id="search-input">
+                <button type="submit" class="my-3 search-icon">
+                    <i class="ri-search-2-line"></i>
+                </button>
+            @endif
+        </form>
+
+        <form method="GET" action="{{ route('worker.archive.search.napomena') }}" class="">
+            @if (isset($search_data_napomena))
+                <input type="text" name="query" value="{{ $search_data_napomena }}"
+                    placeholder="Traži po napomeni..." id="search_input_napomena">
+                <button type="button" onclick="searchIconNapomena()" class="my-3 search-icon-div" id="close_napomena">
+                    <a href="{{ route('worker.archive') }}">
+                        <i class="ri-close-line"></i>
+                    </a>
+                </button>
+                <button type="submit" class="my-3 search-icon hidden" id="search_napomena">
+                    <i class="ri-search-2-line"></i>
+                </button>
+            @else
+                <input type="text" name="query" placeholder="Traži po napomeni..." id="search_input_napomena">
                 <button type="submit" class="my-3 search-icon">
                     <i class="ri-search-2-line"></i>
                 </button>
@@ -44,9 +69,11 @@
                 </div>
                 <ul class="options-archive">
                     @if (isset($sort))
-                        <li class="option-archive">
-                            <a href="{{ route('worker.archive') }}" class="clear-filter">Izbrisi filter</a>
-                        </li>
+                        <a href="{{ route('worker.archive') }}" class="clear-filter">
+                            <li class="option-archive">
+                                Izbrisi filter
+                            </li>
+                        </a>
                     @endif
                     <li class="option-archive">
                         <button class="option-text-archive" type="submit">Najnoviji</button>
@@ -65,32 +92,44 @@
         <div class="flex mt-8 flex-col justify-start">
             @foreach ($data as $ponuda)
                 <div class=" justify-between items-center flex p-3 archive-container my-2">
-                    <a class="w-full" href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">
-                        Naziv : <b>{{ $ponuda->ponuda_name }}</b>
-                        <p>
-                            Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
-                        </p>
-                    </a>
-                    <button class="edit-btn-table mr-3"
-                        onclick="updateSwall('{{ route('worker.archive.edit', ['ponuda_id' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
-                        <i class="ri-edit-line"></i>
-                    </button>
-                    <a class="share-btn-table mr-3 mobile-show"
-                        href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
-                        <i class="ri-eye-line"></i>
-                    </a>
-                    <a class="share-btn-table mr-3 destop-show" target="_blank"
-                        href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
-                        <i class="ri-eye-line"></i>
-                    </a>
-                    <a class="share-btn-table mr-3"
-                        href="{{ route('worker.archive.create.mail', ['id' => $ponuda->id_ponuda]) }}">
-                        <i class="ri-share-line"></i>
-                    </a>
-                    <button class="delete-btn-table"
-                        onclick="actionSwall('{{ route('worker.archive.delete', ['ponuda' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
+                    <div class="flex w-full">
+                        <a class="w-full" href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">
+                            Naziv : <b>{{ $ponuda->ponuda_name }}</b>
+                            <p>
+                                Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
+                            </p>
+                            @if (isset($ponuda->note))
+                                <p class="mt-3">
+                                    Opis : <b>{!! $ponuda->note !!}</b>
+                                </p>
+                            @endif
+                        </a>
+                    </div>
+                    <div class="w-full archive-hr-mobile">
+                        <hr class="w-full my-3">
+                    </div>
+                    <div class="flex">
+                        <button class="edit-btn-table mr-3"
+                            onclick="updateSwall('{{ route('worker.archive.edit', ['ponuda_id' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
+                            <i class="ri-edit-line"></i>
+                        </button>
+                        <a class="share-btn-table mr-3 mobile-show"
+                            href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
+                            <i class="ri-eye-line"></i>
+                        </a>
+                        <a class="share-btn-table mr-3 destop-show" target="_blank"
+                            href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
+                            <i class="ri-eye-line"></i>
+                        </a>
+                        <a class="share-btn-table mr-3"
+                            href="{{ route('worker.archive.create.mail', ['id' => $ponuda->id_ponuda]) }}">
+                            <i class="ri-share-line"></i>
+                        </a>
+                        <button class="delete-btn-table"
+                            onclick="actionSwall('{{ route('worker.archive.delete', ['ponuda' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -202,6 +241,15 @@
             var close = document.getElementById("close");
             var search = document.getElementById("search");
             var searchInput = document.getElementById("search-input");
+            close.style.display = "none";
+            searchInput.value = "";
+            search.style.display = "initial";
+        }
+
+        function searchIconNapomena() {
+            var close = document.getElementById("close_napomena");
+            var search = document.getElementById("search_napomena");
+            var searchInput = document.getElementById("search_input_napomena");
             close.style.display = "none";
             searchInput.value = "";
             search.style.display = "initial";
