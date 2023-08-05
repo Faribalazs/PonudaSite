@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Napravi opcije
     </x-slot>
@@ -36,4 +36,4 @@
             </a>
         </div>
     </div>
-</x-app-layout>
+</x-app-worker-layout>

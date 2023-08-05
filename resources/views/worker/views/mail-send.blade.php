@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Slanje u emailu
     </x-slot>

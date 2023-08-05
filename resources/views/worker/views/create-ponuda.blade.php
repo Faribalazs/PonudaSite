@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Napravi ponudu
     </x-slot>
@@ -257,7 +257,10 @@
                 <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{!! $tempOpis !!}</textarea>
             </div>
         @else
-            <div class="flex flex-col">
+            <button onclick="showDes()" id="yes-des" class="finish-btn my-3">Dodaj opstu napomenu</button>
+            <button onclick="hideDes()" id="nope-des" class="finish-btn my-3"
+                style="background-color: #ac1902; display: none;">Necu dodati opstu napomenu</button>
+            <div class="flex flex-col" id="text-area" style="display: none;">
                 <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
                 <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis"></textarea>
             </div>
@@ -411,6 +414,32 @@
         </div>
     @endif
     <script>
+        function showDes() {
+            var x = document.getElementById("text-area");
+            var y = document.getElementById("nope-des");
+            var z = document.getElementById("yes-des");
+            if (x.style.display === "none") {
+                x.style.display = "flex";
+                y.style.display = "flex";
+                z.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function hideDes() {
+            var x = document.getElementById("nope-des");
+            var y = document.getElementById("text-area");
+            var z = document.getElementById("yes-des");
+            if (x.style.display === "none") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+                y.style.display = "none";
+                z.style.display = "flex";
+            }
+        }
+
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
                 if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
@@ -484,9 +513,11 @@
                     '<br><p class="mb-3 font-bold text-black">Cena pozicija sadrži:</p>' +
                     radioHtml +
                     '<br><label class="mt-3 mb-2 font-bold text-black" for="new_quantity">Novu kolicinu:</label>' +
-                    '<input type="number" name="new_quantity" class="swal-input" id="new_quantity" value="' + quantity + '">' +
+                    '<input type="number" name="new_quantity" class="swal-input" id="new_quantity" value="' +
+                    quantity + '">' +
                     '<label class="mt-3 mb-2 font-bold text-black" for="new_unit_price">Nova cena:</label>' +
-                    '<input type="number" name="new_unit_price" class="swal-input" id="new_unit_price" value="' + unit_price + '">' +
+                    '<input type="number" name="new_unit_price" class="swal-input" id="new_unit_price" value="' +
+                    unit_price + '">' +
                     '<button type="submit" class="add-new-btn mx-1 mt-5">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
@@ -938,4 +969,4 @@
             document.getElementById("updateTitle").value = '';
         }
     </script>
-</x-app-layout>
+</x-app-work-layout>

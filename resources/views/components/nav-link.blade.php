@@ -6,6 +6,6 @@ $classes = ($active ?? false)
             : '';
 @endphp
 
-<a {{ $attributes->merge(['class' => $classes]) }}>
+<a {{ $attributes->merge(['class' => $classes]) }} style="text-transform: uppercase; font-weight: 600; font-size: 17px;">
     {{ $slot }}
 </a>

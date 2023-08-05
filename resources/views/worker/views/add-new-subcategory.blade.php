@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Nova Kategorija
     </x-slot>
@@ -133,4 +133,4 @@
         });
         // category select end
     </script>
-</x-app-layout>
+</x-app-worker-layout>

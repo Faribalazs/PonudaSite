@@ -19,7 +19,17 @@ class WorkerController extends Controller
 
    public function profile()
    {
-    return view('worker.views.profile');
+    return view('worker.views.profile-page');
+   }
+
+   public function personalData()
+   {
+    return view('worker.views.personal-data');
+   }
+
+   public function myContacts()
+   {
+    return view('worker.views.profile-contacts');
    }
 
    public function postcreate()

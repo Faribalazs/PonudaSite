@@ -13,6 +13,8 @@ use App\Http\Controllers\WorkerController;
 Route::group(['middleware' => ['auth:worker', 'role:worker']], function() { 
 
     Route::get('contractor/profile', 'App\Http\Controllers\WorkerController@profile')->name('worker.myprofile');
+    Route::get('contractor/profile/company', 'App\Http\Controllers\WorkerController@personalData')->name('worker.personal.data');
+    Route::get('contractor/profile/contacts', 'App\Http\Controllers\WorkerController@myContacts')->name('worker.personal.contacts');
     // nova ponuda
     Route::get('contractor/new', 'App\Http\Controllers\WorkerControllers\NewPonuda@create')->name('worker.new.ponuda');
     Route::post('contractor/new/store', 'App\Http\Controllers\WorkerControllers\NewPonuda@storePonuda')->name('worker.store.new.ponuda');

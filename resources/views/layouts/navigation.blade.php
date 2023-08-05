@@ -50,7 +50,7 @@
     <!-- Primary Navigation Menu -->
     <div class="mx-auto px-4 py-3 sm:px-6 lg:px-8 h-100 align-items-center nav-div">
         <div class="flex justify-between h-100 nav-items">
-            <div class="flex">
+            <div class="flex justify-between" style="width: 78%;">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center z-50">
                     <a href="{{ route('home') }}">
@@ -61,7 +61,7 @@
                 <!-- Navigation Links -->
                 @if (Auth::user())
                     @if (Auth::user()->hasRole('user'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('myprofile')" :active="request()->routeIs('myprofile')">
                                 {{ __('My Profile') }}
                             </x-nav-link>
@@ -70,7 +70,7 @@
                 @endif
                 @if (Auth::user())
                     @if (Auth::user()->hasRole('admin'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('admin.profile')" :active="request()->routeIs('admin.profile')">
                                 {{ __('Admin Profile') }}
                             </x-nav-link>
@@ -79,7 +79,7 @@
                 @endif
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
                                 {{ __('Nova Ponuda') }}
                             </x-nav-link>
@@ -88,7 +88,7 @@
                 @endif
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.store.new.options')">
                                 {{ __('Dodaj Opciju') }}
                             </x-nav-link>
@@ -97,7 +97,7 @@
                 @endif
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
                                 {{ __('Moje Kategorije') }}
                             </x-nav-link>
@@ -106,7 +106,7 @@
                 @endif
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
                                 {{ __('Moja Arhiva') }}
                             </x-nav-link>

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Moja Arhiva
     </x-slot>
@@ -261,4 +261,4 @@
             })
         }
     </script>
-</x-app-layout>
+</x-app-worker-layout>

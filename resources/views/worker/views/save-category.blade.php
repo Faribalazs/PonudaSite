@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Update category
     </x-slot>
@@ -23,4 +23,4 @@
             <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
         </form>
     </div>
-</x-app-layout>
+</x-app-work-layout>

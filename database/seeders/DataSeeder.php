@@ -221,19 +221,19 @@ class DataSeeder extends Seeder
                     'subcategory_id' => '2',
                     'unit_id' => '1',
                     'title' => 'Gletovanje malterisanih zidova i plafona, disperzivnom glet masom.',
-                    'description' => 'Površine se čiste i bruse pre gletovanja.  Manja oštećenja i pukotine se kituju. Gletovanje se vrši do potpune ravnosti, nakon čega se vrši fino brušenje cele površine.'
+                    'description' => 'Površine se čiste i bruse pre gletovanja. Manja oštećenja i pukotine se kituju. Nakon gletovanja se vrši fino brušenje cele površine.'
                 ],
                 [
                     'subcategory_id' => '2',
                     'unit_id' => '1',
-                    'title' => 'Gletovanje starih ostruganih zidova i plafona, disperzivnom glet masom.',
-                    'description' => 'Površine se čiste i bruse pre gletovanja.  Manja oštećenja i pukotine se kituju. Gletovanje se vrši do potpune ravnosti, nakon čega se vrši fino brušenje cele površine.'
+                    'title' => 'Gletovanje starih ostruganih zidova i plafona.',
+                    'description' => 'Površine se čiste i bruse pre gletovanja.  Manja oštećenja i pukotine se kituju. Nakon gletovanja se vrši fino brušenje cele površine.'
                 ],
                 [
                     'subcategory_id' => '2',
                     'unit_id' => '1',
-                    'title' => 'Struganje i gletovanje starih zidova i plafona, disperzivnom glet masom.',
-                    'description' => 'Površine se stružu, peru, bruse, čiste i impregniraju. Pregledati i kitovati manja oštećenja i pukotine. Manja oštećenja i pukotine se kituju. Gletovanje se vrši do potpune ravnosti, nakon čega se vrši fino brušenje cele površine.'
+                    'title' => 'Struganje i gletovanje starih zidova i plafona.',
+                    'description' => 'Površine se stružu, peru, bruse, otprašuju i impregniraju. Manja oštećenja i pukotine se kituju. Nakon gletovanja se vrši fino brušenje cele površine.'
                 ],
                 [
                     'subcategory_id' => '2',

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Moja Arhiva
     </x-slot>
@@ -255,4 +255,4 @@
             search.style.display = "initial";
         }
     </script>
-</x-app-layout>
+</x-app-work-layout>

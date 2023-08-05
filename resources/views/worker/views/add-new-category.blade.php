@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Nova Kategorija
     </x-slot>
@@ -16,4 +16,4 @@
             <button type="submit" class="submit-btn m-auto">Dodaj kategoriju</button>
         </form>
     </div>
-</x-app-layout>
+</x-app-worker-layout>

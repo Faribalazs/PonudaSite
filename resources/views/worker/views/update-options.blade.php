@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         Update opcije
     </x-slot>
@@ -115,4 +115,4 @@
             )
         </script>
     @endif
-</x-app-layout>
+</x-app-worker-layout>

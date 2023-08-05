@@ -1,33 +1,56 @@
 @php
     $lang = App::currentLocale();
 @endphp
-<nav x-data="{ open: false }" id="nav">
-    <div class="nav sm:hidden">
-        <div class="nav__content">
-            <div class="nav__list px-4 gap-4">
-                <div class="nav__list-item">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('app.nav.dashboard') }}
-                    </x-nav-link>
-                </div>
-                @if (Auth::user())
-                    @if (Auth::user()->hasRole('user'))
-                        <div class="nav__list-item">
-                            <x-nav-link :href="route('myprofile')" :active="request()->routeIs('myprofile')">
-                                {{ __('My Profile') }}
+<div class="nav xl:hidden">
+    <div class="nav__content">
+        <div class="nav__list px-4 gap-4">
+            <div class="nav__list-item mt-20 text-center">
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                            <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
+                                {{ __('Nova Ponuda') }}
                             </x-nav-link>
                         </div>
                     @endif
                 @endif
-                <div class="nav__list-item">Projects</div>
-                <div class="nav__list-item">Contact</div>
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.store.new.options')">
+                                {{ __('Dodaj Opciju') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
+                                {{ __('Moje Kategorije') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
+                                {{ __('Moja Arhiva') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
             </div>
+            
         </div>
     </div>
+</div>
+<nav x-data="{ open: false }" id="nav" class="nav-max">
     <!-- Primary Navigation Menu -->
     <div class="mx-auto px-4 py-3 sm:px-6 lg:px-8 h-100 align-items-center nav-div">
-        <div class="flex justify-between h-100">
-            <div class="flex">
+        <div class="flex justify-between h-100 nav-items">
+            <div class="flex justify-between" style="width: 78%;">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center z-50">
                     <a href="{{ route('home') }}">
@@ -36,63 +59,109 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('app.nav.dashboard') }}
-                    </x-nav-link>
-                </div>
                 @if (Auth::user())
                     @if (Auth::user()->hasRole('user'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('myprofile')" :active="request()->routeIs('myprofile')">
                                 {{ __('My Profile') }}
                             </x-nav-link>
                         </div>
                     @endif
                 @endif
-                @auth
-                    @if (Auth::guard('admin')->user()->hasRole('admin'))
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
+                @if (Auth::user())
+                    @if (Auth::user()->hasRole('admin'))
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('admin.profile')" :active="request()->routeIs('admin.profile')">
                                 {{ __('Admin Profile') }}
                             </x-nav-link>
                         </div>
                     @endif
-                @endauth
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                            <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
+                                {{ __('Nova Ponuda') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.store.new.options')">
+                                {{ __('Dodaj Opciju') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
+                                {{ __('Moje Kategorije') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker'))
+                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
+                                {{ __('Moja Arhiva') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-5">
+            <div class="hidden xl:flex xl:items-center xl:ml-6 space-x-5">
                 <button onclick="LanguageSwitcher('{{ $lang }}')">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
-                @if (!Auth::user())
-                    <a href="{{ route('login') }}">
+                @if (!Auth::user() && !Auth::guard('worker')->user())
+                    <a href="{{ route('worker.login') }}">
                         <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
                     </a>
                 @endif
                 @if (Auth::user())
+                    @if (Auth::user()->hasRole('user'))
+                        @php
+                            $logInCircle = mb_substr(Auth::user()->name, 0, 1);
+                        @endphp
+                        <div class="flex gap-1">
+                            <div class="flex justify-center items-center">
+                                <a href="{{ route('myprofile') }}">{{ Auth::user()->name }}</a>
+                            </div>
+                            <div class="profile-circle">
+                                {{ $logInCircle }}
+                            </div>
+                        </div>
+                    @endif
+                @endif
+                @if (Auth::guard('worker')->user())
                     @php
-                        $logInCircle = mb_substr(Auth::user()->name, 0, 1);
+                        $logInCircle = mb_substr(Auth::guard('worker')->user()->name, 0, 1);
                     @endphp
                     <div class="flex gap-1">
                         <div class="flex justify-center items-center">
-                            <a href="{{ route('myprofile') }}">{{ Auth::user()->name }}</a>
+                            <a href="{{ route('worker.myprofile') }}">{{ Auth::guard('worker')->user()->name }}</a>
                         </div>
                         <div class="profile-circle">
-                            {{$logInCircle}}
+                            {{ $logInCircle }}
                         </div>
                     </div>
                 @endif
             </div>
 
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden gap-4" style="margin-top:8px;">
+            <div class="mr-2 flex items-center xl:hidden gap-4" style="margin-top:8px;">
                 <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
                 @if (!Auth::user())
-                    <a href="{{ route('login') }}" class="log-in-btn-nav">
+                    <a href="{{ route('worker.login') }}" class="log-in-btn-nav">
                         <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
                     </a>
                 @endif
@@ -106,7 +175,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden xl:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
@@ -156,11 +225,15 @@
         const init = () => {
             body = document.querySelector('body');
             menu = document.querySelector('.menu-icon');
+            nav = document.querySelector('.nav');
+            navmax = document.querySelector('.nav-max');
             menuItems = document.querySelectorAll('.nav__list-item');
             applyListeners();
         }
         const applyListeners = () => {
             menu.addEventListener('click', () => toggleClass(body, 'nav-active'));
+            menu.addEventListener('click', () => toggleClass(nav, 'nav-index'));
+            menu.addEventListener('click', () => toggleClass(navmax, 'nav-shadow'));
             menu.addEventListener('click', () => toggleClass(body, 'pf'));
         }
         const toggleClass = (element, stringClass) => {
@@ -172,18 +245,20 @@
         init();
     })();
 
-    window.onscroll = function() {myFunction()};
-        var navbar = document.getElementById("nav");
+    window.onscroll = function() {
+        myFunction()
+    };
+    var navbar = document.getElementById("nav");
 
-        var sticky = navbar.offsetTop-20;
+    var sticky = navbar.offsetTop - 20;
 
-        function myFunction() {
-            if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
-            } else {
-                navbar.classList.remove("sticky");
-            }
+    function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+        } else {
+            navbar.classList.remove("sticky");
         }
+    }
 
     function LanguageSwitcher(lang) {
         Swal.fire({
@@ -203,7 +278,7 @@
     .profile-circle {
         width: 30px;
         height: 30px;
-        border-radius:50%;
+        border-radius: 50%;
         font-weight: 700;
         font-size: 15px;
         display: flex;
@@ -212,6 +287,7 @@
         color: white;
         background-color: #333f9d;
     }
+
     .sticky {
         position: sticky !important;
     }
