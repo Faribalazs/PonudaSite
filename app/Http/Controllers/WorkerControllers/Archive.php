@@ -219,6 +219,27 @@ class Archive extends Controller
         return $pdf->stream($pdf_name[0]->ponuda_name);
     }
 
+    public function selectTamplate($id) {
+
+        return view('worker.views.select-tamplate',['ponuda_id' => $id]);
+    }
+
+    public function tamplateGeneratePdf(Request $request) {
+
+        $template = $request->temp;
+        $pdf_blade = 'worker.pdf.'. $template;
+        $id = $request->ponuda_id;
+        $worker_id = $this->worker();
+        $mergedData = $this->mergedData();
+        $collection = collect($mergedData);
+        $selected_ponuda = $collection->where('ponuda_id', intval($id));
+        $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
+        $pdf_name = $this->PDFname($id,$worker_id);
+        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
+
+        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+    }
+
     public function sendPDF(Request $request, $id)
     {
         if(count($this->returnBack())>0)
@@ -262,7 +283,7 @@ class Archive extends Controller
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         $pdf_name = $this->PDFname($id,$worker_id);
-        $pdf = PDF::loadView('worker.views.archive-pdf',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
+        $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
         return array($pdf, $pdf_name);
     }
 
