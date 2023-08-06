@@ -154,6 +154,7 @@
                 <div class="header-style">
                     <div class="logo-side">
                         <img src="https://placehold.co/150x80">
+                        {{-- <img src="{{ route('show.img', ['filename' => !empty($company->logo)?$company->logo:'default.jpg']) }}" alt="{{ $company->company_name }}" height="150px" width="80px"> --}}
                     </div>
                     <div class="name-company">
                         <p>Inzenjerske delatnosti i tehnicko savetovanje</p>
@@ -167,6 +168,7 @@
             <div style="height: 100px">
                 <div class="line" style="margin-bottom: 5px;"></div>
                 <div class="header-style">
+                    @if ($company === null)
                     <div class="left-side">
                         <p>Srbija / Serbia</p>
                         <p>24000 Subotica</p>
@@ -181,6 +183,22 @@
                         <p>bank account : 342-216491624916491-23 EUR</p>
                         <p>Raiffeisen Bank</p>
                     </div>
+                    @else
+                    <div class="left-side">
+                        <p>{{ $company->country }}</p>
+                        <p>{{ $company->zip_code }} {{ $company->city }}</p>
+                        <p>{{ $company->address }}</p>
+                        <p>Tel : +{{ $company->tel }}</p>
+                        <p>E mail: {{ $company->email }}</p>
+                    </div>
+                    <div class="right-side">
+                        <p>PIB :{{ $company->pib }}</p>
+                        <p>Maticni broj / Registration code : {{ $company->maticni_broj }}</p>
+                        <p>Tekuci racun : {{ $company->tekuci_racun }} RSD</p>
+                        <p>bank account : {{ $company->bank_account }} EUR</p>
+                        <p>{{ $company->bank_name }}</p>
+                    </div>
+                    @endif
                 </div>
             </div>
         </footer>
@@ -193,6 +211,15 @@
                     </td>
                 </tr>
             </table>
+            @if($client !== null)
+                <p>CLIENT</p>
+                <p>First name: {{ $client->first_name }}</p>
+                <p>Last name: {{ $client->last_name }}</p>
+                <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
+                <p>Address: {{ $client->address }}</p>
+                <p>E-mail: {{ $client->email }}</p>
+                <p>Tel: +{{ $client->tel }}</p>
+            @endif
             @foreach ($mergedData as $id)
                 <div style="border-right: 1px solid black;">
                     <table class="ponuda-table">

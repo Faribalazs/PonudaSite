@@ -11,17 +11,25 @@
         <form method="POST" action="{{ route('worker.archive.genarte.tamplate.pdf') }}" class="mt-5 w-full">
             @csrf
             <input type="hidden" name="ponuda_id" value="{{$ponuda_id}}"/>
+            @if(!empty($clients))
+            <select name="selectedClient" id="selectedClient">
+                <option value="select" selected disabled>Select one</option>
+                @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->first_name }} {{ $client->last_name }}</option>
+                @endforeach
+            </select>
+            @endif
             <div class="radio-btn-container">
                 <ul class="radio-img">
                     <li>
-                        <input type="radio"name="temp" id="cb1" value="default" />
+                        <input type="radio" name="temp" id="cb1" value="default" />
                         <label for="cb1"><img src="{{ asset('img/defautpdf.png') }}" /></label>
                         <span>Obican sablon</span>
                     </li>
                 </ul>
                 <ul class="radio-img">
                     <li>
-                        <input type="radio"name="temp" id="cb2" value="template-one" />
+                        <input type="radio" name="temp" id="cb2" value="template-one" />
                         <label for="cb2"><img src="{{ asset('img/newtamplate.png') }}" /></label>
                         <span>Novi sablon</span>
                     </li>

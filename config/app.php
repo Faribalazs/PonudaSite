@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Belgrade',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -234,6 +235,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

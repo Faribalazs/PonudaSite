@@ -219,13 +219,26 @@ class Archive extends Controller
         return $pdf->stream($pdf_name[0]->ponuda_name);
     }
 
-    public function selectTamplate($id) {
-
-        return view('worker.views.select-tamplate',['ponuda_id' => $id]);
+    private function company_data($worker)
+    {
+        return DB::select('select * from company_data where worker_id = ?', [$worker]);
     }
 
-    public function tamplateGeneratePdf(Request $request) {
+    private function clients($worker)
+    {
+        return DB::select('select * from clients where worker_id = ?', [$worker]);
+    }
+    private function selectedClient($worker, $id)
+    {
+        return DB::select('select * from clients where worker_id = ? and id = ?', [$worker, $id]);
+    }
+    public function selectTamplate($id) 
+    {
+        return view('worker.views.select-tamplate',['ponuda_id' => $id, 'clients' => $this->clients($this->worker())]);
+    }
 
+    public function tamplateGeneratePdf(Request $request) 
+    {
         $template = $request->temp;
         $pdf_blade = 'worker.pdf.'. $template;
         $id = $request->ponuda_id;
@@ -234,8 +247,13 @@ class Archive extends Controller
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
+        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id)[0];
+        $client = $request->has('selectedClient') ? $request->selectedClient : null;
+        $foundClient = null;
+        if($client !== null)
+            $foundClient = $this->selectedClient($worker_id, $client)[0];
         $pdf_name = $this->PDFname($id,$worker_id);
-        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
+        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
 
         return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
     }

@@ -255,4 +255,4 @@
             search.style.display = "initial";
         }
     </script>
-</x-app-work-layout>
+</x-app-worker-layout>

@@ -12,9 +12,19 @@ use App\Http\Controllers\WorkerController;
 
 Route::group(['middleware' => ['auth:worker', 'role:worker']], function() { 
 
+    Route::get('storage/{filename}', function ($filename)
+    {
+        return Image::make(storage_path('app/logo/' . $filename))->response();
+    })->name('show.img');
+
     Route::get('contractor/profile', 'App\Http\Controllers\WorkerController@profile')->name('worker.myprofile');
     Route::get('contractor/profile/company', 'App\Http\Controllers\WorkerController@personalData')->name('worker.personal.data');
+    Route::post('contractor/profile/company/save', 'App\Http\Controllers\WorkerController@savePersonalData')->name('worker.personal.data.save');
     Route::get('contractor/profile/contacts', 'App\Http\Controllers\WorkerController@myContacts')->name('worker.personal.contacts');
+    Route::post('contractor/profile/contacts/save', 'App\Http\Controllers\WorkerController@saveContact')->name('worker.personal.contacts.save');
+    Route::get('contractor/profile/contacts/update/{id}', 'App\Http\Controllers\WorkerController@updateContact')->name('worker.personal.contacts.update');
+    Route::get('contractor/profile/contacts/delete/{id}', 'App\Http\Controllers\WorkerController@deleteContact')->name('worker.personal.contacts.delete');
+
     // nova ponuda
     Route::get('contractor/new', 'App\Http\Controllers\WorkerControllers\NewPonuda@create')->name('worker.new.ponuda');
     Route::post('contractor/new/store', 'App\Http\Controllers\WorkerControllers\NewPonuda@storePonuda')->name('worker.store.new.ponuda');
