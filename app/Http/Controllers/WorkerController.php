@@ -55,6 +55,7 @@ class WorkerController extends Controller
       $tekuci_racun = $request->tekuci_racun;
       $bank_account = $request->bank_account;
       $bank_name = $request->naziv_banke;
+      $user_id = Auth::guard('worker')->user()->id;
 
       $fileName = null;
       if ($request->hasFile('logo')) {
@@ -66,7 +67,7 @@ class WorkerController extends Controller
          //     $constraint->aspectRatio();                 
          // });
          $img->stream();
-         Storage::disk('local')->put('logo/'.$fileName, $img, 'public');
+         Storage::disk('public')->put('worker/'.$user_id .'/logo'. '/' . $fileName, $img, 'public');
      }
 
       $company_data = new Company_Data();

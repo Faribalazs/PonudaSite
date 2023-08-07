@@ -255,7 +255,7 @@ class Archive extends Controller
         $pdf_name = $this->PDFname($id,$worker_id);
         $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
 
-        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+        return $pdf->stream($pdf_name[0]->ponuda_name . '.pdf');
     }
 
     public function sendPDF(Request $request, $id)

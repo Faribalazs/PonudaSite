@@ -147,17 +147,18 @@
         $subPrice = 0;
         $limit = 0;
         $counter = 0;
+        $user_id = Auth::guard('worker')->user()->id;
     @endphp
     @if ($mergedData != null)
         <header>
             <div style="margin-bottom: 50px;">
                 <div class="header-style">
                     <div class="logo-side">
-                        <img src="https://placehold.co/150x80">
-                        {{-- <img src="{{ route('show.img', ['filename' => !empty($company->logo)?$company->logo:'default.jpg']) }}" alt="{{ $company->company_name }}" height="150px" width="80px"> --}}
+                        <img src="{{'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/worker/' . $user_id . '/logo' . '/' . $company->logo)))}}" alt="{{ $company->company_name }}" style="object-fit:contain; width:150px; height:80px;">
                     </div>
                     <div class="name-company">
-                        <p>Inzenjerske delatnosti i tehnicko savetovanje</p>
+                        <p>{{ $company->company_name }}</p>
+                        <p>{{ $company->city }}</p>
                     </div>
                 </div>
                 <div class="line"></div>
@@ -168,22 +169,7 @@
             <div style="height: 100px">
                 <div class="line" style="margin-bottom: 5px;"></div>
                 <div class="header-style">
-                    @if ($company === null)
-                    <div class="left-side">
-                        <p>Srbija / Serbia</p>
-                        <p>24000 Subotica</p>
-                        <p>Karolja Bitermana 8</p>
-                        <p>Tel : +381 63 513 400</p>
-                        <p>E mail: valami@gmail.com</p>
-                    </div>
-                    <div class="right-side">
-                        <p>PIB :218412892</p>
-                        <p>Maticni broj / Registration code : 821749846129</p>
-                        <p>Tekuci racun : 342-216491624916491-23 RSD</p>
-                        <p>bank account : 342-216491624916491-23 EUR</p>
-                        <p>Raiffeisen Bank</p>
-                    </div>
-                    @else
+                    @if ($company !== null)
                     <div class="left-side">
                         <p>{{ $company->country }}</p>
                         <p>{{ $company->zip_code }} {{ $company->city }}</p>

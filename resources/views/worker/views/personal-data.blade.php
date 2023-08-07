@@ -4,6 +4,9 @@
     </x-slot>
     <x-slot name="header">
     </x-slot>
+    @php
+        $user_id = Auth::guard('worker')->user()->id;
+    @endphp
     <div class="flex profile-title">
         <p class="text-3xl font-bold">Podaci firme</p>
     </div>
@@ -20,7 +23,7 @@
         <p>Tekuci racun: {{ $company_data->tekuci_racun }}</p>
         <p>Bank account: {{ $company_data->bank_account }}</p>
         <p>Bank name: {{ $company_data->bank_name }}</p>
-        <img src="{{ route('show.img', ['filename' => !empty($company_data->logo)?$company_data->logo:'default.jpg']) }}" alt="{{ $company_data->company_name }}">
+        <img src="{{ url('storage/worker/'. $user_id .'/logo'. '/' . $company_data->logo) }}" alt="{{ $company_data->company_name }}">
     </div>
     @else
     <div class="flex mt-3 flex-col">
@@ -37,7 +40,7 @@
             <input class="input-style" name="grad" type="text"/>
 
             <label for="postcode" class="text-xl my-3">Postanski broj :</label>
-            <input class="input-style" name="postcode" type="text"/>
+            <input class="input-style" name="postcode" type="number"/>
 
             <label for="adresa" class="text-xl my-3">Adresa :</label>
             <input class="input-style" name="adresa" type="text"/>
@@ -46,19 +49,19 @@
             <input class="input-style" name="email" type="text"/>
 
             <label for="tel" class="text-xl my-3">Telefon :</label>
-            <input class="input-style" name="tel" type="text"/>
+            <input class="input-style" name="tel" type="number"/>
 
             <label for="pib" class="text-xl my-3">PIB :</label>
-            <input class="input-style" name="pib" type="text"/>
+            <input class="input-style" name="pib" type="number"/>
 
             <label for="maticni_broj" class="text-xl my-3">Maticni broj :</label>
-            <input class="input-style" name="maticni_broj" type="text"/>
+            <input class="input-style" name="maticni_broj" type="number"/>
 
             <label for="tekuci_racun" class="text-xl my-3">Tekuci racun :</label>
-            <input class="input-style" name="tekuci_racun" type="text"/>
+            <input class="input-style" name="tekuci_racun" type="number"/>
 
             <label for="bank_account" class="text-xl my-3">Bank account :</label>
-            <input class="input-style" name="bank_account" type="text"/>
+            <input class="input-style" name="bank_account" type="number"/>
 
             <label for="naziv_banke" class="text-xl my-3">Naziv banke :</label>
             <input class="input-style" name="naziv_banke" type="text"/>
