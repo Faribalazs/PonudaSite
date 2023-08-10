@@ -20,7 +20,7 @@
     @if ($mergedData != null)
         <div class="flex mt-16">
             <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
-                <a href="{{ route('worker.archive.genarte', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                <a href="{{ route('worker.archive.select.contact', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Generisi PDF</a>
                 <a href="{{ route('worker.archive.create.mail', ['id' => $collection->first()->id_ponuda]) }}" Skini

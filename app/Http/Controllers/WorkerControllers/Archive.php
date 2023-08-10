@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Mail;
+use App\Models\Clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use RealRashid\SweetAlert\Facades\Alert;
-use Mail;
 
 class Archive extends Controller
 {
@@ -228,13 +229,60 @@ class Archive extends Controller
     {
         return DB::select('select * from clients where worker_id = ?', [$worker]);
     }
+
     private function selectedClient($worker, $id)
     {
         return DB::select('select * from clients where worker_id = ? and id = ?', [$worker, $id]);
     }
-    public function selectTamplate($id) 
-    {
-        return view('worker.views.select-tamplate',['ponuda_id' => $id, 'clients' => $this->clients($this->worker())]);
+
+    public function selectContact($id){
+
+        return view('worker.views.select-contact',['ponuda_id' => $id, 'clients' => $this->clients($this->worker())]);
+    }
+
+    public function submitContact(Request $request){
+
+        if(isset($request->selectedClient)) {
+
+            return view('worker.views.select-tamplate',['client_id' => $request->selectedClient, 'ponuda_id' => $request->ponuda_id,]);
+
+        } else {
+            $f_name = $request->f_name;
+            $l_name = $request->l_name;
+            $grad = $request->grad;
+            $postcode = $request->postcode;
+            $adresa = $request->adresa;
+            $email = $request->email;
+            $tel = $request->tel; 
+
+            $ifexist = DB::select('select * from clients where worker_id = ? and first_name = ? and last_name = ? and city = ? and zip_code = ? and address = ? and email = ? and tel = ?', [$this->worker(), $f_name, $l_name, $grad, $postcode, $adresa, $email, $tel]);
+
+            if(isset($request->save) && count($ifexist) === 0) { 
+                $client = new Clients();
+                $client->worker_id = $this->worker();
+                $client->first_name = $f_name;
+                $client->last_name = $l_name;
+                $client->city = $grad;
+                $client->zip_code = $postcode;
+                $client->address = $adresa;
+                $client->email = $email;
+                $client->tel = $tel;
+                $client->save();
+            }
+
+            return view('worker.views.select-tamplate',
+                    [ 'ponuda_id' => $request->ponuda_id,
+                      'f_name' => $f_name,
+                      'l_name' => $l_name,
+                      'city' => $grad,
+                      'zip' => $postcode,
+                      'adresa' => $adresa,
+                      'email' => $email,
+                      'tel' => $tel,
+                      'new' => "custom",  
+                    ]);
+        }
+
     }
 
     public function tamplateGeneratePdf(Request $request) 
@@ -248,16 +296,36 @@ class Archive extends Controller
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id)[0];
-        $client = $request->has('selectedClient') ? $request->selectedClient : null;
-        $foundClient = null;
-        if($client !== null)
-            $foundClient = $this->selectedClient($worker_id, $client)[0];
+        if (isset($request->client_id)) {
+            $foundClient = $this->selectedClient($worker_id, $request->client_id)[0];
+        }
         $pdf_name = $this->PDFname($id,$worker_id);
-        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
+        if(isset($request->new)) {
+            $pdf = PDF::loadView($pdf_blade,
+                ['mergedData' => $selectedWorkerPonuda->all(), 
+                'ponuda_name' => $pdf_name[0]->ponuda_name, 
+                'company' => $company_data,
+                'f_name' => $request->f_name,
+                'l_name' => $request->l_name,
+                'city' => $request->city,
+                'zip' => $request->zip,
+                'adresa' => $request->adresa,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'new' => "custom",
+                ]);
+        } else {
+            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
+        }
 
-        return $pdf->stream($pdf_name[0]->ponuda_name . '.pdf');
+        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
     }
+    // redirektelni kell miutan letoti a pdf a sucessra
+    public function generatePdfSuccess(Request $request){
 
+        return view('worker.views.generate-pdf-success');
+    }
+    // redirektelni kell miutan letoti a pdf a sucessra end
     public function sendPDF(Request $request, $id)
     {
         if(count($this->returnBack())>0)
@@ -313,6 +381,7 @@ class Archive extends Controller
         $this->editPonudaCheck($ponuda_id);
         return redirect()->intended(route('worker.new.ponuda'));
     }
+
     private function editPonudaCheck($ponuda_id)
     {
         $worker = DB::select('select id, ponuda_counter from workers where id = ?', [$this->worker()]);

@@ -8,8 +8,6 @@
         <p class="text-3xl font-bold">Moji klijenti</p>
     </div>
     <div class="flex mt-3 flex-col">
-        {{-- Kell majd egy if ha van hozzaadva akkor kijon a szoveg edit gombal es
-             torlessel hasonloan mind az archivumban ha nincs akkor a form --}}
         @if (!empty($clients))
             @foreach ($clients as $client)
                 <p>{{ $client->first_name }} {{ $client->last_name }} <a href="{{ route('worker.personal.contacts.update', ['id' => $client->id]) }}">UPDATE</a> <a href="{{ route('worker.personal.contacts.delete', ['id' => $client->id]) }}">DELETE</a></p>

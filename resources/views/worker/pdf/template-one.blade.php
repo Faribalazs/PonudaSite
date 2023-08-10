@@ -197,7 +197,7 @@
                     </td>
                 </tr>
             </table>
-            @if($client !== null)
+            @if(isset($client) && $client !== null)
                 <p>CLIENT</p>
                 <p>First name: {{ $client->first_name }}</p>
                 <p>Last name: {{ $client->last_name }}</p>
@@ -205,6 +205,15 @@
                 <p>Address: {{ $client->address }}</p>
                 <p>E-mail: {{ $client->email }}</p>
                 <p>Tel: +{{ $client->tel }}</p>
+            @endif
+            @if(isset($new) && $new !== null )
+                <p>CLIENT</p>
+                <p>First name: {{ $f_name }}</p>
+                <p>Last name: {{ $l_name }}</p>
+                <p>City: {{ $city }} {{ $zip }}</p>
+                <p>Address: {{ $adresa }}</p>
+                <p>E-mail: {{ $email }}</p>
+                <p>Tel: +{{ $tel }}</p>
             @endif
             @foreach ($mergedData as $id)
                 <div style="border-right: 1px solid black;">

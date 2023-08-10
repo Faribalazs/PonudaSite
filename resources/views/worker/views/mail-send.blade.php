@@ -72,4 +72,4 @@
             }
         }
     </style>
-</x-app-layout>
+</x-app-worker-layout>

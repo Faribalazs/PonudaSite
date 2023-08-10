@@ -10,15 +10,23 @@
     <div class="flex">
         <form method="POST" action="{{ route('worker.archive.genarte.tamplate.pdf') }}" class="mt-5 w-full">
             @csrf
-            <input type="hidden" name="ponuda_id" value="{{$ponuda_id}}"/>
-            @if(!empty($clients))
-            <select name="selectedClient" id="selectedClient">
-                <option value="select" selected disabled>Select one</option>
-                @foreach ($clients as $client)
-                    <option value="{{ $client->id }}">{{ $client->first_name }} {{ $client->last_name }}</option>
-                @endforeach
-            </select>
+            @if (isset($client_id))
+                <input type="hidden" name="client_id" value="{{ $client_id }}" />
             @endif
+            @if (isset($new))
+                <input type="hidden" name="f_name" value="{{ $f_name }}" />
+                <input type="hidden" name="l_name" value="{{ $l_name }}" />
+                <input type="hidden" name="city" value="{{ $city }}" />
+                <input type="hidden" name="zip" value="{{ $zip }}" />
+                <input type="hidden" name="adresa" value="{{ $adresa }}" />
+                <input type="hidden" name="tel" value="{{ $tel }}" />
+                <input type="hidden" name="email" value="{{ $email }}" />
+                <input type="hidden" name="new" value="custom" />
+            @endif
+            @if (isset($save))
+                <input type="hidden" name="save" value="save" />
+            @endif
+            <input type="hidden" name="ponuda_id" value="{{ $ponuda_id }}" />
             <div class="radio-btn-container">
                 <ul class="radio-img">
                     <li>
@@ -42,109 +50,111 @@
             </div>
         </form>
     </div>
-<style>
-    ul {
-        list-style-type: none;
-    }
-
-    li {
-        display: inline-block;
-    }
-
-    input[type="radio"][id^="cb"] {
-        display: none;
-    }
-
-    label {
-        border: 1px solid #fff;
-        padding: 10px;
-        display: block;
-        position: relative;
-        margin: 10px;
-        cursor: pointer;
-    }
-
-    label:before {
-        background-color: #B87333;
-        color: white;
-        content: " ";
-        display: block;
-        border-radius: 50%;
-        border: 1px solid #B87333;
-        border-radius: 10px;
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        width: 25px;
-        height: 25px;
-        text-align: center;
-        line-height: 28px;
-        transition-duration: 0.4s;
-        transform: scale(0);
-    }
-
-    label img {
-        width: 300px;
-        transition-duration: 0.2s;
-        transform-origin: 50% 50%;
-        border: 2px solid rgb(192, 192, 192);
-        border-radius: 10px;
-    }
-
-    input[type="radio"]:checked+label {
-        border-color: #B87333;
-        border-radius: 10px;
-    }
-
-    input[type="radio"]:checked+label:before {
-        content: "✓";
-        background-color: #B87333;
-        transform: scale(1);
-    }
-
-    input[type="radio"]:checked+label img {
-        transform: scale(0.9);
-        box-shadow: 0 0 5px #333;
-        z-index: -1;
-    }
-
-    .radio-btn-container {
-        display: grid;
-        grid-gap: 1rem;
-        margin: auto;
-        width: 100%;
-    }
-
-    .radio-img {
-        text-align: center;
-    }
-
-    @media (min-width: 600px) {
-        .radio-btn-container {
-            grid-template-columns: repeat(1, 1fr);
+    <style>
+        ul {
+            list-style-type: none;
         }
-        label img {
-            width: 100%;
-        }
-    }
 
-    @media (min-width: 950px) {
-        .radio-btn-container {
-            grid-template-columns: repeat(2, 1fr) !important;
+        li {
+            display: inline-block;
         }
+
+        input[type="radio"][id^="cb"] {
+            display: none;
+        }
+
+        label {
+            border: 1px solid #fff;
+            padding: 10px;
+            display: block;
+            position: relative;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        label:before {
+            background-color: #B87333;
+            color: white;
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            border: 1px solid #B87333;
+            border-radius: 10px;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 28px;
+            transition-duration: 0.4s;
+            transform: scale(0);
+        }
+
         label img {
             width: 300px;
+            transition-duration: 0.2s;
+            transform-origin: 50% 50%;
+            border: 2px solid rgb(192, 192, 192);
+            border-radius: 10px;
         }
-    }
 
-    @media (min-width: 1400px) {
+        input[type="radio"]:checked+label {
+            border-color: #B87333;
+            border-radius: 10px;
+        }
+
+        input[type="radio"]:checked+label:before {
+            content: "✓";
+            background-color: #B87333;
+            transform: scale(1);
+        }
+
+        input[type="radio"]:checked+label img {
+            transform: scale(0.9);
+            box-shadow: 0 0 5px #333;
+            z-index: -1;
+        }
+
         .radio-btn-container {
-            grid-template-columns: repeat(2, 1fr) !important;
+            display: grid;
+            grid-gap: 1rem;
+            margin: auto;
+            width: 100%;
         }
 
-        label img {
-            width: 450px;
+        .radio-img {
+            text-align: center;
         }
-    }
-</style>
+
+        @media (min-width: 600px) {
+            .radio-btn-container {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            label img {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 950px) {
+            .radio-btn-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            label img {
+                width: 300px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .radio-btn-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            label img {
+                width: 450px;
+            }
+        }
+    </style>
 </x-app-worker-layout>
