@@ -35,7 +35,7 @@
                             </li>
                         @endforeach
                         <li class="option-fizicka-lica add-new-contact-btn">
-                            <a href="{{ route('worker.personal.contacts.add.individual') }}" class="option-text-fizicka-lica">
+                            <a href="{{ route('worker.personal.contacts.add.individual') }}">
                                 Dodaj fizicko lice
                             </a>
                         </li>
@@ -113,7 +113,7 @@
                                     href="{{ route('worker.personal.contacts.delete', ['id' => $pravno_lice->id]) }}">DELETE</a>
                             </li>
                         @endforeach
-                        <li class="option-pravna-lica">
+                        <li class="option-pravna-lica add-new-contact-btn">
                             <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
                                 Dodaj pravno lice
                             </a>
