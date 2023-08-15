@@ -19,7 +19,7 @@ class AdminController extends Controller
       'password' => Hash::make('testpass'),
       'email_verified_at' => '2023-05-03'
   ]);
-  $user->attachRole('worker'); 
+  $user->attachRole('super_worker'); 
   event(new Registered($user));
 
     $user = Admin::create([

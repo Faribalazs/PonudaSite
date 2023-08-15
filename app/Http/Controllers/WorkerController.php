@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use App\Models\Company_Data;
 use App\Models\Clients;
+use App\Models\Fizicko_lice;
+use App\Models\Pravno_lice;
+use RealRashid\SweetAlert\Facades\Alert;
+use \Exception;
 
 class WorkerController extends Controller
 {
@@ -33,13 +37,13 @@ class WorkerController extends Controller
 
    public function profile()
    {
-    return view('worker.views.profile-page');
+    return view('worker.views.profile.profile-page');
    }
 
    public function personalData()
    {
       $company_data = DB::select('select * from company_data where worker_id = ?', [$this->worker()]);
-      return view('worker.views.personal-data', ['company_data' => empty($company_data[0])?null:$company_data[0]]);
+      return view('worker.views.profile.personal-data', ['company_data' => empty($company_data[0])?null:$company_data[0]]);
    }
    public function savePersonalData(Request $request)
    {
@@ -92,8 +96,91 @@ class WorkerController extends Controller
 
    public function myContacts()
    {
-      $clients = DB::select('select * from clients where worker_id = ?', [$this->worker()]);
-      return view('worker.views.profile-contacts', ['clients' => $clients]);
+      $fizicka_lica = DB::select('select * from fizicka_lica where worker_id = ?', [$this->worker()]);
+      $pravna_lica = DB::select('select * from pravna_lica where worker_id = ?', [$this->worker()]);
+      return view('worker.views.profile.profile-contacts', ['fizicka_lica' => $fizicka_lica, 'pravna_lica'=> $pravna_lica]);
+   }
+
+   public function addFizickoIndex()
+   {
+      return view('worker.views.profile.add-fizicko-lice');
+   }
+
+   public function saveFizickoLice(Request $request)
+   {
+      try {
+         $data = $request->validate([
+            'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+            'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+            'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+            'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+            'postcode' => 'required|regex:/^[0-9\s]+$/i',
+            'email' => 'required|email',
+            'tel' => 'required|regex:/^[0-9\s]+$/i',
+        ]);
+
+      $fizicko_lice = new Fizicko_lice();
+      $fizicko_lice->worker_id = $request->worker_id;
+      $fizicko_lice->first_name = $data['f_name'];
+      $fizicko_lice->last_name = $request->l_name;
+      $fizicko_lice->city = $request->grad;
+      $fizicko_lice->zip_code = $request->postcode;
+      $fizicko_lice->address = $request->adresa;
+      $fizicko_lice->email = $request->email;
+      $fizicko_lice->tel = $request->tel;
+      $fizicko_lice->save();
+
+      alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->intended(route('worker.personal.contacts'));
+        
+       } catch (\Exception $e) {
+            alert()->error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
+            return redirect()->back();
+       }
+   }
+
+   public function addPravnoIndex()
+   {
+      return view('worker.views.profile.add-pravno-lice');
+   }
+
+   public function savePravnoLice(Request $request)
+   {
+      try {
+         $data = $request->validate([
+            'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
+            'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+            'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+            'postcode' => 'required|regex:/^[0-9\s]+$/i',
+            'email' => 'required|email',
+            'tel' => 'required|regex:/^[0-9\s]+$/i',
+            'pib' => 'required|regex:/^[0-9\s]+$/i',
+        ]);
+
+      $pravno_lice = new Pravno_lice();
+      $pravno_lice->worker_id = $request->worker_id;
+      $pravno_lice->company_name = $data['company'];
+      $pravno_lice->city = $data['grad'];
+      $pravno_lice->zip_code = $data['postcode'];
+      $pravno_lice->address = $data['adresa'];
+      $pravno_lice->email = $data['email'];
+      $pravno_lice->tel = $data['tel'];
+      $pravno_lice->pib = $data['pib'];
+      $pravno_lice->save();
+
+      alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->intended(route('worker.personal.contacts'));
+        
+       } catch (\Exception $e) {
+            alert()->error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
+            return redirect()->back();
+       }
+   }
+
+   public function companyDelete()
+   {
+      Company_Data::where('worker_id', $this->worker())->delete();
+      return redirect()->intended(route('worker.personal.data'));
    }
 
    public function saveContact(Request $request)

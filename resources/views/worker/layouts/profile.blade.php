@@ -74,7 +74,7 @@
 
                         <div class="flex mobile-spacer"></div>
 
-                        <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active-mobile' : '' }}">
+                        <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'profile-menu-active' : '' }}">
                             <a href="{{ route('worker.personal.contacts') }}" class="flex flex-row justify-between">
                                 <div>
                                     <p>Moji klijenti</p>
@@ -113,7 +113,7 @@
                             </a>
                         </div>
 
-                        <div class="menu-item flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active' : '' }}">
+                        <div class="menu-item flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'profile-menu-active' : '' }}">
                             <a href="{{ route('worker.personal.contacts') }}" class="flex flex-row justify-between">
                                 <div>
                                     <p>Moji klijenti</p>
@@ -132,6 +132,7 @@
         </main>
     </div>
     @include('footer')
+    @include('sweetalert::alert')
 </body>
 
 </html>

@@ -10,13 +10,14 @@ use App\Http\Controllers\WorkerController;
 |
 */
 
-Route::group(['middleware' => ['auth:worker', 'role:worker']], function() { 
+Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], function() { 
 
     Route::get('storage/{filename}', function ($filename)
     {
         return Image::make(storage_path('app/logo/' . $filename))->response();
     })->name('show.img');
 
+    //profile routes
     Route::get('contractor/profile', 'App\Http\Controllers\WorkerController@profile')
         ->name('worker.myprofile');
 
@@ -37,6 +38,21 @@ Route::group(['middleware' => ['auth:worker', 'role:worker']], function() {
 
     Route::get('contractor/profile/contacts/delete/{id}', 'App\Http\Controllers\WorkerController@deleteContact')
         ->name('worker.personal.contacts.delete');
+
+    Route::get('contractor/profile/add/individual', 'App\Http\Controllers\WorkerController@addFizickoIndex')
+        ->name('worker.personal.contacts.add.individual');
+
+    Route::post('contractor/profile/add/individual/save', 'App\Http\Controllers\WorkerController@saveFizickoLice')
+        ->name('worker.personal.contacts.add.individual.save');
+
+    Route::get('contractor/profile/add/legal-entity', 'App\Http\Controllers\WorkerController@addPravnoIndex')
+        ->name('worker.personal.contacts.add.legal-entity');
+
+    Route::post('contractor/profile/add/legal-entity/save', 'App\Http\Controllers\WorkerController@savePravnoLice')
+        ->name('worker.personal.contacts.add.legal-entity.save');
+
+    Route::delete('contractor/profile/company/delete', 'App\Http\Controllers\WorkerController@companyDelete')
+        ->name('worker.personal.company.delete');
 
 
     // nova ponuda

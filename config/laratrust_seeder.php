@@ -19,10 +19,27 @@ return [
         ],
         'user' => [
             'profile' => 'r,u,c,d',
+            'payments' => 'c,r,u,d',
+            'profile' => 'r,u'
         ],
         'worker' => [
             'profile' => 'r,u,c,d',
-        ]
+            'payments' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
+        'guest' => [
+            'profile' => 'r',
+        ],
+        'super_worker' => [
+            'profile' => 'r,u,c,d',
+            'payments' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
+        'super_admin' => [
+            'profile' => 'r,u,c,d',
+            'payments' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
     ],
 
     'permissions_map' => [
