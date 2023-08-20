@@ -225,9 +225,14 @@ class Archive extends Controller
         return DB::select('select * from company_data where worker_id = ?', [$worker]);
     }
 
-    private function clients($worker)
+    private function fizickaLica($worker)
     {
-        return DB::select('select * from clients where worker_id = ?', [$worker]);
+        return DB::select('select * from fizicka_lica where worker_id = ?', [$worker]);
+    }
+
+    private function pravnaLica($worker)
+    {
+        return DB::select('select * from pravna_lica where worker_id = ?', [$worker]);
     }
 
     private function selectedClient($worker, $id)
@@ -237,10 +242,11 @@ class Archive extends Controller
 
     public function selectContact($id){
 
-        return view('worker.views.select-contact',['ponuda_id' => $id, 'clients' => $this->clients($this->worker())]);
+        return view('worker.views.select-contact',['ponuda_id' => $id, 'fizicka_lica' => $this->fizickaLica($this->worker()), 'pravna_lica' => $this->pravnaLica($this->worker())]);
     }
 
     public function submitContact(Request $request){
+        dd($request);
 
         if(isset($request->selectedClient)) {
 
