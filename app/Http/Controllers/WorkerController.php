@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
@@ -42,8 +41,8 @@ class WorkerController extends Controller
 
    public function personalData()
    {
-      $company_data = DB::select('select * from company_data where worker_id = ?', [$this->worker()]);
-      return view('worker.views.profile.personal-data', ['company_data' => empty($company_data[0])?null:$company_data[0]]);
+      $company_data = Company_Data::where('worker_id', $this->worker())->first();
+      return view('worker.views.profile.personal-data', ['company_data' => empty($company_data)?null:$company_data]);
    }
    public function savePersonalData(Request $request)
    {
@@ -96,8 +95,8 @@ class WorkerController extends Controller
 
    public function myContacts()
    {
-      $fizicka_lica = DB::select('select * from fizicka_lica where worker_id = ?', [$this->worker()]);
-      $pravna_lica = DB::select('select * from pravna_lica where worker_id = ?', [$this->worker()]);
+      $fizicka_lica = Fizicko_Lice::where('worker_id', $this->worker())->get();
+      $pravna_lica = Pravno_Lice::where('worker_id', $this->worker())->get();
       return view('worker.views.profile.profile-contacts', ['fizicka_lica' => $fizicka_lica, 'pravna_lica'=> $pravna_lica]);
    }
 
@@ -209,7 +208,17 @@ class WorkerController extends Controller
       }
       else
       {
-         DB::update('update clients set first_name = ? , last_name = ? , city = ? , zip_code = ? , address = ? , email = ? , tel = ? where id = ? AND worker_id = ?', [$first_name, $last_name, $city, $zip, $address, $email, $tel, $id, $this->worker()]);
+         Clients::where('id', $id)
+         ->where('worker_id', $workerId)
+         ->update([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'city' => $city,
+            'zip_code' => $zip,
+            'address' => $address,
+            'email' => $email,
+            'tel' => $tel
+         ]);      
       }
 
       return redirect()->intended(route('worker.personal.contacts'));
@@ -217,16 +226,17 @@ class WorkerController extends Controller
 
    public function updateContact($id)
    {
-      $updateClient = DB::select('select * from clients where id = ? AND worker_id = ?', [$id, $this->worker()]);
-      if(!empty($updateClient))
-         Session::flash('updateClient', $updateClient[0]);
+      $updateClient = Clients::where('id', $id)->where('worker_id', $this->worker())->get()->first();
+      if ($updateClient) {
+         Session::flash('updateClient', $updateClient);
+      }
 
       return redirect()->intended(route('worker.personal.contacts'));
    }
 
    public function deleteContact($id)
    {
-      DB::table('clients')->where('id', $id)->where('worker_id', $this->worker())->delete();
+      Clients::where('id', $id)->where('worker_id', $this->worker())->delete();
 
       return redirect()->intended(route('worker.personal.contacts'));
    }

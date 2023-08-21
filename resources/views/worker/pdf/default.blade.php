@@ -67,7 +67,7 @@
         $title = '';
         $collection = collect($mergedData);
         $finalPrice = 0;
-        $mergedData = $collection->sortBy('id')->groupBy('id_category')->toArray();
+        $mergedData = $collection->sortBy('id')->groupBy('id_category');
         $note = $collection->groupBy('id_category');
         $titleBold = 0;
         $subPrice = 0;

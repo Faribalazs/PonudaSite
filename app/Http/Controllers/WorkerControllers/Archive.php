@@ -4,8 +4,15 @@ namespace App\Http\Controllers\WorkerControllers;
 
 use Mail;
 use App\Models\Clients;
+use App\Models\Swap;
+use App\Models\Ponuda;
+use App\Models\Ponuda_Date;
+use App\Models\Pozicija_Temporary;
+use App\Models\Title_Temporary;
+use App\Models\Worker;
+use App\Models\Fizicko_lice;
+use App\Models\Pravno_lice;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -22,7 +29,9 @@ class Archive extends Controller
     }
     
     private function showPrivate($worker){
-        return DB::select('select * from ponuda_date where worker_id = ? ORDER BY created_at DESC', [$worker]);
+        return Ponuda_Date::where('worker_id', $worker)
+            ->orderBy('created_at', 'DESC')
+            ->get();
     }
 
     public function show()
@@ -39,12 +48,18 @@ class Archive extends Controller
 
     private function orderByDate($worker, $search, $order)
     {
-        return DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND ponuda_name LIKE ? ORDER BY created_at $order", [$worker, $search]);
+        return Ponuda_Date::where('worker_id', $worker)
+            ->where('ponuda_name', 'LIKE', $search)
+            ->orderBy('created_at', $order)
+            ->get();
     }
 
     private function orderByDateNapomena($worker, $search, $order)
     {
-        return DB::select("SELECT * FROM ponuda_date WHERE worker_id = ? AND note LIKE ? ORDER BY created_at $order", [$worker, $search]);
+        return Ponuda_Date::where('worker_id', $worker)
+            ->where('note', 'LIKE', $search)
+            ->orderBy('created_at', $order)
+            ->get();
     }
 
     public function search(Request $request)
@@ -78,22 +93,22 @@ class Archive extends Controller
     }
 
     private function ponudaInfo($id, $worker_id){
-        return DB::table('ponuda')->where('ponuda_id', $id)->where('worker_id',$worker_id);
+        return Ponuda::where('ponuda_id', $id)->where('worker_id',$worker_id);
     }
 
     private function ponudaDate($id, $worker_id){
-        return DB::table('ponuda_date')->where('id_ponuda', $id)->where('worker_id',$worker_id);
+        return Ponuda_Date::where('id_ponuda', $id)->where('worker_id',$worker_id);
     }
 
     private function temporaryDesc($id){
-        return DB::table('pozicija_temporary')->where('id_of_ponuda', $id)->delete();
+        return Pozicija_Temporary::where('id_of_ponuda', $id)->delete();
     }
 
     private function temporaryTitle($id){
-        return DB::table('title_temporary')->where('id_of_ponuda', $id)->delete();
+        return Title_Temporary::where('id_of_ponuda', $id)->delete();
     }
     private function ponudaId($worker, $id){
-        return DB::select('select id, worker_id, ponuda_id from ponuda where worker_id = ? and ponuda_id = ?',[$worker,$id]);
+        return Ponuda::select('id', 'worker_id', 'ponuda_id')->where('worker_id', $worker)->where('ponuda_id', $id)->get();
     }
 
     public function delete($id)
@@ -132,37 +147,49 @@ class Archive extends Controller
     
     private function mergedData(){
         $worker_id = $this->worker();
-        $ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
-        AS id_category, c.name AS name_category, s.id AS
-        id_subcategory, s.name AS name_subcategory, poz.id 
-        AS id_pozicija, poz.unit_id, poz.title, poz.description, pd.worker_id, pd.id_ponuda, pd.note, pd.opis, pd.created_at, u.id_unit, u.name AS unit_name,
-        temp.id_of_ponuda, temp.temporary_description, title.id_of_ponuda, title.temporary_title,
-        serv.id_service, serv.name_service
-        FROM ponuda p JOIN categories c ON p.categories_id = c.id 
-        JOIN subcategories s ON p.subcategories_id = s.id 
-        JOIN pozicija poz ON p.pozicija_id = poz.id 
-        JOIN ponuda_date pd ON pd.id_ponuda = p.ponuda_id
-        JOIN units u ON poz.unit_id = u.id_unit
-        LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
-        LEFT JOIN title_temporary title ON p.id = title.id_of_ponuda
-        JOIN services serv ON p.service_id = serv.id_service
-        WHERE p.worker_id = ?',[$worker_id]);
-        $custom_ponuda = DB::select('SELECT p.id, p.worker_id, p.ponuda_id, p.categories_id, p.subcategories_id, p.pozicija_id, p.quantity, p.unit_price, p.overall_price, c.id 
-        AS id_category, c.name AS name_custom_category, s.id AS
-        id_subcategory, s.name AS name_custom_subcategory, poz.id 
-        AS id_pozicija, poz.unit_id, poz.custom_title, poz.custom_description, pd.worker_id, pd.id_ponuda, pd.note, pd.opis, pd.created_at, u.id_unit, u.name AS unit_name,
-        s.is_subcategory_deleted, c.is_category_deleted, poz.is_pozicija_deleted, temp.id_of_ponuda, temp.temporary_description, title.id_of_ponuda, title.temporary_title,
-        serv.id_service, serv.name_service
-        FROM ponuda p JOIN custom_categories c ON p.categories_id = c.id 
-        JOIN custom_subcategories s ON p.subcategories_id = s.id 
-        JOIN custom_pozicija poz ON p.pozicija_id = poz.id 
-        JOIN ponuda_date pd ON pd.id_ponuda = p.ponuda_id
-        JOIN units u ON poz.unit_id = u.id_unit
-        LEFT JOIN pozicija_temporary temp ON p.id = temp.id_of_ponuda
-        LEFT JOIN title_temporary title ON p.id = title.id_of_ponuda
-        JOIN services serv ON p.service_id = serv.id_service
-        WHERE p.worker_id = ?',[$worker_id]);
-        $mergedData = array_merge($ponuda, $custom_ponuda);
+        $ponuda = Ponuda::select(
+            'ponuda.id', 'ponuda.worker_id', 'ponuda.ponuda_id', 'ponuda.categories_id', 'ponuda.subcategories_id',
+            'ponuda.pozicija_id', 'ponuda.quantity', 'ponuda.unit_price', 'ponuda.overall_price',
+            'c.id AS id_category', 'c.name AS name_category', 's.id AS id_subcategory',
+            's.name AS name_subcategory', 'poz.id AS id_pozicija', 'poz.unit_id',
+            'poz.title', 'poz.description', 'pd.worker_id', 'pd.id_ponuda',
+            'pd.note', 'pd.opis', 'pd.created_at', 'u.id_unit', 'u.name AS unit_name',
+            'temp.id_of_ponuda', 'temp.temporary_description', 'title.id_of_ponuda',
+            'title.temporary_title', 'serv.id_service', 'serv.name_service'
+        )
+        ->join('categories as c', 'ponuda.categories_id', '=', 'c.id')
+        ->join('subcategories as s', 'ponuda.subcategories_id', '=', 's.id')
+        ->join('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
+        ->join('ponuda_date as pd', 'pd.id_ponuda', '=', 'ponuda.ponuda_id')
+        ->join('units as u', 'poz.unit_id', '=', 'u.id_unit')
+        ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
+        ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
+        ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
+        ->where('ponuda.worker_id', $worker_id)
+        ->get();
+        $custom_ponuda = Ponuda::select(
+            'ponuda.id', 'ponuda.worker_id', 'ponuda.ponuda_id', 'ponuda.categories_id', 'ponuda.subcategories_id',
+            'ponuda.pozicija_id', 'ponuda.quantity', 'ponuda.unit_price', 'ponuda.overall_price',
+            'c.id AS id_category', 'c.name AS name_custom_category', 's.id AS id_custom_subcategory',
+            's.name AS name_custom_subcategory', 'poz.id AS id_custom_pozicija', 'poz.unit_id',
+            'poz.custom_title', 'poz.custom_description', 'pd.worker_id', 'pd.id_ponuda',
+            'pd.note', 'pd.opis', 'pd.created_at', 'u.id_unit', 'u.name AS unit_name',
+            's.is_subcategory_deleted', 'c.is_category_deleted', 'poz.is_pozicija_deleted',
+            'temp.id_of_ponuda', 'temp.temporary_description', 'title.id_of_ponuda',
+            'title.temporary_title', 'serv.id_service', 'serv.name_service'
+        )
+        ->join('custom_categories as c', 'ponuda.categories_id', '=', 'c.id')
+        ->join('custom_subcategories as s', 'ponuda.subcategories_id', '=', 's.id')
+        ->join('custom_pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
+        ->join('ponuda_date as pd', 'pd.id_ponuda', '=', 'ponuda.ponuda_id')
+        ->join('units as u', 'poz.unit_id', '=', 'u.id_unit')
+        ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
+        ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
+        ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
+        ->where('ponuda.worker_id', $worker_id)
+        ->get();
+
+        $mergedData = $ponuda->concat($custom_ponuda);;
 
         return $mergedData;
     }
@@ -175,21 +202,20 @@ class Archive extends Controller
         }
         $worker_id = $this->worker();
         $mergedData = $this->mergedData();
-        usort($mergedData, function($a, $b) {
-            return $a->id - $b->id;
-        });
+        // usort($mergedData, function($a, $b) {
+        //     return $a->id - $b->id;
+        // });
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
-        $ponuda_name = DB::select('select ponuda_name from ponuda_date where id_ponuda = ?',[$id]);
-
+        $ponuda_name = Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->first();
         
         return view('worker.views.archive-selected',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $ponuda_name]);
     }
 
     private function PDFname($id, $worker)
     {
-        return DB::select('select ponuda_name from ponuda_date where id_ponuda = ? and worker_id = ?', [$id, $worker]);
+        return Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->where('worker_id', $worker)->first();
     }
 
     public function createMAIL($id)
@@ -198,7 +224,7 @@ class Archive extends Controller
         {
             return redirect()->intended(route('worker.new.ponuda'));
         }
-        $name = DB::select('select ponuda_name from ponuda_date where id_ponuda = ?', [$id]);
+        $name = Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->get();
         return view('worker.views.mail-send',['id_archive' => $id , 'name' => $name]);
     }
 
@@ -208,7 +234,7 @@ class Archive extends Controller
             return redirect()->intended(route('worker.new.ponuda'));
         }
         list($pdf, $pdf_name) = $this->PDFdata($id);
-        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+        return $pdf->download($pdf_name->ponuda_name . '.pdf');
     }
 
     public function viewPDF($id) {
@@ -217,27 +243,27 @@ class Archive extends Controller
             return redirect()->intended(route('worker.new.ponuda'));
         }
         list($pdf, $pdf_name) = $this->PDFdata($id);
-        return $pdf->stream($pdf_name[0]->ponuda_name);
+        return $pdf->stream($pdf_name->ponuda_name);
     }
 
     private function company_data($worker)
     {
-        return DB::select('select * from company_data where worker_id = ?', [$worker]);
+        return Company_Data::where('worker_id', $worker)->first();
     }
 
     private function fizickaLica($worker)
     {
-        return DB::select('select * from fizicka_lica where worker_id = ?', [$worker]);
+        return Fizicko_lice::where('worker_id', $worker)->get();
     }
 
     private function pravnaLica($worker)
     {
-        return DB::select('select * from pravna_lica where worker_id = ?', [$worker]);
+        return Pravno_lice::where('worker_id', $worker)->get();
     }
 
     private function selectedClient($worker, $id)
     {
-        return DB::select('select * from clients where worker_id = ? and id = ?', [$worker, $id]);
+        return Clients::where('worker_id', $worker)->where('id', $id)->first();
     }
 
     public function selectContact($id){
@@ -261,9 +287,17 @@ class Archive extends Controller
             $email = $request->email;
             $tel = $request->tel; 
 
-            $ifexist = DB::select('select * from clients where worker_id = ? and first_name = ? and last_name = ? and city = ? and zip_code = ? and address = ? and email = ? and tel = ?', [$this->worker(), $f_name, $l_name, $grad, $postcode, $adresa, $email, $tel]);
+            $ifexist = Clients::where('worker_id', $this->worker())
+                ->where('first_name', $f_name)
+                ->where('last_name', $l_name)
+                ->where('city', $grad)
+                ->where('zip_code', $postcode)
+                ->where('address', $adresa)
+                ->where('email', $email)
+                ->where('tel', $tel)
+                ->get();
 
-            if(isset($request->save) && count($ifexist) === 0) { 
+            if(isset($request->save) && $ifexist->isEmpty()) { 
                 $client = new Clients();
                 $client->worker_id = $this->worker();
                 $client->first_name = $f_name;
@@ -301,15 +335,15 @@ class Archive extends Controller
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
-        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id)[0];
+        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id);
         if (isset($request->client_id)) {
-            $foundClient = $this->selectedClient($worker_id, $request->client_id)[0];
+            $foundClient = $this->selectedClient($worker_id, $request->client_id);
         }
         $pdf_name = $this->PDFname($id,$worker_id);
         if(isset($request->new)) {
             $pdf = PDF::loadView($pdf_blade,
                 ['mergedData' => $selectedWorkerPonuda->all(), 
-                'ponuda_name' => $pdf_name[0]->ponuda_name, 
+                'ponuda_name' => $pdf_name->ponuda_name, 
                 'company' => $company_data,
                 'f_name' => $request->f_name,
                 'l_name' => $request->l_name,
@@ -321,10 +355,10 @@ class Archive extends Controller
                 'new' => "custom",
                 ]);
         } else {
-            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
+            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name->ponuda_name, 'company' => $company_data, 'client' => $foundClient]);
         }
 
-        return $pdf->download($pdf_name[0]->ponuda_name . '.pdf');
+        return $pdf->download($pdf_name->ponuda_name . '.pdf');
     }
     // redirektelni kell miutan letoti a pdf a sucessra
     public function generatePdfSuccess(Request $request){
@@ -344,7 +378,7 @@ class Archive extends Controller
             'mailBody' => 'nullable|string|max:1024',
         ]);
         list($pdf, $pdf_name) = $this->PDFdata($id);
-        $data["mailFrom"] = DB::select('select email from workers where id = ?', [$this->worker()])[0]->email;
+        $data["mailFrom"] = Worker::select('email')->where('id', $this->worker())->first()->email;
         $data["mailTo"] = $request->mailTo;
         $data["mailSubject"] = $request->mailSubject;
         $data["mailBody"] = $request->mailBody;
@@ -356,7 +390,7 @@ class Archive extends Controller
                 $message->from($data["mailFrom"]);
                 $message->to($data["mailTo"]);
                 $message->subject($data["mailSubject"] ?: 'PDF ponuda');
-                $message->attachData($pdfContent,$pdf_name[0]->ponuda_name . '.pdf', [
+                $message->attachData($pdfContent,$pdf_name->ponuda_name . '.pdf', [
                     'mime' => 'application/pdf',
                 ]);
             });
@@ -375,7 +409,7 @@ class Archive extends Controller
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
         $pdf_name = $this->PDFname($id,$worker_id);
-        $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name[0]->ponuda_name ]);
+        $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name->ponuda_name ]);
         return array($pdf, $pdf_name);
     }
 
@@ -390,16 +424,26 @@ class Archive extends Controller
 
     private function editPonudaCheck($ponuda_id)
     {
-        $worker = DB::select('select id, ponuda_counter from workers where id = ?', [$this->worker()]);
-        $ponuda_date = DB::select('select * from ponuda_date where worker_id = ? and id_ponuda = ?', [$this->worker(), $ponuda_id]);
-        $swap = DB::select('select * from swap_ponuda where worker_id = ?', [$this->worker()]);
+        $workerId = $this->worker();
+        $worker = Worker::select('id', 'ponuda_counter')->where('id', $workerId)->first();
+        $ponuda_date = Ponuda_Date::where('worker_id', $workerId)->where('id_ponuda', $ponuda_id)->first();
+        $swap = Swap::where('worker_id', $workerId)->get();
         if(count($swap)>1)
-            DB::table('swap_ponuda')->where('worker_id', $this->worker())->delete();
+            Swap::where('worker_id', $workerId)->delete();
 
-        DB::insert('insert into swap_ponuda (worker_id, original_id, swap_id, temp_ponuda_name, temp_opis, temp_note) values (?, ?, ?, ?, ?, ?)', [$this->worker(), $worker[0]->ponuda_counter, $ponuda_id, $ponuda_date[0]->ponuda_name, $ponuda_date[0]->opis, $ponuda_date[0]->note]);
-        DB::update('update workers set ponuda_counter = ? where id = ?', [$ponuda_id, $this->worker()]);
+        Swap::insert([
+            'worker_id' => $workerId,
+            'original_id' => $worker->ponuda_counter,
+            'swap_id' => $ponuda_id,
+            'temp_ponuda_name' => $ponuda_date->ponuda_name,
+            'temp_opis' => $ponuda_date->opis,
+            'temp_note' => $ponuda_date->note,
+        ]);
+        Worker::where('id', $workerId)->update(['ponuda_counter' => $ponuda_id]);
     }
     private function returnBack(){
-        return DB::select('select * from swap_ponuda s JOIN workers w ON s.worker_id = w.id where w.id = ?', [$this->worker()]);
+        return Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
+            ->where('workers.id', $this->worker())
+            ->get();
     }
 }

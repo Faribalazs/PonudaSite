@@ -4,10 +4,11 @@ namespace App\Http\Controllers\WorkerControllers;
 
 use Exception;
 use App\Models\Category;
-use App\Models\Pozicija;
 use App\Models\Subcategory;
+use App\Models\Default_category;
+use App\Models\Default_subcategory;
+use App\Models\Units;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -52,23 +53,23 @@ class NewOptions extends Controller
 
    //custom subcategory create & store start
    private function Categories(){
-      return DB::select('select * from categories');
+      return Default_category::all();
    }
    private function custom_Categories($worker)
    {
-      return DB::select('select * from custom_categories where worker_id = ? and is_category_deleted IS NULL',[$worker]);
+      return Category::where('worker_id', $worker)->whereNull('is_category_deleted')->get();
    }
    private function Subcategories()
    {
-      return DB::select('select * from subcategories');
+      return Default_subcategory::all();
    }
    private function custom_Subcategories($worker)
    {
-      return DB::select('select * from custom_subcategories where worker_id = ? and is_subcategory_deleted IS NULL',[$worker]);
+      return Subcategory::where('worker_id', $worker)->whereNull('is_subcategory_deleted')->get();
    }
    private function Units()
    {
-      return DB::select('select * from units');
+      return Units::all();
    }
    public function SubCategoryCreate()
    {

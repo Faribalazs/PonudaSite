@@ -17,7 +17,13 @@ class DataSeeder extends Seeder
         DB::table('categories')->insert(
             array( 
                 [
-                    'name' => 'Molersko farbarski radovi'
+                    'name' => 'Rušenje'
+                ],
+                [
+                    'name' => 'Demontaža'
+                ],
+                [
+                    'name' => 'Pripremni i završni radovi'
                 ],
                 [
                     'name' => 'Suvomontažni radovi'
@@ -26,13 +32,13 @@ class DataSeeder extends Seeder
                     'name' => 'Keramičarski radovi'
                 ],
                 [
-                    'name' => 'Parketarski radovi'
-                ],
-                [
                     'name' => 'Podopolagački radovi'
                 ],
                 [
-                    'name' => 'Pripremni i završni radovi'
+                    'name' => 'Parketarski radovi'
+                ],
+                [
+                    'name' => 'Molersko farbarski radovi'
                 ],
             )
         );
@@ -40,92 +46,100 @@ class DataSeeder extends Seeder
         DB::table('subcategories')->insert(
             array(
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Pripremni i završni radovi'
                 ],
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Unutrašnji zidovi i plafoni'
                 ],
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Vrata i prozori'
                 ],
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Fasada'
                 ],
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Dekorativne tehnike'
                 ],
                 [
-                    'category_id' => '1',
+                    'category_id' => '8',
                     'name' => 'Ukrasne tapete, bordure i aplikacije'
                 ],
                 [
-                    'category_id' => '2',
+                    'category_id' => '4',
                     'name' => 'Pregradni zidovi'
                 ],
                 [
-                    'category_id' => '2',
+                    'category_id' => '4',
                     'name' => 'Spusteni plafoni'
                 ],
                 [
-                    'category_id' => '2',
+                    'category_id' => '4',
                     'name' => 'Suvo malterisanje'
                 ],
                 [
-                    'category_id' => '2',
+                    'category_id' => '4',
                     'name' => 'Oblaganje instalacija'
                 ],
                 [
-                    'category_id' => '3',
+                    'category_id' => '5',
                     'name' => 'Pripremni i završni radovi'
                 ],
                 [
-                    'category_id' => '3',
+                    'category_id' => '5',
                     'name' => 'Zidovi'
                 ],
                 [
-                    'category_id' => '3',
+                    'category_id' => '5',
                     'name' => 'Podovi'
                 ],
                 [
-                    'category_id' => '4',
+                    'category_id' => '7',
                     'name' => 'Demontaža'
                 ],
                 [
-                    'category_id' => '4',
+                    'category_id' => '7',
                     'name' => 'Priprema podloge'
                 ],
                 [
-                    'category_id' => '4',
-                    'name' => 'Podovi'
-                ],
-                [
-                    'category_id' => '5',
-                    'name' => 'Demontaža'
-                ],
-                [
-                    'category_id' => '5',
-                    'name' => 'Priprema podloge'
-                ],
-                [
-                    'category_id' => '5',
+                    'category_id' => '7',
                     'name' => 'Podovi'
                 ],
                 [
                     'category_id' => '6',
+                    'name' => 'Demontaža'
+                ],
+                [
+                    'category_id' => '6',
+                    'name' => 'Priprema podloge'
+                ],
+                [
+                    'category_id' => '6',
+                    'name' => 'Podovi'
+                ],
+                [
+                    'category_id' => '3',
                     'name' => 'Priprema i zaštita'
                 ],
                 [
-                    'category_id' => '6',
+                    'category_id' => '3',
                     'name' => 'Čišćenje i pranje'
                 ],
                 [
-                    'category_id' => '6',
+                    'category_id' => '3',
                     'name' => 'Otpad i šut'
+                ],
+                [
+                    'category_id' => '1',
+                    'name' => 'Rušenje'
+                ],
+                [
+                    'category_id' => '2',
+                    'name' => 'Demontaža'
                 ],
             )
         );
@@ -1458,6 +1472,144 @@ class DataSeeder extends Seeder
                     'unit_id' => '5',
                     'title' => 'Utovar otpadnog materijala u kamion i odvoz na gradsku deponiju udaljenu do 10km.',
                     'description' => ''
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '3',
+                    'title' => 'Probijanje zida ili plafona za prolaz vodovodnih ili kanalizacionih cevi.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '4',
+                    'title' => 'Izrada šliceva u zida od opeke za prolaz vodovodnih ili kanalizacionih cevi.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Probijanje pregradnog zida od opeke za izradu otvora za nova vrata.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km. U cenu je uračunato i podupiranje.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Probijanjenosećeg zida od opeke za izradu otvora za nova vrata.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km. U cenu je uračunato i podupiranje.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Probijanje armirano betonske ploče i formiranje otvora.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km. U cenu je uračunato i sečenje armatura i potrebna skela'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje krečnog maltera sa zidova.',
+                    'description' => 'Nakon obijanja maltera, fuge se čiste klanfama do dubine od 2cm, a površina opeke se čisti čeličnim četkama. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje produžnog maltera sa zidova.',
+                    'description' => 'Nakon obijanja maltera, fuge se čiste klanfama do dubine od 2cm, a površina opeke se čisti čeličnim četkama. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje cementnog  maltera sa zidova.',
+                    'description' => 'Nakon obijanja maltera, fuge se čiste klanfama do dubine od 2cm, a površina opeke se čisti čeličnim četkama. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Obijanje maltera sa plafona.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Čišćenje fuga od opeke.',
+                    'description' => 'Fuge se čiste klanfama do dubine od 2cm, a površina opeke se čisti čeličnim četkama. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Rušenje pregradnih zidova od opeke u produžnom malteru.',
+                    'description' => 'U ceni je i rušenje serklaža, nadvratnika, nadprozornika i svim zidnim oblogama. Opeku očistiti od maltera i složiti na gradilišnu deponiju. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '2',
+                    'title' => 'Rušenje nosećih zidova od opeke u produžnom malteru.',
+                    'description' => 'U ceni je i rušenje serklaža, nadvratnika, nadprozornika i svim zidnim oblogama. Opeka  se čisti od maltera i slaže na gradilišnu deponiju. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '2',
+                    'title' => 'Rušenje zidova od blokova.',
+                    'description' => 'U ceni je i rušenje serklaža, nadvratnika, nadprozornika i svim zidnim oblogama. Blokovi se  čiste od maltera i slažu na gradilišnu deponiju. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '2',
+                    'title' => 'Rušenje zidova od Ytong blokova.',
+                    'description' => 'U ceni je i rušenje serklaža, nadvratnika, nadprozornika i svim zidnim oblogama. Blokovi se  čiste od maltera i slažu na gradilišnu deponiju. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Rušenje i demontaža zidova od gips-karton ploča.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '23',
+                    'unit_id' => '1',
+                    'title' => 'Probijanje i isecanje otvora u  zidovima i plafonima od armiranog betona.',
+                    'description' => 'U ceni je i sečenje armature.  Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '3',
+                    'title' => 'Demontaža prozora.',
+                    'description' => 'Prozori se demontiraju zajedno sa štokovima. Demontirani prozori se deponuju na gradilišnoj deponiji.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '3',
+                    'title' => 'Demontaža vrata.',
+                    'description' => 'Vrata se demontiraju zajedno sa štokovima. Demontirana vrata se deponuju na gradilišnoj deponiji.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža ugrađenih plakara.',
+                    'description' => 'Demontirani plakari se deponuju na gradilišnoj deponiji.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža brodskog poda zajedno sa svim slojevima podkonstrukcije i lajsnama.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od parketa zajedno sa lajsnama.',
+                    'description' => 'Demontirani parket se slaže i povezuje. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od itisona zajedno sa lajsnama.',
+                    'description' => 'Demontirani itison se slaže i pakuje. Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
+                ],
+                [
+                    'subcategory_id' => '24',
+                    'unit_id' => '1',
+                    'title' => 'Demontaža poda od PVC podnih obloga zajedno sa lajsnama.',
+                    'description' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.'
                 ],
             )
         );

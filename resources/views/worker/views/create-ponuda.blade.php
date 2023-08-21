@@ -11,7 +11,7 @@
         $desc_now = '';
         $finalPrice = 0;
         $collection = collect($mergedData);
-        $mergedData = $collection->groupBy('id_category')->toArray();
+        $mergedData = $collection->groupBy('id_category');
         $titleBold = 0;
         $subPrice = 0;
         $limit = 0;
@@ -52,7 +52,7 @@
             Session::forget('msg');
         @endphp
     @endif
-    @if ($mergedData != null)
+    @if ($mergedData->isNotEmpty())
         <div class="overflow-x-auto">
             @foreach ($mergedData as $id)
                 <div>
@@ -399,12 +399,12 @@
             <div class="flex justify-center mb-5">
                 <button type="submit" class="finish-btn my-3">Dodaj poziciju</button>
             </div>
-            @if ($mergedData != null)
+            @if ($mergedData->isNotEmpty())
                 <hr>
             @endif
         </div>
     </form>
-    @if ($mergedData != null)
+    @if ($mergedData->isNotEmpty())
         <div class="flex w-full justify-center mt-5">
             <div class="flex">
                 <button
