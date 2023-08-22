@@ -137,8 +137,11 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/archive/success', 'App\Http\Controllers\WorkerControllers\Archive@generatePdfSuccess')
         ->name('worker.archive.success');
 
-    Route::post('contractor/archive/submit/contact', 'App\Http\Controllers\WorkerControllers\Archive@submitContact')
+    Route::post('contractor/archive/submit/contact/fizicka', 'App\Http\Controllers\WorkerControllers\Archive@submitContact')
         ->name('worker.archive.submit.contact');
+
+    Route::post('contractor/archive/submit/contact/pravna', 'App\Http\Controllers\WorkerControllers\Archive@submitContactPravna')
+        ->name('worker.archive.submit.contact.pravna');
 
     Route::get('contractor/archive/{id}', 'App\Http\Controllers\WorkerControllers\Archive@selectedArchive')
         ->name('worker.archive.selected')->middleware('restrictUserAccess');
@@ -175,6 +178,12 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     
     Route::post('contractor/archive/generate/pdf', 'App\Http\Controllers\WorkerControllers\Archive@tamplateGeneratePdf')
         ->name('worker.archive.genarte.tamplate.pdf');
+
+    Route::get('contractor/fizickalica/{ponuda_id}', 'App\Http\Controllers\WorkerControllers\Archive@showFizicka')
+        ->name('worker.archive.fizicka_lica');
+
+    Route::get('contractor/pravnalica/{ponuda_id}', 'App\Http\Controllers\WorkerControllers\Archive@showPravna')
+        ->name('worker.archive.pravna_lica');
 });
 
 

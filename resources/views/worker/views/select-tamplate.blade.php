@@ -5,7 +5,6 @@
     <x-slot name="header">
     </x-slot>
     <div class="flex">
-
     </div>
     <div class="flex">
         <form method="POST" action="{{ route('worker.archive.genarte.tamplate.pdf') }}" class="mt-5 w-full">
@@ -13,14 +12,25 @@
             @if (isset($client_id))
                 <input type="hidden" name="client_id" value="{{ $client_id }}" />
             @endif
+            @if (isset($type))
+                <input type="hidden" name="type" value="{{ $type }}" />
+            @endif
             @if (isset($new))
-                <input type="hidden" name="f_name" value="{{ $f_name }}" />
-                <input type="hidden" name="l_name" value="{{ $l_name }}" />
+                @if(isset($f_name))
+                    <input type="hidden" name="f_name" value="{{ $f_name }}" />
+                @endif
+                @if (isset($l_name))
+                    <input type="hidden" name="l_name" value="{{ $l_name }}" />
+                @endif
                 <input type="hidden" name="city" value="{{ $city }}" />
                 <input type="hidden" name="zip" value="{{ $zip }}" />
                 <input type="hidden" name="adresa" value="{{ $adresa }}" />
                 <input type="hidden" name="tel" value="{{ $tel }}" />
                 <input type="hidden" name="email" value="{{ $email }}" />
+                @if (isset($company_name) && isset($pib))
+                    <input type="hidden" name="company_name" value="{{ $company_name }}" />
+                    <input type="hidden" name="pib" value="{{ $pib }}" />
+                @endif
                 <input type="hidden" name="new" value="custom" />
             @endif
             @if (isset($save))

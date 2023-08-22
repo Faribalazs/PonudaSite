@@ -4,7 +4,11 @@
     </x-slot>
     <x-slot name="header">
     </x-slot>
-    <form method="POST" id="form1" action="{{ route('worker.archive.submit.contact') }}">
+    <div class="mt-24">
+        <a href="{{ route('worker.archive.fizicka_lica', ['ponuda_id' => $ponuda_id]) }}"><button class="mt-3 confirm-btn">Fizicka lica</button></a>
+        <a href="{{ route('worker.archive.pravna_lica', ['ponuda_id' => $ponuda_id]) }}"><button class="mt-24 confirm-btn">Pravna lica</button></a>
+    </div>
+    {{-- <form method="POST" id="form1" action="{{ route('worker.archive.submit.contact') }}">
         @csrf
         <div class="flex w-full mt-24">
             <div class="flex w-1/2 px-3 justify-center">
@@ -125,5 +129,5 @@
                 z.style.display = "none";
             }
         }
-    </script>
+    </script> --}}
 </x-app-worker-layout>

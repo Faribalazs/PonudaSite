@@ -8,7 +8,6 @@ use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use App\Models\Company_Data;
-use App\Models\Clients;
 use App\Models\Fizicko_lice;
 use App\Models\Pravno_lice;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -195,7 +194,7 @@ class WorkerController extends Controller
 
       if($id === null)
       {
-         $client = new Clients();
+         $client = new Fizicko_lice();
          $client->worker_id = $this->worker();
          $client->first_name = $first_name;
          $client->last_name = $last_name;
@@ -208,7 +207,7 @@ class WorkerController extends Controller
       }
       else
       {
-         Clients::where('id', $id)
+         Fizicko_lice::where('id', $id)
          ->where('worker_id', $workerId)
          ->update([
             'first_name' => $first_name,
@@ -226,7 +225,7 @@ class WorkerController extends Controller
 
    public function updateContact($id)
    {
-      $updateClient = Clients::where('id', $id)->where('worker_id', $this->worker())->get()->first();
+      $updateClient = Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->get()->first();
       if ($updateClient) {
          Session::flash('updateClient', $updateClient);
       }
@@ -236,7 +235,7 @@ class WorkerController extends Controller
 
    public function deleteContact($id)
    {
-      Clients::where('id', $id)->where('worker_id', $this->worker())->delete();
+      Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->delete();
 
       return redirect()->intended(route('worker.personal.contacts'));
    }

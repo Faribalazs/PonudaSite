@@ -197,22 +197,42 @@
                 </tr>
             </table>
             @if(isset($client) && $client !== null)
-                <p>CLIENT</p>
-                <p>First name: {{ $client->first_name }}</p>
-                <p>Last name: {{ $client->last_name }}</p>
-                <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
-                <p>Address: {{ $client->address }}</p>
-                <p>E-mail: {{ $client->email }}</p>
-                <p>Tel: +{{ $client->tel }}</p>
+                @if($type == 1)
+                    <p>Fizicko lice</p>
+                    <p>First name: {{ $client->first_name }}</p>
+                    <p>Last name: {{ $client->last_name }}</p>
+                    <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
+                    <p>Address: {{ $client->address }}</p>
+                    <p>E-mail: {{ $client->email }}</p>
+                    <p>Tel: +{{ $client->tel }}</p>
+                @elseif($type == 2)
+                    <p>Pravno lice</p>
+                    <p>Company name: {{ $client->company_name }}</p>
+                    <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
+                    <p>Address: {{ $client->address }}</p>
+                    <p>E-mail: {{ $client->email }}</p>
+                    <p>Tel: +{{ $client->tel }}</p>
+                    <p>Pib: {{ $client->pib }}</p>
+                @endif
             @endif
-            @if(isset($new) && $new !== null )
-                <p>CLIENT</p>
-                <p>First name: {{ $f_name }}</p>
-                <p>Last name: {{ $l_name }}</p>
-                <p>City: {{ $city }} {{ $zip }}</p>
-                <p>Address: {{ $adresa }}</p>
-                <p>E-mail: {{ $email }}</p>
-                <p>Tel: +{{ $tel }}</p>
+            @if(isset($new) && $new !== null)
+                @if(request()->type == 1)
+                    <p>Fizicko lice</p>
+                    <p>First name: {{ request()->f_name }}</p>
+                    <p>Last name: {{ request()->l_name }}</p>
+                    <p>City: {{ request()->city }} {{ request()->zip }}</p>
+                    <p>Address: {{ request()->adresa }}</p>
+                    <p>E-mail: {{ request()->email }}</p>
+                    <p>Tel: +{{ request()->tel }}</p>
+                @elseif(request()->type == 2)
+                    <p>Pravno lice</p>
+                    <p>Company name: {{ request()->company_name }}</p>
+                    <p>City: {{ request()->city }} {{ request()->zip }}</p>
+                    <p>Address: {{ request()->adresa }}</p>
+                    <p>E-mail: {{ request()->email }}</p>
+                    <p>Tel: +{{ request()->tel }}</p>
+                    <p>Pib: {{ request()->pib }}</p>
+                @endif
             @endif
             @foreach ($mergedData as $id)
                 <div style="border-right: 1px solid black;">
