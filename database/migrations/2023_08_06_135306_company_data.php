@@ -19,12 +19,12 @@ class CompanyData extends Migration
             $table->string('company_name');
             $table->string('country');
             $table->string('city');
-            $table->integer('zip_code');
+            $table->string('zip_code');
             $table->string('address');
             $table->string('tel');
             $table->string('email');
-            $table->integer('pib');
-            $table->integer('maticni_broj');
+            $table->string('pib');
+            $table->string('maticni_broj');
             $table->string('tekuci_racun');
             $table->string('bank_account')->nullable();
             $table->string('bank_name');
