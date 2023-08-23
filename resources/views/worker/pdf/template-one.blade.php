@@ -147,22 +147,29 @@
         $limit = 0;
         $counter = 0;
         $user_id = Auth::guard('worker')->user()->id;
+        $company_name = isset($company->company_name)?$company->company_name:null;
+        $company_city = isset($company->city)?$company->city:null;
+        $company_logo = null;
+        if(isset($company->logo))
+            $company_logo = 'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/worker/' . $user_id . '/logo' . '/' . $company->logo)));
     @endphp
     @if ($mergedData != null)
+        @if($company !== null)
         <header>
             <div style="margin-bottom: 50px;">
                 <div class="header-style">
                     <div class="logo-side">
-                        <img src="{{'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/worker/' . $user_id . '/logo' . '/' . $company->logo)))}}" alt="{{ $company->company_name }}" style="object-fit:contain; width:150px; height:80px;">
+                        <img src="{{ $company_logo }}" alt="{{ $company_name }}" style="object-fit:contain; width:150px; height:80px;">
                     </div>
                     <div class="name-company">
-                        <p>{{ $company->company_name }}</p>
-                        <p>{{ $company->city }}</p>
+                        <p>{{ $company_name }}</p>
+                        <p>{{ $company_city }}</p>
                     </div>
                 </div>
                 <div class="line"></div>
             </div>
         </header>
+        @endif
 
         <footer>
             <div style="height: 100px">
@@ -170,18 +177,18 @@
                 <div class="header-style">
                     @if ($company !== null)
                     <div class="left-side">
-                        <p>{{ $company->country }}</p>
-                        <p>{{ $company->zip_code }} {{ $company->city }}</p>
-                        <p>{{ $company->address }}</p>
-                        <p>Tel : +{{ $company->tel }}</p>
-                        <p>E mail: {{ $company->email }}</p>
+                        <p>{{ isset($company->country)?$company->country:null }}</p>
+                        <p>{{ isset($company->zip_code)?$company->zip_code:null }} {{ $company_city }}</p>
+                        <p>{{ isset($company->address)?$company->address:null }}</p>
+                        <p>Tel : +{{ isset($company->tel)?$company->tel:null }}</p>
+                        <p>E mail: {{ isset($company->email)?$company->email:null }}</p>
                     </div>
                     <div class="right-side">
-                        <p>PIB :{{ $company->pib }}</p>
-                        <p>Maticni broj / Registration code : {{ $company->maticni_broj }}</p>
-                        <p>Tekuci racun : {{ $company->tekuci_racun }} RSD</p>
-                        <p>bank account : {{ $company->bank_account }} EUR</p>
-                        <p>{{ $company->bank_name }}</p>
+                        <p>PIB :{{ isset($company->pib)?$company->pib:null }}</p>
+                        <p>Maticni broj / Registration code : {{ isset($company->maticni_broj)?$company->maticni_broj:null }}</p>
+                        <p>Tekuci racun : {{ isset($company->tekuci_racun)?$company->tekuci_racun:null }} RSD</p>
+                        <p>bank account : {{ isset($company->bank_account)?$company->bank_account:null }} EUR</p>
+                        <p>{{ isset($company->bank_name)?$company->bank_name:null }}</p>
                     </div>
                     @endif
                 </div>

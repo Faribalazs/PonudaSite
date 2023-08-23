@@ -390,16 +390,18 @@ class Archive extends Controller
 
     public function tamplateGeneratePdf(Request $request) 
     {
-        // dd($request->type);
+        // dd($request->temp);
+        $worker_id = $this->worker();
+        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id);
         $template = $request->temp;
+        if($company_data === null && $template == "template-one")
+            return redirect()->intended(route('worker.personal.data'));
         $pdf_blade = 'worker.pdf.'. $template;
         $id = $request->ponuda_id;
-        $worker_id = $this->worker();
         $mergedData = $this->mergedData();
         $collection = collect($mergedData);
         $selected_ponuda = $collection->where('ponuda_id', intval($id));
         $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
-        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id);
         $foundClient = null;
         if (isset($request->client_id) && isset($request->type)) {
             if($request->type == 1)
