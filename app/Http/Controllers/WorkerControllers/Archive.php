@@ -189,7 +189,7 @@ class Archive extends Controller
         ->where('ponuda.worker_id', $worker_id)
         ->get();
 
-        $mergedData = $ponuda->concat($custom_ponuda);;
+        $mergedData = $ponuda->concat($custom_ponuda);
 
         return $mergedData;
     }
