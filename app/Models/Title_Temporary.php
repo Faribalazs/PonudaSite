@@ -12,4 +12,9 @@ class Title_Temporary extends Model
     protected $table = 'title_temporary';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'id_of_ponuda',
+        'temporary_title',
+    ];
 }

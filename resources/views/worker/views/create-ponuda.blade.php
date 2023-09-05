@@ -413,6 +413,16 @@
             </div>
         </div>
     @endif
+    @if(session('accessDenied'))
+        <script>
+            Swal.fire({
+                title: 'Access Denied',
+                text: "{{ session('accessDenied') }}",
+                icon: 'error',
+                confirmButtonColor: '#d33'
+            });
+        </script>
+    @endif
     <script>
         function showDes() {
             var x = document.getElementById("text-area");
@@ -503,6 +513,7 @@
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
+                    '@method("put")' +
                     '<span class="font-bold text-black">Ime pozicija :</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +

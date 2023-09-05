@@ -12,4 +12,8 @@ class Default_category extends Model
     protected $table = 'categories';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'name',
+    ];
 }

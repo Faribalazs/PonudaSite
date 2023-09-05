@@ -17,6 +17,7 @@
         @endforeach
     <form method="POST" id="formSubcategory" action="{{ route('worker.options.update.subcategory') }}">
         @csrf
+        @method('put')
         <input type="text" placeholder="{{ $subcategory_name }}" value="{{ $subcategory_name }}" name="subcategory">
         <input type="hidden" name="id" value="{{ $subcategory_id }}" class="w-full dropdown-search mt-4">
         <button type="submit" class="add-new-btn my-3">Sacuvaj</button>

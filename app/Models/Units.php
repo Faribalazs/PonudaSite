@@ -13,4 +13,7 @@ class Units extends Model
 
     protected $primaryKey = 'id_unit';
 
+    protected $fillable = [
+        'name',
+    ];
 }

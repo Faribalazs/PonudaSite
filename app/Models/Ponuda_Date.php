@@ -14,4 +14,12 @@ class Ponuda_Date extends Model
     const UPDATED_AT = null;
     const CREATED_AT = null;
     public $timestamps = false;
+
+    protected $fillable = [
+        'worker_id',
+        'id_ponuda',
+        'ponuda_name',
+        'note',
+        'opis',
+    ];
 }

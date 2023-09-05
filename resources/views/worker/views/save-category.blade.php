@@ -17,6 +17,7 @@
         @endforeach
         <form method="POST" id="formCategory" action="{{ route('worker.options.update.category') }}">
             @csrf
+            @method('put')
             <input type="text" placeholder="{{ $category_name }}" value="{{ $category_name }}" name="category" class="w-full dropdown-search mt-4">
             <input type="hidden" name="id" value="{{ $id }}" class="w-full dropdown-search mt-4">
 

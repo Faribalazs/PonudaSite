@@ -36,10 +36,6 @@ class Archive extends Controller
 
     public function show()
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         $data = $this->showPrivate($worker_id);
         
@@ -64,10 +60,6 @@ class Archive extends Controller
 
     public function search(Request $request)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         $sortOrder = $request->input('sort_order', 'asc');
         $searchQuery = '%'.$request->input('query').'%';
@@ -79,10 +71,6 @@ class Archive extends Controller
 
     public function searchNapomena(Request $request)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         $sortOrder = $request->input('sort_order', 'asc');
         $searchQuery = '%'.$request->input('query').'%';
@@ -113,10 +101,6 @@ class Archive extends Controller
 
     public function delete($id)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         foreach($this->ponudaId($worker_id,$id) as $toDel)
         {
@@ -130,10 +114,6 @@ class Archive extends Controller
 
     public function deleteElement($id,$ponuda_id)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         $this->ponudaInfo($ponuda_id,$worker_id)->where('id', $id)->delete();
         $this->temporaryDesc($id);
@@ -196,10 +176,6 @@ class Archive extends Controller
 
     public function selectedArchive($id)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $worker_id = $this->worker();
         $mergedData = $this->mergedData();
         // usort($mergedData, function($a, $b) {
@@ -220,28 +196,16 @@ class Archive extends Controller
 
     public function createMAIL($id)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $name = Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->get();
         return view('worker.views.mail-send',['id_archive' => $id , 'name' => $name]);
     }
 
     public function createPDF($id) {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         list($pdf, $pdf_name) = $this->PDFdata($id);
         return $pdf->download($pdf_name->ponuda_name . '.pdf');
     }
 
     public function viewPDF($id) {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         list($pdf, $pdf_name) = $this->PDFdata($id);
         return $pdf->stream($pdf_name->ponuda_name);
     }
@@ -439,10 +403,6 @@ class Archive extends Controller
     // redirektelni kell miutan letoti a pdf a sucessra end
     public function sendPDF(Request $request, $id)
     {
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $request->validate([
             'mailTo' => 'required|string|email:rfc|max:255',
             'mailSubject' => 'nullable|string|max:64',
@@ -485,10 +445,6 @@ class Archive extends Controller
     }
 
     public function editPonuda($ponuda_id){
-        if(count($this->returnBack())>0)
-        {
-            return redirect()->intended(route('worker.new.ponuda'));
-        }
         $this->editPonudaCheck($ponuda_id);
         return redirect()->intended(route('worker.new.ponuda'));
     }
@@ -502,7 +458,7 @@ class Archive extends Controller
         if(count($swap)>1)
             Swap::where('worker_id', $workerId)->delete();
 
-        Swap::insert([
+        Swap::create([
             'worker_id' => $workerId,
             'original_id' => $worker->ponuda_counter,
             'swap_id' => $ponuda_id,
@@ -511,10 +467,5 @@ class Archive extends Controller
             'temp_note' => $ponuda_date->note,
         ]);
         Worker::where('id', $workerId)->update(['ponuda_counter' => $ponuda_id]);
-    }
-    private function returnBack(){
-        return Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
-            ->where('workers.id', $this->worker())
-            ->get();
     }
 }

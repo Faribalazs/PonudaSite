@@ -240,14 +240,14 @@ class NewPonuda extends Controller
          $title = "";
       if($des != $default_desc && $title != $default_title)
       {
-         Pozicija_Temporary::insert([
+         Pozicija_Temporary::create([
             'id_of_ponuda' => $id_of_ponuda,
             'temporary_description' => $des,
         ]);      
       }
       if($title != $default_title)
       {
-         Title_Temporary::insert([
+         Title_Temporary::create([
             'id_of_ponuda' => $id_of_ponuda,
             'temporary_title' => $title,
         ]);
@@ -287,7 +287,7 @@ class NewPonuda extends Controller
       }
       else
       {
-         Pozicija_Temporary::insert([
+         Pozicija_Temporary::create([
             'id_of_ponuda' => $real_id,
             'temporary_description' => $temp_desc,
          ]);
@@ -307,7 +307,7 @@ class NewPonuda extends Controller
       }
       else
       {
-         Title_Temporary::insert([
+         Title_Temporary::create([
             'id_of_ponuda' => $real_id,
             'temporary_title' => $temp_title,
          ]);
@@ -376,7 +376,7 @@ class NewPonuda extends Controller
          Ponuda_Date::where('id_ponuda', $swap->swap_id)
             ->where('worker_id', $worker)
             ->delete();         
-         Ponuda_Date::insert([
+         Ponuda_Date::create([
             'worker_id' => $worker,
             'id_ponuda' => $swap->swap_id,
             'created_at' => $date,
@@ -388,7 +388,7 @@ class NewPonuda extends Controller
       }
       else
       {
-         Ponuda_Date::insert([
+         Ponuda_Date::create([
             'worker_id' => $worker,
             'id_ponuda' => $this->ponudaCounter($worker)->ponuda_counter,
             'created_at' => $date,

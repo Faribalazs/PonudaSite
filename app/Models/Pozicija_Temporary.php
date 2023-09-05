@@ -12,4 +12,9 @@ class Pozicija_Temporary extends Model
     protected $table = 'pozicija_temporary';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'id_of_ponuda',
+        'temporary_description',
+    ];
 }

@@ -170,7 +170,8 @@ class OptionsController extends Controller
          ]);      
    }
 
-   public function deleteCategory($id){
+   public function deleteCategory(Request $request){
+      $id = $request->input('id');
       $name = $this->select_custom_category($id)->name;
       $this->delCategory($id);
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
@@ -188,7 +189,8 @@ class OptionsController extends Controller
       }
    }
 
-   public function deleteSubcategory($id){
+   public function deleteSubcategory(Request $request){
+      $id = $request->input('id');
       $name = $this->select_custom_subcategory($id)->name;
       $this->delSubcategory($id);
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
@@ -200,7 +202,8 @@ class OptionsController extends Controller
          ->update(['is_pozicija_deleted' => 1]);
    }
 
-   public function deletePozicija($id){
+   public function deletePozicija(Request $request){
+      $id = $request->input('id');
       $name = $this->select_custom_pozicija($id)->custom_title;
       $this->delPozicija($id);
       return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);

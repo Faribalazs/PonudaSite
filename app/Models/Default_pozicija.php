@@ -12,4 +12,11 @@ class Default_pozicija extends Model
     protected $table = 'pozicija';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'subcategory_id',
+        'unit_id',
+        'title',
+        'description',
+    ];
 }

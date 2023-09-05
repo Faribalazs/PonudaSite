@@ -14,7 +14,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     You're logged in as a user! <br>
                     Your name is: {{Auth::user()->name}} <br>
-                    Your email addrress: {{Auth::user()->email}}
+                    Your email address: {{Auth::user()->email}}
                     {{__('app.basic.welcome')}}
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

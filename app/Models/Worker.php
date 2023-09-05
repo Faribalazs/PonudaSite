@@ -23,6 +23,7 @@ class Worker extends Authenticatable
         'name',
         'email',
         'password',
+        'photo_name',
     ];
 
     /**

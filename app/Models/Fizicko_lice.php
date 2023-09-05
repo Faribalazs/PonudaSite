@@ -12,4 +12,15 @@ class Fizicko_lice extends Model
     protected $table = 'fizicka_lica';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'worker_id',
+        'first_name',
+        'last_name',
+        'city',
+        'zip_code',
+        'address',
+        'email',
+        'tel',
+    ];
 }

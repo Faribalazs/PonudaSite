@@ -12,4 +12,21 @@ class Company_Data extends Model
     protected $table = 'company_data';
     
     public $timestamps = false;
+
+    protected $fillable = [
+        'worker_id',
+        'company_name',
+        'country',
+        'city',
+        'zip_code',
+        'address',
+        'tel',
+        'email',
+        'pib',
+        'maticni_broj',
+        'tekuci_racun',
+        'bank_account',
+        'bank_name',
+        'logo',
+    ];
 }

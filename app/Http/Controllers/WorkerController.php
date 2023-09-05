@@ -11,6 +11,7 @@ use App\Models\Company_Data;
 use App\Models\Fizicko_lice;
 use App\Models\Pravno_lice;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 use \Exception;
 
 class WorkerController extends Controller
@@ -62,7 +63,7 @@ class WorkerController extends Controller
       $fileName = null;
       if ($request->hasFile('logo')) {
          $image = $request->file('logo');
-         $fileName = time() . $this->worker() . '.' . $image->getClientOriginalExtension();
+         $fileName = $image->hashName();
          $img = Image::make($image->getRealPath());
          $img->resize(360, 270);
          // $img->resize(360, 360, function ($constraint) {
@@ -106,16 +107,29 @@ class WorkerController extends Controller
 
    public function saveFizickoLice(Request $request)
    {
-      try {
-         $data = $request->validate([
-            'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-            'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-            'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-            'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-            'postcode' => 'required|regex:/^[0-9\s]+$/i',
-            'email' => 'required|email',
-            'tel' => 'required|regex:/^[0-9\s]+$/i',
-        ]);
+      $data = Validator::make([
+         'f_name' => $request->input('f_name'),
+         'l_name' => $request->input('l_name'),
+         'grad' => $request->input('grad'),
+         'adresa' => $request->input('adresa'),
+         'postcode' => $request->input('postcode'),
+         'email' => $request->input('email'),
+         'tel' => $request->input('tel'),
+      ],[
+         'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+         'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+         'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+         'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+         'postcode' => 'required|regex:/^[0-9\s]+$/i',
+         'email' => 'required|email',
+         'tel' => 'required|regex:/^[0-9\s]+$/i',
+      ]);
+
+      if ($data->fails()) {
+         $error = implode("\n", $data->errors()->all());
+         alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect()->back();
+      }
 
       $fizicko_lice = new Fizicko_lice();
       $fizicko_lice->worker_id = $request->worker_id;
@@ -130,11 +144,6 @@ class WorkerController extends Controller
 
       alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->intended(route('worker.personal.contacts'));
-        
-       } catch (\Exception $e) {
-            alert()->error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->back();
-       }
    }
 
    public function addPravnoIndex()
@@ -144,16 +153,29 @@ class WorkerController extends Controller
 
    public function savePravnoLice(Request $request)
    {
-      try {
-         $data = $request->validate([
-            'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
-            'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-            'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-            'postcode' => 'required|regex:/^[0-9\s]+$/i',
-            'email' => 'required|email',
-            'tel' => 'required|regex:/^[0-9\s]+$/i',
-            'pib' => 'required|regex:/^[0-9\s]+$/i',
-        ]);
+      $data = Validator::make([
+         'company' => $request->input('company'),
+         'grad' => $request->input('grad'),
+         'adresa' => $request->input('adresa'),
+         'postcode' => $request->input('postcode'),
+         'email' => $request->input('email'),
+         'tel' => $request->input('tel'),
+         'pib' => $request->input('pib'),
+      ],[
+         'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
+         'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+         'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+         'postcode' => 'required|regex:/^[0-9\s]+$/i',
+         'email' => 'required|email',
+         'tel' => 'required|regex:/^[0-9\s]+$/i',
+         'pib' => 'required|regex:/^[0-9\s]+$/i',
+      ]);
+
+      if ($data->fails()) {
+         $error = implode("\n", $data->errors()->all());
+         alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect()->back();
+      }
 
       $pravno_lice = new Pravno_lice();
       $pravno_lice->worker_id = $request->worker_id;
@@ -168,11 +190,6 @@ class WorkerController extends Controller
 
       alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->intended(route('worker.personal.contacts'));
-        
-       } catch (\Exception $e) {
-            alert()->error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->back();
-       }
    }
 
    public function companyDelete()

@@ -24,7 +24,7 @@
                         <i class="ri-edit-line"></i>
                     </a>
                     <button class="delete-btn-table"
-                        onclick="actionSwall('{{ route('worker.options.delete.category', ['category' => $custom_category->id]) }}','kategoriju','{{ $custom_category->name }}')">
+                        onclick="actionSwall('{{ route('worker.options.delete.category') }}','kategoriju','{{ $custom_category->name }}','{{ $custom_category->id }}')">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>
@@ -47,7 +47,7 @@
                         <i class="ri-edit-line"></i>
                     </a>
                     <button class="delete-btn-table"
-                        onclick="actionSwall('{{ route('worker.options.delete.subcategory', ['subcategory' => $custom_subcategory->id]) }}','subkategoriju','{{ $custom_subcategory->name }}')">
+                        onclick="actionSwall('{{ route('worker.options.delete.subcategory') }}','subkategoriju','{{ $custom_subcategory->name }}', {{ $custom_subcategory->id }})">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>
@@ -70,7 +70,7 @@
                         <i class="ri-edit-line"></i>
                     </a>
                     <button class="delete-btn-table"
-                        onclick="actionSwall('{{ route('worker.options.delete.pozicija', ['pozicija' => $custom_pozicija->id]) }}','poziciju','{{ $custom_pozicija->custom_title }}')">
+                        onclick="actionSwall('{{ route('worker.options.delete.pozicija') }}','poziciju','{{ $custom_pozicija->custom_title }}','{{ $custom_pozicija->id }}')">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>
@@ -79,17 +79,23 @@
     </div>
 
     <script>
-        function actionSwall(url, option, name) {
+        function actionSwall(url, option, name, id) {
             Swal.fire({
                 title: 'Stvarno hocete da izbrisite ' + option + ' "' + name + '"?',
                 icon: 'question',
                 confirmButtonText: "Izbrisi",
                 cancelButtonText: "Nazad",
-                showConfirmButton: true,
-                showCancelButton: true,
+                showConfirmButton: false,
+                showCancelButton: false,
                 showCloseButton: true,
                 confirmButtonColor: '#22ff00',
                 cancelButtonColor: '#d33',
+                html: '<form method="POST" id="delete" action="'+url+'">' +
+                    '@csrf' +
+                    '@method("put")' +
+                    '<input name="id" hidden value="' + id + '">' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '</form>',
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location = url;

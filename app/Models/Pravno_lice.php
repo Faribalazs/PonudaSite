@@ -14,4 +14,15 @@ class Pravno_lice extends Model
     protected $table = 'pravna_lica';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'worker_id',
+        'company_name',
+        'city',
+        'zip_code',
+        'address',
+        'email',
+        'tel',
+        'pib',
+    ];
 }

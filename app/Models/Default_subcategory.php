@@ -12,4 +12,9 @@ class Default_subcategory extends Model
     protected $table = 'subcategories';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'category_id',
+        'name',
+    ];
 }
