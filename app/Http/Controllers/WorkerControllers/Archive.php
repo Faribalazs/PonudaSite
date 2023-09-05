@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
+use App\Models\{Swap, Ponuda, Ponuda_Date, Pozicija_Temporary, Title_Temporary, Worker, Fizicko_lice, Pravno_lice, Company_Data};
 use Mail;
-use App\Models\Swap;
-use App\Models\Ponuda;
-use App\Models\Ponuda_Date;
-use App\Models\Pozicija_Temporary;
-use App\Models\Title_Temporary;
-use App\Models\Worker;
-use App\Models\Fizicko_lice;
-use App\Models\Pravno_lice;
-use App\Models\Company_Data;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Archive extends Controller
 {
@@ -99,8 +93,9 @@ class Archive extends Controller
         return Ponuda::select('id', 'worker_id', 'ponuda_id')->where('worker_id', $worker)->where('ponuda_id', $id)->get();
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
+        $id = $request->input('id');
         $worker_id = $this->worker();
         foreach($this->ponudaId($worker_id,$id) as $toDel)
         {
@@ -112,9 +107,11 @@ class Archive extends Controller
         return redirect()->intended(route('worker.archive'));
     }
 
-    public function deleteElement($id,$ponuda_id)
+    public function deleteElement(Request $request)
     {
         $worker_id = $this->worker();
+        $id = $request->input('id');
+        $ponuda_id = $request->input('real_id');
         $this->ponudaInfo($ponuda_id,$worker_id)->where('id', $id)->delete();
         $this->temporaryDesc($id);
         if($this->ponudaInfo($ponuda_id,$worker_id)->count()<1)
@@ -236,17 +233,17 @@ class Archive extends Controller
 
     public function selectContact($id){
 
-        return view('worker.views.select-contact',['ponuda_id' => $id]);
+        return view('worker.views.select-contact',['id' => $id]);
     }
 
     public function showFizicka($id)
     {
-        return view('worker.views.fizicka_lica',['ponuda_id' => $id, 'fizicka_lica' => $this->fizickaLica($this->worker())]);
+        return view('worker.views.fizicka_lica',['id' => $id, 'fizicka_lica' => $this->fizickaLica($this->worker())]);
     }
 
     public function showPravna($id)
     {
-        return view('worker.views.pravna_lica',['ponuda_id' => $id, 'pravna_lica' => $this->pravnaLica($this->worker())]);
+        return view('worker.views.pravna_lica',['id' => $id, 'pravna_lica' => $this->pravnaLica($this->worker())]);
     }
 
     public function submitContact(Request $request){
@@ -255,35 +252,52 @@ class Archive extends Controller
             return view('worker.views.select-tamplate',['client_id' => $request->selectedFizicko, 'ponuda_id' => $request->ponuda_id, 'type' => 1]);
 
         } else {
-            $f_name = $request->f_name;
-            $l_name = $request->l_name;
-            $grad = $request->grad;
-            $postcode = $request->postcode;
-            $adresa = $request->adresa;
-            $email = $request->email;
-            $tel = $request->tel; 
+            $f_name = $request->input('f_name');
+            $l_name = $request->input('l_name');
+            $grad = $request->input('grad');
+            $postcode = $request->input('postcode');
+            $adresa = $request->input('adresa');
+            $email = $request->input('email');
+            $tel = $request->input('tel'); 
 
-            $ifexist = Fizicko_lice::where('worker_id', $this->worker())
-                ->where('first_name', $f_name)
-                ->where('last_name', $l_name)
-                ->where('city', $grad)
-                ->where('zip_code', $postcode)
-                ->where('address', $adresa)
-                ->where('email', $email)
-                ->where('tel', $tel)
-                ->get();
+            $data = Validator::make([
+                'f_name' => $f_name,
+                'l_name' => $l_name,
+                'grad' => $grad,
+                'adresa' => $adresa,
+                'postcode' => $postcode,
+                'email' => $email,
+                'tel' => $tel,
+            ],[
+                'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+                'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
+                'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+                'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+                'postcode' => 'required|regex:/^[0-9\s]+$/i',
+                'email' => 'required|email',
+                'tel' => 'required|regex:/^[0-9\s]+$/i',
+            ]);
+    
+            if ($data->fails()) {
+                $error = implode("\n", $data->errors()->all());
+                alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
+                return redirect()->back();
+            }
 
-            if(isset($request->save) && $ifexist->isEmpty()) { 
-                $client = new Fizicko_lice();
-                $client->worker_id = $this->worker();
-                $client->first_name = $f_name;
-                $client->last_name = $l_name;
-                $client->city = $grad;
-                $client->zip_code = $postcode;
-                $client->address = $adresa;
-                $client->email = $email;
-                $client->tel = $tel;
-                $client->save();
+            if(isset($request->save))
+            {
+                Fizicko_lice::updateOrInsert(
+                    ['worker_id' => $this->worker()],
+                    [
+                        'first_name' => $f_name,
+                        'last_name' => $l_name,
+                        'city' => $grad,
+                        'zip_code' => $postcode,
+                        'address' => $adresa,
+                        'email' => $email,
+                        'tel' => $tel,
+                    ]
+                );
             }
 
             return view('worker.views.select-tamplate',
@@ -299,42 +313,59 @@ class Archive extends Controller
                       'new' => "custom",  
                     ]);
         }
+        return redirect()->back();
     }
 
     public function submitContactPravna(Request $request){
-        if(isset($request->selectedPravno)) {
+        if(isset($request->selectedPravno) && isset($request->ponuda_id)) {
             return view('worker.views.select-tamplate',['client_id' => $request->selectedPravno, 'ponuda_id' => $request->ponuda_id, 'type' => 2]);
-
         } else {
-            $company_name = $request->company;
-            $grad = $request->grad;
-            $postcode = $request->postcode;
-            $adresa = $request->adresa;
-            $email = $request->email;
-            $tel = $request->tel; 
-            $pib = $request->pib; 
+            $company_name = $request->input('company');
+            $grad = $request->input('grad');
+            $postcode = $request->input('postcode');
+            $adresa = $request->input('adresa');
+            $email = $request->input('email');
+            $tel = $request->input('tel'); 
+            $pib = $request->input('pib'); 
 
-            $ifexist = Pravno_lice::where('worker_id', $this->worker())
-                ->where('company_name', $company_name)
-                ->where('city', $grad)
-                ->where('zip_code', $postcode)
-                ->where('address', $adresa)
-                ->where('email', $email)
-                ->where('tel', $tel)
-                ->where('pib', $pib)
-                ->get();
+            $data = Validator::make([
+                'company' => $company_name,
+                'grad' => $grad,
+                'adresa' => $adresa,
+                'postcode' => $postcode,
+                'email' => $email,
+                'tel' => $tel,
+                'pib' => $pib,
+            ],[
+                'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
+                'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
+                'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
+                'postcode' => 'required|regex:/^[0-9\s]+$/i',
+                'email' => 'required|email',
+                'tel' => 'required|regex:/^[0-9\s]+$/i',
+                'pib' => 'required|regex:/^[0-9\s]+$/i',
+            ]);
+    
+            if ($data->fails()) {
+                $error = implode("\n", $data->errors()->all());
+                alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
+                return redirect()->back();
+            }
 
-            if(isset($request->save) && $ifexist->isEmpty()) { 
-                $client = new Pravno_lice();
-                $client->worker_id = $this->worker();
-                $client->company_name = $company_name;
-                $client->city = $grad;
-                $client->zip_code = $postcode;
-                $client->address = $adresa;
-                $client->email = $email;
-                $client->tel = $tel;
-                $client->pib = $pib;
-                $client->save();
+            if(isset($request->save))
+            {
+                Pravno_lice::updateOrInsert(
+                    ['worker_id' => $this->worker()],
+                    [
+                        'company_name' => $company_name,
+                        'city' => $grad,
+                        'zip_code' => $postcode,
+                        'address' => $adresa,
+                        'email' => $email,
+                        'tel' => $tel,
+                        'pib' => $pib,
+                    ]
+                );
             }
 
             return view('worker.views.select-tamplate',
@@ -354,31 +385,38 @@ class Archive extends Controller
 
     public function tamplateGeneratePdf(Request $request) 
     {
-        // dd($request->temp);
         $worker_id = $this->worker();
-        $company_data = empty($this->company_data($worker_id))?null:$this->company_data($worker_id);
+        $company_data = $this->company_data($worker_id) ?? null;
         $template = $request->temp;
         if($company_data === null && $template == "template-one")
             return redirect()->intended(route('worker.personal.data'));
         $pdf_blade = 'worker.pdf.'. $template;
         $id = $request->ponuda_id;
-        $mergedData = $this->mergedData();
-        $collection = collect($mergedData);
-        $selected_ponuda = $collection->where('ponuda_id', intval($id));
-        $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
+        $selectedWorkerPonuda = null;
+        if(is_numeric($id) && $id > 0)
+            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->where('worker_id', $worker_id)->all();
+        else
+            return redirect()->back();
         $foundClient = null;
-        if (isset($request->client_id) && isset($request->type)) {
-            if($request->type == 1)
-                $foundClient = $this->selectedFizicka($worker_id, $request->client_id);
-            elseif($request->type == 2)
-                $foundClient = $this->selectedPravna($worker_id, $request->client_id);
+        $type_id = $request->type ?? null;
+        $client_id = $request->client_id ?? null;
+        if ($type_id && $client_id) {
+            if(is_numeric($type_id) && is_numeric($client_id))
+            {
+                if($type_id == 1)
+                    $foundClient = $this->selectedFizicka($worker_id, $client_id);
+                elseif($type_id == 2)
+                    $foundClient = $this->selectedPravna($worker_id, $client_id);
+                else
+                    return redirect()->back();
+            }
             else
-                return redirect()->intended(route('home'));
+                return redirect()->back();
         }
         $pdf_name = $this->PDFname($id,$worker_id);
         if(isset($request->new)) {
             $pdf = PDF::loadView($pdf_blade,
-                ['mergedData' => $selectedWorkerPonuda->all(), 
+                ['mergedData' => $selectedWorkerPonuda, 
                 'ponuda_name' => $pdf_name->ponuda_name, 
                 'company' => $company_data,
                 'f_name' => $request->f_name,
@@ -391,10 +429,10 @@ class Archive extends Controller
                 'new' => "custom",
                 ]);
         } else {
-            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name->ponuda_name, 'company' => $company_data, 'client' => $foundClient, 'type' => isset($request->type)?$request->type:null]);
+            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id]);
         }
 
-        return $pdf->download($pdf_name->ponuda_name . '.pdf');
+        return $pdf->download($pdf_name->ponuda_name ?? "ponuda" . '.pdf');
     }
     // redirektelni kell miutan letoti a pdf a sucessra
     public function generatePdfSuccess(Request $request){
@@ -420,7 +458,7 @@ class Archive extends Controller
             Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdfContent, $pdf_name) {
                 $message->from($data["mailFrom"]);
                 $message->to($data["mailTo"]);
-                $message->subject($data["mailSubject"] ?: 'PDF ponuda');
+                $message->subject($data["mailSubject"] ?? 'PDF ponuda');
                 $message->attachData($pdfContent,$pdf_name->ponuda_name . '.pdf', [
                     'mime' => 'application/pdf',
                 ]);
@@ -435,28 +473,35 @@ class Archive extends Controller
     private function PDFdata($id)
     {
         $worker_id = $this->worker();
-        $mergedData = $this->mergedData();
-        $collection = collect($mergedData);
-        $selected_ponuda = $collection->where('ponuda_id', intval($id));
-        $selectedWorkerPonuda = $selected_ponuda->where('worker_id', $worker_id);
-        $pdf_name = $this->PDFname($id,$worker_id);
-        $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda->all(), 'ponuda_name' => $pdf_name->ponuda_name ]);
-        return array($pdf, $pdf_name);
+        if(is_numeric($id) && $id > 0)
+        {
+            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->where('worker_id', $worker_id)->all() ?? null;
+            $pdf_name = $this->PDFname($id,$worker_id);
+            $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ]);
+            return array($pdf, $pdf_name);
+        }
+        return redirect()->back();
     }
 
     public function editPonuda($ponuda_id){
-        $this->editPonudaCheck($ponuda_id);
-        return redirect()->intended(route('worker.new.ponuda'));
+        if($this->editPonudaCheck($ponuda_id))
+        {
+            return redirect()->intended(route('worker.new.ponuda'));
+        }
+        return redirect()->back();
     }
 
     private function editPonudaCheck($ponuda_id)
     {
         $workerId = $this->worker();
-        $worker = Worker::select('id', 'ponuda_counter')->where('id', $workerId)->first();
-        $ponuda_date = Ponuda_Date::where('worker_id', $workerId)->where('id_ponuda', $ponuda_id)->first();
-        $swap = Swap::where('worker_id', $workerId)->get();
-        if(count($swap)>1)
-            Swap::where('worker_id', $workerId)->delete();
+        try {
+            $worker = Worker::select('id', 'ponuda_counter')->where('id', $workerId)->firstOrFail();
+            $ponuda_date = Ponuda_Date::where('worker_id', $workerId)->where('id_ponuda', $ponuda_id)->firstOrFail();
+        } catch (ModelNotFoundException) {
+            Alert::error('Ponuda nije pronađena ili niste prijavljeni.')->showCloseButton()->showConfirmButton('Zatvori');
+            return false;
+        }        
+        Swap::where('worker_id', $workerId)->delete();
 
         Swap::create([
             'worker_id' => $workerId,
@@ -467,5 +512,6 @@ class Archive extends Controller
             'temp_note' => $ponuda_date->note,
         ]);
         Worker::where('id', $workerId)->update(['ponuda_counter' => $ponuda_id]);
+        return true;
     }
 }

@@ -20,7 +20,7 @@ class CheckSwapRecord
         {
             if(Swap::where('worker_id', auth('worker')->user()->id)->exists())
             {
-                return redirect()->route('worker.new.ponuda')->with('accessDenied', 'You have to finish editing ponuda, before accessing this page.');
+                return redirect()->route('worker.new.ponuda')->with('accessDenied', 'Morate završiti uređivanje ponude pre nego što pristupite ovoj stranici.');
             }
         }
         return $next($request);

@@ -145,7 +145,7 @@
                                     </td>
                                     <td>
                                         <button class="delete-btn-table mx-auto"
-                                            onclick="actionSwall('{{ route('worker.store.new.ponuda.delete', ['ponuda' => $data->id]) }}','{{ $title }}')">
+                                            onclick="actionSwall('{{ route('worker.store.new.ponuda.delete') }}','{{ $title }}',{{ $data->id }})">
                                             <i class="ri-delete-bin-line"></i>
                                         </button>
                                     </td>
@@ -416,7 +416,7 @@
     @if(session('accessDenied'))
         <script>
             Swal.fire({
-                title: 'Access Denied',
+                title: 'Pristup odbijen',
                 text: "{{ session('accessDenied') }}",
                 icon: 'error',
                 confirmButtonColor: '#d33'
@@ -470,20 +470,19 @@
         let subCategoryId = "";
         let pozicijaId = "";
 
-        function actionSwall(url, name) {
+        function actionSwall(url, name, id) {
             Swal.fire({
                 title: 'Sigurni ste da hocete da izbrisete "' + name + '"?',
                 icon: 'question',
-                confirmButtonText: "Izbrisi",
-                showConfirmButton: true,
-                showCancelButton: true,
+                html: '<form method="POST" id="delElement" action="'+url+'">' +
+                    '@csrf' +
+                    '@method("delete")' +
+                    '<input name="id" hidden value="' + id + '">' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '</form>',
+                showCancelButton: false,
+                showConfirmButton: false,
                 showCloseButton: true,
-                confirmButtonColor: '#22ff00',
-                cancelButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = url;
-                }
             })
         }
 

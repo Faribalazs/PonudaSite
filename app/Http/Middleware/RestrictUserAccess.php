@@ -4,8 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Ponuda;
 
 class RestrictUserAccess
 {
@@ -18,14 +17,13 @@ class RestrictUserAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (count($this->requestId($request->route('id')))<1) {
-            return response(view('unauthorizedAction'))->header('Refresh', '2; url=/'); // url=' . redirect()->back()->getTargetUrl()
+        if(auth('worker')->check() && ($request->route('id') !== null))
+        {
+            if (Ponuda::where('worker_id', auth('worker')->user()->id)->where('ponuda_id', $request->route('id'))->first() === null) {
+                return response(view('unauthorizedAction'))->header('Refresh', '2; url=/'); // url=' . redirect()->back()->getTargetUrl()
+            }
         }
 
         return $next($request);
-    }
-    private function requestId($id)
-    {
-        return DB::select('select ponuda_id from ponuda where ponuda_id = ? and worker_id = ?', [$id, Auth::guard('worker')->user()->id]);
     }
 }

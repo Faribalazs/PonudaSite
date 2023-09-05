@@ -88,7 +88,7 @@
             </div>
         </form>
     </div>
-    @if ($data != null)
+    @if ($data->isNotEmpty())
         <div class="flex mt-8 flex-col justify-start">
             @foreach ($data as $ponuda)
                 <div class=" justify-between items-center flex p-3 archive-container my-2">
@@ -126,7 +126,7 @@
                             <i class="ri-share-line"></i>
                         </a>
                         <button class="delete-btn-table"
-                            onclick="actionSwall('{{ route('worker.archive.delete', ['ponuda' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
+                            onclick="actionSwall('{{ route('worker.archive.delete') }}','{{ $ponuda->ponuda_name }}','{{ $ponuda->id_ponuda }}')">
                             <i class="ri-delete-bin-line"></i>
                         </button>
                     </div>
@@ -141,21 +141,19 @@
         </div>
     @endif
     <script>
-        function actionSwall(url, name) {
+        function actionSwall(url, name, id) {
             Swal.fire({
                 title: 'Stvarno hocete da izbrisite ponudu "' + name + '"?',
                 icon: 'question',
-                confirmButtonText: "Izbrisi",
-                cancelButtonText: "Nazad",
-                showConfirmButton: true,
-                showCancelButton: true,
+                html: '<form method="POST" id="delElement" action="'+url+'">' +
+                    '@csrf' +
+                    '@method("delete")' +
+                    '<input name="id" hidden value="' + id + '">' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '</form>',
+                showCancelButton: false,
+                showConfirmButton: false,
                 showCloseButton: true,
-                confirmButtonColor: '#22ff00',
-                cancelButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = url;
-                }
             })
         }
 

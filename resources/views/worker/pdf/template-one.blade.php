@@ -146,9 +146,9 @@
         $subPrice = 0;
         $limit = 0;
         $counter = 0;
-        $user_id = Auth::guard('worker')->user()->id;
-        $company_name = isset($company->company_name)?$company->company_name:null;
-        $company_city = isset($company->city)?$company->city:null;
+        $user_id = auth('worker')->user()->id;
+        $company_name = $company->company_name ?? null;
+        $company_city = $company->city ?? null;
         $company_logo = null;
         if(isset($company->logo))
             $company_logo = 'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/worker/' . $user_id . '/logo' . '/' . $company->logo)));
@@ -177,18 +177,18 @@
                 <div class="header-style">
                     @if ($company !== null)
                     <div class="left-side">
-                        <p>{{ isset($company->country)?$company->country:null }}</p>
-                        <p>{{ isset($company->zip_code)?$company->zip_code:null }} {{ $company_city }}</p>
-                        <p>{{ isset($company->address)?$company->address:null }}</p>
-                        <p>Tel : +{{ isset($company->tel)?$company->tel:null }}</p>
-                        <p>E mail: {{ isset($company->email)?$company->email:null }}</p>
+                        <p>{{ $company->country }}</p>
+                        <p>{{ $company->zip_code }} {{ $company_city }}</p>
+                        <p>{{ $company->address }}</p>
+                        <p>Tel : +{{ $company->tel }}</p>
+                        <p>E mail: {{ $company->email }}</p>
                     </div>
                     <div class="right-side">
-                        <p>PIB :{{ isset($company->pib)?$company->pib:null }}</p>
-                        <p>Maticni broj / Registration code : {{ isset($company->maticni_broj)?$company->maticni_broj:null }}</p>
-                        <p>Tekuci racun : {{ isset($company->tekuci_racun)?$company->tekuci_racun:null }} RSD</p>
-                        <p>bank account : {{ isset($company->bank_account)?$company->bank_account:null }} EUR</p>
-                        <p>{{ isset($company->bank_name)?$company->bank_name:null }}</p>
+                        <p>PIB :{{ $company->pib }}</p>
+                        <p>Maticni broj / Registration code : {{ $company->maticni_broj }}</p>
+                        <p>Tekuci racun : {{ $company->tekuci_racun }} RSD</p>
+                        <p>bank account : {{ $company->bank_account }} EUR</p>
+                        <p>{{ $company->bank_name }}</p>
                     </div>
                     @endif
                 </div>
@@ -205,18 +205,13 @@
             </table>
             @if(isset($client) && $client !== null)
                 @if($type == 1)
-                    <p>Fizicko lice</p>
-                    <p>First name: {{ $client->first_name }}</p>
-                    <p>Last name: {{ $client->last_name }}</p>
-                    <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
-                    <p>Address: {{ $client->address }}</p>
+                    <p>{{ $client->first_name }} {{ $client->last_name }}</p>
+                    <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
                     <p>E-mail: {{ $client->email }}</p>
                     <p>Tel: +{{ $client->tel }}</p>
                 @elseif($type == 2)
-                    <p>Pravno lice</p>
-                    <p>Company name: {{ $client->company_name }}</p>
-                    <p>City: {{ $client->city }} {{ $client->zip_code }}</p>
-                    <p>Address: {{ $client->address }}</p>
+                    <p>{{ $client->company_name }}</p>
+                    <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
                     <p>E-mail: {{ $client->email }}</p>
                     <p>Tel: +{{ $client->tel }}</p>
                     <p>Pib: {{ $client->pib }}</p>
@@ -224,18 +219,13 @@
             @endif
             @if(isset($new) && $new !== null)
                 @if(request()->type == 1)
-                    <p>Fizicko lice</p>
-                    <p>First name: {{ request()->f_name }}</p>
-                    <p>Last name: {{ request()->l_name }}</p>
-                    <p>City: {{ request()->city }} {{ request()->zip }}</p>
-                    <p>Address: {{ request()->adresa }}</p>
+                    <p>{{ request()->f_name }} {{ request()->l_name }}</p>
+                    <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
                     <p>E-mail: {{ request()->email }}</p>
                     <p>Tel: +{{ request()->tel }}</p>
                 @elseif(request()->type == 2)
-                    <p>Pravno lice</p>
-                    <p>Company name: {{ request()->company_name }}</p>
-                    <p>City: {{ request()->city }} {{ request()->zip }}</p>
-                    <p>Address: {{ request()->adresa }}</p>
+                    <p>{{ request()->company_name }}</p>
+                    <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
                     <p>E-mail: {{ request()->email }}</p>
                     <p>Tel: +{{ request()->tel }}</p>
                     <p>Pib: {{ request()->pib }}</p>

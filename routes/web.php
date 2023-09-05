@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleSocialiteController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +24,12 @@ Route::get('/', function () {
 
 //auth route for both 
 Route::group(['middleware' => ['auth']], function() { 
-    Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 // for users
 Route::group(['middleware' => ['auth', 'role:user']], function() { 
-    Route::get('/profile', 'App\Http\Controllers\DashboardController@profile')->name('myprofile');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('myprofile');
 });
 
 Route::get('/admin/dashboard', function () {

@@ -5,8 +5,8 @@
     <x-slot name="header">
     </x-slot>
     <div class="mt-24">
-        <a href="{{ route('worker.archive.fizicka_lica', ['ponuda_id' => $ponuda_id]) }}"><button class="mt-3 confirm-btn">Fizicka lica</button></a>
-        <a href="{{ route('worker.archive.pravna_lica', ['ponuda_id' => $ponuda_id]) }}"><button class="mt-24 confirm-btn">Pravna lica</button></a>
+        <a href="{{ route('worker.archive.fizicka_lica', ['id' => $id]) }}"><button class="mt-3 confirm-btn">Fizicka lica</button></a>
+        <a href="{{ route('worker.archive.pravna_lica', ['id' => $id]) }}"><button class="mt-24 confirm-btn">Pravna lica</button></a>
     </div>
     {{-- <form method="POST" id="form1" action="{{ route('worker.archive.submit.contact') }}">
         @csrf

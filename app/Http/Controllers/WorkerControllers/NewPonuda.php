@@ -2,23 +2,12 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
+use App\Models\{Ponuda, Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija, Swap, Title_Temporary, Pozicija_Temporary, Ponuda_Date, Worker};
 use Exception;
-use App\Models\Ponuda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Category;
-use App\Models\Subcategory;
-use App\Models\Pozicija;
-use App\Models\Default_category;
-use App\Models\Default_subcategory;
-use App\Models\Default_pozicija;
-use App\Models\Swap;
-use App\Models\Title_Temporary;
-use App\Models\Pozicija_Temporary;
-use App\Models\Ponuda_Date;
-use App\Models\Worker;
 
 class NewPonuda extends Controller
 {
@@ -401,8 +390,8 @@ class NewPonuda extends Controller
       }
    }
    
-   public function deletePonuda($id){
-      $this->delPonuda($id);
+   public function deletePonuda(Request $request){
+      $this->delPonuda($request->input('id'));
       Alert::success('Element ponude je uspešno obrisan!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
    }

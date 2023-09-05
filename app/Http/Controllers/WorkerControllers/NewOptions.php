@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
+use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Units};
 use Exception;
-use App\Models\Category;
-use App\Models\Subcategory;
-use App\Models\Pozicija;
-use App\Models\Default_category;
-use App\Models\Default_subcategory;
-use App\Models\Units;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;

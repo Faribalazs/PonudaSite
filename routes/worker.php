@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::post('contractor/new/store/done', [NewPonuda::class, 'ponudaDone'])
         ->name('worker.store.new.ponuda.done');
 
-    Route::delete('contractor/new/store/delete/{ponuda}', [NewPonuda::class, 'deletePonuda'])
+    Route::delete('contractor/new/store/delete', [NewPonuda::class, 'deletePonuda'])
         ->name('worker.store.new.ponuda.delete');
 
     Route::put('contractor/new/store/updatedesc/', [NewPonuda::class, 'updateDescription'])
@@ -136,9 +136,6 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::get('contractor/archive', [Archive::class, 'show'])
             ->name('worker.archive');
 
-        Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
-            ->name('worker.archive.select.contact');
-
         Route::get('contractor/archive/success', [Archive::class, 'generatePdfSuccess'])
             ->name('worker.archive.success');
 
@@ -148,20 +145,31 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::post('contractor/archive/submit/contact/pravna', [Archive::class, 'submitContactPravna'])
             ->name('worker.archive.submit.contact.pravna');
 
-        Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
-            ->name('worker.archive.selected')->middleware('restrictUserAccess');
-        
-        Route::get('contractor/pdf/{id}', [Archive::class, 'createPDF'])
-            ->name('worker.archive.pdf')->middleware('restrictUserAccess');
+        Route::middleware(['restrictUserAccess'])->group(function () {
+            Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
+                ->name('worker.archive.selected');
+            
+            Route::get('contractor/pdf/{id}', [Archive::class, 'createPDF'])
+                ->name('worker.archive.pdf');
 
-        Route::get('contractor/view/pdf/{id}', [Archive::class, 'viewPDF'])
-            ->name('worker.archive.view.pdf')->middleware('restrictUserAccess');
+            Route::get('contractor/view/pdf/{id}', [Archive::class, 'viewPDF'])
+                ->name('worker.archive.view.pdf');
 
-        Route::get('contractor/createmail/{id}', [Archive::class, 'createMAIL'])
-            ->name('worker.archive.create.mail')->middleware('restrictUserAccess');
+            Route::get('contractor/createmail/{id}', [Archive::class, 'createMAIL'])
+                ->name('worker.archive.create.mail');
 
-        Route::post('contractor/mail/pdf/{id}', [Archive::class, 'sendPDF'])
-            ->name('worker.archive.send.mail')->middleware('restrictUserAccess');
+            Route::post('contractor/mail/pdf/{id}', [Archive::class, 'sendPDF'])
+                ->name('worker.archive.send.mail');
+
+            Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
+                ->name('worker.archive.select.contact');
+
+            Route::get('contractor/fizickalica/{id}', [Archive::class, 'showFizicka'])
+                ->name('worker.archive.fizicka_lica');
+
+            Route::get('contractor/pravnalica/{id}', [Archive::class, 'showPravna'])
+                ->name('worker.archive.pravna_lica');
+        });
 
         Route::get('contractor/archive/search/filter', [Archive::class, 'search'])
             ->name('worker.archive.search');
@@ -169,10 +177,10 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::get('contractor/archive/search/napomena', [Archive::class, 'searchNapomena'])
             ->name('worker.archive.search.napomena');
 
-        Route::delete('contractor/archive/delete/{ponuda}', [Archive::class, 'delete'])
+        Route::delete('contractor/archive/delete', [Archive::class, 'delete'])
             ->name('worker.archive.delete');
 
-        Route::delete('contractor/archive/element/delete/{ponuda}/{ponuda_id}', [Archive::class, 'deleteElement'])
+        Route::delete('contractor/archive/element/delete', [Archive::class, 'deleteElement'])
             ->name('worker.archive.delete.element');
 
         Route::get('contractor/archive/edit/{ponuda_id}', [Archive::class, 'editPonuda'])
@@ -183,12 +191,6 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         
         Route::post('contractor/archive/generate/pdf', [Archive::class, 'tamplateGeneratePdf'])
             ->name('worker.archive.genarte.tamplate.pdf');
-
-        Route::get('contractor/fizickalica/{ponuda_id}', [Archive::class, 'showFizicka'])
-            ->name('worker.archive.fizicka_lica');
-
-        Route::get('contractor/pravnalica/{ponuda_id}', [Archive::class, 'showPravna'])
-            ->name('worker.archive.pravna_lica');
     });
 });
 

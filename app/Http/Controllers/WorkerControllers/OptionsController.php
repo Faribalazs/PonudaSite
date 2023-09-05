@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
+use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Category;
-use App\Models\Subcategory;
-use App\Models\Pozicija;
-use App\Models\Default_category;
-use App\Models\Default_subcategory;
-use App\Models\Default_pozicija;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class OptionsController extends Controller

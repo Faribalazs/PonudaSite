@@ -123,7 +123,7 @@
                                     {{ number_format($data->overall_price, 0, ',', ' ') }}&nbsp;RSD
                                 </td>
                                 <td><button class="delete-btn-table mx-auto"
-                                        onclick="actionSwall('{{ route('worker.archive.delete.element', ['ponuda' => $data->id, 'ponuda_id' => $data->ponuda_id]) }}','{{ $title }}')">
+                                        onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', {{ $data->id }}, {{ $data->ponuda_id }})">
                                         <i class="ri-delete-bin-line"></i>
                                     </button></td>
 
@@ -243,21 +243,20 @@
         @endif
     @endif
     <script>
-        function actionSwall(url, name) {
+        function actionSwall(url, name, id, realId) {
             Swal.fire({
                 title: 'Stvarno hocete da izbrisite element ponudu "' + name + '"?',
                 icon: 'question',
-                confirmButtonText: "Izbrisi",
-                cancelButtonText: "Nazad",
-                showConfirmButton: true,
-                showCancelButton: true,
+                html: '<form method="POST" id="delete_item" action="'+url+'">' +
+                    '@csrf' +
+                    '@method("delete")' +
+                    '<input name="id" hidden value="' + id + '">' +
+                    '<input name="real_id" hidden value="' + realId + '">' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '</form>',
+                showCancelButton: false,
+                showConfirmButton: false,
                 showCloseButton: true,
-                confirmButtonColor: '#22ff00',
-                cancelButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = url;
-                }
             })
         }
     </script>
