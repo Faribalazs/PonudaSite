@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Workerauth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
-class EmailVerificationPromptController extends Controller
+class WorkerEmailVerificationPromptController extends Controller
 {
     /**
      * Display the email verification prompt.
@@ -17,10 +17,10 @@ class EmailVerificationPromptController extends Controller
     public function __invoke(Request $request)
     {
         // if (!$request->session()->has('status')) {
-        //     $request->user()->sendEmailVerificationNotification();
+        //     $request->user('worker')->sendEmailVerificationNotification();
         // }
         // return $request->user()->hasVerifiedEmail()
-        //             ? redirect()->intended(route('home'))
-        //             : view('auth.verify-email');
+        //             ? redirect()->intended(route('worker.myprofile'))
+        //             : view('worker.auth.verify-email');
     }
 }

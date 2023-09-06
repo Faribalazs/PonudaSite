@@ -18,7 +18,7 @@ class CheckSwapRecord
     {
         if(auth('worker')->check())
         {
-            if(Swap::where('worker_id', auth('worker')->user()->id)->exists())
+            if(Swap::where('worker_id', auth('worker')->user()->id)->first())
             {
                 return redirect()->route('worker.new.ponuda')->with('accessDenied', 'Morate završiti uređivanje ponude pre nego što pristupite ovoj stranici.');
             }

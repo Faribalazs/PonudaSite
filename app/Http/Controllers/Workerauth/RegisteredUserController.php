@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Rules\UniqueEmail;
 
 class RegisteredUserController extends Controller
 {
@@ -40,7 +41,7 @@ class RegisteredUserController extends Controller
         }
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email:rfc|max:255|unique:workers',
+            'email' => ['required','string','email:rfc','max:255', new UniqueEmail],
             'password' => 'required|string|confirmed|min:8',
         ]);
 

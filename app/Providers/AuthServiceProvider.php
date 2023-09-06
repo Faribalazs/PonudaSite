@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
-            if (Auth::guard('worker')->user()) {
+            if ($notifiable->getGuard() == 'worker') {
                 $worker_url = URL::temporarySignedRoute(
                     'worker.verification.verify',
                     Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         ResetPassword::toMailUsing(function (object $notifiable, string $url) {
-            if ($notifiable->getTable() == 'workers') {
+            if ($notifiable->getGuard() == 'worker') {
             return (new MailMessage)
                 ->subject('Reset password')
                 ->view('worker.emails.reset-password', ['url'=> $url, 'notifiable' => $notifiable]);

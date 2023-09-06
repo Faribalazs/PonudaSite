@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
-class EmailVerificationNotificationController extends Controller
+class WorkerEmailVerificationNotificationController extends Controller
 {
     /**
      * Send a new email verification notification.
@@ -16,12 +16,12 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->guard('worker')->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('worker.myprofile'));
-        }
+        // if ($request->guard('worker')->user()->hasVerifiedEmail()) {
+        //     return redirect()->intended(route('worker.myprofile'));
+        // }
 
-        $request->guard('worker')->user()->sendEmailVerificationNotification();
+        // $request->guard('worker')->user()->sendEmailVerificationNotification();
 
-        return back()->with('status', 'verification-link-sent');
+        // return back()->with('status', 'verification-link-sent');
     }
 }

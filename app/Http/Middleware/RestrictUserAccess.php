@@ -17,11 +17,8 @@ class RestrictUserAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth('worker')->check() && ($request->route('id') !== null))
-        {
-            if (Ponuda::where('worker_id', auth('worker')->user()->id)->where('ponuda_id', $request->route('id'))->first() === null) {
-                return response(view('unauthorizedAction'))->header('Refresh', '2; url=/'); // url=' . redirect()->back()->getTargetUrl()
-            }
+        if (Ponuda::where('worker_id', auth('worker')->user()->id)->where('ponuda_id', $request->route('id'))->first() === null) {
+            return response(view('unauthorizedAction'))->header('Refresh', '2; url=/'); // url=' . redirect()->back()->getTargetUrl()
         }
 
         return $next($request);

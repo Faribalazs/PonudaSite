@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Workerauth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -8,17 +8,17 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Models\User;
+use App\Models\Worker;
 
-class VerifyEmailController extends Controller
+class WorkerVerifyEmailController extends Controller
 {
     public function __invoke(Request $request)
     {
         try{
-            $user = User::findOrFail($request->route('id'));
+            $user = Worker::findOrFail($request->route('id'));
         } catch (ModelNotFoundException) {
             alert()->error('Nešto nije u redu. Pokušajte ponovo kasnije ili kontaktirajte administratora.')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->intended(route('register'));
+            return redirect()->intended(route('worker.register'));
         }
 
         if (! hash_equals(sha1($user->getEmailForVerification()), (string) $request->route('hash'))) {

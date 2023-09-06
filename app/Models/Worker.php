@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
-class Worker extends Authenticatable
+class Worker extends Authenticatable implements MustVerifyEmail
 {
     use LaratrustUserTrait;
     use HasFactory, Notifiable;
@@ -44,4 +44,9 @@ class Worker extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getGuard()
+    {
+        return $this->guard;
+    }
 }
