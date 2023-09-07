@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Default_pozicija extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'pozicija';
 
@@ -19,6 +20,8 @@ class Default_pozicija extends Model
         'title',
         'description',
     ];
+
+    public $translatable = ['title', 'description'];
 
     public function unit()
     {

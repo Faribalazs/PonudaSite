@@ -17,8 +17,8 @@ class Pozicija extends Migration
             $table->id();
             $table->bigInteger('subcategory_id')->unsigned();
             $table->integer('unit_id')->unsigned();
-            $table->string('title');
-            $table->text('description');
+            $table->json('title');
+            $table->json('description');
         });
     }
 

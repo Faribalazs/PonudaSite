@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Coaches') }}
+    {{ __('Workers') }}
 @endsection
 @section('content')
     <div class="main-container" style="overflow: auto">
@@ -39,6 +39,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $users->links('pagination::bootstrap-5') }}
+        </div>
     </div>
     <script>
         function unBanSwall(id, name) {

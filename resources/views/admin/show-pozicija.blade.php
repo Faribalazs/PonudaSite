@@ -40,6 +40,8 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $pozicija->links('pagination::bootstrap-5') }}
     </div>
     <script>
         function insertSwall() {
@@ -54,10 +56,18 @@
                         '<option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>'+
                     @endforeach
                 '</select>' +
-                '<label for="new_title">Title pozicija:</label>' +
+                '<label for="new_title">Title pozicija (serbian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_title"/>' +
-                '<label for="new_description">Description pozicija:</label>' +
+                '<label for="new_description">Description pozicija (serbian):</label>' +
                 '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description"></textarea>'+
+                '<label for="new_title_en">Title pozicija (english):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_title_en"/>' +
+                '<label for="new_description_en">Description pozicija (english):</label>' +
+                '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description_en"></textarea>'+
+                '<label for="new_title_hu">Title pozicija (hungarian):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_title_hu"/>' +
+                '<label for="new_description_hu">Description pozicija (hungarian):</label>' +
+                '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description_hu"></textarea>'+
                 '<label for="unit_options">Unit:</label>' +
                 '<select name="unit_options" class="mt-3 form-control">' +
                     @foreach ($units as $unit)

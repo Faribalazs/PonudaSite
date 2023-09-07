@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Not Activated Coaches') }}
+    {{ __('Not Activated Workers') }}
 @endsection
 @section('content')
     <div class="main-container" style="overflow: auto">
@@ -38,6 +38,9 @@
                 </tr>
             @endforeach
             </tbody>
+            <div class="d-flex justify-content-center">
+                {{ $users->links('pagination::bootstrap-5') }}
+            </div>
         </table>
     </div>
     <script>

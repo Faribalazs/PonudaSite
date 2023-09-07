@@ -40,7 +40,7 @@ class AdminController extends Controller
 
   public function selectUsers()
   {
-    $users = User::select('id','email','name', 'status')->get();
+    $users = User::select('id','email','name', 'status')->paginate(15);
     return view('admin.show-users', ['users' => $users]);
   }
 
@@ -58,7 +58,7 @@ class AdminController extends Controller
 
   public function selectWorkers()
   {
-    $users = Worker::select('id','email','name', 'status')->where('accepted', 1)->get();
+    $users = Worker::select('id','email','name', 'status')->where('accepted', 1)->paginate(15);
     return view('admin.show-workers', ['users' => $users]);
   }
 
@@ -76,7 +76,7 @@ class AdminController extends Controller
 
   public function notActivatedWorkers()
   {
-    $users = Worker::select('id','email','name')->where('accepted', 0)->get();
+    $users = Worker::select('id','email','name')->where('accepted', 0)->paginate(15);
     return view('admin.show-workers-not-confirmed', ['users' => $users]);
   }
 
@@ -94,16 +94,23 @@ class AdminController extends Controller
 
   public function selectCategories()
   {
-    return view('admin.show-categories', ['categories' => Default_category::all()]);
+    return view('admin.show-categories', ['categories' => Default_category::paginate(15)]);
   }
 
   public function insertCategory(Request $request){
-    Default_category::create(['name' => $request->new_category_name]);
+    $category = Default_category::create(['name' => ['sr' => $request->new_category_name]]);
+    if($request->input('new_category_name_en') != null)
+      $category->setTranslations('name', ['en' => $request->input('new_category_name_en')]);
+    if($request->input('new_category_name_hu') != null)
+      $category->setTranslations('name', ['hu' => $request->input('new_category_name_hu')]);
+
+    $category->save();
+  
     return redirect()->back();
   }
 
   public function editCategory(Request $request){
-    Default_category::where('id', $request->input('id'))->update(['name' => $request->category_name]);
+    Default_category::where('id', $request->input('id'))->first()->setTranslations('name', [app()->getLocale() => $request->category_name])->save();
     return redirect()->back();
   }
 
@@ -114,16 +121,23 @@ class AdminController extends Controller
 
   public function selectSubcategories()
   {
-    return view('admin.show-subcategories', ['subcategories' => Default_subcategory::all(), 'categories' => Default_category::all()]);
+    return view('admin.show-subcategories', ['subcategories' => Default_subcategory::paginate(15), 'categories' => Default_category::all()]);
   }
 
   public function insertSubcategory(Request $request){
-    Default_subcategory::create(['name' => $request->input('new_subcategory_name'), 'category_id' => $request->input('category_options')]);
+    $subcategory = Default_subcategory::create(['name' => ['sr' => $request->input('new_subcategory_name')], 'category_id' => $request->input('category_options')]);
+    if($request->input('new_subcategory_name_en') != null)
+      $subcategory->setTranslations('name', ['en' => $request->input('new_subcategory_name_en')]);
+    if($request->input('new_subcategory_name_hu') != null)
+      $subcategory->setTranslations('name', ['hu' => $request->input('new_subcategory_name_hu')]);
+
+    $subcategory->save();
+
     return redirect()->back();
   }
 
   public function editSubcategory(Request $request){
-    Default_subcategory::where('id', $request->input('id'))->update(['name' => $request->input('subcategory_name')]);
+    Default_subcategory::where('id', $request->input('id'))->first()->setTranslations('name', [app()->getLocale() => $request->input('subcategory_name')])->save();
     return redirect()->back();
   }
 
@@ -134,28 +148,52 @@ class AdminController extends Controller
 
   public function selectPozicija()
   {
-    return view('admin.show-pozicija', ['pozicija' => Default_pozicija::with('unit')->get(), 'subcategories' => Default_subcategory::all(), 'units' => Units::all()]);
+    return view('admin.show-pozicija', ['pozicija' => Default_pozicija::with('unit')->paginate(15), 'subcategories' => Default_subcategory::all(), 'units' => Units::all()]);
   }
 
   public function insertPozicija(Request $request){
-    Default_pozicija::create(
+    $desc_sr = !empty($request->input('new_description'))?$request->input('new_description'):'';
+    $pozicija = Default_pozicija::create(
       [
         'subcategory_id' => $request->input('subcategory_options'),
-        'title' => $request->input('new_title'),
-        'description' => $request->input('new_description'),
+        'title' => ['sr' => $request->input('new_title')],
+        'description' => ['sr' => $desc_sr],
         'unit_id' => $request->input('unit_options'),
-
       ]);
+
+    if($request->input('new_title_en') != null)
+      $pozicija->setTranslations('title', ['en' => $request->input('new_title_en')]);
+    if($request->input('new_title_hu') != null)
+      $pozicija->setTranslations('title', ['hu' => $request->input('new_title_hu')]);
+
+    if($request->input('new_description_en') != null)
+      $pozicija->setTranslations('description', ['en' => $request->input('new_description_en')]);
+    if($request->input('new_description_hu') != null)
+      $pozicija->setTranslations('description', ['hu' => $request->input('new_description_hu')]);
+
+    $pozicija->save();
+
     return redirect()->back();
   }
 
   public function editPozicija(Request $request){
-    Default_pozicija::where('id', $request->input('id'))->update(
+    $desc = $request->input('description');
+    $pozicija = Default_pozicija::where('id', $request->input('id'))->first();
+    $pozicija->update(
       [
-        'title' => $request->input('title'),
-        'description' => $request->input('description'),
         'unit_id' => $request->input('unit'),
       ]);
+    $pozicija->setTranslations('title', [app()->getLocale() => $request->input('title')]);
+    if(isset($desc))
+    {
+      $pozicija->setTranslations('description', [app()->getLocale() => $desc]);
+    }
+    elseif((empty($desc) && app()->getLocale() == "sr"))
+    {
+      $desc = '';
+      $pozicija->setTranslations('description', [app()->getLocale() => $desc]);
+    }
+    $pozicija->save();
     return redirect()->back();
   }
 

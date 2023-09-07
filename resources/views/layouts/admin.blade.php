@@ -23,9 +23,17 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     </head>
+    @php
+        $lang = App::currentLocale();
+    @endphp
     <body class="font-sans antialiased">
         <div class="d-flex h-100 mt-150">
             <div class="d-flex side-menu col-2 flex-column admin_menu">
+                <div class="py-2 mx-4 border-bottom">
+                     <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav"><b>{{ strtoupper($lang) }}</b>
+                        <i class="ri-earth-line sm:text-3xl text-2xl"></i>
+                    </button>
+                </div>
                 <div class="py-2 mx-4 border-bottom">
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                 </div>
@@ -47,7 +55,7 @@
                 <div class="py-2 mx-4 border-bottom">
                     <a href="{{ route('admin.pozicija') }}">Pozicija</a>
                 </div>
-                <div class="py-2 mx-4">
+                <div class="alert alert-danger py-2 mx-4 mt-4">
                     <form method="POST" action="{{ route('admin.logout') }}" class="admin-logout">
                         @csrf
                         <a href="{{ route('admin.logout') }}" class=""
@@ -71,6 +79,21 @@
                 color: white;
             }
         </style>
+        <script>
+            function LanguageSwitcher(lang) {
+                Swal.fire({
+                    html: "@if ($lang == 'hu')<a href='{{ url(getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Hungarian</a><br>" +
+                        "@else <a href='{{ url(getCurrentUrlWithLocale('hu')) }}' class='language-name'>Hungarian</a><br> @endif" +
+                        "@if ($lang == 'en')<a href='{{ url(getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
+                        "@else <a href='{{ url(getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif" +
+                        "@if ($lang == 'rs')<a href='{{ url(getCurrentUrlWithLocale('rs')) }}' class='disabled-link'>Serbian</a><br>" +
+                        "@else <a href='{{ url(getCurrentUrlWithLocale('rs')) }}' class='language-name'>Serbian</a><br> @endif",
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                })
+            }
+        </script>
         @include('sweetalert::alert')
     </body>
 </html>

@@ -36,6 +36,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $subcategories->links('pagination::bootstrap-5') }}
+        </div>
     </div>
     <script>
         function insertSwall() {
@@ -50,8 +53,12 @@
                         '<option value="{{ $category->id }}">{{ $category->name }}</option>'+
                     @endforeach
                 '</select>' +
-                '<label for="new_subcategory_name">Subcategory name:</label>' +
+                '<label for="new_subcategory_name">Subcategory name (serbian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_subcategory_name"/>' +
+                '<label for="new_subcategory_name_en">Subcategory name (english):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_subcategory_name_en"/>' +
+                '<label for="new_subcategory_name_hu">Subcategory name (hungarian):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_subcategory_name_hu"/>' +
                 '<button type="submit" class="add-new-btn mt-3">Insert</button>' +
                 '</form>',
             showCancelButton: false,

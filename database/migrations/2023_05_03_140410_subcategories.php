@@ -16,7 +16,7 @@ class Subcategories extends Migration
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('category_id')->unsigned();
-            $table->string('name');
+            $table->json('name');
         });
     }
 

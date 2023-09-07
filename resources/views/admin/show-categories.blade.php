@@ -36,6 +36,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $categories->links('pagination::bootstrap-5') }}
+        </div>
     </div>
     <script>
         function insertSwall() {
@@ -44,8 +47,12 @@
             html: 
                 '<form method="POST" id="formnew" action="{{ route('admin.insert.category') }}">' +
                 '@csrf' +
-                '<label for="new_category_name">Category name:</label>' +
+                '<label for="new_category_name">Category name (serbian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_category_name"/>' +
+                '<label for="new_category_name_en">Category name (english):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_category_name_en"/>' +
+                '<label for="new_category_name_hu">Category name (hungarian):</label>' +
+                '<input class="mt-3 swal-input" type="text" name="new_category_name_hu"/>' +
                 '<button type="submit" class="add-new-btn mt-3">Insert</button>' +
                 '</form>',
             showCancelButton: false,
