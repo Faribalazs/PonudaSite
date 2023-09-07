@@ -353,9 +353,6 @@ class NewPonuda extends Controller
    
    private function successsponudaDone($request, $worker){
       $ponuda_name = $request->ponuda_name;
-      // dd($request);
-      date_default_timezone_set('Europe/Belgrade');
-      $date = date('Y-m-d H:i:s');
       $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
          ->where('workers.id', $worker)
          ->first();  
@@ -368,7 +365,6 @@ class NewPonuda extends Controller
          Ponuda_Date::create([
             'worker_id' => $worker,
             'id_ponuda' => $swap->swap_id,
-            'created_at' => $date,
             'ponuda_name' => $ponuda_name,
             'note' => $request->note,
             'opis' => $request->opis,
@@ -380,7 +376,6 @@ class NewPonuda extends Controller
          Ponuda_Date::create([
             'worker_id' => $worker,
             'id_ponuda' => $this->ponudaCounter($worker)->ponuda_counter,
-            'created_at' => $date,
             'ponuda_name' => $ponuda_name,
             'note' => $request->note,
             'opis' => $request->opis,

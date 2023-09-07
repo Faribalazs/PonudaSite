@@ -47,6 +47,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         <div class="flex w-full mt-10">
             <button type="submit" class="finish-btn mt-5 text-xl w-full">Nastavi</button>
         </div>
