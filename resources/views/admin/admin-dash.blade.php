@@ -1,11 +1,12 @@
-<x-app-layout>
-    <x-slot name="pageTitle">
-        {{ __('app.auth.log-in') }}
-    </x-slot>
-    <x-slot name="header">
-    </x-slot>
-    <x-auth-validation-errors class="mb-4" :errors="$errors" />
-    <div>
-        admin log log in
+@extends('layouts.admin')
+
+@section('page-title')
+    {{ __('Dashboard') }}
+@endsection
+@section('content')
+    <div class="main-container" style="overflow: auto">
+        Admin dashboard
     </div>
-</x-app-layout>
+@endsection
+
+

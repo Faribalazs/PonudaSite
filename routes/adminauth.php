@@ -5,7 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Adminauth\AuthenticatedSessionController;
 
 
-Route::group(['middlewere' => ['guest:admin'],'prefix'=>'admin','as'=>'admin.'],function(){
+Route::group(['middleware' => ['guest:admin'],'prefix'=>'admin','as'=>'admin.'],function(){
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
@@ -14,7 +14,7 @@ Route::group(['middlewere' => ['guest:admin'],'prefix'=>'admin','as'=>'admin.'],
 
 });
 
-Route::group(['middlewere' => ['auth:admin'],'prefix'=>'admin','as'=>'admin.'],function(){
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                     ->name('logout');
