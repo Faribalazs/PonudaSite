@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Ponuda extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'ponuda';
 
@@ -23,4 +24,7 @@ class Ponuda extends Model
         'unit_price',
         'overall_price',
     ];
+
+    public $translatable = ['title', 'description','name_category'];
+
 }

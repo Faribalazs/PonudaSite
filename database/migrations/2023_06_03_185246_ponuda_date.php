@@ -15,7 +15,7 @@ class PonudaDate extends Migration
     {
         Schema::create('ponuda_date', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('id_ponuda')->unsigned();
             $table->string('ponuda_name');
             $table->string('note')->nullable();

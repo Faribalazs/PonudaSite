@@ -15,12 +15,12 @@ class Ponuda extends Migration
     {
         Schema::create('ponuda', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('ponuda_id')->unsigned();
             $table->bigInteger('categories_id')->unsigned();
             $table->bigInteger('subcategories_id')->unsigned();
             $table->bigInteger('pozicija_id')->unsigned();
-            $table->integer('service_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Ponuda_Service::class,'service_id')->constrained()->references('id_service')->cascadeOnDelete();
             $table->integer('quantity')->unsigned();
             $table->double('unit_price')->unsigned();
             $table->double('overall_price')->unsigned();

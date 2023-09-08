@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fizicka_lica', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('city');

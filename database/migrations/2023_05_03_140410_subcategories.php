@@ -15,7 +15,7 @@ class Subcategories extends Migration
     {
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Default_category::class,'category_id')->constrained();
             $table->json('name');
         });
     }

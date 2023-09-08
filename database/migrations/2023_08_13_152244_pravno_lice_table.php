@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pravna_lica', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->string('company_name');
             $table->string('city');
             $table->integer('zip_code');

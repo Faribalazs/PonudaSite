@@ -15,7 +15,7 @@ class SwapPonuda extends Migration
     {
         Schema::create('swap_ponuda', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('original_id')->unsigned();
             $table->bigInteger('swap_id')->unsigned();
             $table->string('temp_ponuda_name');

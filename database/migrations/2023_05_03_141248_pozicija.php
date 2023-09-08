@@ -15,8 +15,8 @@ class Pozicija extends Migration
     {
         Schema::create('pozicija', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('subcategory_id')->unsigned();
-            $table->integer('unit_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Default_subcategory::class,'subcategory_id')->constrained();
+            $table->foreignIdFor(\App\Models\Units::class,'unit_id')->constrained()->references('id_unit')->cascadeOnDelete();
             $table->json('title');
             $table->json('description');
         });

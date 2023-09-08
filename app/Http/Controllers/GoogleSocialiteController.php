@@ -55,14 +55,17 @@ class GoogleSocialiteController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'status' => 1,
                     'password' => encrypt('my-google')
                 ]);
                 $newUser->attachRole('user'); 
                 event(new Registered($newUser));
      
                 Auth::login($newUser);
-      
+                
+                $user = Auth::user();
+                $user->email_verified_at = now();
+                $user->save();
+
                 return redirect(route('home'));
             }
      

@@ -44,8 +44,6 @@ class GoogleSocialiteController extends Controller
       
             $finduser = Worker::where('name', $user->name)->first();
             
-            $date = date('Y-m-d H:i:s');
-
             if($finduser){
       
                 Auth::guard('worker')->login($finduser);
@@ -56,7 +54,6 @@ class GoogleSocialiteController extends Controller
                 $newUser = Worker::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'email_verified_at' => $date,
                     'password' => encrypt('my-google')
                 ]);
                 $newUser->attachRole('worker'); 
@@ -65,8 +62,7 @@ class GoogleSocialiteController extends Controller
                 Auth::guard('worker')->login($newUser);
 
                 $worker = Auth::guard('worker')->user();
-
-                $worker->email_verified_at = $date;
+                $worker->email_verified_at = now();
                 $worker->save();
       
                 return redirect(route('home'));

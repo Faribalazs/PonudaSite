@@ -15,16 +15,10 @@ class CustomCategories extends Migration
     {
         Schema::create('custom_categories', function (Blueprint $table) {
             $table->id()->startingValue(500);
-            $table->bigInteger('worker_id')->unsigned();
+            $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->string('name');
             $table->tinyInteger('is_category_deleted')->nullable();
         });
-        DB::table('custom_categories')->insert(
-            array(
-                'worker_id' => '1',
-                'name' => 'Worker Custom'
-            )
-        );
     }
 
     /**

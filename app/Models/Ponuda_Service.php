@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Units extends Model
+class Ponuda_Service extends Model
 {
     use HasFactory;
 
-    protected $table = 'units';
-
-    protected $primaryKey = 'id_unit';
+    protected $table = 'services';
 
     public $timestamps = false;
-
+    
     protected $fillable = [
-        'name',
+        'name_service',
     ];
 }
