@@ -133,7 +133,7 @@ class WorkerController extends Controller
 
       $fizicko_lice = new Fizicko_lice();
       $fizicko_lice->worker_id = $request->worker_id;
-      $fizicko_lice->first_name = $data['f_name'];
+      $fizicko_lice->first_name = $request->f_name;
       $fizicko_lice->last_name = $request->l_name;
       $fizicko_lice->city = $request->grad;
       $fizicko_lice->zip_code = $request->postcode;
