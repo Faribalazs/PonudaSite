@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\{Default_category, Default_subcategory, Default_pozicija, Units};
+use App\Models\{Default_category, Default_subcategory, Default_pozicija, Units, Ponuda_Service};
  
 class DataSeeder extends Seeder
 {
@@ -20,7 +20,6 @@ class DataSeeder extends Seeder
             [
                 'name' => [
                     'sr' => 'Rušenje',
-                    'en' => 'asdasd'
                 ]
             ],
             [
@@ -31,6 +30,11 @@ class DataSeeder extends Seeder
             [
                 'name' => [
                     'sr' => 'Pripremni i završni radovi'
+                ]
+            ],
+            [
+                'name' => [
+                    'sr' => 'Zidarski radovi'
                 ]
             ],
             [
@@ -63,79 +67,97 @@ class DataSeeder extends Seeder
         $subcategories = 
         [
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Pripremni i završni radovi'
                 ]
             ],
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Unutrašnji zidovi i plafoni'
                 ]
             ],
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Vrata i prozori'
                 ]
             ],
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Fasada'
                 ]
             ],
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Dekorativne tehnike'
                 ]
             ],
             [
-                'category_id' => '8',
+                'category_id' => '9',
                 'name' => [
                     'sr' => 'Ukrasne tapete, bordure i aplikacije'
                 ]
             ],
             [
-                'category_id' => '4',
+                'category_id' => '5',
                 'name' => [
                     'sr' => 'Pregradni zidovi'
                 ]
             ],
             [
-                'category_id' => '4',
+                'category_id' => '5',
                 'name' => [
                     'sr' => 'Spusteni plafoni'
                 ]
             ],
             [
-                'category_id' => '4',
+                'category_id' => '5',
                 'name' => [
                     'sr' => 'Suvo malterisanje'
                 ]
             ],
             [
-                'category_id' => '4',
+                'category_id' => '5',
                 'name' => [
                     'sr' => 'Oblaganje instalacija'
                 ]
             ],
             [
-                'category_id' => '5',
+                'category_id' => '6',
                 'name' => [
                     'sr' => 'Pripremni i završni radovi'
                 ]
             ],
             [
-                'category_id' => '5',
+                'category_id' => '6',
                 'name' => [
                     'sr' => 'Zidovi'
                 ]
             ],
             [
-                'category_id' => '5',
+                'category_id' => '6',
+                'name' => [
+                    'sr' => 'Podovi'
+                ]
+            ],
+            [
+                'category_id' => '8',
+                'name' => [
+                    'sr' => 'Demontaža'
+                ]
+            ],
+            [
+                'category_id' => '8',
+                'name' => [
+                    'sr' => 'Priprema podloge'
+                ]
+            ],
+            [
+                'category_id' => '8',
                 'name' => [
                     'sr' => 'Podovi'
                 ]
@@ -154,24 +176,6 @@ class DataSeeder extends Seeder
             ],
             [
                 'category_id' => '7',
-                'name' => [
-                    'sr' => 'Podovi'
-                ]
-            ],
-            [
-                'category_id' => '6',
-                'name' => [
-                    'sr' => 'Demontaža'
-                ]
-            ],
-            [
-                'category_id' => '6',
-                'name' => [
-                    'sr' => 'Priprema podloge'
-                ]
-            ],
-            [
-                'category_id' => '6',
                 'name' => [
                     'sr' => 'Podovi'
                 ]
@@ -206,38 +210,74 @@ class DataSeeder extends Seeder
                     'sr' => 'Demontaža'
                 ]
             ],
+            [
+                'category_id' => '4',
+                'name' => [
+                    'sr' => 'Obijanje'
+                ]
+            ],
+            [
+                'category_id' => '4',
+                'name' => [
+                    'sr' => 'Zidovi'
+                ]
+            ],
+            [
+                'category_id' => '4',
+                'name' => [
+                    'sr' => 'Podovi'
+                ]
+            ],
+            [
+                'category_id' => '4',
+                'name' => [
+                    'sr' => 'Malterisanje'
+                ]
+            ],
         ];
 
-        DB::table('units')->insert(
-            array(
-                [
-                    'name' => 'm²',
-                ],
-                [
-                    'name' => 'm³',
-                ],
-                [
-                    'name' => 'kom',
-                ],
-                [
-                    'name' => 'm¹',
-                ],
-                [
-                    'name' => 'turi prevoza',
+        $units = 
+        [
+            [
+                'name' => [
+                    'sr' => 'm²'
                 ]
-            )
-        );
+            ],
+            [
+                'name' => [
+                    'sr' => 'm³'
+                ]
+            ],
+            [
+                'name' => [
+                    'sr' => 'kom'
+                ]
+            ],
+            [
+                'name' => [
+                    'sr' => 'm¹'
+                ],
+            ],
+            [
+                'name' => [
+                    'sr' => 'turi prevoza',
+                ]
+            ]
+        ];
 
-        DB::table('services')->insert(
-            array(
-                [
-                    'name_service' => 'Cena pozicije sadrži vrednost materiala i usluge.',
-                ],
-                [
-                    'name_service' => 'Cena pozicije sadrži vrednost uslugu (bez materiala).',
+        $services = 
+        [
+            [
+                'name_service' => [
+                    'sr' => 'Cena pozicije sadrži vrednost materiala i usluge.'
                 ]
-            )
-        );
+            ],
+            [
+                'name_service' => [
+                    'sr' => 'Cena pozicije sadrži vrednost uslugu (bez materiala).',
+                ]
+            ]
+        ];
 
         $pozicija = 
         [
@@ -2623,6 +2663,8 @@ class DataSeeder extends Seeder
             ],
         ];
 
+        collect($units)->each(function ($units) { Units::create($units); });
+        collect($services)->each(function ($services) { Ponuda_Service::create($services); });
         collect($categories)->each(function ($category) { Default_category::create($category); });
         collect($subcategories)->each(function ($subcategory) { Default_subcategory::create($subcategory); });
         collect($pozicija)->each(function ($poz) { Default_pozicija::create($poz); });
@@ -2635,17 +2677,132 @@ class DataSeeder extends Seeder
                 't_sr' => 'Demontaža poda od PVC podnih obloga zajedno sa lajsnama.',
                 'd_sr' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.',
             ],
-
-            // example dynamic
+            [
+                'subcategory_id' => 25,
+                'unit_id' => 1,
+                't_sr' => 'Obijanje maltera sa unutrašnjih zidova.',
+                'd_sr' => 'Malter sa zidova se obija ručno ili mašinski. Fuge se čiste do dubine od 2cm, a površina opeke čisti čeličnim četkama. Šut se iznosi iz objekta i odvozi na gradsku deponiju udaljenu do 10km.',
+            ],
+            [
+                'subcategory_id' => 25,
+                'unit_id' => 1,
+                't_sr' => 'Obijanje maltera sa plafona.',
+                'd_sr' => 'Malter sa plafona se obija ručno ili mašinski. Šut se iznosi iz objekta i odvozi na gradsku deponiju udaljenu do 10km.',
+            ],
+            [
+                'subcategory_id' => 25,
+                'unit_id' => 1,
+                't_sr' => 'Obijanje zidnih keramičkih pločica.',
+                'd_sr' => 'Pločice se sa zidova obijaju ručno ili mašinski. Fuge se čiste do dubine od 2cm, a površina opeke čisti čeličnim četkama. Šut se iznosi iz objekta i odvozi na gradsku deponiju udaljenu do 10km.',
+            ],
+            [
+                'subcategory_id' => 25,
+                'unit_id' => 1,
+                't_sr' => 'Obijanje podnih keramičkih pločica.',
+                'd_sr' => 'Pločice se sa podova obijaju ručno ili mašinski. Šut se iznosi iz objekta i odvozi na gradsku deponiju udaljenu do 10km.',
+            ],
+            [
+                'subcategory_id' => 25,
+                'unit_id' => 1,
+                't_sr' => 'Obijanje maltera sa fasadnih zidova.',
+                'd_sr' => 'Malter sa zidova se obija ručno ili mašinski. Fuge se čiste do dubine od 2cm, a površina opeke čisti čeličnim četkama. Šut se iznosi iz objekta i odvozi na gradsku deponiju udaljenu do 10km. U ceni je i trošak montaže i demontaže potrebne fasadne skele.',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 2,
+                't_sr' => 'Zidanje nosećih zidova, d=25 cm i više, punom opekom u produžnom malteru.',
+                'd_sr' => 'Opeka se pre ugradnje kvasi vodom. Fuge se čiste do dubine od 2 cm. U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 2,
+                't_sr' => 'Zidanje zidova, šupljim blokovima d=25 cm i više, u produžnom malteru.',
+                'd_sr' => 'Blokovi se pre ugradnje kvase vodom. Fuge se čiste do dubine od 2 cm. U cenu ulazi i pomoćna skela. ',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 2,
+                't_sr' => 'Zidanje zidova termo izolacionim (YTONG) blokovima, odgovarajućim lepkom. ',
+                'd_sr' => 'U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 1,
+                't_sr' => 'Zidanje pregradnih zidova debljine 6,5 cm, punom opekom u produžnom malteru.',
+                'd_sr' => 'U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 1,
+                't_sr' => 'Zidanje pregradnih zidova debljine 12 cm, punom opekom u produžnom malteru.',
+                'd_sr' => 'U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 26,
+                'unit_id' => 1,
+                't_sr' => 'Zidanje pregradnih zidova, šupljim blokovima d=8 cm i više, u produžnom malteru.',
+                'd_sr' => 'U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada perdašene cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Gornja površina košuljice se perdaši i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada gletovane cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Gornja površina košuljice se gletuje do crnog sjaja i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada rabicirane i perdašene cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Košuljica se armira rabic pletivom, postavljenim u sredini sloja. Gornja površina košuljice se perdaši i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada rabicirane i gletovane cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Košuljica se armira rabic pletivom, postavljenim u sredini sloja. Gornja površina košuljice se gletuje do crnog sjaja i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada armirane i perdašene cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Košuljica se armira mrežom Ø 6 mm, sa okcima 15/15 cm, postavljenim u sredini sloja. Gornja površina košuljice se perdaši i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 27,
+                'unit_id' => 1,
+                't_sr' => 'Izrada armirane i gletovane cementne košuljice.',
+                'd_sr' => 'Pre izrade košuljice podloga se čisti. Košuljica se armira mrežom Ø 6 mm, sa okcima 15/15 cm, postavljenim u sredini sloja. Gornja površina košuljice se gletuje do crnog sjaja i neguje do očvršćavanja.',
+            ],
+            [
+                'subcategory_id' => 28,
+                'unit_id' => 1,
+                't_sr' => 'Malterisanje krečnim malterom u dva sloja sa perdašenjem.',
+                'd_sr' => 'Pre malterisanja površine se čiste  i prskaju razređenim malterom. Po završetku malterisanja, malter se kvasi da ne dođe do prebrzog sušenja. U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 28,
+                'unit_id' => 1,
+                't_sr' => 'Malterisanje produžnim malterom u dva sloja sa perdašenjem.',
+                'd_sr' => 'Pre malterisanja površine se čiste  i prskaju razređenim malterom. Po završetku malterisanja, malter se kvasi da ne dođe do prebrzog sušenja. U cenu ulazi i pomoćna skela.',
+            ],
+            [
+                'subcategory_id' => 28,
+                'unit_id' => 1,
+                't_sr' => 'Malterisanje cementnim malterom u dva sloja sa perdašenjem.',
+                'd_sr' => 'Pre malterisanja površine se čiste  i prskaju razređenim malterom. Po završetku malterisanja, malter se kvasi da ne dođe do prebrzog sušenja. U cenu ulazi i pomoćna skela.',
+            ],
             // [
-            //     'subcategory_id' => 24,
+            //     'subcategory_id' => 29,
             //     'unit_id' => 1,
-            //     't_sr' => 'Demontaža poda od PVC podnih obloga zajedno sa lajsnama.',
-            //     't_hu' => 'Title in Hungarian',
-            //     'd_sr' => 'Šut se iznosi van objekta, tovari u kamion i odvozii na gradsku deponiju udaljenu do 10km.',
-            //     'd_en' => 'Description in English',
+            //     't_sr' => '',
+            //     'd_sr' => '',
             // ],
-
         ];
 
         function poz($data)

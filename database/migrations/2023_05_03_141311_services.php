@@ -15,7 +15,7 @@ class Services extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id_service');
-            $table->string('name_service');
+            $table->json('name_service');
         });
     }
 

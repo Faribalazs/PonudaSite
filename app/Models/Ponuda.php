@@ -25,6 +25,6 @@ class Ponuda extends Model
         'overall_price',
     ];
 
-    public $translatable = ['title', 'description','name_category'];
+    public $translatable = ['title', 'description','name_category','name_service','unit_name'];
 
 }
