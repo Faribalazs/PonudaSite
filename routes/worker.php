@@ -130,7 +130,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::put('contractor/myoptions/delete/pozicija', [OptionsController::class, 'deletePozicija'])
         ->name('worker.options.delete.pozicija');
 
-
+    Route::post('contractor/mail/pdf', [Archive::class, 'sendPDF'])
+        ->name('worker.archive.send.mail');
+        
     //archive
     Route::middleware(['checkSwapRecord'])->group(function () {
         Route::get('contractor/archive', [Archive::class, 'show'])
@@ -148,18 +150,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::middleware(['restrictUserAccess'])->group(function () {
             Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
                 ->name('worker.archive.selected');
-            
-            Route::get('contractor/pdf/{id}', [Archive::class, 'createPDF'])
-                ->name('worker.archive.pdf');
 
             Route::get('contractor/view/pdf/{id}', [Archive::class, 'viewPDF'])
                 ->name('worker.archive.view.pdf');
-
-            Route::get('contractor/createmail/{id}', [Archive::class, 'createMAIL'])
-                ->name('worker.archive.create.mail');
-
-            Route::post('contractor/mail/pdf/{id}', [Archive::class, 'sendPDF'])
-                ->name('worker.archive.send.mail');
 
             Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
                 ->name('worker.archive.select.contact');

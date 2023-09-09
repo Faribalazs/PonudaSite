@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pravno_lice extends Model
+class Pravno_lice_Temporary extends Model
 {
     use HasFactory;
     
-    protected $table = 'pravna_lica';
+    protected $table = 'pravna_lica_temporary';
 
     public $timestamps = false;
 

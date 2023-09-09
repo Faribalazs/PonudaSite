@@ -43,9 +43,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('/workers', [AdminController::class, 'selectWorkers'])->name('workers');
     Route::put('/workers/ban', [AdminController::class, 'banWorker'])->name('ban.worker');
     Route::put('/workers/unban', [AdminController::class, 'unbanWorker'])->name('unban.worker');
-    Route::get('/not-activated-workers', [AdminController::class, 'notActivatedWorkers'])->name('not.activated.workers');
-    Route::put('/not-activated-workers/activate', [AdminController::class, 'activateWorker'])->name('activate.worker');
-    Route::put('/not-activated-workers/dismiss', [AdminController::class, 'dismissWorker'])->name('dismiss.worker');
     Route::get('/categories', [AdminController::class, 'selectCategories'])->name('categories');
     Route::post('/categories/insert', [AdminController::class, 'insertCategory'])->name('insert.category');
     Route::put('/categories/edit', [AdminController::class, 'editCategory'])->name('edit.category');

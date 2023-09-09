@@ -121,10 +121,6 @@
                             href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
                             <i class="ri-eye-line"></i>
                         </a>
-                        <a class="share-btn-table mr-3"
-                            href="{{ route('worker.archive.create.mail', ['id' => $ponuda->id_ponuda]) }}">
-                            <i class="ri-share-line"></i>
-                        </a>
                         <button class="delete-btn-table"
                             onclick="actionSwall('{{ route('worker.archive.delete') }}','{{ $ponuda->ponuda_name }}','{{ $ponuda->id_ponuda }}')">
                             <i class="ri-delete-bin-line"></i>

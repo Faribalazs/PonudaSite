@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pravna_lica', function (Blueprint $table) {
+        Schema::create('fizicka_lica_temporary', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
-            $table->string('company_name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('city');
             $table->integer('zip_code');
             $table->string('address');
             $table->string('email');
             $table->string('tel');
-            $table->integer('pib');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pravna_lica');
+        Schema::dropIfExists('fizicka_lica_temporary');
     }
 };

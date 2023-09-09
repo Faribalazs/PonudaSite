@@ -23,9 +23,6 @@
                 <a href="{{ route('worker.archive.select.contact', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Generisi PDF</a>
-                <a href="{{ route('worker.archive.create.mail', ['id' => $collection->first()->id_ponuda]) }}" Skini
-                    class="archive-pdf-btn">
-                    <i class="ri-share-line"></i>Pošalji PDF</a>
                 <a target="_blank"
                     href="{{ route('worker.archive.view.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">

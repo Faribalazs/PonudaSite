@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use App\Models\{Swap, Ponuda, Ponuda_Date, Pozicija_Temporary, Title_Temporary, Worker, Fizicko_lice, Pravno_lice, Company_Data};
+use App\Models\{Swap, Ponuda, Ponuda_Date, Pozicija_Temporary, Title_Temporary, Worker, Fizicko_lice, Pravno_lice, Company_Data, Fizicko_lice_Temporary, Pravno_lice_Temporary};
 use Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -191,17 +191,6 @@ class Archive extends Controller
         return Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->where('worker_id', $worker)->first();
     }
 
-    public function createMAIL($id)
-    {
-        $name = Ponuda_Date::select('ponuda_name')->where('id_ponuda', $id)->get();
-        return view('worker.views.mail-send',['id_archive' => $id , 'name' => $name]);
-    }
-
-    public function createPDF($id) {
-        list($pdf, $pdf_name) = $this->PDFdata($id);
-        return $pdf->download($pdf_name->ponuda_name . '.pdf');
-    }
-
     public function viewPDF($id) {
         list($pdf, $pdf_name) = $this->PDFdata($id);
         return $pdf->stream($pdf_name->ponuda_name);
@@ -226,9 +215,17 @@ class Archive extends Controller
     {
         return Fizicko_lice::where('worker_id', $worker)->where('id', $id)->first();
     }
+    private function selectedFizickaTemporary($worker, $id)
+    {
+        return Fizicko_lice_Temporary::where('worker_id', $worker)->where('id', $id)->first();
+    }
     private function selectedPravna($worker, $id)
     {
         return Pravno_lice::where('worker_id', $worker)->where('id', $id)->first();
+    }
+    private function selectedPravnaTemporary($worker, $id)
+    {
+        return Pravno_lice_Temporary::where('worker_id', $worker)->where('id', $id)->first();
     }
 
     public function selectContact($id){
@@ -286,7 +283,22 @@ class Archive extends Controller
 
             if(isset($request->save))
             {
-                Fizicko_lice::updateOrInsert(
+                $client = Fizicko_lice::create(
+                    [
+                        'worker_id' => $this->worker(),
+                        'first_name' => $f_name,
+                        'last_name' => $l_name,
+                        'city' => $grad,
+                        'zip_code' => $postcode,
+                        'address' => $adresa,
+                        'email' => $email,
+                        'tel' => $tel,
+                    ]
+                );
+                $temporary = false;
+            }
+            else{
+                $client = Fizicko_lice_Temporary::updateOrCreate(
                     ['worker_id' => $this->worker()],
                     [
                         'first_name' => $f_name,
@@ -298,19 +310,15 @@ class Archive extends Controller
                         'tel' => $tel,
                     ]
                 );
+                $temporary = true;
             }
 
             return view('worker.views.select-tamplate',
-                    [ 'ponuda_id' => $request->ponuda_id,
-                      'f_name' => $f_name,
-                      'l_name' => $l_name,
-                      'city' => $grad,
-                      'zip' => $postcode,
-                      'adresa' => $adresa,
-                      'email' => $email,
-                      'tel' => $tel,
-                      'type' => 1,
-                      'new' => "custom",  
+                    [   
+                        'ponuda_id' => $request->ponuda_id,
+                        'client_id' => $client->id ?? null,  
+                        'temporary' => $temporary,
+                        'type' => 1,
                     ]);
         }
         return redirect()->back();
@@ -354,9 +362,9 @@ class Archive extends Controller
 
             if(isset($request->save))
             {
-                Pravno_lice::updateOrInsert(
-                    ['worker_id' => $this->worker()],
+                $client = Pravno_lice::create(
                     [
+                        'worker_id' => $this->worker(),
                         'company_name' => $company_name,
                         'city' => $grad,
                         'zip_code' => $postcode,
@@ -366,19 +374,31 @@ class Archive extends Controller
                         'pib' => $pib,
                     ]
                 );
+                $temporary = false;
+            }
+            else{
+                $client = Pravno_lice_Temporary::updateOrCreate(
+                    ['worker_id' => $this->worker()],
+                    [
+                        'worker_id' => $this->worker(),
+                        'company_name' => $company_name,
+                        'city' => $grad,
+                        'zip_code' => $postcode,
+                        'address' => $adresa,
+                        'email' => $email,
+                        'tel' => $tel,
+                        'pib' => $pib,
+                    ]
+                );
+                $temporary = true;
             }
 
             return view('worker.views.select-tamplate',
-                    [ 'ponuda_id' => $request->ponuda_id,
-                      'company_name' => $company_name,
-                      'city' => $grad,
-                      'zip' => $postcode,
-                      'adresa' => $adresa,
-                      'email' => $email,
-                      'tel' => $tel,
-                      'pib' => $pib,
-                      'type' => 2,
-                      'new' => "custom",  
+                    [ 
+                        'ponuda_id' => $request->ponuda_id,
+                        'type' => 2,
+                        'client_id' => $client->id ?? null,  
+                        'temporary' => $temporary,
                     ]);
         }
     }
@@ -400,57 +420,109 @@ class Archive extends Controller
         $foundClient = null;
         $type_id = $request->type ?? null;
         $client_id = $request->client_id ?? null;
-        if ($type_id && $client_id) {
-            if(is_numeric($type_id) && is_numeric($client_id))
-            {
-                if($type_id == 1)
-                    $foundClient = $this->selectedFizicka($worker_id, $client_id);
-                elseif($type_id == 2)
-                    $foundClient = $this->selectedPravna($worker_id, $client_id);
+        $pdf_name = $this->PDFname($id,$worker_id);
+        if($request->skini)
+        {
+            if ($type_id && $client_id) {
+                if(is_numeric($type_id) && is_numeric($client_id))
+                {
+                    if($type_id == 1)
+                    {
+                        if($request->temporary)
+                        {
+                            $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
+                        }
+                        else
+                        {
+                            $foundClient = $this->selectedFizicka($worker_id, $client_id);
+                        }
+                    }
+                    elseif($type_id == 2)
+                    {
+                        if($request->temporary)
+                        {
+                            $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
+                        }
+                        else
+                        {
+                        $foundClient = $this->selectedPravna($worker_id, $client_id);
+                        }
+                    }
+                    else
+                        return redirect()->back();
+                }
                 else
                     return redirect()->back();
             }
-            else
-                return redirect()->back();
-        }
-        $pdf_name = $this->PDFname($id,$worker_id);
-        if(isset($request->new)) {
-            $pdf = PDF::loadView($pdf_blade,
-                ['mergedData' => $selectedWorkerPonuda, 
-                'ponuda_name' => $pdf_name->ponuda_name, 
-                'company' => $company_data,
-                'f_name' => $request->f_name,
-                'l_name' => $request->l_name,
-                'city' => $request->city,
-                'zip' => $request->zip,
-                'adresa' => $request->adresa,
-                'email' => $request->email,
-                'tel' => $request->tel,
-                'new' => "custom",
-                ]);
-        } else {
             $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id]);
+            return $pdf->download($pdf_name->ponuda_name ?? "ponuda" . '.pdf');
         }
-
-        return $pdf->download($pdf_name->ponuda_name ?? "ponuda" . '.pdf');
+        elseif($request->posalji)
+        {
+            return view('worker.views.mail-send',['name' => $pdf_name->ponuda_name ?? "ponuda", 'id' => $id, 'client_id' => $client_id, 'type' => $type_id, 'temporary' => $request->temporary, 'pdf_blade' => $pdf_blade]);
+        }
     }
     // redirektelni kell miutan letoti a pdf a sucessra
     public function generatePdfSuccess(Request $request){
         return view('worker.views.generate-pdf-success');
     }
     // redirektelni kell miutan letoti a pdf a sucessra end
-    public function sendPDF(Request $request, $id)
+    public function sendPDF(Request $request)
     {
         $request->validate([
             'mailTo' => 'required|string|email:rfc|max:255',
             'mailSubject' => 'nullable|string|max:64',
             'mailBody' => 'nullable|string|max:1024',
         ]);
-        list($pdf, $pdf_name) = $this->PDFdata($id);
-        $data["mailFrom"] = Worker::select('email')->where('id', $this->worker())->first()->email;
+        $worker_id = $this->worker();
+        $data["mailFrom"] = auth('worker')->user()->email;
         $data["mailTo"] = $request->mailTo;
         $data["mailSubject"] = $request->mailSubject;
         $data["mailBody"] = $request->mailBody;
+        $company_data = $this->company_data($worker_id) ?? null;
+        $pdf_blade = $request->pdf;
+        $id = $request->id;
+        $pdf_name = $this->PDFname($id,$worker_id);
+        $selectedWorkerPonuda = null;
+        if(is_numeric($id) && $id > 0)
+            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->where('worker_id', $worker_id)->all();
+        else
+            return redirect()->back();
+        $foundClient = null;
+        $type_id = $request->type ?? null;
+        $client_id = $request->client ?? null;
+        if ($type_id && $client_id) {
+            if(is_numeric($type_id) && is_numeric($client_id))
+            {
+                if($type_id == 1)
+                {
+                    if($request->temporary)
+                    {
+                        $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
+                    }
+                    else
+                    {
+                        $foundClient = $this->selectedFizicka($worker_id, $client_id);
+                    }
+                }
+                elseif($type_id == 2)
+                {
+                    if($request->temporary)
+                    {
+                        $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
+                    }
+                    else
+                    {
+                    $foundClient = $this->selectedPravna($worker_id, $client_id);
+                    }
+                }
+                else
+                    return redirect()->back();
+            }
+            else
+                return redirect()->back();
+        }
+        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id]);
         $pdfContent = $pdf->output();
         $pdfSize = strlen($pdfContent);
         if($pdfSize < 10485760)

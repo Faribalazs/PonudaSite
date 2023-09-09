@@ -15,28 +15,12 @@
             @if (isset($type))
                 <input type="hidden" name="type" value="{{ $type }}" />
             @endif
-            @if (isset($new))
-                @if(isset($f_name))
-                    <input type="hidden" name="f_name" value="{{ $f_name }}" />
-                @endif
-                @if (isset($l_name))
-                    <input type="hidden" name="l_name" value="{{ $l_name }}" />
-                @endif
-                <input type="hidden" name="city" value="{{ $city }}" />
-                <input type="hidden" name="zip" value="{{ $zip }}" />
-                <input type="hidden" name="adresa" value="{{ $adresa }}" />
-                <input type="hidden" name="tel" value="{{ $tel }}" />
-                <input type="hidden" name="email" value="{{ $email }}" />
-                @if (isset($company_name) && isset($pib))
-                    <input type="hidden" name="company_name" value="{{ $company_name }}" />
-                    <input type="hidden" name="pib" value="{{ $pib }}" />
-                @endif
-                <input type="hidden" name="new" value="custom" />
+            @if (isset($ponuda_id))
+                <input type="hidden" name="ponuda_id" value="{{ $ponuda_id }}" />
             @endif
-            @if (isset($save))
-                <input type="hidden" name="save" value="save" />
+            @if (isset($temporary))
+                <input type="hidden" name="temporary" value="{{ $temporary }}" />
             @endif
-            <input type="hidden" name="ponuda_id" value="{{ $ponuda_id }}" />
             <div class="radio-btn-container">
                 <ul class="radio-img">
                     <li>
@@ -54,8 +38,13 @@
                 </ul>
             </div>
             <div class="d-flex justify-content-center mt-4">
-                <button type="submit" class="finish-btn mt-4">
-                    Generisi PDF
+                <button type="submit" name="skini" value="skini" class="finish-btn mt-4">
+                    Skini PDF
+                </button>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" name="posalji" value="posalji" class="finish-btn mt-4">
+                    Pošalji PDF u imejl
                 </button>
             </div>
         </form>

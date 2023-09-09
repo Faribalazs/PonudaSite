@@ -8,11 +8,26 @@
         <div class="log-in-container">
             <div class="log-in-form py-8">
                 <p class="w-full text-center py-10 title">
-                    Pošajite ponudu <b>{{ $name[0]->ponuda_name }}.pdf</b>
+                    Pošajite ponudu <b>{{ $name }}.pdf</b>
                 </p>
                 <form method="POST" id="sendPDF"
-                    action="{{ route('worker.archive.send.mail', ['id' => $id_archive]) }}">
+                    action="{{ route('worker.archive.send.mail') }}">
                     @csrf
+                    @if (isset($id))
+                        <input type="hidden" name="id" value="{{ $id }}" />
+                    @endif
+                    @if (isset($client_id))
+                        <input type="hidden" name="client" value="{{ $client_id }}" />
+                    @endif
+                    @if (isset($type))
+                        <input type="hidden" name="type" value="{{ $type }}" />
+                    @endif
+                    @if (isset($temporary))
+                        <input type="hidden" name="temporary" value="{{ $temporary }}" />
+                    @endif
+                    @if (isset($pdf_blade))
+                        <input type="hidden" name="pdf" value="{{ $pdf_blade }}" />
+                    @endif
                     <label class="pl-1">Kome sejete :</label>
                     <input type="email" placeholder="Imejl adresa osobe" name="mailTo"
                         class="w-full dropdown-search mt-2">

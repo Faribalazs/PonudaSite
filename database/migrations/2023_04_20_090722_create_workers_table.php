@@ -22,7 +22,6 @@ class CreateWorkersTable extends Migration
             $table->string('photo_name')->nullable();
             $table->bigInteger('ponuda_counter')->unsigned()->default(1);
             $table->smallInteger('status')->default(1);
-            $table->smallInteger('accepted')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -16,7 +16,6 @@ class AdminController extends Controller
       'email' => 'test@test.com',
       'password' => Hash::make('testpass'),
       'email_verified_at' => '2023-05-03',
-      'accepted' => 1,
       'photo_name' => 'null',
   ]);
   $user->attachRole('super_worker'); 
@@ -58,7 +57,7 @@ class AdminController extends Controller
 
   public function selectWorkers()
   {
-    $users = Worker::select('id','email','name', 'status')->where('accepted', 1)->paginate(15);
+    $users = Worker::select('id','email','name', 'status')->paginate(15);
     return view('admin.show-workers', ['users' => $users]);
   }
 
@@ -71,24 +70,6 @@ class AdminController extends Controller
   public function unbanWorker(Request $request){
     Worker::where('id', $request->input('id'))
       ->update(['status' => 1]);
-    return redirect()->back();
-  }
-
-  public function notActivatedWorkers()
-  {
-    $users = Worker::select('id','email','name')->where('accepted', 0)->paginate(15);
-    return view('admin.show-workers-not-confirmed', ['users' => $users]);
-  }
-
-  public function activateWorker(Request $request){
-    Worker::where('id', $request->input('id'))
-      ->update(['accepted' => 1]);
-    return redirect()->back();
-  }
-
-  public function dismissWorker(Request $request){
-    Worker::where('id', $request->input('id'))
-      ->update(['accepted' => -1]);
     return redirect()->back();
   }
 
