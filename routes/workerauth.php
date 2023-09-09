@@ -11,33 +11,36 @@ use App\Http\Controllers\Workerauth\AuthenticatedSessionController;
 use App\Http\Controllers\Workerauth\WorkerEmailVerificationPromptController;
 use App\Http\Controllers\Workerauth\WorkerEmailVerificationNotificationController;
 
-//Google
-Route::get('contractor/auth/google', [GoogleSocialiteController::class, 'redirectToGoogle'])->name('worker.login.google');
-Route::get('contractor/callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('worker.callback.google');
+
 
 Route::group(['prefix'=>'contractor','as'=>'worker.'],function(){
-    Route::get('/register', [RegisteredUserController::class, 'create'])
-                    ->name('register');
+    Route::middleware(['guest'])->group(function () {
+        //Google
+        Route::get('auth/google', [GoogleSocialiteController::class, 'redirectToGoogle'])->name('login.google');
+        Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('callback.google');
 
-    Route::post('/register', [RegisteredUserController::class, 'store']);
+        Route::get('/register', [RegisteredUserController::class, 'create'])
+                        ->name('register');
 
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-                    ->name('login');
+        Route::post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-                    ->middleware('guest');
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+                        ->name('login');
 
-    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
-                    ->name('password.request');
+        Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-                    ->name('password.email');
+        Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+                        ->name('password.request');
 
-    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
-                    ->name('password.reset');
+        Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+                        ->name('password.email');
+                            
+        Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+                        ->name('password.reset');
 
-    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-                    ->name('password.update');
+        Route::post('/reset-password', [NewPasswordController::class, 'store'])
+                        ->name('password.update');
+    });
 
     Route::group(['middleware' => ['auth:worker']],function(){
 

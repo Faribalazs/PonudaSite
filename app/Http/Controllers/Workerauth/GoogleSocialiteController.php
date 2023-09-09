@@ -20,9 +20,6 @@ class GoogleSocialiteController extends Controller
      */
     public function redirectToGoogle()
     {
-        if (Auth::guard('worker')->check() || Auth::user()) {
-            return redirect()->intended(route('home'));
-        }
         config(['services.google.redirect' => route('worker.callback.google') ]);
         return Socialite::driver('google')->redirect();
     }
@@ -34,9 +31,6 @@ class GoogleSocialiteController extends Controller
      */
     public function handleCallback()
     {
-        if (Auth::guard('worker')->check() || Auth::user()) {
-            return redirect()->intended(route('home'));
-        }
         config(['services.google.redirect' => route('worker.callback.google') ]);
         try {
      

@@ -17,9 +17,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        if (Auth::guard('worker')->check() || Auth::user()) {
-            return redirect()->intended(route('home'));
-        }
+        session(['url.intended' => url()->previous()]);
         return view('worker.auth.login');
     }
 
@@ -36,14 +34,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        if (Auth::guard('worker')->check() || Auth::user()) {
-            return redirect()->intended(route('home'));
-        }
         $request->authenticate();
+
+        if (session()->has('url.intended')) {
+            $redirectTo = session()->get('url.intended');
+            session()->forget('url.intended');
+        }
 
         $request->session()->regenerate();
 
         if ($request->user('worker')->hasVerifiedEmail()) {
+            if ($redirectTo) {
+                return redirect($redirectTo);
+            }
             return redirect()->intended(route('worker.myprofile'));
         } else {
             $request->user('worker')->sendEmailVerificationNotification();

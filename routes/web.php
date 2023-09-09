@@ -15,9 +15,11 @@ use App\Http\Controllers\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Google
-Route::get('auth/google', [GoogleSocialiteController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('callback.google');
+Route::middleware(['guest'])->group(function () {
+    //Google
+    Route::get('auth/google', [GoogleSocialiteController::class, 'redirectToGoogle'])->name('login.google');
+    Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('callback.google');
+});
 
 Route::get('/', function () {
     return view('home');

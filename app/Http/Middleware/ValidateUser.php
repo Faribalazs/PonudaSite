@@ -18,9 +18,11 @@ class ValidateUser
         $user = null;
         if (auth()->check()) {
             $user = auth();
+            $route = 'login';
         }
         elseif(auth('worker')->check()){
             $user = auth('worker');
+            $route = 'worker.login';
         }
         if(isset($user))
         {
@@ -30,10 +32,10 @@ class ValidateUser
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
                 if(!$userdata->hasVerifiedEmail()){
-                    return redirect()->route('login')->with('error', 'Molimo Vas, potvrdite Vašu email adresu.');
+                    return redirect()->route($route)->with('error', 'Molimo Vas, potvrdite Vašu email adresu.');
                 }
                 else{
-                    return redirect()->route('login')->with('error', 'Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.');
+                    return redirect()->route($route)->with('error', 'Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.');
                 }
             }
         }
