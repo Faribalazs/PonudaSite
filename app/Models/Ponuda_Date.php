@@ -11,7 +11,6 @@ class Ponuda_Date extends Model
 
     protected $table = 'ponuda_date';
 
-    const UPDATED_AT = null;
     public $timestamps = true;
 
     protected $fillable = [
@@ -21,4 +20,11 @@ class Ponuda_Date extends Model
         'note',
         'opis',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model) {
+            $model->updated_at = null;
+        });
+    }
 }

@@ -67,7 +67,7 @@ class NewPonuda extends Controller
 
    private function mergedData($worker_id)
    {
-      $worker = Worker::select('id', 'ponuda_counter')
+      $worker = Worker::select('ponuda_counter')
          ->where('id', $worker_id)
          ->first();      
       $counter = $worker->ponuda_counter;
@@ -161,7 +161,6 @@ class NewPonuda extends Controller
 
    public function storePonuda(Request $request)
    {
-      // dd($request);
       try {
          $request->validate([
             'category' => 'required|regex:/^[0-9\s]+$/i',
@@ -174,16 +173,16 @@ class NewPonuda extends Controller
          // dd($request);
          if(request('quantity') > 0 && request('price') > 0)
          {
-         $this->successPonuda($request);
-         // Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-         return redirect(route("worker.new.ponuda"))->with('msg', 'added'); 
+            $this->successPonuda($request);
+            // Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+            return redirect(route("worker.new.ponuda"))->with('msg', 'added'); 
          }
          else
          {
-            Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error('Količina i cena moraju biti više od 0!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
          }
-       } catch (Exception $e) {
+       } catch (Exception) {
             Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
        }
@@ -358,17 +357,25 @@ class NewPonuda extends Controller
          ->first();  
       if($swap!==null)
       {
-         Worker::where('id', $worker)->update(['ponuda_counter' => $swap->original_id]);         
-         Ponuda_Date::where('id_ponuda', $swap->swap_id)
-            ->where('worker_id', $worker)
-            ->delete();         
-         Ponuda_Date::create([
+         Worker::where('id', $worker)->update(['ponuda_counter' => $swap->original_id]);        
+         $p_date = Ponuda_Date::updateOrCreate(
+         [
+            'worker_id' => $worker,
+            'id_ponuda' => $swap->swap_id
+         ],
+         [
             'worker_id' => $worker,
             'id_ponuda' => $swap->swap_id,
             'ponuda_name' => $ponuda_name,
             'note' => $request->note,
             'opis' => $request->opis,
          ]);
+
+         if (!$p_date->wasRecentlyCreated) {
+            $p_date->updated_at = now();
+            $p_date->save();
+         }
+
          Swap::where('worker_id', $worker)->delete();
       }
       else

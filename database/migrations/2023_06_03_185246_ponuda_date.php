@@ -20,7 +20,8 @@ class PonudaDate extends Migration
             $table->string('ponuda_name');
             $table->string('note')->nullable();
             $table->text('opis')->nullable();
-            $table->timestampTz('created_at');
+            $table->timestamp('updated_at')->nullable()->default(null);
+            $table->timestamp('created_at')->nullable()->default(null);
         });
     }
 

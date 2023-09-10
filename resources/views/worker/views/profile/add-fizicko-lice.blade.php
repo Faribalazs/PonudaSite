@@ -4,9 +4,6 @@
     </x-slot>
     <x-slot name="header">
     </x-slot>
-    @php
-        $user_id = Auth::guard('worker')->user()->id;
-    @endphp
     @if(count($errors) > 0)
         <script>
             Swal.fire({
@@ -31,7 +28,6 @@
             @csrf
             @if(isset($contact))
                 <input type="hidden" name="id" value="{{$contact->id}}"/>
-                <input type="hidden" name="worker_id" value="{{$contact->worker_id}}"/>
             @endif
             <div class="flex lg:flex-row flex-col">
                 <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pr-0">

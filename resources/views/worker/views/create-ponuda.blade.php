@@ -254,7 +254,7 @@
         @if (isset($tempOpis))
             <div class="flex flex-col">
                 <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
-                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{!! $tempOpis !!}</textarea>
+                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ $tempOpis }}</textarea>
             </div>
         @else
             <button onclick="showDes()" id="yes-des" class="finish-btn my-3">Dodaj opstu napomenu</button>
@@ -408,7 +408,7 @@
         <div class="flex w-full justify-center mt-5">
             <div class="flex">
                 <button
-                    onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{! nl2br($tempOpis, true) !}', tempNote: '{{ $tempNote }}'}))"
+                    onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}))"
                     class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
@@ -594,7 +594,6 @@
                 tempOpis,
                 tempNote
             } = getData();
-            let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Hocete dodati opis?',
                 icon: 'question',

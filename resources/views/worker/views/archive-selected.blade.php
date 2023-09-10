@@ -234,7 +234,9 @@
                 </p>
                 <br>
                 <p>
-                    {!! nl2br($note->first()[0]->opis, false) !!}
+                    <pre>
+                        {{ $note->first()[0]->opis }}
+                    </pre>
                 </p>
             </div>
         @endif

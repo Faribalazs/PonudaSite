@@ -558,7 +558,7 @@ class Archive extends Controller
     public function editPonuda($ponuda_id){
         if($this->editPonudaCheck($ponuda_id))
         {
-            return redirect()->intended(route('worker.new.ponuda'));
+            return redirect()->route('worker.new.ponuda');
         }
         return redirect()->back();
     }

@@ -98,9 +98,14 @@
                             <p>
                                 Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
                             </p>
+                            @if (isset($ponuda->updated_at))
+                                <p>
+                                    Ažuriran : {{ date('d.m. Y H:i', strtotime($ponuda->updated_at)) }}
+                                </p>
+                            @endif
                             @if (isset($ponuda->note))
                                 <p class="mt-3">
-                                    Opis : <b>{!! $ponuda->note !!}</b>
+                                    Opis : <pre><b>{{  $ponuda->note  }}</b></pre>
                                 </p>
                             @endif
                         </div>

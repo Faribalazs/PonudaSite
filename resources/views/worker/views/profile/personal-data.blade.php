@@ -12,7 +12,7 @@
     </div>
     @if (Auth::guard('worker')->user()->hasRole('super_worker') && !empty($company_data))
         <div class="mt-3">
-            <form method="POST" action="{{ route('worker.personal.company.delete') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('worker.personal.company.delete') }}">
                 @csrf
                 @method('delete')
                 <button type="submit" class="finish-btn">

@@ -21,7 +21,7 @@ class Default_pozicija extends Model
         'description',
     ];
 
-    public $translatable = ['title', 'description'];
+    public $translatable = ['title', 'description','name'];
 
     public function unit()
     {

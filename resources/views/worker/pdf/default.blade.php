@@ -282,7 +282,9 @@
                 </p>
                 <br>
                 <p style="margin-top: -15px;">
-                    {!! nl2br($note->first()[0]->opis, false) !!}
+                    <pre>
+                        {{ $note->first()[0]->opis }}
+                    </pre>
                 </p>
             @endif
         </div>
