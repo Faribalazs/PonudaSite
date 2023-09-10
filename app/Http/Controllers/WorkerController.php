@@ -6,13 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Session;
 use App\Models\Company_Data;
 use App\Models\Fizicko_lice;
 use App\Models\Pravno_lice;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Validator;
-use \Exception;
 
 class WorkerController extends Controller
 {
