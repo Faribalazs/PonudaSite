@@ -15,7 +15,7 @@ class Units extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id_unit');
-            $table->string('name');
+            $table->json('name');
         });
     }
 
