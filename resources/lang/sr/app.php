@@ -49,4 +49,13 @@ return [
         'resend-email'              => "Ponovo pošalji e-mail za verifikaciju",
         'verify-email'              => "Pre nego što počnete, možete li da verifikujete svoju adresu e-pošte tako što ćete kliknuti na vezu koju smo vam upravo poslali? Ako niste primili e-poštu, rado ćemo vam poslati drugu.",
     ],
+
+    'errors' => [
+        'profile-company'           => "Niste dobro upasali podatke",
+        'profile-required'          => "Poje je obavezan",
+        'profile-image'             => "Slika mora biti png,jpg,jpeg,webp",
+        'profile-image-max'         => "Maximalna velicina slike je 2MB",
+        'profile-only-numbers'      => "Samo brojeve i '-' mozete upisati",
+        'profile-email'             => "Upisite validan email adresu",
+    ],
 ];

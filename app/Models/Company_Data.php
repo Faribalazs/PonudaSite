@@ -22,6 +22,7 @@ class Company_Data extends Model
         'address',
         'tel',
         'email',
+        'phone',
         'pib',
         'maticni_broj',
         'tekuci_racun',

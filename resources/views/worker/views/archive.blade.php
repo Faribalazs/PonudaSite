@@ -92,8 +92,8 @@
         <div class="flex mt-8 flex-col justify-start">
             @foreach ($data as $ponuda)
                 <div class=" justify-between items-center flex p-3 archive-container my-2">
-                    <div class="flex w-full">
-                        <a class="w-full" href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}">
+                    <a href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}" class="flex w-full">
+                        <div class="w-full">
                             Naziv : <b>{{ $ponuda->ponuda_name }}</b>
                             <p>
                                 Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
@@ -103,16 +103,15 @@
                                     Opis : <b>{!! $ponuda->note !!}</b>
                                 </p>
                             @endif
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                     <div class="w-full archive-hr-mobile">
                         <hr class="w-full my-3">
                     </div>
                     <div class="flex">
-                        <button class="edit-btn-table mr-3"
-                            onclick="updateSwall('{{ route('worker.archive.edit', ['ponuda_id' => $ponuda->id_ponuda]) }}','{{ $ponuda->ponuda_name }}')">
+                        <a href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}" class="edit-btn-table mr-3">
                             <i class="ri-edit-line"></i>
-                        </button>
+                        </a>
                         <a class="share-btn-table mr-3 mobile-show"
                             href="{{ route('worker.archive.view.pdf', ['id' => $ponuda->id_ponuda]) }}">
                             <i class="ri-eye-line"></i>

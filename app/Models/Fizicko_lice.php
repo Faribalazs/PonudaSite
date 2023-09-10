@@ -21,6 +21,6 @@ class Fizicko_lice extends Model
         'zip_code',
         'address',
         'email',
-        'tel',
+        'phone',
     ];
 }

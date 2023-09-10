@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('zip_code');
             $table->string('address');
             $table->string('email');
-            $table->string('tel');
+            $table->string('phone');
         });
     }
 

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <title>{{ $pageTitle }}</title>
 
@@ -13,8 +14,6 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
@@ -47,7 +46,7 @@
 
             <div class="menu-section-mobile mt-10 px-4">
                 <div class="w-full">
-                    <div class="flex flex-sm-row flex-col gap-sm-0 gap-2 justify-between w-full ">
+                    <div class="flex sm:flex-row flex-col sm:gap-0 gap-2 justify-between w-full ">
                         <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.myprofile') ? 'profile-menu-active-mobile' : '' }}">
                             <a href="{{ route('worker.myprofile') }}" class="flex flex-row justify-between">
                                 <div>

@@ -21,7 +21,7 @@ class CompanyData extends Migration
             $table->string('city');
             $table->string('zip_code');
             $table->string('address');
-            $table->string('tel');
+            $table->string('phone');
             $table->string('email');
             $table->string('pib');
             $table->string('maticni_broj');

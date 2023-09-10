@@ -151,7 +151,7 @@
         $company_city = $company->city ?? null;
         $company_logo = null;
         if(isset($company->logo))
-            $company_logo = 'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/worker/' . $user_id . '/logo' . '/' . $company->logo)));
+            $company_logo = 'data:image/png;base64,'.base64_encode(file_get_contents(storage_path('app/public/'.$company->logo)));
     @endphp
     @if ($mergedData != null)
         @if($company !== null)
@@ -180,7 +180,7 @@
                         <p>{{ $company->country }}</p>
                         <p>{{ $company->zip_code }} {{ $company_city }}</p>
                         <p>{{ $company->address }}</p>
-                        <p>Tel : +{{ $company->tel }}</p>
+                        <p>Tel : +{{ $company->phone }}</p>
                         <p>E mail: {{ $company->email }}</p>
                     </div>
                     <div class="right-side">

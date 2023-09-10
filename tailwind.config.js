@@ -7,12 +7,21 @@ module.exports = {
         colors: {
               'main-color' : '#ed5840',
               'red' : '#ac1902',
-              'white' : '#ffffff'
+              'white' : '#ffffff',
+              'grey' : '#6b7280'
             },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+        screens: {
+            'xs': '400px',
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
+            }
         },
     },
 

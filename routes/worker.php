@@ -34,14 +34,17 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile/contacts', [WorkerController::class, 'myContacts'])
         ->name('worker.personal.contacts');
 
-    Route::post('contractor/profile/contacts/save', [WorkerController::class, 'saveContact'])
-        ->name('worker.personal.contacts.save');
+    Route::get('contractor/profile/contacts/edit/individual/{id}', [WorkerController::class, 'editContactFizicka'])
+        ->name('worker.personal.contacts.edit.fizicka');
 
-    Route::get('contractor/profile/contacts/update/{id}', [WorkerController::class, 'updateContact'])
-        ->name('worker.personal.contacts.update');
+    Route::post('contractor/profile/contacts/individual/delete', [WorkerController::class, 'deleteContactFizicka'])
+        ->name('worker.personal.contacts.delete.fizicka');
 
-    Route::delete('contractor/profile/contacts/delete/{id}', [WorkerController::class, 'deleteContact'])
-        ->name('worker.personal.contacts.delete');
+    Route::get('contractor/profile/contacts/edit/legal-entity/{id}', [WorkerController::class, 'editContactPravno'])
+        ->name('worker.personal.contacts.edit.pravna');
+
+    Route::post('contractor/profile/contacts/legal-entity/delete', [WorkerController::class, 'deleteContactPravno'])
+        ->name('worker.personal.contacts.delete.pravna');
 
     Route::get('contractor/profile/add/individual', [WorkerController::class, 'addFizickoIndex'])
         ->name('worker.personal.contacts.add.individual');

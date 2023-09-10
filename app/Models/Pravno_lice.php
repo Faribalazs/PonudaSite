@@ -20,7 +20,7 @@ class Pravno_lice extends Model
         'zip_code',
         'address',
         'email',
-        'tel',
+        'phone',
         'pib',
     ];
 }

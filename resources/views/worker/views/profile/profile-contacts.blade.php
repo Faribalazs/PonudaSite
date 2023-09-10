@@ -13,32 +13,29 @@
             @if (count($fizicka_lica) > 0)
                 <div class="select-menu-fizicka-lica pr-4 mt-4">
                     <div class="select-btn-fizicka-lica">
-                        <span class="sBtn-text-fizicka-lica">Select your option</span>
+                        <span class="sBtn-text-fizicka-lica">Pogledaj fizicka lica</span>
                         <svg role="img" viewBox="0 0 512 512">
                             <path
                                 d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
                         </svg>
                     </div>
-
                     <ul class="options-fizicka-lica" id="fizicka-lica-ul">
                         <li class="option-fizicka-lica">
-                            <input type="text" placeholder="Search.." id="fizicka-lica-search"
+                            <input type="text" placeholder="Trazi..." id="fizicka-lica-search"
                                 onkeyup="filterFunctionone()" class="w-full dropdown-search">
                         </li>
                         @foreach ($fizicka_lica as $fizicko_lice)
-                            <li class="option-fizicka-lica">
+                            <li class="option-fizicka-lica justify-between">
                                 <span class="option-text-fizicka-lica">{{ $fizicko_lice->first_name }} {{ $fizicko_lice->last_name }}</span>
-                                <a
-                                    href="{{ route('worker.personal.contacts.update', ['id' => $fizicko_lice->id]) }}">UPDATE</a>
-                                <a
-                                    href="{{ route('worker.personal.contacts.delete', ['id' => $fizicko_lice->id]) }}">DELETE</a>
+                                <a class="edit-btn-table"
+                                    href="{{ route('worker.personal.contacts.edit.fizicka', ['id' => $fizicko_lice->id]) }}">
+                                    <i class="ri-edit-line"></i>
+                                </a>
                             </li>
                         @endforeach
-                        <li class="option-fizicka-lica add-new-contact-btn">
-                            <a href="{{ route('worker.personal.contacts.add.individual') }}">
-                                Dodaj fizicko lice
-                            </a>
-                        </li>
+                        <a href="{{ route('worker.personal.contacts.add.individual') }}" class="option-fizicka-lica justify-center add-new-contact-btn">
+                            Dodaj fizicko lice
+                        </a>
                     </ul>
                 </div>
                 <script>
@@ -92,7 +89,7 @@
             @if (count($pravna_lica) > 0)
                 <div class="select-menu-pravna-lica pl-4 mt-4">
                     <div class="select-btn-pravna-lica">
-                        <span class="sBtn-text-pravna-lica">Select your option</span>
+                        <span class="sBtn-text-pravna-lica">Pogledaj pravna lica</span>
                         <svg role="img" viewBox="0 0 512 512">
                             <path
                                 d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -105,12 +102,12 @@
                                 onkeyup="filterFunctiontwo()" class="w-full dropdown-search">
                         </li>
                         @foreach ($pravna_lica as $pravno_lice)
-                            <li class="option-pravna-lica">
+                            <li class="option-pravna-lica justify-between">
                                 <span class="option-text-pravna-lica">{{ $pravno_lice->company_name }}</span>
-                                <a
-                                    href="{{ route('worker.personal.contacts.update', ['id' => $pravno_lice->id]) }}">UPDATE</a>
-                                <a
-                                    href="{{ route('worker.personal.contacts.delete', ['id' => $pravno_lice->id]) }}">DELETE</a>
+                                <a class="edit-btn-table"
+                                    href="{{ route('worker.personal.contacts.edit.pravna', ['id' => $pravno_lice->id]) }}">
+                                    <i class="ri-edit-line"></i>
+                                </a>
                             </li>
                         @endforeach
                         <li class="option-pravna-lica add-new-contact-btn">

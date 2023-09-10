@@ -46,50 +46,75 @@ class WorkerController extends Controller
    }
    public function savePersonalData(Request $request)
    {
-      $company_name = $request->naziv_firme;
-      $country = $request->drzava;
-      $city = $request->grad;
-      $zip = $request->postcode;
-      $address = $request->adresa;
-      $email = $request->email;
-      $tel = $request->tel;
-      $pib = $request->pib;
-      $maticni_broj = $request->maticni_broj;
-      $tekuci_racun = $request->tekuci_racun;
-      $bank_account = $request->bank_account;
-      $bank_name = $request->naziv_banke;
+         $data = $request->validate([
+            'company_name' => 'required | max:50 | regex:/\p{L}/u',
+            'country' => 'required | max:20 | regex:/\p{L}/u',
+            'city' => 'required | max:30 | regex:/\p{L}/u',
+            'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
+            'address' => 'required | max:50 | regex:/\p{L}/u',
+            'email' => 'required | email',
+            'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
+            'pib' => 'required | max:20 | regex:/^[0-9\-]+$/',
+            'maticni_broj' => 'required | max:25 | regex:/^[0-9\-]+$/',
+            'bank_account' => 'required | max:30 | regex:/^[0-9\-]+$/',
+            'tekuci_racun' => 'required | max:30 | regex:/^[0-9\-]+$/',
+            'bank_name' => 'required | max:30 | regex:/\p{L}/u',
+            'logo' => 'required | mimes:jpeg,png,jpg,webp | max:2048 ',
+         ],
+         [
+            'naziv_firme' => trans("app.errors.profile-company"),
+            '*.required' => trans("app.errors.profile-required"),
+            'logo.mimes' => trans("app.errors.profile-image"),
+            'logo.max' => trans("app.errors.profile-image-max"),
+            'postcode.regex' => trans("app.errors.profile-only-numbers"),
+            'pib.regex' => trans("app.errors.profile-only-numbers"),
+            'maticni_broj.regex' => trans("app.errors.profile-only-numbers"),
+            'bank_account.regex' => trans("app.errors.profile-only-numbers"),
+            'tekuci_racun.regex' => trans("app.errors.profile-only-numbers"),
+            'email.email' => trans("app.errors.profile-email"),
+         ]);
+
       $user_id = Auth::guard('worker')->user()->id;
 
       $fileName = null;
-      if ($request->hasFile('logo')) {
-         $image = $request->file('logo');
-         $fileName = $image->hashName();
-         $img = Image::make($image->getRealPath());
-         $img->resize(360, 270);
-         // $img->resize(360, 360, function ($constraint) {
-         //     $constraint->aspectRatio();                 
-         // });
-         $img->stream();
-         Storage::disk('public')->put('worker/'.$user_id .'/logo'. '/' . $fileName, $img, 'public');
+      if ($data['logo'] != null) {
+         $image = Image::make($data['logo'])->encode('webp', 90)->resize(360, 270);
+         $name = uniqid().'.webp';
+         Storage::disk('public')->put('images/worker/'.$user_id .'/logo'. '/' . $name, $image);
+         $path = 'images/worker/'.$user_id .'/logo'. '/' . $name;
      }
 
-      $company_data = new Company_Data();
-      $company_data->worker_id = $this->worker();
-      $company_data->company_name = $company_name;
-      $company_data->country = $country;
-      $company_data->city = $city;
-      $company_data->zip_code = $zip;
-      $company_data->address = $address;
-      $company_data->tel = $tel;
-      $company_data->email = $email;
-      $company_data->pib = $pib;
-      $company_data->maticni_broj = $maticni_broj;
-      $company_data->tekuci_racun = $tekuci_racun;
-      $company_data->bank_account = $bank_account;
-      $company_data->bank_name = $bank_name;
-      $company_data->logo = $fileName;
-      $company_data->save();
+      $company_data = Company_Data::create([
+         'worker_id' => $this->worker(),
+         'company_name' => $data['company_name'],
+         'country' => $data['country'],
+         'city' => $data['city'],
+         'zip_code' => $data['postcode'],
+         'address' => $data['address'],
+         'phone' => $data['phone'],
+         'email' => $data['email'],
+         'pib' => $data['pib'],
+         'maticni_broj' => $data['maticni_broj'],
+         'tekuci_racun' => $data['tekuci_racun'],
+         'bank_account' => $data['bank_account'],
+         'bank_name' => $data['bank_name'],
+         'logo' => $path,
+      ]);
 
+      if($company_data->save()){
+         alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect()->intended(route('worker.personal.data'));
+      }
+
+      alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->intended(route('worker.personal.data'));
+   }
+
+   public function companyDelete()
+   {
+      $company_data = Company_Data::where('worker_id', $this->worker())->first();
+      Storage::disk('public')->delete($company_data->logo);
+      $company_data->delete();
       return redirect()->intended(route('worker.personal.data'));
    }
 
@@ -107,42 +132,76 @@ class WorkerController extends Controller
 
    public function saveFizickoLice(Request $request)
    {
-      $data = Validator::make([
-         'f_name' => $request->input('f_name'),
-         'l_name' => $request->input('l_name'),
-         'grad' => $request->input('grad'),
-         'adresa' => $request->input('adresa'),
-         'postcode' => $request->input('postcode'),
-         'email' => $request->input('email'),
-         'tel' => $request->input('tel'),
-      ],[
-         'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-         'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-         'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-         'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-         'postcode' => 'required|regex:/^[0-9\s]+$/i',
-         'email' => 'required|email',
-         'tel' => 'required|regex:/^[0-9\s]+$/i',
-      ]);
+      $data = $request->validate([
+            'f_name' => 'required | max:30 | regex:/\p{L}/u',
+            'l_name' => 'required | max:30 | regex:/\p{L}/u',
+            'city' => 'required | max:30 | regex:/\p{L}/u',
+            'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
+            'address' => 'required | max:50 | regex:/\p{L}/u',
+            'email' => 'required | email',
+            'worker_id' => 'max:10 | regex:/^[0-9]+$/',
+            'id' => 'max:10 | regex:/^[0-9]+$/',
+            'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/'
+         ],
+         [
+            '*.required' => trans("app.errors.profile-required"),
+            'postcode.regex' => trans("app.errors.profile-only-numbers"),
+            'email.email' => trans("app.errors.profile-email"),
+         ]);
+      $user_id = Auth::guard('worker')->user()->id;
 
-      if ($data->fails()) {
-         $error = implode("\n", $data->errors()->all());
-         alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
-         return redirect()->back();
+      if(isset($data['id']) && isset($data['worker_id'])){
+         $id = $data['id'];
+         $worker_id = $data['worker_id'];
+      } else {
+         $id = null;
+         $worker_id = null;
       }
 
-      $fizicko_lice = new Fizicko_lice();
-      $fizicko_lice->worker_id = $request->worker_id;
-      $fizicko_lice->first_name = $request->f_name;
-      $fizicko_lice->last_name = $request->l_name;
-      $fizicko_lice->city = $request->grad;
-      $fizicko_lice->zip_code = $request->postcode;
-      $fizicko_lice->address = $request->adresa;
-      $fizicko_lice->email = $request->email;
-      $fizicko_lice->tel = $request->tel;
-      $fizicko_lice->save();
+      $fizicko_lice = Fizicko_lice::updateOrCreate(
+         [
+            'id' => $id,
+            'worker_id' => $worker_id
+         ],
+         [
+         'worker_id' => $user_id,
+         'first_name' => $data['f_name'],
+         'last_name' => $data['l_name'],
+         'city' => $data['city'],
+         'zip_code' => $data['postcode'],
+         'address' => $data['address'],
+         'email' => $data['email'],
+         'phone' => $data['phone']
+      ]);
 
-      alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      if($fizicko_lice->save()){
+         if(isset($data['id']) && isset($data['worker_id'])){
+            alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+         } else {
+            alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         }
+         return redirect()->intended(route('worker.personal.contacts'));
+      }
+      alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->intended(route('worker.personal.contacts'));
+   }
+
+   public function editContactFizicka($id)
+   {
+      $contact = Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->first();
+      return view('worker.views.profile.add-fizicko-lice', ['contact' => $contact]);
+   }
+
+   public function deleteContactFizicka(Request $request)
+   {
+      $id = $request->id;
+      $delete = Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->delete();
+      if($delete != 0){
+         alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
+      } else {
+         alert()->error('Kontakt nije izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect()->back();
+      }
       return redirect()->intended(route('worker.personal.contacts'));
    }
 
@@ -153,112 +212,78 @@ class WorkerController extends Controller
 
    public function savePravnoLice(Request $request)
    {
-      $data = Validator::make([
-         'company' => $request->input('company'),
-         'grad' => $request->input('grad'),
-         'adresa' => $request->input('adresa'),
-         'postcode' => $request->input('postcode'),
-         'email' => $request->input('email'),
-         'tel' => $request->input('tel'),
-         'pib' => $request->input('pib'),
-      ],[
-         'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
-         'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-         'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-         'postcode' => 'required|regex:/^[0-9\s]+$/i',
-         'email' => 'required|email',
-         'tel' => 'required|regex:/^[0-9\s]+$/i',
-         'pib' => 'required|regex:/^[0-9\s]+$/i',
+      $data = $request->validate([
+         'company_name' => 'required | max:50 | regex:/\p{L}/u',
+         'city' => 'required | max:30 | regex:/\p{L}/u',
+         'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
+         'address' => 'required | max:50 | regex:/\p{L}/u',
+         'email' => 'required | email',
+         'worker_id' => 'max:10 | regex:/^[0-9]+$/',
+         'id' => 'max:10 | regex:/^[0-9]+$/',
+         'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
+         'pib' => 'max:30 | regex:/^[0-9\-]+$/',
+      ],
+      [
+         '*.required' => trans("app.errors.profile-required"),
+         'postcode.regex' => trans("app.errors.profile-only-numbers"),
+         'email.email' => trans("app.errors.profile-email"),
+         'pib.regex' => trans("app.errors.profile-only-numbers"),
       ]);
 
-      if ($data->fails()) {
-         $error = implode("\n", $data->errors()->all());
-         alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
+   $user_id = Auth::guard('worker')->user()->id;
+
+   if(isset($data['id']) && isset($data['worker_id'])){
+      $id = $data['id'];
+      $worker_id = $data['worker_id'];
+   } else {
+      $id = null;
+      $worker_id = null;
+   }
+
+   $pravno_lice = Pravno_lice::updateOrCreate(
+      [
+         'id' => $id,
+         'worker_id' => $worker_id
+      ],
+      [
+      'worker_id' => $user_id,
+      'company_name' => $data['company_name'],
+      'city' => $data['city'],
+      'zip_code' => $data['postcode'],
+      'address' => $data['address'],
+      'email' => $data['email'],
+      'phone' => $data['phone'],
+      'pib' => $data['pib'],
+   ]);
+
+   if($pravno_lice->save()){
+      if(isset($data['id']) && isset($data['worker_id'])){
+         alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+      } else {
+         alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      }
+      return redirect()->intended(route('worker.personal.contacts'));
+   }
+      alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->intended(route('worker.personal.contacts'));
+   }
+
+   public function editContactPravno($id)
+   {
+      $contact = Pravno_lice::where('id', $id)->where('worker_id', $this->worker())->first();
+      return view('worker.views.profile.add-pravno-lice', ['contact' => $contact]);
+   }
+
+   public function deleteContactPravno(Request $request)
+   {
+      $id = $request->id;
+      $delete = Pravno_lice::where('id', $id)->where('worker_id', $this->worker())->delete();
+      if($delete != 0){
+         alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
+      } else {
+         alert()->error('Kontakt nije izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect()->back();
       }
-
-      $pravno_lice = new Pravno_lice();
-      $pravno_lice->worker_id = $request->worker_id;
-      $pravno_lice->company_name = $data['company'];
-      $pravno_lice->city = $data['grad'];
-      $pravno_lice->zip_code = $data['postcode'];
-      $pravno_lice->address = $data['adresa'];
-      $pravno_lice->email = $data['email'];
-      $pravno_lice->tel = $data['tel'];
-      $pravno_lice->pib = $data['pib'];
-      $pravno_lice->save();
-
-      alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->intended(route('worker.personal.contacts'));
-   }
-
-   public function companyDelete()
-   {
-      Company_Data::where('worker_id', $this->worker())->delete();
-      return redirect()->intended(route('worker.personal.data'));
-   }
-
-   public function saveContact(Request $request)
-   {
-      $id = $request->has('id') ? $request->id : null;      
-      $first_name = $request->f_name;
-      $last_name = $request->l_name;
-      $city = $request->grad;
-      $zip = $request->postcode;
-      $address = $request->adresa;
-      $email = $request->email;
-      $tel = $request->tel;
-
-      if($id === null)
-      {
-         $client = new Fizicko_lice();
-         $client->worker_id = $this->worker();
-         $client->first_name = $first_name;
-         $client->last_name = $last_name;
-         $client->city = $city;
-         $client->zip_code = $zip;
-         $client->address = $address;
-         $client->email = $email;
-         $client->tel = $tel;
-         $client->save();
-      }
-      else
-      {
-         Fizicko_lice::where('id', $id)
-         ->where('worker_id', $workerId)
-         ->update([
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'city' => $city,
-            'zip_code' => $zip,
-            'address' => $address,
-            'email' => $email,
-            'tel' => $tel
-         ]);      
-      }
-
-      return redirect()->intended(route('worker.personal.contacts'));
-   }
-
-   public function updateContact($id)
-   {
-      $updateClient = Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->get()->first();
-      if ($updateClient) {
-         Session::flash('updateClient', $updateClient);
-      }
-
-      return redirect()->intended(route('worker.personal.contacts'));
-   }
-
-   public function deleteContact($id)
-   {
-      Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->delete();
-
-      return redirect()->intended(route('worker.personal.contacts'));
-   }
-
-   public function postcreate()
-   {
-    return view('postcreate');
    }
 }
