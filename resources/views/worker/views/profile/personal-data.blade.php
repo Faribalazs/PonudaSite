@@ -73,7 +73,7 @@
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
                 <p class="sm:text-xl text-base font-bold">Naziv banke :</p>
-                <p class="sm:text-xl text-base">{{ $company_data->bank_account }}</p>
+                <p class="sm:text-xl text-base">{{ $company_data->bank_name }}</p>
             </div>
             <div class="flex gap-1 flex-col mb-3">
                 <p class="sm:text-xl text-base font-bold mb-1">Logo firme :</p>

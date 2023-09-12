@@ -292,7 +292,7 @@ class Archive extends Controller
                         'zip_code' => $postcode,
                         'address' => $adresa,
                         'email' => $email,
-                        'tel' => $tel,
+                        'phone' => $tel,
                     ]
                 );
                 $temporary = false;
@@ -370,7 +370,7 @@ class Archive extends Controller
                         'zip_code' => $postcode,
                         'address' => $adresa,
                         'email' => $email,
-                        'tel' => $tel,
+                        'phone' => $tel,
                         'pib' => $pib,
                     ]
                 );

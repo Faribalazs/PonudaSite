@@ -208,12 +208,12 @@
                     <p>{{ $client->first_name }} {{ $client->last_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
                     <p>E-mail: {{ $client->email }}</p>
-                    <p>Tel: +{{ $client->tel }}</p>
+                    <p>Tel: +{{ $client->phone }}</p>
                 @elseif($type == 2)
                     <p>{{ $client->company_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
                     <p>E-mail: {{ $client->email }}</p>
-                    <p>Tel: +{{ $client->tel }}</p>
+                    <p>Tel: +{{ $client->phone }}</p>
                     <p>Pib: {{ $client->pib }}</p>
                 @endif
             @endif
@@ -222,12 +222,12 @@
                     <p>{{ request()->f_name }} {{ request()->l_name }}</p>
                     <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
                     <p>E-mail: {{ request()->email }}</p>
-                    <p>Tel: +{{ request()->tel }}</p>
+                    <p>Tel: +{{ request()->phone }}</p>
                 @elseif(request()->type == 2)
                     <p>{{ request()->company_name }}</p>
                     <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
                     <p>E-mail: {{ request()->email }}</p>
-                    <p>Tel: +{{ request()->tel }}</p>
+                    <p>Tel: +{{ request()->phone }}</p>
                     <p>Pib: {{ request()->pib }}</p>
                 @endif
             @endif
