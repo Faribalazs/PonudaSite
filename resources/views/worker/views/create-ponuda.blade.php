@@ -19,7 +19,7 @@
         $tempPonudaName = null;
         $tempOpis = null;
         $tempNote = null;
-        
+        $finished_note = null; 
     @endphp
     @foreach ($swap as $s)
         @php
@@ -43,11 +43,7 @@
                 didClose: () => window.scrollTo(0, document.body.scrollHeight)
             }).then((result) => {
                 if (result.isConfirmed) {
-                    EndPonuda(() => ({
-                        tempPonudaName: '{{ $tempPonudaName }}',
-                        tempOpis: '{{ $tempOpis }}',
-                        tempNote: '{{ $tempNote }}'
-                    }));
+                    EndPonuda('{{ $tempPonudaName }}');
                 }
             })
         </script>
@@ -408,10 +404,14 @@
         </div>
     </form>
     @if ($mergedData->isNotEmpty())
+    @php
+        if(isset($tempNote))
+            $finished_note = preg_replace('~^"?(.*?)"?$~', '$1', json_encode($tempNote, JSON_HEX_TAG));
+    @endphp
         <div class="flex w-full justify-center mt-5">
             <div class="flex" id="end">
                 <button
-                    onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}))"
+                    onclick="EndPonuda('{{ $tempPonudaName }}')"
                     class="finish-btn my-3">Zavrsi ponudu</button>
             </div>
         </div>
@@ -541,7 +541,7 @@
             })
         }
 
-        function NameSwall(tempPonudaName, tempNote) {
+        function NameSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Sacuvaj ponudu',
@@ -564,7 +564,7 @@
             })
         }
 
-        function OpisSwall(tempPonudaName, tempOpis, tempNote) {
+        function OpisSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
                 title: 'Sacuvaj ponudu',
@@ -578,7 +578,7 @@
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">' + tempNote +
+                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
                     '</textarea>' +
                     '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
                     '</form>',
@@ -591,12 +591,7 @@
         }
 
 
-        function EndPonuda(getData) {
-            var {
-                tempPonudaName,
-                tempOpis,
-                tempNote
-            } = getData();
+        function EndPonuda(tempPonudaName) {
             Swal.fire({
                 title: 'Hocete dodati opis?',
                 icon: 'question',
@@ -609,10 +604,10 @@
                 cancelButtonColor: '#d33',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    NameSwall(tempPonudaName, tempNote);
+                    NameSwall(tempPonudaName);
                 }
                 if (result.dismiss == 'cancel') {
-                    OpisSwall(tempPonudaName, tempOpis, tempNote);
+                    OpisSwall(tempPonudaName);
                 }
             })
         }
