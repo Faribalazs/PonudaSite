@@ -130,7 +130,7 @@ class Archive extends Controller
             'c.id AS id_category', 'c.name AS name_category', 's.id AS id_subcategory',
             's.name AS name_subcategory', 'poz.id AS id_pozicija', 'poz.unit_id',
             'poz.title', 'poz.description', 'pd.worker_id', 'pd.id_ponuda',
-            'pd.note', 'pd.opis', 'pd.created_at', 'u.id_unit', 'u.name AS unit_name',
+            'pd.note', 'pd.opis', 'pd.created_at', 'pd.updated_at', 'u.id_unit', 'u.name AS unit_name',
             'temp.id_of_ponuda', 'temp.temporary_description', 'title.id_of_ponuda',
             'title.temporary_title', 'serv.id_service', 'serv.name_service'
         )

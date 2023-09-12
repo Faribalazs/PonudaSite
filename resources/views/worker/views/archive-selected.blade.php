@@ -32,6 +32,15 @@
                     <i class="ri-edit-line"></i>Izmeni ponudu</a>
             </div>
         </div>
+        <br>
+        <p>
+            Kreirano : <b>{{ date('d.m. Y H:i', strtotime($collection->first()->created_at)) }}</b>
+        </p>
+        @if (isset($collection->first()->updated_at))
+            <p>
+                Ažuriran : {{ date('d.m. Y H:i', strtotime($collection->first()->updated_at)) }}
+            </p>
+        @endif
         <div class="overflow-auto">
             @foreach ($mergedData as $id)
                 <table class="ponuda-table w-full mt-5">

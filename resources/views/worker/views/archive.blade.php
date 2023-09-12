@@ -96,11 +96,11 @@
                         <div class="w-full">
                             Naziv : <b>{{ $ponuda->ponuda_name }}</b>
                             <p>
-                                Kreirano : <b>{{ date('d.m. Y H:i', strtotime($ponuda->created_at)) }}</b>
+                                Kreirano : <b>{{ Carbon\Carbon::parse($ponuda->created_at)->locale(app()->getLocale())->diffForHumans() }}</b>
                             </p>
                             @if (isset($ponuda->updated_at))
                                 <p>
-                                    Ažuriran : {{ date('d.m. Y H:i', strtotime($ponuda->updated_at)) }}
+                                    Ažuriran : {{ Carbon\Carbon::parse($ponuda->updated_at)->locale(app()->getLocale())->diffForHumans() }}
                                 </p>
                             @endif
                             @if (isset($ponuda->note))
