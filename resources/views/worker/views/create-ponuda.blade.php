@@ -34,10 +34,13 @@
                 title: 'Uspesno dodato!',
                 icon: 'success',
                 showCancelButton: true,
-                showCloseButton: true,
                 confirmButtonText: 'Zavrsi ponudu',
                 cancelButtonText: 'Dodaj novu poziciju',
-                reverseButtons: true
+                reverseButtons: true,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                allowEnterKey: false,
+                didClose: () => window.scrollTo(0, document.body.scrollHeight)
             }).then((result) => {
                 if (result.isConfirmed) {
                     EndPonuda(() => ({
@@ -406,7 +409,7 @@
     </form>
     @if ($mergedData->isNotEmpty())
         <div class="flex w-full justify-center mt-5">
-            <div class="flex">
+            <div class="flex" id="end">
                 <button
                     onclick="EndPonuda(() => ({ tempPonudaName: '{{ $tempPonudaName }}', tempOpis: '{{ $tempOpis }}', tempNote: '{{ $tempNote }}'}))"
                     class="finish-btn my-3">Zavrsi ponudu</button>
