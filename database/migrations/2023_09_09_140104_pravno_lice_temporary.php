@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->string('company_name');
             $table->string('city');
-            $table->integer('zip_code');
+            $table->string('zip_code');
             $table->string('address');
             $table->string('email');
             $table->string('tel');
-            $table->integer('pib');
+            $table->string('pib');
         });
     }
 
