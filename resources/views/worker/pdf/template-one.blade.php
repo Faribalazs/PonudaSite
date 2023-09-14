@@ -180,7 +180,7 @@
                         <p>{{ $company->country }}</p>
                         <p>{{ $company->zip_code }} {{ $company_city }}</p>
                         <p>{{ $company->address }}</p>
-                        <p>Tel : +{{ $company->phone }}</p>
+                        <p>Tel : {{ $company->phone }}</p>
                         <p>E mail: {{ $company->email }}</p>
                     </div>
                     <div class="right-side">
@@ -208,7 +208,7 @@
                     <p>{{ $client->first_name }} {{ $client->last_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
                     <p>E-mail: {{ $client->email }}</p>
-                    <p>Tel: +{{ $client->phone }}</p>
+                    <p>Tel: {{ $client->phone }}</p>
                 @elseif($type == 2)
                     <p>{{ $client->company_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
@@ -227,7 +227,7 @@
                     <p>{{ request()->company_name }}</p>
                     <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
                     <p>E-mail: {{ request()->email }}</p>
-                    <p>Tel: +{{ request()->phone }}</p>
+                    <p>Tel: {{ request()->phone }}</p>
                     <p>Pib: {{ request()->pib }}</p>
                 @endif
             @endif
@@ -426,8 +426,8 @@
                     </tr>
                 </table>
                 @if (isset($note->first()[0]->opis))
-                    <p class="text-bold" style="font-size: 12px;">
-                        Napomene :
+                    <p style="font-size: 12px;">
+                       <b>Napomene :</b>
                     </p>
                     <br>
                     <p style="margin-top: -15px;">
@@ -440,5 +440,4 @@
     @endif
     </main>
 </body>
-
 </html>

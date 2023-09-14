@@ -345,13 +345,14 @@ class Archive extends Controller
                 'tel' => $tel,
                 'pib' => $pib,
             ],[
-                'company' => 'required|regex:/^[a-zA-Z\s ]*$/',
-                'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-                'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-                'postcode' => 'required|regex:/^[0-9\s]+$/i',
+                //majd meg kell csinalni rendesen a validacot ahogy a workercontrollerbe csak most quick fix kent kivettem higy a Zorannak ne dobjon errort
+                'company' => 'required',
+                'grad' => 'required',
+                'adresa' => 'required',
+                'postcode' => 'required',
                 'email' => 'required|email',
-                'tel' => 'required|regex:/^[0-9\s]+$/i',
-                'pib' => 'required|regex:/^[0-9\s]+$/i',
+                'tel' => 'required',
+                'pib' => 'required',
             ]);
     
             if ($data->fails()) {
@@ -455,7 +456,11 @@ class Archive extends Controller
                     return redirect()->back();
             }
             $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id]);
-            return $pdf->download($pdf_name->ponuda_name ?? "ponuda" . '.pdf');
+            if (isset($pdf_name->ponuda_name)) {
+                return $pdf->download($pdf_name->ponuda_name . '.pdf');
+            } else {
+                return $pdf->download('Ponuda.pdf');
+            }
         }
         elseif($request->posalji)
         {
