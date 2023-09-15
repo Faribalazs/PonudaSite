@@ -257,29 +257,20 @@ class Archive extends Controller
             $email = $request->input('email');
             $tel = $request->input('tel'); 
 
-            $data = Validator::make([
-                'f_name' => $f_name,
-                'l_name' => $l_name,
-                'grad' => $grad,
-                'adresa' => $adresa,
-                'postcode' => $postcode,
-                'email' => $email,
-                'tel' => $tel,
-            ],[
-                'f_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-                'l_name' => 'required|regex:/^[a-zA-Z\s ]*$/',
-                'grad' => 'required|regex:/^[a-zA-Z\s ]*$/',
-                'adresa' => 'required|regex:/^[a-zA-Z0-9\s ]*$/',
-                'postcode' => 'required|regex:/^[0-9\s]+$/i',
-                'email' => 'required|email',
-                'tel' => 'required|regex:/^[0-9\s]+$/i',
+            $data = $request->validate([
+                'f_name' => 'required | max:30 | regex:/\p{L}/u',
+                'l_name' => 'required | max:30 | regex:/\p{L}/u',
+                'grad' => 'required | max:30 | regex:/\p{L}/u',
+                'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
+                'adresa' => 'required | max:50 | regex:/\p{L}/u',
+                'email' => 'required | email',
+                'tel' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/'
+            ],
+            [
+                '*.required' => trans("app.errors.profile-required"),
+                'postcode.regex' => trans("app.errors.profile-only-numbers"),
+                'email.email' => trans("app.errors.profile-email"),
             ]);
-    
-            if ($data->fails()) {
-                $error = implode("\n", $data->errors()->all());
-                alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
-                return redirect()->back();
-            }
 
             if(isset($request->save))
             {
@@ -336,30 +327,21 @@ class Archive extends Controller
             $tel = $request->input('tel'); 
             $pib = $request->input('pib'); 
 
-            $data = Validator::make([
-                'company' => $company_name,
-                'grad' => $grad,
-                'adresa' => $adresa,
-                'postcode' => $postcode,
-                'email' => $email,
-                'tel' => $tel,
-                'pib' => $pib,
-            ],[
-                //majd meg kell csinalni rendesen a validacot ahogy a workercontrollerbe csak most quick fix kent kivettem higy a Zorannak ne dobjon errort
-                'company' => 'required',
-                'grad' => 'required',
-                'adresa' => 'required',
-                'postcode' => 'required',
-                'email' => 'required|email',
-                'tel' => 'required',
-                'pib' => 'required',
-            ]);
-    
-            if ($data->fails()) {
-                $error = implode("\n", $data->errors()->all());
-                alert()->error($error)->showCloseButton()->showConfirmButton('Zatvori');
-                return redirect()->back();
-            }
+            $data = $request->validate([
+                'company' => 'required | max:50 | regex:/\p{L}/u',
+                'grad' => 'required | max:30 | regex:/\p{L}/u',
+                'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
+                'adresa' => 'required | max:50 | regex:/\p{L}/u',
+                'email' => 'required | email',
+                'tel' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
+                'pib' => 'max:30 | regex:/^[0-9\-]+$/',
+             ],
+             [
+                '*.required' => trans("app.errors.profile-required"),
+                'postcode.regex' => trans("app.errors.profile-only-numbers"),
+                'email.email' => trans("app.errors.profile-email"),
+                'pib.regex' => trans("app.errors.profile-only-numbers"),
+             ]);
 
             if(isset($request->save))
             {

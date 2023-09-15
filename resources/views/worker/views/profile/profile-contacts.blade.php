@@ -77,11 +77,11 @@
                 </script>
             @else
                 <p class="text-xl flex text-center justify-center mt-4">Nema kontakta</p>
-                <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
-                    <a href="{{ route('worker.personal.contacts.add.individual') }}">
-                        Dodaj fizicko lice
-                    </a>
-                </div>
+                <a href="{{ route('worker.personal.contacts.add.individual') }}">
+                    <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
+                            Dodaj fizicko lice
+                    </div>
+                </a>
             @endif
         </div>
         <div class="flex w-1/2 flex-col text-center">
@@ -110,11 +110,11 @@
                                 </a>
                             </li>
                         @endforeach
-                        <li class="option-pravna-lica add-new-contact-btn">
-                            <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
-                                Dodaj pravno lice
-                            </a>
-                        </li>
+                        <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
+                            <li class="option-pravna-lica add-new-contact-btn">
+                                    Dodaj pravno lice
+                            </li>
+                        </a>
                     </ul>
                 </div>
                 <script>

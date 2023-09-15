@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\{Company_Data,Fizicko_lice,Pravno_lice};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Company_Data;
-use App\Models\Fizicko_lice;
-use App\Models\Pravno_lice;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class WorkerController extends Controller
@@ -171,7 +169,7 @@ class WorkerController extends Controller
          alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
       }
       else{
-         alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
       return redirect()->route('worker.personal.contacts');
    }
@@ -236,7 +234,9 @@ class WorkerController extends Controller
       } elseif($pravno_lice->wasChanged()) {
          alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
       }
-      alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      else{
+         alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
+      }
       return redirect()->intended(route('worker.personal.contacts'));
    }
 

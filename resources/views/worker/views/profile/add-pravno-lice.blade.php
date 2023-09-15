@@ -18,7 +18,7 @@
         </div>
     @else
         <div class="flex profile-title">
-            <p class="text-3xl font-bold">Dodaj fizicko lice</p>
+            <p class="text-3xl font-bold">Dodaj pravno lice</p>
         </div>
     @endif
 

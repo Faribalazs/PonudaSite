@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Izaberi kontakt
+        Fizicka lica
     </x-slot>
     <x-slot name="header">
     </x-slot>
