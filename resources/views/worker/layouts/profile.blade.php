@@ -5,24 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
     <title>{{ $pageTitle }}</title>
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
     <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -31,100 +23,52 @@
 
         <!-- Page Content -->
         <main class="page-padding-profile">
-            <div class="flex justify-end mt-16 log-out-con mr-5">
-                <form method="POST" action="{{ route('worker.logout') }}" class="log-out-btn flex items-center">
-                    @csrf
-            
-                    <a href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        Odjavi se
-                    </a>
-                    <i class="ri-logout-box-r-line text-xl ml-2"></i>
-                </form>
-            </div>
-
-            <div class="menu-section-mobile mt-10 px-4">
-                <div class="w-full">
-                    <div class="flex sm:flex-row flex-col sm:gap-0 gap-2 justify-between w-full ">
-                        <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.myprofile') ? 'profile-menu-active-mobile' : '' }}">
-                            <a href="{{ route('worker.myprofile') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Moj nalog</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="flex mobile-spacer"></div>
-
-                        <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.data') ? 'profile-menu-active-mobile' : '' }}">
-                            <a href="{{ route('worker.personal.data') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Podaci firme</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="flex mobile-spacer"></div>
-
-                        <div class="menu-item-mobile flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'profile-menu-active' : '' }}">
-                            <a href="{{ route('worker.personal.contacts') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Moji klijenti</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
+            <div class="flex overflow-hidden flex-nowrap">
+                <div class="profile-side-panel w-14">
+                    <div class="menu-btn">
+                        <div class="line line--1"></div>
+                        <div class="line line--2"></div>
+                        <div class="line line--3"></div>
+                    </div>
+                    <div class="closed-links">
+                        <a href="{{ route('worker.myprofile') }}"
+                            class="icons {{ request()->routeIs('worker.myprofile') ? 'closed-icon-active' : '' }}">
+                            <i class="ri-user-3-line"></i>
+                        </a>
+                        <a href="{{ route('worker.personal.data') }}"
+                            class="icons {{ request()->routeIs('worker.personal.data') ? 'closed-icon-active' : '' }}">
+                            <i class="ri-pass-valid-line"></i>
+                        </a>
+                        <a href="{{ route('worker.personal.contacts') }}"
+                            class="icons 
+                            {{ request()->routeIs('worker.personal.contacts') ? 'closed-icon-active' : '' }}
+                            {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'closed-icon-active' : '' }}
+                            {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'closed-icon-active' : '' }}
+                            {{ request()->routeIs('worker.personal.contacts.edit.fizicka') ? 'closed-icon-active' : '' }}
+                            {{ request()->routeIs('worker.personal.contacts.edit.pravna') ? 'closed-icon-active' : '' }}">
+                            <i class="ri-contacts-line"></i>
+                        </a>
+                        <form method="POST" id="log-out-form" action="{{ route('worker.logout') }}" class="icons">
+                            @csrf
+                            <button type="button" onclick="logOut()"><i class="ri-logout-box-r-line"></i></button>
+                        </form>
+                    </div>
+                    <div class="nav-links">
+                        <a href="{{ route('worker.myprofile') }}" class="link">
+                            Moj nalog
+                        </a>
+                        <a href="{{ route('worker.personal.data') }}" class="link">
+                            podaci firme
+                        </a>
+                        <a href="{{ route('worker.personal.contacts') }}" class="link">
+                            moji klijenti
+                        </a>
+                        <a onclick="logOut()" class="link cursor-pointer">
+                            odjavi se
+                        </a>
                     </div>
                 </div>
-            </div>
-
-            <div class="mt-4 flex flex-row gap-4 profile-con">
-                <div class="menu-section w-1/4">
-                    <div class="flex flex-col gap-3">
-                        <div class="menu-item flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.myprofile') ? 'profile-menu-active' : '' }}">
-                            <a href="{{ route('worker.myprofile') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Moj nalog</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-right-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="menu-item flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.data') ? 'profile-menu-active' : '' }}">
-                            <a href="{{ route('worker.personal.data') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Podaci firme</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-right-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="menu-item flex flex-col justify-between px-3 py-2 {{ request()->routeIs('worker.personal.contacts') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'profile-menu-active' : '' }} {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'profile-menu-active' : '' }}">
-                            <a href="{{ route('worker.personal.contacts') }}" class="flex flex-row justify-between">
-                                <div>
-                                    <p>Moji klijenti</p>
-                                </div>
-                                <div>
-                                    <i class="ri-arrow-right-s-line"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-section w-3/4">
+                <div style="width: calc(100% - 124px); min-width: calc(100% - 124px);">
                     {{ $slot }}
                 </div>
             </div>
@@ -133,5 +77,41 @@
     @include('footer')
     @include('sweetalert::alert')
 </body>
+<script>
+    var menuBtn = document.querySelector('.menu-btn');
+    var navPanel = document.querySelector('.profile-side-panel');
+    var lineOne = document.querySelector('.profile-side-panel .menu-btn .line--1');
+    var lineTwo = document.querySelector('.profile-side-panel .menu-btn .line--2');
+    var lineThree = document.querySelector('.profile-side-panel .menu-btn .line--3');
+    var link = document.querySelector('.profile-side-panel .nav-links');
+    menuBtn.addEventListener('click', () => {
+        navPanel.classList.toggle('nav-open');
+        lineOne.classList.toggle('line-cross');
+        lineTwo.classList.toggle('line-fade-out');
+        lineThree.classList.toggle('line-cross');
+        link.classList.toggle('fade-in');
+    })
+
+    function logOut() {
+        Swal.fire({
+            title: 'Stvarno hecete da se odjavite ?',
+            showCancelButton: true,
+            icon: 'question',
+            confirmButtonText: 'Da',
+            showCloseButton: true,
+            confirmButtonColor: '#ac1902',
+            cancelButtonText: 'Ne',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('#log-out-form').submit();
+            }
+        })
+    }
+</script>
+<style>
+    .footer-bg {
+        margin-top: 0px !important;
+    }
+</style>
 
 </html>

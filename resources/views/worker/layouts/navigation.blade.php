@@ -41,6 +41,15 @@
                         </div>
                     @endif
                 @endif
+                @if (Auth::guard('worker')->check())
+                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
+                        <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
+                            <x-nav-link :href="route('worker.myprofile')" :active="request()->routeIs('worker.myprofile')">
+                                {{ __('Moj nalog') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endif
             </div>
             
         </div>

@@ -8,7 +8,8 @@ module.exports = {
               'main-color' : '#ed5840',
               'red' : '#ac1902',
               'white' : '#ffffff',
-              'grey' : '#6b7280'
+              'grey' : '#6b7280',
+              'border-grey': '#adb5bd',
             },
         extend: {
             fontFamily: {

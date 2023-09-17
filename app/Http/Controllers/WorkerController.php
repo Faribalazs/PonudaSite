@@ -171,7 +171,7 @@ class WorkerController extends Controller
       else{
          alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
-      return redirect()->route('worker.personal.contacts');
+      return redirect()->route('worker.personal.contacts')->with('selected_fizicko', 'fizicko_lice');
    }
 
    public function editContactFizicka($id)
@@ -237,7 +237,7 @@ class WorkerController extends Controller
       else{
          alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
-      return redirect()->intended(route('worker.personal.contacts'));
+      return redirect()->intended(route('worker.personal.contacts'))->with('selected_pravna', 'pravno_lice');
    }
 
    public function editContactPravno($id)
