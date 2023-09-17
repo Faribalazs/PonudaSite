@@ -56,12 +56,12 @@
                 </div>
             </div>
         @else
-            <p class="text-xl flex text-center justify-center mt-4">Nema kontakta</p>
             <a href="{{ route('worker.personal.contacts.add.individual') }}">
                 <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
                     Dodaj fizicko lice
                 </div>
             </a>
+            <p class="text-xl flex text-center justify-center mt-8">Nema dodato fizicko lice</p>
         @endif
     </div>
 
@@ -90,12 +90,12 @@
                 </div>
             </div>
         @else
-            <p class="text-xl flex text-center justify-center mt-4">Nema kontakta</p>
             <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
                     Dodaj pravno lice
                 </a>
             </div>
+            <p class="text-xl flex text-center justify-center mt-8">Nema dodato pravno lice</p>
         @endif
     </div>
 
