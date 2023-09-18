@@ -236,6 +236,8 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Helper' => App\Helpers\Helper::class,
+
 
     ],
 

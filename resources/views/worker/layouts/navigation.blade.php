@@ -271,12 +271,12 @@
 
     function LanguageSwitcher(lang) {
         Swal.fire({
-            html: "@if ($lang == 'hu')<a href='{{ url(getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Hungarian</a><br>" +
-                "@else <a href='{{ url(getCurrentUrlWithLocale('hu')) }}' class='language-name'>Hungarian</a><br> @endif" +
-                "@if ($lang == 'en')<a href='{{ url(getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
-                "@else <a href='{{ url(getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif" +
-                "@if ($lang == 'rs')<a href='{{ url(getCurrentUrlWithLocale('rs')) }}' class='disabled-link'>Serbian</a><br>" +
-                "@else <a href='{{ url(getCurrentUrlWithLocale('rs')) }}' class='language-name'>Serbian</a><br> @endif",
+            html: "@if ($lang == 'hu')<a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Hungarian</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='language-name'>Hungarian</a><br> @endif" +
+                "@if ($lang == 'en')<a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif" +
+                "@if ($lang == 'rs')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs')) }}' class='disabled-link'>Serbian</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs')) }}' class='language-name'>Serbian</a><br> @endif",
             showCloseButton: true,
             showCancelButton: false,
             showConfirmButton: false,
