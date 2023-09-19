@@ -234,6 +234,13 @@ class DataSeeder extends Seeder
                     'sr' => 'Malterisanje'
                 ]
             ],
+            [
+                'category_id' => '4',
+                'name' => [
+                    'sr' => 'Ugradnja stolarije'
+                ]
+            ],
+
         ];
 
         $units = 
@@ -2797,8 +2804,20 @@ class DataSeeder extends Seeder
                 't_sr' => 'Malterisanje cementnim malterom u dva sloja sa perdašenjem.',
                 'd_sr' => 'Pre malterisanja površine se čiste  i prskaju razređenim malterom. Po završetku malterisanja, malter se kvasi da ne dođe do prebrzog sušenja. U cenu ulazi i pomoćna skela.',
             ],
+            [
+                'subcategory_id' => 29,
+                'unit_id' => 3,
+                't_sr' => 'Ugradnja drvenih vrata.',
+                'd_sr' => 'Vrata se ugrađuju uz pomoć drvenih kajli. Prostor između kventa i štoka se popunjava Pur-penom.',
+            ],
+            [
+                'subcategory_id' => 29,
+                'unit_id' => 3,
+                't_sr' => 'Ugradnja drvenih prozora.',
+                'd_sr' => 'Prozori se ugrađuju uz pomoć drvenih kajli. Prostor između kventa i štoka se popunjava Pur-penom.',
+            ],
             // [
-            //     'subcategory_id' => 29,
+            //     'subcategory_id' => 30,
             //     'unit_id' => 1,
             //     't_sr' => '',
             //     'd_sr' => '',
