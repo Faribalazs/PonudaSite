@@ -5,44 +5,40 @@
     <x-slot name="header">
     </x-slot>
     @php
-        $ponuda_ct = -1;
-        $i = 1;
-        $title = '';
-        $collection = collect($mergedData);
         $finalPrice = 0;
-        $mergedData = $collection->groupBy('id_category');
-        $note = $collection->groupBy('id_category');
         $titleBold = 0;
-        $subPrice = 0;
-        $limit = 0;
-        $counter = 0;
+        $uniqueName = [];
+        \Carbon\Carbon::setLocale(app()->getLocale())
     @endphp
     @if ($mergedData != null)
+    @php
+        $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
+    @endphp
         <div class="flex mt-16">
             <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
-                <a href="{{ route('worker.archive.select.contact', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                <a href="{{ route('worker.archive.select.contact', ['id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Generisi PDF</a>
                 <a target="_blank"
-                    href="{{ route('worker.archive.view.pdf', ['id' => $collection->first()->id_ponuda]) }}" Skini
+                    href="{{ route('worker.archive.view.pdf', ['id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-eye-line"></i>Pogledaj PDF</a>
-                <a href="{{ route('worker.archive.edit', ['ponuda_id' => $collection->first()->id_ponuda]) }}" Skini
+                <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-edit-line"></i>Izmeni ponudu</a>
             </div>
         </div>
         <br>
         <p>
-            Kreirano : <b>{{ date('d.m. Y H:i', strtotime($collection->first()->created_at)) }}</b>
+            Kreirano : <b>{{ $ponuda_name->created_at->translatedFormat('l jS F Y H:i') }}</b>
         </p>
-        @if (isset($collection->first()->updated_at))
+        @if (isset($ponuda_name->updated_at))
             <p>
-                Ažuriran : {{ date('d.m. Y H:i', strtotime($collection->first()->updated_at)) }}
+                Ažuriran : {{ $ponuda_name->updated_at->translatedFormat('l jS F Y H:i') }}
             </p>
         @endif
         <div class="overflow-auto">
-            @foreach ($mergedData as $id)
+            @foreach ($finalData as $data)
                 <table class="ponuda-table w-full mt-5">
                     <thead>
                         <tr>
@@ -56,106 +52,60 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($id[0]->name_category))
-                            <tr>
-                                <td colspan="8" class="text-left border-bold padding-5"
-                                    style="background-color: rgba(0, 0, 0, 0.05);">
-                                    <b>{{ $id[0]->name_category }}</b>
-                                </td>
-                            </tr>
-                        @else
-                            <tr>
-                                <td colspan="8" class="text-left border-bold padding-5"
-                                    style="background-color: rgba(0, 0, 0, 0.05);">
-                                    <b>{{ $id[0]->name_custom_category }}</b>
-                                </td>
-                            </tr>
-                        @endif
                         @php
-                            $limit = count($id);
-                            $counter = 0;
                             $subPrice = 0;
                             $i = 1;
                         @endphp
-                        @foreach ($id as $data)
+                        @foreach ($data as $item)
                             @php
-                                $subPrice += $data->overall_price;
+                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : ''); 
+                                $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                                $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
+                            @endphp
+                            @if ($name_category != null && !in_array($name_category, $uniqueName))
+                                <tr>
+                                    <td colspan="8" class="text-left border-bold padding-5"
+                                        style="background-color: rgba(0, 0, 0, 0.05);">
+                                        <b>{{ $name_category }}</b>
+                                        @php
+                                            $uniqueName[] = $name_category;
+                                        @endphp
+                                    </td>
+                                </tr>
+                            @endif
+                            @php
+                                $subPrice += $item->overall_price;
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                @if (isset($data->name_category))
-                                    <td class="text-left w-full px-1"><b>
-                                            @if (isset($data->temporary_title))
-                                                {{ $data->temporary_title }}
-                                                @php
-                                                    $title = $data->temporary_title;
-                                                @endphp
-                                            @else
-                                                {{ $data->title }} @php
-                                                    $title = $data->title;
-                                                @endphp
-                                            @endif
-                                        </b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->description }} @php $desc_now = $data->description @endphp
-                                        @endif
-                                        <br>{{ $data->name_service }}
-                                    </td>
-                                @else
-                                    <td class="text-left w-full px-1"><b>
-                                            @if (isset($data->temporary_title))
-                                                {{ $data->temporary_title }}
-                                                @php
-                                                    $title = $data->temporary_title;
-                                                @endphp
-                                            @else
-                                                {{ $data->custom_title }} @php
-                                                    $title = $data->custom_title;
-                                                @endphp
-                                            @endif
-                                        </b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
-                                        @endif
-                                        <br>{{ $data->name_service }}
-                                    </td>
-                                @endif
-                                <td class="text-center">{{ $data->unit_name }}</td>
-                                <td class="text-center">{{ $data->quantity }}</td>
-                                <td class="text-center">{{ $data->unit_price }}&nbsp;RSD</td>
+                                <td class="text-left ponuda-table-des"><b>
+                                    {{ $title }}
+                                    </b><br>
+                                    {{ $desc_now }}
+                                    <br>{{ $item->name_service }}
+                                </td>
+                                <td class="text-center">{{ $item->unit_name }}</td>
+                                <td class="text-center">{{ $item->quantity }}</td>
+                                <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ number_format($data->overall_price, 0, ',', ' ') }}&nbsp;RSD
+                                    {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
                                 </td>
                                 <td><button class="delete-btn-table mx-auto"
-                                        onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', {{ $data->id }}, {{ $data->ponuda_id }})">
+                                        onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', {{ $item->id }}, {{ $item->ponuda_id }})">
                                         <i class="ri-delete-bin-line"></i>
                                     </button></td>
 
                             </tr>
-
-                            @if ($limit - 1 == $counter)
-                                @php
-                                    $finalPrice += $subPrice;
-                                @endphp
-                                @if (isset($data->name_category))
-                                    <tr>
-                                        <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                            <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                            <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endif
-                            @php
-                                $counter++;
+                            @php 
+                                $finalPrice += $subPrice;
                             @endphp
+                            @if ($loop->last)
+                                <tr>
+                                    <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
+                                        <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -167,42 +117,25 @@
                             <td colspan="8" class="text-left border-bold px-1"
                                 style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
                         </tr>
-                        @foreach ($mergedData as $id)
+                        @foreach ($finalData as $data)
                             @php
-                                $limit = count($id);
-                                $counter = 0;
                                 $subPrice = 0;
-                                $i = 1;
                             @endphp
-                            @foreach ($id as $data)
+                            @foreach ($data as $rekapitulacija)
                                 @php
-                                    $subPrice += $data->overall_price;
+                                    $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null); 
+                                    $subPrice += $rekapitulacija->overall_price;
                                 @endphp
-
-                                @if ($limit - 1 == $counter)
-                                    @if (isset($data->name_category))
-                                        <tr>
-                                            <td class="text-left w-full px-1">
-                                                {{ $data->name_category }}&nbsp;
-                                            </td>
-                                            <td class="px-1 text-center whitespace-nowrap">
-                                                {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                            </td>
-                                        </tr>
-                                    @else
-                                        <tr>
-                                            <td class="text-left w-full px-1">
-                                                {{ $data->name_custom_category }}&nbsp;
-                                            </td>
-                                            <td class="px-1 text-center whitespace-nowrap">
-                                                {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                            </td>
-                                        </tr>
-                                    @endif
+                                @if ($loop->last)
+                                    <tr>
+                                        <td class="text-left w-full px-1">
+                                            {{ $name_category_rekapitulacija }}&nbsp;
+                                        </td>
+                                        <td class="px-1 text-center whitespace-nowrap">
+                                            {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                        </td>
+                                    </tr>
                                 @endif
-                                @php
-                                    $counter++;
-                                @endphp
                             @endforeach
                         @endforeach
                     </tbody>
@@ -236,7 +169,7 @@
                 </table>
             </div>
         </div>
-        @if (isset($note->first()[0]->opis))
+        @if (isset($ponuda_name->opis))
             <div>
                 <p class="mt-10 font-bold">
                     Napomene :
@@ -244,7 +177,7 @@
                 <br>
                 <p>
                     <pre>
-                        {{ $note->first()[0]->opis }}
+                        {{ $ponuda_name->opis }}
                     </pre>
                 </p>
             </div>

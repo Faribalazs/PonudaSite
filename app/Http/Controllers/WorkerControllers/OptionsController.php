@@ -6,21 +6,15 @@ use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subca
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Helpers\Helper;
 
 class OptionsController extends Controller
 {
-   public function worker()
-   {
-      if(Auth::guard('worker'))
-      {
-         return Auth::guard('worker')->user()->id;
-      }
-   }
    public function create()
    {  
       if(Auth::guard('worker'))
       {
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija) = $this->selectData($worker_id);
       return view('worker.views.update-options', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
       }
@@ -57,7 +51,7 @@ class OptionsController extends Controller
    }
    private function custom_Category($id){
       return Category::where('id', $id)
-         ->where('worker_id', $this->worker())
+         ->where('worker_id', Helper::worker())
          ->whereNull('is_category_deleted')
          ->get();
    }
@@ -67,7 +61,7 @@ class OptionsController extends Controller
    }
    private function custom_Subcategory($id){
       return Subcategory::where('id', $id)
-         ->where('worker_id', $this->worker())
+         ->where('worker_id', Helper::worker())
          ->whereNull('is_subcategory_deleted')
          ->get();   
    }
@@ -77,7 +71,7 @@ class OptionsController extends Controller
    }
    private function custom_Pozicija($id){
       return Pozicija::where('id', $id)
-         ->where('worker_id', $this->worker())
+         ->where('worker_id', Helper::worker())
          ->whereNull('is_pozicija_deleted')
          ->get();   
    }

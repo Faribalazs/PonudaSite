@@ -7,16 +7,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Helpers\Helper;
 
 class NewOptions extends Controller
 {
-   public function worker()
-   {
-      if(Auth::guard('worker'))
-      {
-         return Auth::guard('worker')->user()->id;
-      }
-   }
    public function create()
    {  
       return view('worker.views.create-options');
@@ -41,7 +35,7 @@ class NewOptions extends Controller
    }
    private function successCategory($request){
       $addCategory = new Category();
-      $addCategory->worker_id = $this->worker();
+      $addCategory->worker_id = Helper::worker();
       $addCategory->name = $request->category_name;
       $addCategory->save();  
    }
@@ -69,7 +63,7 @@ class NewOptions extends Controller
    }
    public function SubCategoryCreate()
    {
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       return view('worker.views.add-new-subcategory',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id)]);
    }
 
@@ -86,7 +80,7 @@ class NewOptions extends Controller
    }
    private function successSubcategory($request){
       $addSubcategory = new Subcategory();
-      $addSubcategory->worker_id = $this->worker();
+      $addSubcategory->worker_id = Helper::worker();
       $addSubcategory->custom_category_id = $request->category;
       $addSubcategory->name = $request->subcategory_name;
       $addSubcategory->save();
@@ -97,7 +91,7 @@ class NewOptions extends Controller
 
    public function pozicijaCreate()
    {
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       return view('worker.views.add-new-pozicija',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id), 'subcategories' => $this->Subcategories(), 'custom_subcategories' => $this->custom_Subcategories($worker_id), 'units'=> $this->Units()]);
    }
 
@@ -128,7 +122,7 @@ class NewOptions extends Controller
          $description = "";
       }
       $addPozicija = new Pozicija();
-      $addPozicija->worker_id = $this->worker();
+      $addPozicija->worker_id = Helper::worker();
       $addPozicija->custom_subcategory_id = $subcategory;
       $addPozicija->unit_id = $unit_id;
       $addPozicija->custom_title = $title;

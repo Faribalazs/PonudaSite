@@ -8,17 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Helpers\Helper;
 
 class WorkerController extends Controller
 {
-   private function worker()
-   {
-      if (Auth::guard('worker')->check()) {
-         return Auth::guard('worker')->user()->id;
-      }
-      return null;
-   }
-
    public function index()
    {
        if(Auth::user()->hasRole('user')){
@@ -36,7 +29,7 @@ class WorkerController extends Controller
 
    public function personalData()
    {
-      $company_data = Company_Data::where('worker_id', $this->worker())->first();
+      $company_data = Company_Data::where('worker_id', Helper::worker())->first();
       return view('worker.views.profile.personal-data', ['company_data' => $company_data ?? null]);
    }
    public function savePersonalData(Request $request)
@@ -82,7 +75,7 @@ class WorkerController extends Controller
          }
 
          $company_data = Company_Data::create([
-            'worker_id' => $this->worker(),
+            'worker_id' => Helper::worker(),
             'company_name' => $data['company_name'],
             'country' => $data['country'],
             'city' => $data['city'],
@@ -100,25 +93,25 @@ class WorkerController extends Controller
 
          if($company_data->wasRecentlyCreated){
             alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->intended(route('worker.personal.data'));
+            return redirect()->route('worker.personal.data');
          }
       }
       alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
-      return redirect()->intended(route('worker.personal.data'));
+      return redirect()->route('worker.personal.data');
    }
 
    public function companyDelete()
    {
-      $company_data = Company_Data::where('worker_id', $this->worker())->first();
+      $company_data = Company_Data::where('worker_id', Helper::worker())->first();
       Storage::disk('public')->delete($company_data->logo);
       $company_data->delete();
-      return redirect()->intended(route('worker.personal.data'));
+      return redirect()->route('worker.personal.data');
    }
 
    public function myContacts()
    {
-      $fizicka_lica = Fizicko_Lice::where('worker_id', $this->worker())->get();
-      $pravna_lica = Pravno_Lice::where('worker_id', $this->worker())->get();
+      $fizicka_lica = Fizicko_Lice::where('worker_id', Helper::worker())->get();
+      $pravna_lica = Pravno_Lice::where('worker_id', Helper::worker())->get();
       return view('worker.views.profile.profile-contacts', ['fizicka_lica' => $fizicka_lica, 'pravna_lica'=> $pravna_lica]);
    }
 
@@ -149,11 +142,11 @@ class WorkerController extends Controller
 
       $fizicko_lice = Fizicko_lice::updateOrCreate(
          [
-            'worker_id' => $this->worker(),
+            'worker_id' => Helper::worker(),
             'id' => $id
          ],
          [
-         'worker_id' => $this->worker(),
+         'worker_id' => Helper::worker(),
          'first_name' => $data['f_name'],
          'last_name' => $data['l_name'],
          'city' => $data['city'],
@@ -176,15 +169,15 @@ class WorkerController extends Controller
 
    public function editContactFizicka($id)
    {
-      $contact = Fizicko_lice::where('id', $id)->where('worker_id', $this->worker())->first();
+      $contact = Fizicko_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
       return view('worker.views.profile.add-fizicko-lice', ['contact' => $contact]);
    }
 
    public function deleteContactFizicka(Request $request)
    {
-      Fizicko_lice::where('id', $request->id)->where('worker_id', $this->worker())->delete();
+      Fizicko_lice::where('id', $request->id)->where('worker_id', Helper::worker())->delete();
       alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
-      return redirect()->intended(route('worker.personal.contacts'));
+      return redirect()->route('worker.personal.contacts');
    }
 
    public function addPravnoIndex()
@@ -215,11 +208,11 @@ class WorkerController extends Controller
 
       $pravno_lice = Pravno_lice::updateOrCreate(
          [
-            'worker_id' => $this->worker(),
+            'worker_id' => Helper::worker(),
             'id' => $id
          ],
          [
-         'worker_id' => $this->worker(),
+         'worker_id' => Helper::worker(),
          'company_name' => $data['company_name'],
          'city' => $data['city'],
          'zip_code' => $data['postcode'],
@@ -237,18 +230,18 @@ class WorkerController extends Controller
       else{
          alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
-      return redirect()->intended(route('worker.personal.contacts'))->with('selected_pravna', 'pravno_lice');
+      return redirect()->route('worker.personal.contacts')->with('selected_pravna', 'pravno_lice');
    }
 
    public function editContactPravno($id)
    {
-      $contact = Pravno_lice::where('id', $id)->where('worker_id', $this->worker())->first();
+      $contact = Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
       return view('worker.views.profile.add-pravno-lice', ['contact' => $contact]);
    }
 
    public function deleteContactPravno(Request $request)
    {
-      Pravno_lice::where('id', $request->id)->where('worker_id', $this->worker())->delete();
-      return redirect()->intended(route('worker.personal.contacts'));
+      Pravno_lice::where('id', $request->id)->where('worker_id', Helper::worker())->delete();
+      return redirect()->route('worker.personal.contacts');
    }
 }

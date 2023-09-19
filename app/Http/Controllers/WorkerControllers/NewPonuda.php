@@ -8,30 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\Helper;
 
 class NewPonuda extends Controller
 {
-   private function worker()
-   {
-      if(Auth::guard('worker'))
-      {
-         return Auth::guard('worker')->user()->id;
-      }
-   }
    public function create()
    {  
       if(Auth::guard('worker'))
       {
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       $mergedData = $this->mergedData($worker_id);
-      $subTotal = 0;
-      foreach($mergedData as $mData){
-         $subTotal += $mData->overall_price;
-      }
       
       list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap) = $this->selectData($worker_id);
 
-      return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'subTotal' => $subTotal, 'swap' => $swap]);
+      return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'swap' => $swap]);
       }
       else
       {
@@ -67,96 +57,45 @@ class NewPonuda extends Controller
 
    private function mergedData($worker_id)
    {
-      $worker = Worker::select('ponuda_counter')
-         ->where('id', $worker_id)
-         ->first();      
-      $counter = $worker->ponuda_counter;
+      $counter = auth('worker')->user()->ponuda_counter ?? -1;
 
       $ponuda = Ponuda::select(
-         'ponuda.id',
-         'ponuda.worker_id',
-         'ponuda.ponuda_id',
-         'ponuda.categories_id',
-         'ponuda.subcategories_id',
-         'ponuda.pozicija_id',
-         'ponuda.service_id',
-         'ponuda.quantity',
-         'ponuda.unit_price',
-         'ponuda.overall_price',
-         'c.id AS id_category',
-         'c.name AS name_category',
-         's.id AS id_subcategory',
-         's.name AS name_subcategory',
-         'poz.id AS id_pozicija',
-         'poz.unit_id',
-         'u.id_unit',
-         'u.name AS unit_name',
-         'poz.title',
-         'poz.description',
-         'temp.id_of_ponuda AS id_of_ponuda_temp',
-         'temp.temporary_description',
-         'title.id_of_ponuda AS id_of_ponuda_title',
-         'title.temporary_title',
-         'serv.id_service',
-         'serv.name_service'
-     )
-     ->join('categories as c', 'ponuda.categories_id', '=', 'c.id')
-     ->join('subcategories as s', 'ponuda.subcategories_id', '=', 's.id')
-     ->join('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
-     ->join('units as u', 'poz.unit_id', '=', 'u.id_unit')
-     ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
-     ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
-     ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
-     ->where('ponuda.ponuda_id', $counter)
-     ->where('ponuda.worker_id', $worker_id)
-     ->get();
-     $custom_ponuda = Ponuda::select(
-      'ponuda.id',
-      'ponuda.worker_id',
-      'ponuda.ponuda_id',
-      'ponuda.categories_id',
-      'ponuda.subcategories_id',
-      'ponuda.pozicija_id',
-      'ponuda.service_id',
-      'ponuda.quantity',
-      'ponuda.unit_price',
-      'ponuda.overall_price',
-      'c.id AS id_category',
-      'c.name AS name_custom_category',
-      's.id AS id_subcategory',
-      's.name AS name_custom_subcategory',
-      'poz.id AS id_pozicija',
-      'poz.unit_id',
-      'u.id_unit',
-      'u.name AS unit_name',
-      'poz.custom_title',
-      'poz.custom_description',
-      's.is_subcategory_deleted',
-      'c.is_category_deleted',
-      'poz.is_pozicija_deleted',
-      'temp.id_of_ponuda AS id_of_ponuda_temp',
-      'temp.temporary_description',
-      'title.id_of_ponuda AS id_of_ponuda_title',
-      'title.temporary_title',
-      'serv.id_service',
-      'serv.name_service'
-  )
-      ->join('custom_categories as c', 'ponuda.categories_id', '=', 'c.id')
-      ->join('custom_subcategories as s', 'ponuda.subcategories_id', '=', 's.id')
-      ->join('custom_pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
-      ->join('units as u', 'poz.unit_id', '=', 'u.id_unit')
-      ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
-      ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
-      ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
-      ->where('ponuda.ponuda_id', $counter)
-      ->where('ponuda.worker_id', $worker_id)
-      ->whereNull('s.is_subcategory_deleted')
-      ->whereNull('c.is_category_deleted')
-      ->whereNull('poz.is_pozicija_deleted')
-      ->get();
-
-      $mergedData = $ponuda->concat($custom_ponuda);
-      return $mergedData;
+               'ponuda.id',
+               'ponuda.service_id',
+               'ponuda.quantity',
+               'ponuda.unit_price',
+               'ponuda.overall_price',
+               'ponuda.categories_id',
+               'c.name AS name_category',
+               'c_c.name AS name_custom_category',
+               'u.name AS unit_name',
+               'poz.title',
+               'poz.description',
+               'c_poz.custom_title',
+               'c_poz.custom_description',
+               'temp.temporary_description',
+               'title.temporary_title',
+               'serv.name_service'
+         )
+         ->leftJoin('categories as c', 'ponuda.categories_id', '=', 'c.id')
+         ->leftJoin('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
+         ->leftJoin('custom_categories as c_c', 'ponuda.categories_id', '=', 'c_c.id')
+         ->leftJoin('custom_pozicija as c_poz', 'ponuda.pozicija_id', '=', 'c_poz.id')
+         ->join('units as u', function ($join) {
+            $join->on('poz.unit_id', '=', 'u.id_unit')
+               ->orWhere(function ($query) {
+                     $query->on('c_poz.unit_id', '=', 'u.id_unit');
+               });
+         })
+         ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
+         ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
+         ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
+         ->where('ponuda.ponuda_id', $counter)
+         ->where('ponuda.worker_id', $worker_id)
+         ->whereNull('c_c.is_category_deleted')
+         ->whereNull('c_poz.is_pozicija_deleted')
+         ->get();
+      return $ponuda;
    }
 
    public function storePonuda(Request $request)
@@ -189,7 +128,7 @@ class NewPonuda extends Controller
    }
 
    private function successPonuda($request){
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       $worker = Worker::select('id', 'ponuda_counter')
          ->where('id', $worker_id)
          ->first();
@@ -259,7 +198,7 @@ class NewPonuda extends Controller
          'unit_price' => $request->new_unit_price,
          'overall_price' => $request->new_quantity * $request->new_unit_price,
       ]);
-      return redirect()->intended(route('worker.new.ponuda'));
+      return redirect()->route('worker.new.ponuda');
    }
 
    private function updateDesc($temp_desc,$real_id)
@@ -315,7 +254,7 @@ class NewPonuda extends Controller
       Alert::error('Ime ponude mora imati najmanje 3 znaka. Ime ponude i napomena ne sme biti duže od 64 karaktera, dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
      } else {
-      $worker_id = $this->worker();
+      $worker_id = Helper::worker();
       if(!empty($this->checkPonudaDone($worker_id))){
          $this->successsponudaDone($request, $worker_id);
          Alert::success('Ponuda uspesno dodato, mozete videti u arhivu!')->showCloseButton()->showConfirmButton('Zatvori');
@@ -400,7 +339,7 @@ class NewPonuda extends Controller
 
    private function delPonuda($id){
       return Ponuda::where('id', $id)
-         ->where('worker_id', $this->worker())
+         ->where('worker_id', Helper::worker())
          ->delete();
    }
 

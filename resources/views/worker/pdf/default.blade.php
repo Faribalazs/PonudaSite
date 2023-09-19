@@ -63,18 +63,14 @@
 
 <body style="padding-left: 20px; padding-right: 20px;">
     @php
-        $i = 1;
-        $title = '';
-        $collection = collect($mergedData);
         $finalPrice = 0;
-        $mergedData = $collection->sortBy('id')->groupBy('id_category');
-        $note = $collection->groupBy('id_category');
         $titleBold = 0;
-        $subPrice = 0;
-        $limit = 0;
-        $counter = 0;
+        $uniqueName = [];
     @endphp
     @if ($mergedData != null)
+        @php
+            $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
+        @endphp
         <table class="ponuda-table">
             <tr>
                 <td class="text-center no-wrap">
@@ -82,7 +78,7 @@
                 </td>
             </tr>
         </table>
-        @foreach ($mergedData as $id)
+        @foreach ($finalData as $data)
             <div style="border-right: 1px solid black;">
                 <table class="ponuda-table">
                     <thead>
@@ -96,105 +92,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($id[0]->name_category))
+                        @php
+                        $subPrice = 0;
+                        $i = 1;
+                    @endphp
+                    @foreach ($data as $item)
+                        @php
+                            $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : ''); 
+                            $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                            $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
+                        @endphp
+                        @if ($name_category != null && !in_array($name_category, $uniqueName))
                             <tr>
                                 <td colspan="8" class="text-left border-bold padding-5"
                                     style="background-color: rgba(0, 0, 0, 0.05);">
-                                    <b>{{ $id[0]->name_category }}</b>
-                                </td>
-                            </tr>
-                        @else
-                            <tr>
-                                <td colspan="8" class="text-left border-bold padding-5"
-                                    style="background-color: rgba(0, 0, 0, 0.05);">
-                                    <b>{{ $id[0]->name_custom_category }}</b>
+                                    <b>{{ $name_category }}</b>
+                                    @php
+                                        $uniqueName[] = $name_category;
+                                    @endphp
                                 </td>
                             </tr>
                         @endif
                         @php
-                            $limit = count($id);
-                            $counter = 0;
-                            $subPrice = 0;
-                            $i = 1;
+                            $subPrice += $item->overall_price;
                         @endphp
-                        @foreach ($id as $data)
-                            @php
-                                $subPrice += $data->overall_price;
+                        <tr>
+                            <td class="text-center">{{ $i++ }}</td>
+                            <td class="text-left ponuda-table-des"><b>
+                                {{ $title }}
+                                </b><br>
+                                {{ $desc_now }}
+                                <br>{{ $item->name_service }}
+                            </td>
+                            <td class="text-center">{{ $item->unit_name }}</td>
+                            <td class="text-center">{{ $item->quantity }}</td>
+                            <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
+                            <td class="whitespace-nowrap px-1 border-left text-center">
+                                {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
+                            </td>
+                        </tr>
+
+                            @php 
+                                $finalPrice += $subPrice;
                             @endphp
-                            <tr>
-                                <td class="text-center">{{ $i++ }}</td>
-                                @if (isset($data->name_category))
-                                    <td class="text-left w-100 padding-5"><b>
-                                            @if (isset($data->temporary_title))
-                                                {{ $data->temporary_title }}
-                                                @php
-                                                    $title = $data->temporary_title;
-                                                @endphp
-                                            @else
-                                                {{ $data->title }} @php
-                                                    $title = $data->title;
-                                                @endphp
-                                            @endif
-                                        </b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->description }} @php $desc_now = $data->description @endphp
-                                        @endif
-                                        <br>{{ $data->name_service }}
+                            @if ($loop->last)
+                                <tr>
+                                    <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
+                                        <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                     </td>
-                                    @php
-                                        $title = $data->title;
-                                    @endphp
-                                @else
-                                    <td class="text-left w-100 padding-5"><b>
-                                            @if (isset($data->temporary_title))
-                                                {{ $data->temporary_title }}
-                                                @php
-                                                    $title = $data->temporary_title;
-                                                @endphp
-                                            @else
-                                                {{ $data->custom_title }} @php
-                                                    $title = $data->custom_title;
-                                                @endphp
-                                            @endif
-                                        </b><br>
-                                        @if (isset($data->temporary_description))
-                                            {{ $data->temporary_description }} @php $desc_now = $data->temporary_description @endphp
-                                            @else{{ $data->custom_description }} @php $desc_now = $data->custom_description @endphp
-                                        @endif
-                                        <br>{{ $data->name_service }}
-                                    </td>
-                                @endif
-                                <td class="text-center">{{ $data->unit_name }}</td>
-                                <td class="text-center">{{ $data->quantity }}</td>
-                                <td class="text-center">{{ $data->unit_price }}&nbsp;RSD</td>
-                                <td class="no-wrap padding-5 border-left text-center">
-                                    {{ number_format($data->overall_price, 0, ',', ' ') }}&nbsp;RSD
-                                </td>
-
-                            </tr>
-
-                            @if ($limit - 1 == $counter)
-                                @php
-                                    $finalPrice += $subPrice;
-                                @endphp
-                                @if (isset($data->name_category))
-                                    <tr>
-                                        <td colspan="8" class="text-right border-bold padding-5 no-wrap">
-                                            <b>Svega&nbsp;{{ $data->name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td colspan="8" class="text-right border-bold padding-5 no-wrap">
-                                            <b>Svega&nbsp;{{ $data->name_custom_category }}</b>:&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @endif
+                                </tr>
                             @endif
-                            @php
-                                $counter++;
-                            @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -209,44 +156,27 @@
                         <td colspan="8" class="text-left border-bold padding-5"
                             style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
                     </tr>
-                    @foreach ($mergedData as $id)
-                        @php
-                            $limit = count($id);
-                            $counter = 0;
-                            $subPrice = 0;
-                            $i = 1;
-                        @endphp
-                        @foreach ($id as $data)
+                    @foreach ($finalData as $data)
                             @php
-                                $subPrice += $data->overall_price;
+                                $subPrice = 0;
                             @endphp
-
-                            @if ($limit - 1 == $counter)
-                                @if (isset($data->name_category))
+                            @foreach ($data as $rekapitulacija)
+                                @php
+                                    $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null); 
+                                    $subPrice += $rekapitulacija->overall_price;
+                                @endphp
+                                @if ($loop->last)
                                     <tr>
                                         <td class="text-left w-100 padding-5">
-                                            {{ $data->name_category }}&nbsp;
-                                        </td>
-                                        <td class="padding-5 text-center no-wrap">
-                                            {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td class="text-left w-100 padding-5">
-                                            {{ $data->name_custom_category }}&nbsp;
+                                            {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="padding-5 text-center no-wrap">
                                             {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
-                            @endif
-                            @php
-                                $counter++;
-                            @endphp
+                            @endforeach
                         @endforeach
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -276,17 +206,23 @@
                     </td>
                 </tr>
             </table>
-            @if (isset($note->first()[0]->opis))
+            @if (isset($opis))
                 <p class="text-bold" style="font-size: 12px;">
                     Napomene :
                 </p>
                 <br>
                 <p style="margin-top: -15px;">
                     <pre>
-                        {{ $note->first()[0]->opis }}
+                        {{ $opis }}
                     </pre>
                 </p>
             @endif
+            <div style="float:right;">
+                @php
+                    \Carbon\Carbon::setLocale(app()->getLocale())
+                @endphp
+                <p>{{ now()->translatedFormat('l jS F Y') }}</p>
+            </div>
         </div>
     @endif
 </body>

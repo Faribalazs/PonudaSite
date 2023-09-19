@@ -10,6 +10,7 @@
         $title = '';
         $collection = collect($data);
         $note = $collection->groupBy('id_category');
+        \Carbon\Carbon::setLocale(app()->getLocale())
     @endphp
     <div class="flex mt-16 filter-search-div">
         <form method="GET" action="{{ route('worker.archive.search') }}" class="">
@@ -96,11 +97,11 @@
                         <div class="w-full">
                             Naziv : <b>{{ $ponuda->ponuda_name }}</b>
                             <p>
-                                Kreirano : <b>{{ Carbon\Carbon::parse($ponuda->created_at)->locale(app()->getLocale())->diffForHumans() }}</b>
+                                Kreirano : <b>{{ $ponuda->created_at->translatedFormat('jS F Y H:i') }}</b>
                             </p>
                             @if (isset($ponuda->updated_at))
                                 <p>
-                                    Ažuriran : {{ Carbon\Carbon::parse($ponuda->updated_at)->locale(app()->getLocale())->diffForHumans() }}
+                                    Ažuriran : {{ $ponuda->updated_at->translatedFormat('jS F Y H:i') }}
                                 </p>
                             @endif
                             @if (isset($ponuda->note))

@@ -11,4 +11,9 @@ class Helper
 
         return implode('/', $segments);
     }
+
+    public static function worker()
+    {
+        return auth('worker')->user()->id ?? null;
+    }
 }
