@@ -61,6 +61,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::delete('contractor/profile/company/delete', [WorkerController::class, 'companyDelete'])
         ->name('worker.personal.company.delete');
 
+    Route::get('contractor/profile/settings', [WorkerController::class, 'profileSettingsCreate'])
+        ->name('worker.personal.account.settings');
+        
 
     // nova ponuda
     Route::get('contractor/new', [NewPonuda::class, 'create'])

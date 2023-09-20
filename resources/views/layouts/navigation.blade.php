@@ -4,7 +4,7 @@
 <div class="nav xl:hidden">
     <div class="nav__content">
         <div class="nav__list px-4 gap-4">
-            <div class="nav__list-item mt-20 text-center">
+            <div class="nav__list-item mt-32 text-center">
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">

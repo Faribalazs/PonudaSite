@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>{{ $pageTitle }}</title>
 
     <!-- Styles -->
@@ -19,7 +18,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
-        @include('worker.layouts.navigation')
+        @include('layouts.navigation')
 
         <!-- Page Content -->
         <main class="page-padding-profile">
@@ -48,6 +47,11 @@
                             {{ request()->routeIs('worker.personal.contacts.edit.pravna') ? 'closed-icon-active' : '' }}">
                             <i class="ri-contacts-line"></i>
                         </a>
+                        <a href="{{ route('worker.personal.account.settings') }}"
+                            class="icons 
+                            {{ request()->routeIs('worker.personal.account.settings') ? 'closed-icon-active' : '' }}">
+                            <i class="ri-settings-3-line"></i>
+                        </a>
                         <form method="POST" id="log-out-form" action="{{ route('worker.logout') }}" class="icons">
                             @csrf
                             <button type="button" onclick="logOut()"><i class="ri-logout-box-r-line"></i></button>
@@ -63,12 +67,15 @@
                         <a href="{{ route('worker.personal.contacts') }}" class="link">
                             moji klijenti
                         </a>
+                        <a href="{{ route('worker.personal.account.settings') }}" class="link">
+                            podesavanja
+                        </a>
                         <a onclick="logOut()" class="link cursor-pointer">
                             odjavi se
                         </a>
                     </div>
                 </div>
-                <div style="width: calc(100% - 124px); min-width: calc(100% - 124px);">
+                <div class="content-side">
                     {{ $slot }}
                 </div>
             </div>

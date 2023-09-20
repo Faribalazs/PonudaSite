@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <div class="flex mt-3 flex-col">
+    <div class="flex mt-3 flex-col mb-20">
         <form method="POST" action="{{ route('worker.personal.contacts.add.legal-entity.save') }}" class="flex flex-col"
             enctype="multipart/form-data">
             @csrf
@@ -112,9 +112,9 @@
             <p class="{{$errors->has('phone') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('phone')}}</p>
 
             @if(isset($contact))
-                <button type="submit" class="finish-btn mt-5 text-xl">Promeni podatke</button>
+                <button type="submit" class="finish-btn mt-10 text-xl">Promeni podatke</button>
             @else
-                <button type="submit" class="finish-btn mt-5 text-xl">Sacuvaj kontakt</button>
+                <button type="submit" class="finish-btn mt-10 text-xl">Sacuvaj kontakt</button>
             @endif
         </form>
         @if(isset($contact))
@@ -122,7 +122,7 @@
             enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$contact->id}}"/>
-            <button type="submit" class="finish-btn mt-10 bg-red text-xl text-center">
+            <button type="submit" class="finish-btn mt-16 bg-red text-xl text-center">
                 Izbrisi konatakt<i class="ri-delete-bin-line pl-2"></i>
             </button>
         </form>

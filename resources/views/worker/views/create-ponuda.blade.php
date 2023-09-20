@@ -33,7 +33,10 @@
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 allowEnterKey: false,
-                didClose: () => window.scrollTo(0, document.body.scrollHeight)
+                didClose: () => window.scrollTo({
+                    top: document.body.scrollHeight, 
+                    behavior: 'smooth'
+                })
             }).then((result) => {
                 if (result.isConfirmed) {
                     EndPonuda('{{ $tempPonudaName }}');
@@ -53,14 +56,14 @@
                     <table class="table mt-20 text-center ponuda-table">
                         <thead>
                             <tr>
-                                <th scope="col">r.br.</th>
-                                <th scope="col">Naziv</th>
-                                <th scope="col">j.m.</th>
-                                <th scope="col">Količina</th>
-                                <th scope="col">jed.cena</th>
-                                <th scope="col">ukupno</th>
-                                <th scope="col">izmeni</th>
-                                <th scope="col">izbrisi</th>
+                                <th class="p-2" scope="col">r.br.</th>
+                                <th class="p-2" scope="col">Naziv</th>
+                                <th class="p-2" scope="col">j.m.</th>
+                                <th class="p-2" scope="col">Količina</th>
+                                <th class="p-2" scope="col">jed.cena</th>
+                                <th class="p-2" scope="col">ukupno</th>
+                                <th class="p-2" scope="col">izmeni</th>
+                                <th class="p-2" scope="col">izbrisi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,7 +165,7 @@
                 </table>
             </div>
             <div>
-                <table class="table mt-20 text-center ponuda-table">
+                <table class="table mt-20 text-center ponuda-table w-full mb-7">
                     <tr>
                         <td class="text-right">
                             <b>Ukupno: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>

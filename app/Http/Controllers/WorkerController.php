@@ -244,4 +244,9 @@ class WorkerController extends Controller
       Pravno_lice::where('id', $request->id)->where('worker_id', Helper::worker())->delete();
       return redirect()->route('worker.personal.contacts');
    }
+
+   public function profileSettingsCreate()
+   {
+      return view('worker.views.profile.profile-settings');
+   }
 }
