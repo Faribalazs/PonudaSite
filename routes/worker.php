@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile/settings', [WorkerController::class, 'profileSettingsCreate'])
         ->name('worker.personal.account.settings');
         
+    Route::post('contractor/profile/settings/change-password', [WorkerController::class, 'updatePassword'])
+        ->name('worker.personal.account.settings.update-password');
 
     // nova ponuda
     Route::get('contractor/new', [NewPonuda::class, 'create'])

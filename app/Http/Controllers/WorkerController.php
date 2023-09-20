@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Company_Data,Fizicko_lice,Pravno_lice};
+use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Hash;
 use App\Helpers\Helper;
 
 class WorkerController extends Controller
@@ -235,8 +236,7 @@ class WorkerController extends Controller
 
    public function editContactPravno($id)
    {
-      $contact = Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
-      return view('worker.views.profile.add-pravno-lice', ['contact' => $contact]);
+      return view('worker.views.profile.add-pravno-lice', ['contact' => Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first()]);
    }
 
    public function deleteContactPravno(Request $request)
@@ -248,5 +248,28 @@ class WorkerController extends Controller
    public function profileSettingsCreate()
    {
       return view('worker.views.profile.profile-settings');
+   }
+    
+   public function updatePassword(Request $request)
+   {
+      $request->validate([
+         'old_password' => 'required',
+         'new_password' => 'required|confirmed',
+      ],
+      [
+         'new_password' => trans("app.errors.new_password"),
+         '*.required' => trans("app.errors.profile-required"),
+      ]);
+
+      if(!Hash::check($request->old_password, auth('worker')->user()->password)){
+         alert()->error('Stara lozinka se ne poklapa!')->showCloseButton()->showConfirmButton('Zatvori');
+         return redirect()->back();
+      }
+      Worker::whereId(Helper::worker())->update([
+            'password' => Hash::make($request->new_password)
+      ]);
+
+      alert()->success('Lozinka je uspešno promenjena!')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->back();
    }
 }

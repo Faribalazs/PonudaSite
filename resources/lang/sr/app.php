@@ -9,11 +9,6 @@ return [
         'dashboard'                 => "Pocetna",
     ],
 
-    'errors' => [
-        'warning'                   => "Paznja",
-        'exit'                      => "Zatvori",
-    ],
-
     'email' => [
         'title'                    => "Hello!",
         'verification-text'        => "Kliknite na dugme ispod da biste potvrdili svoju adresu e-pošte.",
@@ -51,11 +46,14 @@ return [
     ],
 
     'errors' => [
+        'warning'                   => "Paznja",
+        'exit'                      => "Zatvori",
         'profile-company'           => "Niste dobro upasali podatke",
         'profile-required'          => "Poje je obavezan",
         'profile-image'             => "Slika mora biti png,jpg,jpeg,webp",
         'profile-image-max'         => "Maximalna velicina slike je 2MB",
         'profile-only-numbers'      => "Samo brojeve i '-' mozete upisati",
         'profile-email'             => "Upisite validan email adresu",
+        'new_password'              => "Nova lozinka se ne poklapa",
     ],
 ];
