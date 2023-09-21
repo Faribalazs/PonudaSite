@@ -37,12 +37,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="d-flex justify-content-center mt-4">
+            <div class="flex justify-center mt-4">
                 <button type="submit" name="skini" value="skini" class="finish-btn mt-4">
                     Skini PDF
                 </button>
             </div>
-            <div class="d-flex justify-content-center mt-4">
+            <div class="flex justify-center mt-4">
                 <button type="submit" name="posalji" value="posalji" class="finish-btn mt-4">
                     Pošalji PDF u imejl
                 </button>

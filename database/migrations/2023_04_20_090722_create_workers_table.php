@@ -22,8 +22,8 @@ class CreateWorkersTable extends Migration
             $table->string('photo_name')->nullable();
             $table->bigInteger('ponuda_counter')->unsigned()->default(1);
             $table->smallInteger('status')->default(1);
-            $table->boolean('send_email_on_download')->default(false);
-            $table->boolean('send_email_on_send')->default(false);
+            $table->boolean('send_email_on_download')->default(true);
+            $table->boolean('send_email_on_send')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
