@@ -10,7 +10,7 @@
                <span class="text-title">{{ $mailSubject }}</span>
             </div>
             <div class="btn-div">
-                {{ $mailBody }}
+                {{ $mailBody ?? null }}
             </div>
             <div class="text-div">
                 <span class="text-content">{{__('app.email.regards')}},</span>

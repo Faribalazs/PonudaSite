@@ -25,6 +25,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile', [WorkerController::class, 'profile'])
         ->name('worker.myprofile');
 
+    Route::put('contractor/profile/setup', [WorkerController::class, 'setupProfile'])
+        ->name('worker.myprofile.send.email');
+
     Route::get('contractor/profile/company', [WorkerController::class, 'personalData'])
         ->name('worker.personal.data');
 

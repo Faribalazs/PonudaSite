@@ -414,6 +414,18 @@ class Archive extends Controller
                     return redirect()->back();
             }
             $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
+            if(auth('worker')->user()->send_email_on_download)
+            {
+                Mail::send('worker.emails.send_pdf',['mailSubject' => $pdf_name->ponuda_name ?? "Ponudamajstora"], function ($message) use ($pdf, $pdf_name) {
+                    $message->from('ponudamajstora@gmail.com');
+                    $message->to(auth('worker')->user()->email);
+                    $message->subject($pdf_name->ponuda_name ?? "Ponudamajstora");
+                    $message->attachData($pdf->output(),$pdf_name->ponuda_name . '.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+                });
+            }
+            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
             if (isset($pdf_name->ponuda_name)) {
                 return $pdf->download($pdf_name->ponuda_name . '.pdf');
             } else {
@@ -498,6 +510,17 @@ class Archive extends Controller
                     'mime' => 'application/pdf',
                 ]);
             });
+            if(auth('worker')->user()->send_email_on_send)
+            {
+                Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdfContent, $pdf_name) {
+                    $message->from('ponudamajstora@gmail.com');
+                    $message->to(auth('worker')->user()->email);
+                    $message->subject($data["mailSubject"] ?? 'PDF ponuda');
+                    $message->attachData($pdfContent,$pdf_name->ponuda_name . '.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+                });
+            }
             Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect()->route('worker.archive');
         }

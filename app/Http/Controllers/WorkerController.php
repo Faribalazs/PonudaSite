@@ -25,7 +25,7 @@ class WorkerController extends Controller
 
    public function profile()
    {
-    return view('worker.views.profile.profile-page');
+      return view('worker.views.profile.profile-page');
    }
 
    public function personalData()
@@ -270,6 +270,37 @@ class WorkerController extends Controller
       ]);
 
       alert()->success('Lozinka je uspešno promenjena!')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect()->back();
+   }
+
+   public function setupProfile(Request $request)
+   {
+      $request->validate(
+      [
+         'skini' => 'required|in:1,2',
+         'posalji' => 'required|in:1,2',
+      ]);
+      $worker = auth('worker')->user();
+      if($request->skini == 1)
+      {
+         $worker->send_email_on_download = false;
+      }
+      elseif($request->skini == 2)
+      {
+         $worker->send_email_on_download = true;
+      }
+
+      if($request->posalji == 1)
+      {
+         $worker->send_email_on_send = false;
+      }
+      elseif($request->posalji == 2)
+      {
+         $worker->send_email_on_send = true;
+      }
+
+      $worker->save();
+
       return redirect()->back();
    }
 }
