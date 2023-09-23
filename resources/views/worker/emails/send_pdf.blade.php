@@ -6,11 +6,13 @@
             <div class="logo-div">
                 <x-application-logo class="block h-10 w-auto fill-current" />
             </div>
+            @if(isset($mailBody))
+                <div class="btn-div">
+                    <pre>{{ $mailBody}}</pre>
+                </div>
+            @endif
             <div class="text-div">
-               <span class="text-title">{{ $mailSubject }}</span>
-            </div>
-            <div class="btn-div">
-                {{ $mailBody ?? null }}
+                {{ $auto_msg ?? null }}
             </div>
             <div class="text-div">
                 <span class="text-content">{{__('app.email.regards')}},</span>

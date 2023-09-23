@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\WorkerControllers;
 
 use App\Models\{Swap, Ponuda, Ponuda_Date, Pozicija_Temporary, Title_Temporary, Worker, Fizicko_lice, Pravno_lice, Company_Data, Fizicko_lice_Temporary, Pravno_lice_Temporary};
-use Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Helpers\Helper;
+use App\Jobs\SendEmail;
 
 class Archive extends Controller
 {
@@ -250,7 +250,11 @@ class Archive extends Controller
 
             if(isset($request->save))
             {
-                $client = Fizicko_lice::create(
+                $client = Fizicko_lice::updateOrCreate(
+                    [
+                        'worker_id' => Helper::worker(),
+                        'email' => $email
+                    ],
                     [
                         'worker_id' => Helper::worker(),
                         'first_name' => $f_name,
@@ -266,7 +270,9 @@ class Archive extends Controller
             }
             else{
                 $client = Fizicko_lice_Temporary::updateOrCreate(
-                    ['worker_id' => Helper::worker()],
+                    [
+                        'worker_id' => Helper::worker()
+                    ],
                     [
                         'first_name' => $f_name,
                         'last_name' => $l_name,
@@ -321,7 +327,11 @@ class Archive extends Controller
 
             if(isset($request->save))
             {
-                $client = Pravno_lice::create(
+                $client = Pravno_lice::updateOrCreate(
+                    [
+                        'worker_id' => Helper::worker(),
+                        'email' => $email
+                    ],
                     [
                         'worker_id' => Helper::worker(),
                         'company_name' => $company_name,
@@ -337,7 +347,9 @@ class Archive extends Controller
             }
             else{
                 $client = Pravno_lice_Temporary::updateOrCreate(
-                    ['worker_id' => Helper::worker()],
+                    [
+                        'worker_id' => Helper::worker()
+                    ],
                     [
                         'worker_id' => Helper::worker(),
                         'company_name' => $company_name,
@@ -364,111 +376,27 @@ class Archive extends Controller
 
     public function tamplateGeneratePdf(Request $request) 
     {
+        $request->validate([
+            'ponuda_id' => 'required|numeric|gte:0',
+            'client' => 'nullable|numeric|gte:0',
+            'type' => 'required|in:1,2',
+        ]);
+
         $worker_id = Helper::worker();
         $company_data = $this->company_data($worker_id) ?? null;
-        $template = $request->temp;
+        $template = $request->temp ?? 'default';
         if($company_data === null && $template == "template-one")
             return redirect()->route('worker.personal.data');
         $pdf_blade = 'worker.pdf.'. $template;
         $id = $request->ponuda_id;
-        $selectedWorkerPonuda = null;
-        if(is_numeric($id) && $id > 0)
-            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
-        else
-            return redirect()->back();
-        $foundClient = null;
-        $type_id = $request->type ?? null;
-        $client_id = $request->client_id ?? null;
+        $type_id = $request->type;
+        $client_id = $request->client ?? null;
         $pdf_name = $this->PDFname($id,$worker_id);
+        $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
+        $foundClient = null;
         if($request->skini)
         {
             if ($type_id && $client_id) {
-                if(is_numeric($type_id) && is_numeric($client_id))
-                {
-                    if($type_id == 1)
-                    {
-                        if($request->temporary)
-                        {
-                            $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
-                        }
-                        else
-                        {
-                            $foundClient = $this->selectedFizicka($worker_id, $client_id);
-                        }
-                    }
-                    elseif($type_id == 2)
-                    {
-                        if($request->temporary)
-                        {
-                            $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
-                        }
-                        else
-                        {
-                        $foundClient = $this->selectedPravna($worker_id, $client_id);
-                        }
-                    }
-                    else
-                        return redirect()->back();
-                }
-                else
-                    return redirect()->back();
-            }
-            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
-            if(auth('worker')->user()->send_email_on_download)
-            {
-                Mail::send('worker.emails.send_pdf',['mailSubject' => $pdf_name->ponuda_name ?? "Ponudamajstora"], function ($message) use ($pdf, $pdf_name) {
-                    $message->from('ponudamajstora@gmail.com');
-                    $message->to(auth('worker')->user()->email);
-                    $message->subject($pdf_name->ponuda_name ?? "Ponudamajstora");
-                    $message->attachData($pdf->output(),$pdf_name->ponuda_name . '.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
-                });
-            }
-            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
-            if (isset($pdf_name->ponuda_name)) {
-                return $pdf->download($pdf_name->ponuda_name . '.pdf');
-            } else {
-                return $pdf->download('Ponuda.pdf');
-            }
-        }
-        elseif($request->posalji)
-        {
-            return view('worker.views.mail-send',['name' => $pdf_name->ponuda_name ?? "ponuda", 'id' => $id, 'client_id' => $client_id, 'type' => $type_id, 'temporary' => $request->temporary, 'pdf_blade' => $pdf_blade]);
-        }
-    }
-    // redirektelni kell miutan letoti a pdf a sucessra
-    public function generatePdfSuccess(Request $request){
-        return view('worker.views.generate-pdf-success');
-    }
-    // redirektelni kell miutan letoti a pdf a sucessra end
-    public function sendPDF(Request $request)
-    {
-        $request->validate([
-            'mailTo' => 'required|string|email:rfc|max:255',
-            'mailSubject' => 'nullable|string|max:64',
-            'mailBody' => 'nullable|string|max:1024',
-        ]);
-        $worker_id = Helper::worker();
-        $data["mailFrom"] = auth('worker')->user()->email;
-        $data["mailTo"] = $request->mailTo;
-        $data["mailSubject"] = $request->mailSubject;
-        $data["mailBody"] = $request->mailBody;
-        $company_data = $this->company_data($worker_id) ?? null;
-        $pdf_blade = $request->pdf;
-        $id = $request->id;
-        $pdf_name = $this->PDFname($id,$worker_id);
-        $selectedWorkerPonuda = null;
-        if(is_numeric($id) && $id > 0)
-            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
-        else
-            return redirect()->back();
-        $foundClient = null;
-        $type_id = $request->type ?? null;
-        $client_id = $request->client ?? null;
-        if ($type_id && $client_id) {
-            if(is_numeric($type_id) && is_numeric($client_id))
-            {
                 if($type_id == 1)
                 {
                     if($request->temporary)
@@ -488,43 +416,96 @@ class Archive extends Controller
                     }
                     else
                     {
-                    $foundClient = $this->selectedPravna($worker_id, $client_id);
+                        $foundClient = $this->selectedPravna($worker_id, $client_id);
                     }
                 }
                 else
                     return redirect()->back();
             }
+            if(auth('worker')->user()->send_email_on_download)
+            {
+                //job
+                $auto_msg = "This mail is autogenerated. Please do not respond.";
+                $data = ['pdf_blade' => $pdf_blade, 'mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis];
+                $emailJob = (new SendEmail(auth('worker')->user()->email, null, null, $data, $pdf_name->ponuda_name, $auto_msg));
+                dispatch($emailJob)->delay(\Carbon\Carbon::now()->addMinutes(1));
+            }
+            $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
+            if (isset($pdf_name->ponuda_name)) {
+                return $pdf->download($pdf_name->ponuda_name . '.pdf');
+            } else {
+                return $pdf->download('Ponuda.pdf');
+            }
+        }
+        elseif($request->posalji)
+        {
+            return view('worker.views.mail-send',['name' => $pdf_name->ponuda_name ?? "Ponuda", 'id' => $id, 'client_id' => $client_id, 'type' => $type_id, 'temporary' => $request->temporary, 'pdf_blade' => $pdf_blade]);
+        }
+    }
+    // redirektelni kell miutan letoti a pdf a sucessra
+    public function generatePdfSuccess(Request $request){
+        return view('worker.views.generate-pdf-success');
+    }
+    // redirektelni kell miutan letoti a pdf a sucessra end
+    public function sendPDF(Request $request)
+    {
+        $request->validate([
+            'mailTo' => 'required|string|email:rfc|max:255',
+            'mailSubject' => 'nullable|string|max:64',
+            'mailBody' => 'nullable|string|max:1024',
+            'id' => 'required|numeric|gte:0',
+            'client' => 'nullable|numeric|gte:0',
+            'type' => 'required|in:1,2',
+        ]);
+
+        $worker_id = Helper::worker();
+        $company_data = $this->company_data($worker_id) ?? null;
+        $pdf_blade = $request->pdf;
+        $id = $request->id;
+        $type_id = $request->type;
+        $client_id = $request->client ?? null;
+        $pdf_name = $this->PDFname($id,$worker_id);
+        $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
+        $foundClient = null;
+
+        if ($type_id && $client_id) {
+            if($type_id == 1)
+            {
+                if($request->temporary)
+                {
+                    $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
+                }
+                else
+                {
+                    $foundClient = $this->selectedFizicka($worker_id, $client_id);
+                }
+            }
+            elseif($type_id == 2)
+            {
+                if($request->temporary)
+                {
+                    $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
+                }
+                else
+                {
+                    $foundClient = $this->selectedPravna($worker_id, $client_id);
+                }
+            }
             else
                 return redirect()->back();
         }
-        $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
-        $pdfContent = $pdf->output();
-        $pdfSize = strlen($pdfContent);
-        if($pdfSize < 10485760)
+
+        $auto_msg = "This mail is autogenerated and has been sent by ".auth('worker')->user()->email." . Please do not respond.";
+        $dataPDF = ['pdf_blade' => $pdf_blade, 'mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis];
+        $emailJobFirst = (new SendEmail($request->mailTo, $request->mailSubject, $request->mailBody, $dataPDF, $pdf_name->ponuda_name, $auto_msg));
+        dispatch($emailJobFirst);
+        if(auth('worker')->user()->send_email_on_send)
         {
-            Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdfContent, $pdf_name) {
-                $message->from($data["mailFrom"]);
-                $message->to($data["mailTo"]);
-                $message->subject($data["mailSubject"] ?? 'PDF ponuda');
-                $message->attachData($pdfContent,$pdf_name->ponuda_name . '.pdf', [
-                    'mime' => 'application/pdf',
-                ]);
-            });
-            if(auth('worker')->user()->send_email_on_send)
-            {
-                Mail::send('worker.emails.send_pdf', $data, function ($message) use ($data,$pdfContent, $pdf_name) {
-                    $message->from('ponudamajstora@gmail.com');
-                    $message->to(auth('worker')->user()->email);
-                    $message->subject($data["mailSubject"] ?? 'PDF ponuda');
-                    $message->attachData($pdfContent,$pdf_name->ponuda_name . '.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
-                });
-            }
-            Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->route('worker.archive');
+            $auto_msg = "This mail is autogenerated. You sent this email to ".$request->mailTo." . Please do not respond.";
+            $emailJobSecond = (new SendEmail(auth('worker')->user()->email, $request->mailSubject, $request->mailBody, $dataPDF, $pdf_name->ponuda_name, $auto_msg));
+            dispatch($emailJobSecond);
         }
-        Alert::error('Max 10 MB')->showCloseButton()->showConfirmButton('Zatvori');
+        Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
         return redirect()->route('worker.archive');
     }
 

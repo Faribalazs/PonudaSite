@@ -8,7 +8,8 @@ use Socialite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class GoogleSocialiteController extends Controller
 {
@@ -49,10 +50,9 @@ class GoogleSocialiteController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'password' => encrypt('my-google')
+                    'password' => Hash::make(Str::random(16))
                 ]);
                 $newUser->attachRole('user'); 
-                event(new Registered($newUser));
      
                 Auth::login($newUser);
                 
@@ -63,8 +63,9 @@ class GoogleSocialiteController extends Controller
                 return redirect(route('home'));
             }
      
-        } catch (Exception $e) {
-            dd($e->getMessage());
+        } catch (Exception) {
+            alert()->error('Something went wrong! Try again later or contact support.')->showCloseButton()->showConfirmButton('Close');
+            return redirect()->route('home');
         }
     }
 }

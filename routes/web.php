@@ -21,9 +21,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('callback.google');
 });
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::view('/', 'home')->name('home');
 
 //auth route for both 
 Route::group(['middleware' => ['auth']], function() { 
@@ -38,7 +36,7 @@ Route::group(['middleware' => ['auth', 'role:user']], function() {
 
 //admin
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', function () { return view('admin.admin-dash'); })->name('dashboard');
+    Route::view('dashboard', 'admin.admin-dash')->name('dashboard');
     Route::get('/users', [AdminController::class, 'selectUsers'])->name('users');
     Route::put('/users/ban', [AdminController::class, 'banUser'])->name('ban.user');
     Route::put('/users/unban', [AdminController::class, 'unbanUser'])->name('unban.user');

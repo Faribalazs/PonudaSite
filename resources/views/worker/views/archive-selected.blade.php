@@ -176,9 +176,7 @@
                 </p>
                 <br>
                 <p>
-                    <pre>
-                        {{ $ponuda_name->opis }}
-                    </pre>
+                    <pre>{{ $ponuda_name->opis }}</pre>
                 </p>
             </div>
         @endif

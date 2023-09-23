@@ -15,7 +15,7 @@
         <div class="mt-3">
             <form method="POST" action="{{ route('worker.personal.company.delete') }}">
                 @csrf
-                @method('delete')
+                @method('DELETE')
                 <button type="submit" class="finish-btn">
                     Izbrisi
                 </button>

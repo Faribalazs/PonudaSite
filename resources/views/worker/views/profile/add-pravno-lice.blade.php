@@ -23,8 +23,7 @@
     @endif
 
     <div class="flex mt-3 flex-col mb-20">
-        <form method="POST" action="{{ route('worker.personal.contacts.add.legal-entity.save') }}" class="flex flex-col"
-            enctype="multipart/form-data">
+        <form method="POST" action="{{ route('worker.personal.contacts.add.legal-entity.save') }}" class="flex flex-col">
             @csrf
             @if(isset($contact))
                 <input type="hidden" name="id" value="{{$contact->id}}"/>
@@ -118,12 +117,11 @@
             @endif
         </form>
         @if(isset($contact))
-        <form method="post" action="{{route('worker.personal.contacts.delete.pravna')}}" class="flex flex-col"
-            enctype="multipart/form-data">
+        <form method="post" action="{{route('worker.personal.contacts.delete.pravna')}}" class="flex flex-col">
             @csrf
             <input type="hidden" name="id" value="{{$contact->id}}"/>
             <button type="submit" class="finish-btn mt-16 bg-red text-xl text-center">
-                Izbrisi konatakt<i class="ri-delete-bin-line pl-2"></i>
+                Izbrisi kontakt<i class="ri-delete-bin-line pl-2"></i>
             </button>
         </form>
         @endif

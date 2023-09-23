@@ -40,7 +40,7 @@
         <p class="text-2xl font-bold mt-5 mb-5">E-mail poruke :</p>
         <form action="{{ route('worker.myprofile.send.email') }}" method="POST">
             @csrf
-            @method('put')
+            @method('PUT')
             <div>
                 <label class="sm:text-xl text-base my-3">Posalji meni E-mail kad skinem pdf:</label>
                 <div class="flex mt-5">

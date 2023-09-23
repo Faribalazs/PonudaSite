@@ -27,7 +27,7 @@
                         <i class="ri-mail-fill phone-icon"></i>
                     </div>
                     <div class="flex align-center">
-                        <a href="mailto:Ponuda@gmail.com" class="footer-category-text pl-3">Ponuda@gmail.com</a>
+                        <a href="mailto:{{ config('app.email') }}" class="footer-category-text pl-3">{{ config('app.email') }}</a>
                     </div>
                 </div>
               </div>

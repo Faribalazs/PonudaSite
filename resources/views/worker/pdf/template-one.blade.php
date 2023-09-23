@@ -362,9 +362,7 @@
                     </p>
                     <br>
                     <p style="margin-top: -15px;">
-                        <pre>
-                            {{ $opis }}
-                        </pre>
+                        <pre>{{ $opis }}</pre>
                     </p>
                 @endif
             </div>
