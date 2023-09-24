@@ -31,7 +31,7 @@
                 <input name="new_password_confirmation" type="password" class="input-style" id="confirmNewPasswordInput"
                     placeholder="Potvrdite novu lozinku" required>
             </div>
-            <button class="add-new-contact-btn flex rounded-md justify-center mt-10 w-2/4 py-2 mx-auto"
+            <button class="add-new-contact-btn flex rounded-md text-xl justify-center mt-10 w-2/4 py-2 mx-auto"
                 type="submit">Promeni</button>
         </form>
     </div>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <button class="add-new-contact-btn flex rounded-md justify-center mt-10 w-2/4 py-2 mx-auto"
+            <button class="add-new-contact-btn flex rounded-md text-xl justify-center mt-10 w-2/4 py-2 mx-auto"
                 type="submit">Promeni</button>
         </form>
     </div>
@@ -119,7 +119,7 @@
             content: "";
             width: 20px;
             height: 20px;
-            background: #ed5840;
+            background: #0d2c5a;
             position: absolute;
             top: 4px;
             left: 4px;

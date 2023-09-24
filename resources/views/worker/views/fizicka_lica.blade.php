@@ -7,8 +7,8 @@
     <form method="POST" id="form1" action="{{ route('worker.archive.submit.contact') }}">
         @csrf
         <div class="flex mt-16">
-            <div class="flex w-1/2 items-center flex-col">
-                @if ($fizicka_lica->isNotEmpty())
+            @if ($fizicka_lica->isNotEmpty())
+                <div class="flex w-1/2 items-center justify-center">
                     <select name="selectedFizicko" id="selectedClient">
                         <option value="select" selected disabled>Select one</option>
                         @foreach ($fizicka_lica as $client)
@@ -16,9 +16,9 @@
                             </option>
                         @endforeach
                     </select>
-                @endif
-            </div>
-            <div class="flex w-1/2 flex-col">
+                </div>
+            @endif
+            <div class="flex flex-col {{ $fizicka_lica->isNotEmpty() ? 'w-1/2' : 'w-full px-10' }}">
                 <div class="flex flex-col w-full" id="fizicka_lica">
                     <label for="f_name" class="text-xl my-3">Ime :</label>
                     <input class="input-style" name="f_name" type="text" />
@@ -41,14 +41,14 @@
                     <label for="tel" class="text-xl my-3">Telefon :</label>
                     <input class="input-style" name="tel" type="text" />
 
-                    <div class="flex items-center">
+                    <div class="flex items-center mt-5">
                         <label for="save" class="text-xl my-3">Sacuvaj klijenta</label>
                         <input type="checkbox" class="ml-3" name="save" value="1" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex w-full mt-10">
+        <div class="flex w-full mt-10 {{ $fizicka_lica->isNotEmpty() ? '' : 'px-10' }}">
             <button type="submit" class="finish-btn mt-5 text-xl w-full">Nastavi</button>
         </div>
         <input type="hidden" value="{{ $id }}" name="ponuda_id">

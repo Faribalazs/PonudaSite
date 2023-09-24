@@ -122,7 +122,7 @@
             @endif
         </form>
         @if(isset($contact))
-        <form method="post" action="{{route('worker.personal.contacts.delete.fizicka')}}" class="flex flex-col">
+        <form method="post" action="{{route('worker.personal.contacts.delete.fizicka')}}" class="flex flex-col mb-20">
             @csrf
             <input type="hidden" name="id" value="{{$contact->id}}"/>
             <button type="submit" class="finish-btn mt-10 bg-red text-xl text-center">

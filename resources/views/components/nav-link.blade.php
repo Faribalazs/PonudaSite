@@ -2,7 +2,7 @@
 
 @php
 $classes = ($active ?? false)
-            ? 'text-blue'
+            ? 'text-main-color'
             : '';
 @endphp
 

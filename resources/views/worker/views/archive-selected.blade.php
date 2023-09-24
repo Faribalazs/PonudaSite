@@ -42,13 +42,13 @@
                 <table class="ponuda-table w-full mt-5">
                     <thead>
                         <tr>
-                            <th scope="col" class="px-1 text-center">r.br.</th>
-                            <th scope="col" class="px-1 text-center">Naziv</th>
-                            <th scope="col" class="px-1 text-center">j.m.</th>
-                            <th scope="col" class="px-1 text-center">količina</th>
-                            <th scope="col" class="px-1 text-center">jed.cena</th>
-                            <th scope="col" class="px-1 text-center">ukupno</th>
-                            <th scope="col" class="px-1 text-center">izbrisi</th>
+                            <th scope="col" class="p-2 text-center">r.br.</th>
+                            <th scope="col" class="p-2 text-center">Naziv</th>
+                            <th scope="col" class="p-2 text-center">j.m.</th>
+                            <th scope="col" class="p-2 text-center">količina</th>
+                            <th scope="col" class="p-2 text-center">jed.cena</th>
+                            <th scope="col" class="p-2 text-center">ukupno</th>
+                            <th scope="col" class="p-2 text-center">izbrisi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +64,7 @@
                             @endphp
                             @if ($name_category != null && !in_array($name_category, $uniqueName))
                                 <tr>
-                                    <td colspan="8" class="text-left border-bold padding-5"
+                                    <td colspan="8" class="text-left p-1 border-bold padding-5"
                                         style="background-color: rgba(0, 0, 0, 0.05);">
                                         <b>{{ $name_category }}</b>
                                         @php
@@ -78,7 +78,7 @@
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                <td class="text-left ponuda-table-des"><b>
+                                <td class="text-left ponuda-table-des p-2"><b>
                                     {{ $title }}
                                     </b><br>
                                     {{ $desc_now }}
@@ -101,7 +101,7 @@
                             @endphp
                             @if ($loop->last)
                                 <tr>
-                                    <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
+                                    <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
                                         <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                     </td>
                                 </tr>
@@ -114,7 +114,7 @@
                 <table class="ponuda-table mt-5">
                     <tbody>
                         <tr>
-                            <td colspan="8" class="text-left border-bold px-1"
+                            <td colspan="8" class="text-left border-bold p-1"
                                 style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
                         </tr>
                         @foreach ($finalData as $data)
@@ -128,7 +128,7 @@
                                 @endphp
                                 @if ($loop->last)
                                     <tr>
-                                        <td class="text-left w-full px-1">
+                                        <td class="text-left w-full p-1">
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="px-1 text-center whitespace-nowrap">
@@ -142,14 +142,14 @@
                 </table>
             </div>
             <div>
-                <table class="table mt-20 text-end ponuda-table">
+                <table class="table mt-20 text-end ponuda-table w-full">
                     <tr>
-                        <td class="text-right whitespace-nowrap">
+                        <td class="text-right whitespace-nowrap p-1">
                             <b>UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right whitespace-nowrap">
+                        <td class="text-right whitespace-nowrap p-1">
                             @php
                                 $pdv = intval($finalPrice) * 0.2;
                             @endphp
@@ -159,7 +159,7 @@
                 </table>
                 <table class="ponuda-table w-full text-center">
                     <tr>
-                        <td class="text-center whitespace-nowrap border-bold">
+                        <td class="text-center whitespace-nowrap border-bold p-1">
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp

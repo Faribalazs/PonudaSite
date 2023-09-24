@@ -53,7 +53,7 @@
     @endphp
         <div class="overflow-x-auto">
             @foreach ($finalData as $data)
-                    <table class="table mt-20 text-center ponuda-table">
+                    <table class="table mt-7 text-center ponuda-table">
                         <thead>
                             <tr>
                                 <th class="p-2" scope="col">r.br.</th>
@@ -79,7 +79,7 @@
                                 @endphp
                                 @if ($name_category != null && !in_array($name_category, $uniqueName))
                                     <tr>
-                                        <td colspan="8" class="text-left border-bold padding-5"
+                                        <td colspan="8" class="text-left border-bold p-1"
                                             style="background-color: rgba(0, 0, 0, 0.05);">
                                             <b>{{ $name_category }}</b>
                                             @php
@@ -93,7 +93,7 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-left ponuda-table-des"><b>
+                                    <td class="text-left ponuda-table-des p-1"><b>
                                         {{ $title }}
                                         </b><br>
                                         {{ $desc_now }}
@@ -121,7 +121,7 @@
                             
                                 @if ($loop->last)
                                     <tr>
-                                        <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
+                                        <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
                                             <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                         </td>
                                     </tr>
@@ -134,7 +134,7 @@
                 <table class="ponuda-table mt-5">
                     <tbody>
                         <tr>
-                            <td colspan="8" class="text-left border-bold px-1"
+                            <td colspan="8" class="text-left border-bold p-1"
                                 style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
                         </tr>
                         @foreach ($finalData as $data)
@@ -148,10 +148,10 @@
                                 @endphp
                                 @if ($loop->last)
                                     <tr>
-                                        <td class="text-left w-full px-1">
+                                        <td class="text-left w-full p-1">
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
-                                        <td class="px-1 text-center whitespace-nowrap">
+                                        <td class="p-1 text-center whitespace-nowrap">
                                             {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                         </td>
                                     </tr>
@@ -167,12 +167,12 @@
             <div>
                 <table class="table mt-20 text-center ponuda-table w-full mb-7">
                     <tr>
-                        <td class="text-right">
+                        <td class="text-right p-1">
                             <b>Ukupno: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right">
+                        <td class="text-right p-1">
                             @php
                                 $pdv = intval($finalPrice) * 0.2;
                             @endphp
@@ -180,7 +180,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right">
+                        <td class="text-right p-1">
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
@@ -421,7 +421,7 @@
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izbrisi</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -471,7 +471,7 @@
                     '<label class="mt-3 mb-2 font-bold text-black" for="new_unit_price">Nova cena:</label>' +
                     '<input type="number" name="new_unit_price" class="swal-input" id="new_unit_price" value="' +
                     unit_price + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izmeni</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -489,12 +489,12 @@
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
                     '<label for="ponuda_name">Ime ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
+                    '<input class="mt-3 swal-input mb-3" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
                     '<label for="opis" class="mt-3 hidden">Napomena (neobavezan):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -518,9 +518,9 @@
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
-                    '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
+                    '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn my-3">Zavrsi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 my-3">Zavrsi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -958,7 +958,7 @@
             content: "";
             width: 20px;
             height: 20px;
-            background: #ed5840;
+            background: #0d2c5a;
             position: absolute;
             top: 4px;
             left: 4px;

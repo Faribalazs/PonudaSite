@@ -17,7 +17,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
-                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.store.new.options')">
+                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.new.options')">
                                 {{ __('Dodaj Opciju') }}
                             </x-nav-link>
                         </div>
@@ -89,7 +89,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.store.new.options')">
+                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.new.options')">
                                 {{ __('Dodaj Opciju') }}
                             </x-nav-link>
                         </div>

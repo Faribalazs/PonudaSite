@@ -10,7 +10,7 @@
             <div class="log-in-form py-8">
                 <div class="log-in-welcome">
                     <span class="welcome-text">{{ __('app.auth.welcome') }}</span>
-                    <img src="{{ asset('img/logo.png') }}" class="welcome-img my-7">
+                    <img src="{{ asset('img/logo.svg') }}" class="welcome-img my-7">
                 </div>
                 @if (session('error'))
                     <div class="alert alert-danger">

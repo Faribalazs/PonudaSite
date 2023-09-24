@@ -84,7 +84,7 @@
         text-align: center;
         display: flex;
         align-items: center;
-        background-color: #ed5840;
+        background-color: #0d2c5a;
         color: #F3F8FF;
         font-size: 18px;
         font-weight: 700;
