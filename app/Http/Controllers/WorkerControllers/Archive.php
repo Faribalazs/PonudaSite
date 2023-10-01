@@ -390,7 +390,7 @@ class Archive extends Controller
         $pdf_blade = 'worker.pdf.'. $template;
         $id = $request->ponuda_id;
         $type_id = $request->type;
-        $client_id = $request->client ?? null;
+        $client_id = $request->client_id ?? null;
         $pdf_name = $this->PDFname($id,$worker_id);
         $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
         $foundClient = null;
@@ -420,7 +420,7 @@ class Archive extends Controller
                     }
                 }
                 else
-                    return redirect()->back();
+                    return redirect()->route('worker.archive');
             }
             if(auth('worker')->user()->send_email_on_download)
             {
@@ -440,6 +440,58 @@ class Archive extends Controller
         elseif($request->posalji)
         {
             return view('worker.views.mail-send',['name' => $pdf_name->ponuda_name ?? "Ponuda", 'id' => $id, 'client_id' => $client_id, 'type' => $type_id, 'temporary' => $request->temporary, 'pdf_blade' => $pdf_blade]);
+        }
+        elseif($request->ugovor)
+        {
+            $sum = 0;
+            foreach($selectedWorkerPonuda as $ponuda)
+            {
+                $sum += $ponuda->overall_price;
+            }
+            if ($type_id && $client_id) {
+                $type_lica = null;
+                if($type_id == 1)
+                {
+                    if($request->temporary)
+                    {
+                        $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
+                        $type_lica = 'FT';
+                    }
+                    else
+                    {
+                        $foundClient = $this->selectedFizicka($worker_id, $client_id);
+                        $type_lica = 'F';
+                    }
+                }
+                elseif($type_id == 2)
+                {
+                    if($request->temporary)
+                    {
+                        $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
+                        $type_lica = 'PT';
+                    }
+                    else
+                    {
+                        $foundClient = $this->selectedPravna($worker_id, $client_id);
+                        $type_lica = 'P';
+                    }
+                }
+                else
+                    return redirect()->route('worker.archive');
+
+                if($company_data == null)
+                    return redirect()->route('worker.archive');
+
+                $pdv = $sum * 0.2;
+                $sum += $pdv;
+                $sum = ceil($sum);
+                $digit = new \NumberFormatter('sr_Latn_RS', \NumberFormatter::SPELLOUT);
+                $sum_in_words = $digit->format($sum);
+
+                $pdf = PDF::loadView('worker.pdf.contract', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+                return $pdf->download('contract' . '.pdf');
+            }
+            return redirect()->route('worker.archive');
         }
     }
     // redirektelni kell miutan letoti a pdf a sucessra
@@ -463,7 +515,7 @@ class Archive extends Controller
         $pdf_blade = $request->pdf;
         $id = $request->id;
         $type_id = $request->type;
-        $client_id = $request->client ?? null;
+        $client_id = $request->client_id ?? null;
         $pdf_name = $this->PDFname($id,$worker_id);
         $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
         $foundClient = null;

@@ -17,7 +17,7 @@
                         <input type="hidden" name="id" value="{{ $id }}" />
                     @endif
                     @if (isset($client_id))
-                        <input type="hidden" name="client" value="{{ $client_id }}" />
+                        <input type="hidden" name="client_id" value="{{ $client_id }}" />
                     @endif
                     @if (isset($type))
                         <input type="hidden" name="type" value="{{ $type }}" />
