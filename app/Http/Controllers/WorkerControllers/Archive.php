@@ -48,7 +48,7 @@ class Archive extends Controller
     public function search(Request $request)
     {
         $worker_id = Helper::worker();
-        $sortOrder = $request->input('sort_order', 'asc');
+        $sortOrder = $request->input('sort_order', 'desc');
         $searchQuery = '%'.$request->input('query').'%';
         $search_data = $request->input('query');
         $data = $this->orderByDate($worker_id,$searchQuery,$sortOrder);

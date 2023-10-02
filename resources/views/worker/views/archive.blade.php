@@ -192,44 +192,27 @@
                 var existInput = document.getElementById("filter");
                 var div = document.getElementById("filter-div");
                 if (selectedOption == 'Najnoviji') {
-                    if (!existInput) {
-                        var input = document.createElement("input");
-                        input.id = "filter";
-                        input.name = "sort_order";
-                        input.type = "text";
-                        input.defaultValue = "desc";
-                        input.value = "desc";
-                        div.appendChild(input);
-
-                    } else {
-                        var input = document.createElement("input");
+                    var input = document.createElement("input");
+                    if (existInput) {
                         existInput.remove();
-                        input.id = "filter";
-                        input.name = "sort_order";
-                        input.type = "text";
-                        input.defaultValue = "desc";
-                        input.value = "desc";
-                        div.appendChild(input);
                     }
+                    input.id = "filter";
+                    input.name = "sort_order";
+                    input.type = "text";
+                    input.defaultValue = "desc";
+                    input.value = "desc";
+                    div.appendChild(input);
                 } else {
-                    if (!existInput) {
-                        var input = document.createElement("input");
-                        input.id = "filter";
-                        input.name = "sort_order";
-                        input.type = "text";
-                        input.defaultValue = "asc";
-                        input.value = "asc";
-                        div.appendChild(input);
-                    } else {
-                        var input = document.createElement("input");
+                    var input = document.createElement("input");
+                    if (existInput) {
                         existInput.remove();
-                        input.id = "filter";
-                        input.name = "sort_order";
-                        input.type = "text";
-                        input.defaultValue = "asc";
-                        input.value = "asc";
-                        div.appendChild(input);
                     }
+                    input.id = "filter";
+                    input.name = "sort_order";
+                    input.type = "text";
+                    input.defaultValue = "asc";
+                    input.value = "asc";
+                    div.appendChild(input);
                 }
 
                 optionMenu.classList.remove("active");
