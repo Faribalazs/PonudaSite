@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
+// use Spatie\Activitylog\LogOptions;
 
 class Worker extends Authenticatable implements MustVerifyEmail
 {
     use LaratrustUserTrait;
     use HasFactory, Notifiable;
+    use LogsActivity;
 
     protected $guard = 'worker';
     /**
@@ -49,4 +52,10 @@ class Worker extends Authenticatable implements MustVerifyEmail
     {
         return $this->guard;
     }
+
+    protected static $logName = 'worker';
+
+    // protected static $logAttributes = ['name', 'password'];
+
+    protected static $logOnlyDirty = true;
 }

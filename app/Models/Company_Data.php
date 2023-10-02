@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Company_Data extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'company_data';
     
@@ -30,4 +32,10 @@ class Company_Data extends Model
         'bank_name',
         'logo',
     ];
+
+    protected static $logName = 'company';
+
+    // protected static $logAttributes = ['name', 'password'];
+
+    protected static $logOnlyDirty = true;
 }
