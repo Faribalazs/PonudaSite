@@ -42,7 +42,7 @@
             @csrf
             @method('PUT')
             <div>
-                <label class="sm:text-xl text-base my-3">Posalji meni E-mail kad skinem pdf:</label>
+                <label class="sm:text-xl text-base my-3">Pošalji ponudu na moj E-mail nakon skidanja PDF dokumenta:</label>
                 <div class="flex mt-5">
                     <div class="mr-20">
                         <input type="radio" id="skini_no" name="skini" value="1"
@@ -58,7 +58,7 @@
             </div>
 
             <div class="mt-10">
-                <label class="sm:text-xl text-base my-3">Posalji meni E-mail kad posaljem pdf:</label>
+                <label class="sm:text-xl text-base my-3">Pošalji ponudu na moj E-mail nakon slanja PDF dokumenta klijentu:</label>
                 <div class="flex mt-5">
                     <div class="mr-20">
                         <input type="radio" id="posalji_no" name="posalji" value="1"

@@ -484,14 +484,14 @@
         function NameSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
-                title: 'Sacuvaj ponudu',
+                title: 'Sačuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
-                    '<label for="ponuda_name">Ime ponude:</label>' +
+                    '<label for="ponuda_name">Naziv ponude:</label>' +
                     '<input class="mt-3 swal-input mb-3" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
-                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezan):</label>' +
+                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
                     '<button type="submit" class="add-new-btn-swal2 my-3">Zavrsi ponudu</button>' +
@@ -507,20 +507,20 @@
         function OpisSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
-                title: 'Sacuvaj ponudu',
+                title: 'Sačuvaj ponudu',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
-                    '<label for="ponuda_name">Ime ponude:</label>' +
+                    '<label for="ponuda_name">Naziv ponude:</label>' +
                     '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
-                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezan):</label>' +
+                    '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
                     '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
                     '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 my-3">Zavrsi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 my-3">Završi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -530,10 +530,10 @@
             })
         }
 
-
+        // megcserelni a confirm buttont a cancellel
         function EndPonuda(tempPonudaName) {
             Swal.fire({
-                title: 'Hocete dodati opis?',
+                title: 'Da li želite da dodate opis uz naziv ponude?',
                 icon: 'question',
                 showCancelButton: true,
                 showConfirmButton: true,

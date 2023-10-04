@@ -9,6 +9,7 @@
     @endphp
     <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.store.new.pozicija') }}">
         @csrf
+        {{-- create ponuda szeruen tudjak kivalasztani az alkategoriat --}}
         <div id="subCategory-dropdown">
             <span class="input-label pl-2">Odaberi Podkategoriju:</span>
             <div class="select-menu-subcategory mt-3">
@@ -66,9 +67,9 @@
             </div>
         </div>
         <div class="flex flex-col">
-            <span class="input-label pl-2 mb-3">Pozicija naslov:</span>
+            <span class="input-label pl-2 mb-3">Naziv pozicije:</span>
             <input type="text" name="poz_title" class="input-style mb-14">
-            <span class="input-label pl-2 mt-3 mb-3">Pzicija des</span>
+            <span class="input-label pl-2 mt-3 mb-3">Opis pozicije:</span>
             <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
             <button type="submit" class="submit-btn m-auto">Dodaj poziciju</button>
         </div>

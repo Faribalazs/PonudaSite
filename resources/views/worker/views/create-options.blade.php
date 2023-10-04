@@ -10,7 +10,7 @@
                 <div class="box">
                     <p class="add-new-title my-3 text-center">Dodaj Kategoriju</p>
                     <p class="text-center pb-3">
-                        Dodaj kategoriju koju posle mozes koristiti kad pravis ponudu!
+                        Dodaj svoju kategoriju radova koju ćeš koristiti za izradu ponude!
                     </p>
                 </div>
             </a>
@@ -20,7 +20,7 @@
                 <div class="box">
                     <p class="add-new-title my-3 text-center">Dodaj Podkategoriju</p>
                     <p class="text-center pb-3">
-                        Dodaj podkategoriju koju posle mozes koristiti kad pravis ponudu!
+                        Dodaj svoju podkategoriju radova koju ćeš koristiti za izradu ponude!
                     </p>
                 </div>
             </a>
@@ -30,7 +30,7 @@
                 <div class="box">
                     <p class="add-new-title my-3 text-center">Dodaj Poziciju</p>
                     <p class="text-center pb-3">
-                        Dodaj poziciju koju posle mozes koristiti kad pravis ponudu!
+                        Dodaj svoju poziciju radova koju ćeš koristiti za izradu ponude!
                     </p>
                 </div>
             </a>

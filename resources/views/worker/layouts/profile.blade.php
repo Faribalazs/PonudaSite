@@ -101,7 +101,7 @@
 
     function logOut() {
         Swal.fire({
-            title: 'Stvarno hecete da se odjavite ?',
+            title: 'Da li zaista želite da se odjavite?',
             showCancelButton: true,
             icon: 'question',
             confirmButtonText: 'Da',

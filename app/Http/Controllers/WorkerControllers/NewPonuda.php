@@ -251,13 +251,13 @@ class NewPonuda extends Controller
      ]);
  
      if ($validator->fails()) {
-      Alert::error('Ime ponude mora imati najmanje 3 znaka. Ime ponude i napomena ne sme biti duže od 64 karaktera, dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::error('Naziv ponude mora imati najmanje 3 znaka. Naziv ponude i napomena ne sme biti duže od 64 karaktera, dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route("worker.new.ponuda"));
      } else {
       $worker_id = Helper::worker();
       if(!empty($this->checkPonudaDone($worker_id))){
          $this->successsponudaDone($request, $worker_id);
-         Alert::success('Ponuda uspesno dodato, mozete videti u arhivu!')->showCloseButton()->showConfirmButton('Zatvori');
+         Alert::success('Ponuda je uspešno kreirana. Možete je pronaći u arhivi!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda"));
       }
       else

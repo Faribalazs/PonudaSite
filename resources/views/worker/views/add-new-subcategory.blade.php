@@ -39,7 +39,7 @@
                 </ul>
             </div>
             <div class="flex w-full flex-col">
-                <span class="input-label py-2">Upisi naziv kategorije:</span>
+                <span class="input-label py-2">Upisi naziv podkategorije:</span>
                 <input type="text" name="subcategory_name" class="input-style mb-10">
                 <button type="submit" class="submit-btn m-auto">Dodaj podkategoriju</button>
             </div>
