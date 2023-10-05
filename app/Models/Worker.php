@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
-// use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\LogOptions;
 
 class Worker extends Authenticatable implements MustVerifyEmail
 {
@@ -51,6 +51,11 @@ class Worker extends Authenticatable implements MustVerifyEmail
     public function getGuard()
     {
         return $this->guard;
+    }
+    
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 
     protected static $logName = 'worker';
