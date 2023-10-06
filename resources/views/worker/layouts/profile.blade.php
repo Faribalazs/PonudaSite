@@ -68,7 +68,7 @@
                             moji klijenti
                         </a>
                         <a href="{{ route('worker.personal.account.settings') }}" class="link">
-                            podesavanja
+                            podešavanja
                         </a>
                         <a onclick="logOut()" class="link cursor-pointer">
                             odjavi se

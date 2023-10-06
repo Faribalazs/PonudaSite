@@ -46,14 +46,14 @@ return [
     ],
 
     'errors' => [
-        'warning'                   => "Paznja",
+        'warning'                   => "Pažnja",
         'exit'                      => "Zatvori",
-        'profile-company'           => "Niste dobro upasali podatke",
+        'profile-company'           => "Niste dobro upisali podatke",
         'profile-required'          => "Poje je obavezan",
         'profile-image'             => "Slika mora biti png,jpg,jpeg,webp",
-        'profile-image-max'         => "Maximalna velicina slike je 2MB",
-        'profile-only-numbers'      => "Samo brojeve i '-' mozete upisati",
-        'profile-email'             => "Upisite validan email adresu",
+        'profile-image-max'         => "Maximalna veličina slike je 2MB",
+        'profile-only-numbers'      => "Samo brojeve i '-' možete upisati",
+        'profile-email'             => "Upišite validan email adresu",
         'new_password'              => "Nova lozinka se ne poklapa",
     ],
 ];

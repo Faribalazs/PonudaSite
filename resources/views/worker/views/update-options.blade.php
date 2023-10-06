@@ -81,9 +81,9 @@
     <script>
         function actionSwall(url, option, name, id) {
             Swal.fire({
-                title: 'Stvarno hocete da izbrisite ' + option + ' "' + name + '"?',
+                title: 'Stvarno hoćete da izbrišite ' + option + ' "' + name + '"?',
                 icon: 'question',
-                confirmButtonText: "Izbrisi",
+                confirmButtonText: "Izbriši",
                 cancelButtonText: "Nazad",
                 showConfirmButton: false,
                 showCancelButton: false,
@@ -94,7 +94,7 @@
                     '@csrf' +
                     '@method("put")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
                     '</form>',
             }).then((result) => {
                 if (result.isConfirmed) {

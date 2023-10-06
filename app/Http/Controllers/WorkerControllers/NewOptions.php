@@ -30,7 +30,7 @@ class NewOptions extends Controller
          'category_name' => 'required|max:64|regex:/^[a-z\s]+$/i',
       ]);
       $this->successCategory($request);
-      Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route('worker.new.options'));  
    }
    private function successCategory($request){
@@ -75,7 +75,7 @@ class NewOptions extends Controller
       ]);
    
       $this->successSubcategory($request);
-      Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect(route('worker.new.options'));  
    }
    private function successSubcategory($request){
@@ -103,7 +103,7 @@ class NewOptions extends Controller
       if(!empty($request->subcategory) && !empty($request->unit_id) && !empty($request->poz_title))
       {
          $this->successPozicija($request);
-         Alert::success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route('worker.new.options'));  
       }
       else

@@ -26,6 +26,6 @@
     </form>
     
     <div class="mt-16 flex">
-        <p>Uspesno ste generisali ponudu!</p>
+        <p>Uspešno ste generisali ponudu!</p>
     </div>   
 </x-app-worker-layout>

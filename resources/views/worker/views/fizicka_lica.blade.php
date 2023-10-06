@@ -29,7 +29,7 @@
                     <label for="grad" class="text-xl my-3">Grad :</label>
                     <input class="input-style" name="grad" type="text" />
 
-                    <label for="postcode" class="text-xl my-3">Postanski broj :</label>
+                    <label for="postcode" class="text-xl my-3">Poštanski broj :</label>
                     <input class="input-style" name="postcode" type="text" />
 
                     <label for="adresa" class="text-xl my-3">Adresa :</label>
@@ -42,7 +42,7 @@
                     <input class="input-style" name="tel" type="text" />
 
                     <div class="flex items-center mt-5">
-                        <label for="save" class="text-xl my-3">Sacuvaj klijenta</label>
+                        <label for="save" class="text-xl my-3">Sačuvaj klijenta</label>
                         <input type="checkbox" class="ml-3" name="save" value="1" />
                     </div>
                 </div>

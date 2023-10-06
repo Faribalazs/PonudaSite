@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Update pozicija
+        Ažuriraj poziciju
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -23,7 +23,7 @@
         <input type="text" placeholder="{{ $pozicija_title }}" value="{{ $pozicija_title }}" name="title" class="w-full dropdown-search mt-4">
         <input type="text" placeholder="{{ $pozicija_desc }}" value="{{ $pozicija_desc }}" name="description" class="w-full dropdown-search mt-4">
         <input type="hidden" name="id" value="{{ $pozicija_id }}" class="w-full dropdown-search mt-4">
-        <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
+        <button type="submit" class="add-new-btn my-3">Sačuvaj</button>
     </form>
     </div>
 </x-app-layout>

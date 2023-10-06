@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Update subcategory
+        Ažuriraj podkategoriju
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -20,7 +20,7 @@
         @method('PUT')
         <input type="text" placeholder="{{ $subcategory_name }}" value="{{ $subcategory_name }}" name="subcategory">
         <input type="hidden" name="id" value="{{ $subcategory_id }}" class="w-full dropdown-search mt-4">
-        <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
+        <button type="submit" class="add-new-btn my-3">Sačuvaj</button>
     </form>
     </div>
 </x-app-worker-layout>

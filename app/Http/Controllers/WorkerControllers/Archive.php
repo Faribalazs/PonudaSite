@@ -557,7 +557,7 @@ class Archive extends Controller
             $emailJobSecond = (new SendEmail(auth('worker')->user()->email, $request->mailSubject, $request->mailBody, $dataPDF, $pdf_name->ponuda_name, $auto_msg));
             dispatch($emailJobSecond);
         }
-        Alert::success('Uspesno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
+        Alert::success('Uspešno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
         return redirect()->route('worker.archive');
     }
 

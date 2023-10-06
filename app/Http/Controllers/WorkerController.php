@@ -93,11 +93,11 @@ class WorkerController extends Controller
          ]);
 
          if($company_data->wasRecentlyCreated){
-            alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+            alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect()->route('worker.personal.data');
          }
       }
-      alert()->error('Podaci nisu sacuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      alert()->error('Podaci nisu sačuvane')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->route('worker.personal.data');
    }
 
@@ -158,12 +158,12 @@ class WorkerController extends Controller
       ]);
 
       if($fizicko_lice->wasRecentlyCreated){
-         alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       } elseif($fizicko_lice->wasChanged()) {
-         alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
       }
       else{
-         alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Podaci nisu sačuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
       return redirect()->route('worker.personal.contacts')->with('selected_fizicko', 'fizicko_lice');
    }
@@ -224,12 +224,12 @@ class WorkerController extends Controller
       ]);
 
       if($pravno_lice->wasRecentlyCreated){
-         alert()->success('Uspesno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
       } elseif($pravno_lice->wasChanged()) {
-         alert()->success('Podaci uspesno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
       }
       else{
-         alert()->error('Podaci nisu sacuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Podaci nisu sačuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
       }
       return redirect()->route('worker.personal.contacts')->with('selected_pravna', 'pravno_lice');
    }

@@ -72,7 +72,7 @@
                     @if (isset($sort))
                         <a href="{{ route('worker.archive') }}" class="clear-filter">
                             <li class="option-archive">
-                                Izbrisi filter
+                                Izbriši filter
                             </li>
                         </a>
                     @endif
@@ -144,13 +144,13 @@
     <script>
         function actionSwall(url, name, id) {
             Swal.fire({
-                title: 'Stvarno hocete da izbrisite ponudu "' + name + '"?',
+                title: 'Stvarno hoćete da izbrišite ponudu "' + name + '"?',
                 icon: 'question',
                 html: '<form method="POST" id="delElement" action="'+url+'">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -160,7 +160,7 @@
 
         function updateSwall(url, name) {
             Swal.fire({
-                title: 'Stvarno hocete da menjate nesto u "' + name + '"?',
+                title: 'Stvarno hoćete da menjate nešto u "' + name + '"?',
                 icon: 'question',
                 confirmButtonText: "Izmeni",
                 cancelButtonText: "Nazad",

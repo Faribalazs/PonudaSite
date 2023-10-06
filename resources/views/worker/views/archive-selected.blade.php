@@ -18,7 +18,7 @@
             <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
                 <a href="{{ route('worker.archive.select.contact', ['id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
-                    <i class="ri-download-2-line"></i>Generisi PDF</a>
+                    <i class="ri-download-2-line"></i>Generiši PDF</a>
                 <a target="_blank"
                     href="{{ route('worker.archive.view.pdf', ['id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
@@ -48,7 +48,7 @@
                             <th scope="col" class="p-2 text-center">količina</th>
                             <th scope="col" class="p-2 text-center">jed.cena</th>
                             <th scope="col" class="p-2 text-center">ukupno</th>
-                            <th scope="col" class="p-2 text-center">izbrisi</th>
+                            <th scope="col" class="p-2 text-center">izbriši</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,14 +184,14 @@
     <script>
         function actionSwall(url, name, id, realId) {
             Swal.fire({
-                title: 'Stvarno hocete da izbrisite element ponudu "' + name + '"?',
+                title: 'Stvarno hoćete da izbrišite element ponudu "' + name + '"?',
                 icon: 'question',
                 html: '<form method="POST" id="delete_item" action="'+url+'">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
                     '<input name="real_id" hidden value="' + realId + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,

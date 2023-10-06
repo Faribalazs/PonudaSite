@@ -43,10 +43,10 @@
             </div>
         </div>
         <div id="obracun-dropdown" class="">
-            <span class="input-label pl-2">Odaberi obracun:</span>
+            <span class="input-label pl-2">Odaberi obračun:</span>
             <div class="select-menu-obracun mt-3">
                 <div class="select-btn-obracun">
-                    <span class="sBtn-text-obracun">Izaberi obracun</span>
+                    <span class="sBtn-text-obracun">Izaberi obračun</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />

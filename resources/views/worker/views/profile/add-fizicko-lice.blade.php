@@ -1,6 +1,6 @@
 <x-worker-profile-layout>
     <x-slot name="pageTitle">
-        Dodaj fizicko lice
+        Dodaj fizičko lice
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -8,7 +8,7 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: 'Nesto niste dobro uneli'
+                title: 'Nešto niste dobro uneli'
             })
         </script>
     @endif
@@ -18,7 +18,7 @@
         </div>
     @else
         <div class="flex profile-title">
-            <p class="text-3xl font-bold">Dodaj fizicko lice</p>
+            <p class="text-3xl font-bold">Dodaj fizičko lice</p>
         </div>
     @endif
 
@@ -80,7 +80,7 @@
                     <p class="{{$errors->has('address') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('address')}}</p>
                 </div>
                 <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                    <label for="postcode" class="text-xl my-3">Postanski broj* :</label>
+                    <label for="postcode" class="text-xl my-3">Poštanski broj* :</label>
                     <input
                         class="input-style
                         {{$errors->has('postcode') ? 'border-error mb-1' : 'mb-3'}}"
@@ -118,7 +118,7 @@
             @if(isset($contact))
                 <button type="submit" class="finish-btn mt-5 text-xl">Promeni podatke</button>
             @else
-                <button type="submit" class="finish-btn mt-5 text-xl">Sacuvaj kontakt</button>
+                <button type="submit" class="finish-btn mt-5 text-xl">Sačuvaj kontakt</button>
             @endif
         </form>
         @if(isset($contact))
@@ -126,7 +126,7 @@
             @csrf
             <input type="hidden" name="id" value="{{$contact->id}}"/>
             <button type="submit" class="finish-btn mt-10 bg-red text-xl text-center">
-                Izbrisi kontakt<i class="ri-delete-bin-line pl-2"></i>
+                Izbriši kontakt<i class="ri-delete-bin-line pl-2"></i>
             </button>
         </form>
         @endif

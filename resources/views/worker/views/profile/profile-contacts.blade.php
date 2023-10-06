@@ -14,7 +14,7 @@
                     class="{{ \Session::has('selected_pravna') ? '' : 'contact-selected' }}
                     {{ \Session::has('selected_fizicko') ? 'contact-selected' : '' }}">
                     <span>
-                        Fizicka lica
+                        Fizička lica
                     </span>
                     <i class="ri-user-line pl-2"></i>
                 </span>
@@ -35,11 +35,11 @@
         id="fizicka_lica_list">
         @if (count($fizicka_lica) > 0)
             <div class="flex flex-col w-full" id="fizicko_div">
-                <input type="text" placeholder="Trazi..." id="fizicko_search" onkeyup="filterFizickoLice()"
+                <input type="text" placeholder="Traži..." id="fizicko_search" onkeyup="filterFizickoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.individual') }}">
                     <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">
-                        Dodaj fizicko lice
+                        Dodaj fizičko lice
                     </div>
                 </a>
                 <div class="contact-list-search">
@@ -58,10 +58,10 @@
         @else
             <a href="{{ route('worker.personal.contacts.add.individual') }}">
                 <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
-                    Dodaj fizicko lice
+                    Dodaj fizičko lice
                 </div>
             </a>
-            <p class="text-xl flex text-center justify-center mt-8">Nema dodato fizicko lice</p>
+            <p class="text-xl flex text-center justify-center mt-8">Nema dodato fizičko lice</p>
         @endif
     </div>
 
@@ -69,7 +69,7 @@
         id="pravna_lica_list">
         @if (count($pravna_lica) > 0)
             <div class="flex flex-col w-full" id="pravno_div">
-                <input type="text" placeholder="Trazi..." id="pravno_search" onkeyup="filterPravnoLice()"
+                <input type="text" placeholder="Traži..." id="pravno_search" onkeyup="filterPravnoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
                     <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">

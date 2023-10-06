@@ -24,10 +24,10 @@
     @if (Session::has('msg'))
         <script>
             Swal.fire({
-                title: 'Uspesno dodato!',
+                title: 'Uspešno dodato!',
                 icon: 'success',
                 showCancelButton: true,
-                confirmButtonText: 'Zavrsi ponudu',
+                confirmButtonText: 'Završi ponudu',
                 cancelButtonText: 'Dodaj novu poziciju',
                 reverseButtons: true,
                 allowEscapeKey: false,
@@ -63,7 +63,7 @@
                                 <th class="p-2" scope="col">jed.cena</th>
                                 <th class="p-2" scope="col">ukupno</th>
                                 <th class="p-2" scope="col">izmeni</th>
-                                <th class="p-2" scope="col">izbrisi</th>
+                                <th class="p-2" scope="col">izbriši</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -192,15 +192,15 @@
         </div>
         @if (isset($tempOpis))
             <div class="flex flex-col">
-                <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
+                <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
                 <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ $tempOpis }}</textarea>
             </div>
         @else
-            <button onclick="showDes()" id="yes-des" class="finish-btn my-3">Dodaj opstu napomenu</button>
+            <button onclick="showDes()" id="yes-des" class="finish-btn my-3">Dodaj opštu napomenu</button>
             <button onclick="hideDes()" id="nope-des" class="finish-btn my-3"
-                style="background-color: #ac1902; display: none;">Necu dodati opstu napomenu</button>
+                style="background-color: #ac1902; display: none;">Necu dodati opštu napomenu</button>
             <div class="flex flex-col" id="text-area" style="display: none;">
-                <label for="opis" class="mt-3">Opsta napomena uz ponudu (neobavezan) :</label>
+                <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
                 <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis"></textarea>
             </div>
         @endif
@@ -309,7 +309,7 @@
             <div id="clear-btn" class="category-div">
                 <div class="flex justify-end">
                     <button id="btn" type="button" onclick="clearData()"
-                        class="del-btn my-3">Izbrisi</button>
+                        class="del-btn my-3">Izbriši</button>
                 </div>
             </div>
 
@@ -352,7 +352,7 @@
             <div class="flex" id="end">
                 <button
                     onclick="EndPonuda('{{ $tempPonudaName }}')"
-                    class="finish-btn my-3">Zavrsi ponudu</button>
+                    class="finish-btn my-3">Završi ponudu</button>
             </div>
         </div>
     @endif
@@ -415,13 +415,13 @@
 
         function actionSwall(url, name, id) {
             Swal.fire({
-                title: 'Sigurni ste da hocete da izbrisete "' + name + '"?',
+                title: 'Stvarno hoćete da izbrišite "' + name + '"?',
                 icon: 'question',
                 html: '<form method="POST" id="delElement" action="'+url+'">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izbrisi</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -456,7 +456,7 @@
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
                     '@method("put")' +
-                    '<span class="font-bold text-black">Ime pozicija :</span>' +
+                    '<span class="font-bold text-black">Naziv pozicija :</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +
                     tempTitle + '</textarea>' +
@@ -494,7 +494,7 @@
                     '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 my-3">Zavrsi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 my-3">Završi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -517,7 +517,7 @@
                     '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<label for="note" class="mt-3">Napomena (neobavezan):</label>' +
+                    '<label for="note" class="mt-3">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
                     '</textarea>' +
                     '<button type="submit" class="add-new-btn-swal2 my-3">Završi ponudu</button>' +
@@ -823,7 +823,7 @@
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
-                    span.innerText = "Upisi kolicinu ( " + unitValue + " )*";
+                    span.innerText = "Upiši kolicinu ( " + unitValue + " )*";
                     textDiv.appendChild(span);
                     var span_div = document.getElementById("quantity-input");
                     var inputValue = document.createElement("input");
@@ -854,7 +854,7 @@
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
-                    span.innerText = "Upisi kolicinu ( " + unitValue + " )";
+                    span.innerText = "Upiši kolicinu ( " + unitValue + " )";
                     textDiv.appendChild(span);
                     var span_div = document.getElementById("quantity-input");
                     var inputValue = document.createElement("input");

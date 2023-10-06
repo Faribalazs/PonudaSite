@@ -17,7 +17,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="finish-btn">
-                    Izbrisi
+                    Izbriši
                 </button>
             </form>
         </div>
@@ -26,7 +26,7 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: 'Nesto niste dobro uneli'
+                title: 'Nešto niste dobro uneli'
             })
         </script>
     @endif
@@ -37,7 +37,7 @@
                 <p class="sm:text-xl text-base">{{ $company_data->company_name }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
-                <p class="sm:text-xl text-base font-bold">Drzava :</p>
+                <p class="sm:text-xl text-base font-bold">Država :</p>
                 <p class="sm:text-xl text-base">{{ $company_data->country }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
@@ -45,7 +45,7 @@
                 <p class="sm:text-xl text-base">{{ $company_data->city }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
-                <p class="sm:text-xl text-base font-bold">Postanski broj :</p>
+                <p class="sm:text-xl text-base font-bold">Poštanski broj :</p>
                 <p class="sm:text-xl text-base">{{ $company_data->zip_code }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
@@ -61,11 +61,11 @@
                 <p class="sm:text-xl text-base">{{ $company_data->pib }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
-                <p class="sm:text-xl text-base font-bold">Maticni broj :</p>
+                <p class="sm:text-xl text-base font-bold">Matični broj :</p>
                 <p class="sm:text-xl text-base">{{ $company_data->maticni_broj }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
-                <p class="sm:text-xl text-base font-bold">Tekuci racun :</p>
+                <p class="sm:text-xl text-base font-bold">Tekući račun :</p>
                 <p class="sm:text-xl text-base">{{ $company_data->tekuci_racun }}</p>
             </div>
             <div class="flex gap-1 flex-wrap mb-3">
@@ -87,13 +87,13 @@
             <form method="POST" action="{{ route('worker.personal.data.save') }}" class="flex flex-col"
                 enctype="multipart/form-data">
                 @csrf
-                <label for="company_name" class="sm:text-xl text-base my-3">Tacan naziv firme* :</label>
+                <label for="company_name" class="sm:text-xl text-base my-3">Tačan naziv firme* :</label>
                 <input class="input-style {{ $errors->has('company_name') ? 'border-error mb-1' : 'mb-3' }}"
                     name="company_name" value="{{ old('company_name') }}" maxlength="50" type="text" required />
                 <p class="{{ $errors->has('company_name') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
                     {{ $errors->first('company_name') }}</p>
 
-                <label for="country" class="sm:text-xl text-base my-3">Drzava* :</label>
+                <label for="country" class="sm:text-xl text-base my-3">Država* :</label>
                 <input class="input-style {{ $errors->has('country') ? 'border-error mb-1' : 'mb-3' }}" name="country"
                     value="{{ old('country') }}" maxlength="20" type="text" required />
                 <p class="{{ $errors->has('country') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -108,7 +108,7 @@
                             {{ $errors->first('city') }}</p>
                     </div>
                     <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                        <label for="postcode" class="sm:text-xl text-base my-3">Postanski broj* :</label>
+                        <label for="postcode" class="sm:text-xl text-base my-3">Poštanski broj* :</label>
                         <input class="input-style {{ $errors->has('postcode') ? 'border-error mb-1' : 'mb-3' }}"
                             name="postcode" value="{{ old('postcode') }}" maxlength="10" type="text" required />
                         <p class="{{ $errors->has('postcode') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -142,7 +142,7 @@
                             {{ $errors->first('pib') }}</p>
                     </div>
                     <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                        <label for="maticni_broj" class="sm:text-xl text-base my-3">Maticni broj* :</label>
+                        <label for="maticni_broj" class="sm:text-xl text-base my-3">Matični broj* :</label>
                         <input class="input-style {{ $errors->has('maticni_broj') ? 'border-error mb-1' : 'mb-3' }}"
                             name="maticni_broj" value="{{ old('maticni_broj') }}" maxlength="25" type="text"
                             required />
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 
-                <label for="tekuci_racun" class="sm:text-xl text-base my-3">Tekuci racun* :</label>
+                <label for="tekuci_racun" class="sm:text-xl text-base my-3">Tekući račun* :</label>
                 <input class="input-style {{ $errors->has('tekuci_racun') ? 'border-error mb-1' : 'mb-3' }}"
                     name="tekuci_racun" value="{{ old('tekuci_racun') }}" maxlength="30" type="text" required />
                 <p class="{{ $errors->has('tekuci_racun') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -183,7 +183,7 @@
                 </div>
                 <p class="{{ $errors->has('logo') ? 'flex text-red mt-2 pl-1' : 'hidden' }}">
                     {{ $errors->first('logo') }}</p>
-                <button type="submit" class="finish-btn sm:mt-20 mt-12 mb-20 text-xl">Sacuvaj podatke</button>
+                <button type="submit" class="finish-btn sm:mt-20 mt-12 mb-20 text-xl">Sačuvaj podatke</button>
             </form>
         </div>
         <script>

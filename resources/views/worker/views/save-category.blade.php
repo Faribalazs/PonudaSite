@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Update category
+        Ažuriraj kategoriju
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -21,7 +21,7 @@
             <input type="text" placeholder="{{ $category_name }}" value="{{ $category_name }}" name="category" class="w-full dropdown-search mt-4">
             <input type="hidden" name="id" value="{{ $id }}" class="w-full dropdown-search mt-4">
 
-            <button type="submit" class="add-new-btn my-3">Sacuvaj</button>
+            <button type="submit" class="add-new-btn my-3">Sačuvaj</button>
         </form>
     </div>
 </x-app-work-layout>

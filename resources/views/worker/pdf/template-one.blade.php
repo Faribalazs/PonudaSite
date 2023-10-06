@@ -178,9 +178,9 @@
                     </div>
                     <div class="right-side">
                         <p>PIB :{{ $company->pib }}</p>
-                        <p>Maticni broj / Registration code : {{ $company->maticni_broj }}</p>
-                        <p>Tekuci racun : {{ $company->tekuci_racun }} RSD</p>
-                        <p>bank account : {{ $company->bank_account }} EUR</p>
+                        <p>Matični broj / Registration code : {{ $company->maticni_broj }}</p>
+                        <p>Tekući racun : {{ $company->tekuci_racun }} RSD</p>
+                        <p>Bank account : {{ $company->bank_account }} EUR</p>
                         <p>{{ $company->bank_name }}</p>
                         @php
                             \Carbon\Carbon::setLocale(app()->getLocale())
