@@ -1,0 +1,9 @@
+{
+    "The :attribute must contain at least one uppercase and one lowercase letter.": "Polje :attribute mora da sadrži najmanje jedno veliko i jedno malo slovo.",
+    "The :attribute must contain at least one number.": "Polje :attribute mora da sadrži najmanje jedan broj.",
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "Dati :attribute pojavio se u curenju podataka. Molimo izaberite drugi :attribute.",
+    "The email address is already in use.": "E-mejl adresa je već u upotrebi.",
+    "Something went wrong!": "Nešto nije u redu!",
+    "Try again later or contact support.": "Pokušajte ponovo kasnije ili kontaktirajte podršku."
+  }
+  

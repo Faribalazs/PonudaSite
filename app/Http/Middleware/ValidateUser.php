@@ -32,7 +32,7 @@ class ValidateUser
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
                 if(!$userdata->hasVerifiedEmail()){
-                    return redirect()->route($route)->with('error', 'Molimo Vas, potvrdite Vašu email adresu.');
+                    return redirect()->route($route)->with('error-email', 'Molimo Vas, potvrdite Vašu email adresu.')->with('mama', encrypt($userdata->id));
                 }
                 else{
                     return redirect()->route($route)->with('error', 'Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.');

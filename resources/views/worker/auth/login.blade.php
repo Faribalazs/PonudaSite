@@ -17,6 +17,21 @@
                         {{ session('error') }}
                     </div>
                 @endif
+                @if (session('error-email'))
+                    <div class="alert alert-danger">
+                        {{ session('error-email') }}
+
+                    </div>
+                    <form method="POST" action="{{ route('worker.verification.send') }}">
+                        @csrf
+                        <input type="text" name="mama" value="{{ session('mama') }}" hidden>
+                        <div>
+                            <button type="submit" class="mt-3 mb-3 confirm-btn" style="background-color: green">
+                                {{ __('app.auth.resend-email') }}
+                            </button>
+                        </div>
+                    </form>
+                @endif
                 <form method="POST" action="{{ route('worker.login') }}">
                     @csrf
                     <!-- Email Address -->

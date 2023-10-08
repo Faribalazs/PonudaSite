@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\UniqueEmail;
+use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
 {
@@ -36,7 +37,10 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required','string','email:rfc','max:255', new UniqueEmail],
-            'password' => 'required|string|confirmed|min:8',
+            'password' => ['required','string','confirmed', Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised(3)],
         ]);
 
        $user = Worker::create([

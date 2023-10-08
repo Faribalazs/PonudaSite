@@ -64,7 +64,7 @@ class GoogleSocialiteController extends Controller
             }
      
         } catch (Exception) {
-            alert()->error('Something went wrong! Try again later or contact support.')->showCloseButton()->showConfirmButton('Close');
+            alert()->error(__('Something went wrong!').' '.__('Try again later or contact support.'))->showCloseButton()->showConfirmButton('Close');
             return redirect()->route('home');
         }
     }

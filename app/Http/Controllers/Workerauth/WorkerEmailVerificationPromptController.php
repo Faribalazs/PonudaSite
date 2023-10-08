@@ -16,6 +16,7 @@ class WorkerEmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request)
     {
+        // dd($request);
         // if (!$request->session()->has('status')) {
         //     $request->user('worker')->sendEmailVerificationNotification();
         // }

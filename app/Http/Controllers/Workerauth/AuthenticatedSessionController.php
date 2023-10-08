@@ -43,15 +43,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+
         if ($request->user('worker')->hasVerifiedEmail()) {
             if ($redirectTo) {
                 return redirect($redirectTo);
             }
             return redirect()->intended(route('worker.myprofile'));
-        } else {
-            $request->user('worker')->sendEmailVerificationNotification();
-            return view('worker.auth.verify-email');
         }
+
+        return redirect()->back();
     }
 
     /**

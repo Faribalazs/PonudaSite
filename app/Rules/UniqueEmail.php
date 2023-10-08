@@ -16,7 +16,7 @@ class UniqueEmail implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (User::where('email', $value)->exists() || Worker::where('email', $value)->exists() || Admin::where('email', $value)->exists()) {
-            $fail('The email address is already in use.');
+            $fail(__('The email address is already in use.'));
         }
     }
 }

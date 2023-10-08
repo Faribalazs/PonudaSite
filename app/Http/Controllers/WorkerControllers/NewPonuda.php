@@ -7,7 +7,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Validator;
 use App\Helpers\Helper;
 
 class NewPonuda extends Controller
@@ -244,16 +243,12 @@ class NewPonuda extends Controller
    public function ponudaDone(Request $request)
    {
       
-      $validator =  Validator::make($request->all(), [
+      $request->validate([
          'ponuda_name' => 'required|min:3|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/',
          'opis' => 'nullable',
          'note' => 'nullable|max:64'
      ]);
- 
-     if ($validator->fails()) {
-      Alert::error('Naziv ponude mora imati najmanje 3 znaka. Naziv ponude i napomena ne sme biti duže od 64 karaktera, dozvoljava: slova (velika i mala slova) od a do z, brojeve od 0 do 9, razmake između reči, specijalne znakove: -, /, _')->showCloseButton()->showConfirmButton('Zatvori');
-      return redirect(route("worker.new.ponuda"));
-     } else {
+
       $worker_id = Helper::worker();
       if(!empty($this->checkPonudaDone($worker_id))){
          $this->successsponudaDone($request, $worker_id);
@@ -265,7 +260,6 @@ class NewPonuda extends Controller
          Alert::error('Niste uneli podatke')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda"));  
       }
-   }
    }
 
    private function ponudaCounter($worker){

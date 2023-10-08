@@ -36,12 +36,10 @@ class Company_Data extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->useLogName('company')
+            ->logOnlyDirty();
     }
-
-    protected static $logName = 'company';
-
+    
     // protected static $logAttributes = ['name', 'password'];
-
-    protected static $logOnlyDirty = true;
 }

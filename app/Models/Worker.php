@@ -9,12 +9,14 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+// use Spatie\Activitylog\Traits\CausesActivity;
 
 class Worker extends Authenticatable implements MustVerifyEmail
 {
     use LaratrustUserTrait;
     use HasFactory, Notifiable;
     use LogsActivity;
+    // use CausesActivity;
 
     protected $guard = 'worker';
     /**
@@ -55,12 +57,10 @@ class Worker extends Authenticatable implements MustVerifyEmail
     
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->useLogName('worker')
+            ->logOnlyDirty();
     }
 
-    protected static $logName = 'worker';
-
     // protected static $logAttributes = ['name', 'password'];
-
-    protected static $logOnlyDirty = true;
 }

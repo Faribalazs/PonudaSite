@@ -22,12 +22,6 @@
                             </button>
                         </div>
                     </form>
-                    <form method="POST" action="{{ route('worker.logout') }}">
-                        @csrf
-                        <button type="submit" class="mt-3 log-out-btn">
-                            {{ __('app.auth.log-out') }}
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
