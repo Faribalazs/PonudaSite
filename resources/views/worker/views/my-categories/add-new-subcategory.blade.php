@@ -1,8 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Nova Kategorija
+        Nova podkategorija
     </x-slot>
     <x-slot name="header">
+        Nova podkategorija
     </x-slot>
     @php
         $user_id = Auth::guard('worker')->user()->id;
@@ -38,10 +39,10 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="flex w-full flex-col">
+            <div class="flex w-full flex-col" style="margin-top: -115px">
                 <span class="input-label py-2">Upiši naziv podkategorije:</span>
                 <input type="text" name="subcategory_name" class="input-style mb-10">
-                <button type="submit" class="submit-btn m-auto">Dodaj podkategoriju</button>
+                <button type="submit" class="main-btn mx-auto mt-10">Dodaj podkategoriju</button>
             </div>
         </div>
     </form>

@@ -3,6 +3,7 @@
         Moja Arhiva
     </x-slot>
     <x-slot name="header">
+        Moja archiva
     </x-slot>
     @php
         $i = 1;

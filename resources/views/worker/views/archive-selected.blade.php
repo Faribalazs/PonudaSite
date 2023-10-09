@@ -3,6 +3,7 @@
         Moja Arhiva
     </x-slot>
     <x-slot name="header">
+        Moja Arhiva
     </x-slot>
     @php
         $finalPrice = 0;

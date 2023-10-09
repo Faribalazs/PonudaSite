@@ -3,6 +3,7 @@
         Pravna lica
     </x-slot>
     <x-slot name="header">
+        Generiši PDF
     </x-slot>
     <form method="POST" id="form1" action="{{ route('worker.archive.submit.contact.pravna') }}">
         @csrf

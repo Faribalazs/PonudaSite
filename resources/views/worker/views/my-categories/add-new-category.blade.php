@@ -1,8 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Nova Kategorija
+        Nova ategorija
     </x-slot>
     <x-slot name="header">
+        Nova Kategorija
     </x-slot>
     @php
         $user_id = Auth::guard('worker')->user()->id;
@@ -12,8 +13,8 @@
             action="{{ route('worker.store.new.category') }}">
             @csrf
             <span class="input-label py-2">Upiši naziv kategorije:</span>
-            <input type="text" name="category_name" class="input-style mb-10">
-            <button type="submit" class="submit-btn m-auto">Dodaj kategoriju</button>
+            <input type="text" name="category_name" class="input-style">
+            <button type="submit" class="main-btn mx-auto mt-10">Dodaj kategoriju</button>
         </form>
     </div>
 </x-app-worker-layout>

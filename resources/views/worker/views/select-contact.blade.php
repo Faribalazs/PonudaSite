@@ -3,6 +3,7 @@
         Izaberi kontakt
     </x-slot>
     <x-slot name="header">
+        Generiši PDF
     </x-slot>
     <div class="mt-32 font-bold text-3xl">
         <p class="text-center">

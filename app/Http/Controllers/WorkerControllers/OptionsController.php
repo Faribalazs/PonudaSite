@@ -16,7 +16,7 @@ class OptionsController extends Controller
       {
       $worker_id = Helper::worker();
       list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija) = $this->selectData($worker_id);
-      return view('worker.views.update-options', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
+      return view('worker.views.my-categories.index', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
       }
       else
       {
@@ -47,7 +47,7 @@ class OptionsController extends Controller
    }
 
    public function showCategory($id){
-      return view('worker.views.save-category',['category' => $this->custom_Category($id), 'id'=> $id]);
+      return view('worker.views.my-categories.save-category',['category' => $this->custom_Category($id), 'id'=> $id]);
    }
    private function custom_Category($id){
       return Category::where('id', $id)
@@ -57,7 +57,7 @@ class OptionsController extends Controller
    }
 
    public function showSubcategory($id){
-      return view('worker.views.save-subcategory',['subcategory' => $this->custom_Subcategory($id), 'id'=> $id]);
+      return view('worker.views.my-categories.save-subcategory',['subcategory' => $this->custom_Subcategory($id), 'id'=> $id]);
    }
    private function custom_Subcategory($id){
       return Subcategory::where('id', $id)
@@ -67,7 +67,7 @@ class OptionsController extends Controller
    }
 
    public function showPozicija($id){
-      return view('worker.views.save-pozicija',['pozicija' => $this->custom_Pozicija($id), 'id'=> $id]);
+      return view('worker.views.my-categories.save-pozicija',['pozicija' => $this->custom_Pozicija($id), 'id'=> $id]);
    }
    private function custom_Pozicija($id){
       return Pozicija::where('id', $id)
@@ -161,9 +161,9 @@ class OptionsController extends Controller
 
    public function deleteCategory(Request $request){
       $id = $request->input('id');
-      $name = $this->select_custom_category($id)->name;
       $this->delCategory($id);
-      return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
+      Alert::success('Uspešno ste izbrisali kategoriju')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect(route("worker.options.update"));
    }
    private function delCategory($id){
       Category::where('id', $id)
@@ -180,9 +180,9 @@ class OptionsController extends Controller
 
    public function deleteSubcategory(Request $request){
       $id = $request->input('id');
-      $name = $this->select_custom_subcategory($id)->name;
       $this->delSubcategory($id);
-      return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
+      Alert::success('Uspešno ste izbrisali podkategoriju')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect(route("worker.options.update"));
    }
    private function delSubcategory($id){
       Subcategory::where('id', $id)
@@ -193,9 +193,9 @@ class OptionsController extends Controller
 
    public function deletePozicija(Request $request){
       $id = $request->input('id');
-      $name = $this->select_custom_pozicija($id)->custom_title;
       $this->delPozicija($id);
-      return redirect(route("worker.options.update"))->with('successMsg', 'cica')->with('name', $name);
+      Alert::success('Uspešno ste izbrisali poziciju')->showCloseButton()->showConfirmButton('Zatvori');
+      return redirect(route("worker.options.update"));
    }
    private function delPozicija($id){
       Pozicija::where('id', $id)

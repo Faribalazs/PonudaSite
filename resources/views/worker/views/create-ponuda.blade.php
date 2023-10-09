@@ -1,8 +1,17 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Napravi ponudu
+        @if (isset($swap[0]))
+            Izmena ponude
+        @else
+            Napravi ponudu
+        @endif
     </x-slot>
     <x-slot name="header">
+        @if (isset($swap[0]))
+            Izmena ponude
+        @else
+            Napravi ponudu
+        @endif
     </x-slot>
     @php
         $finalPrice = 0;
@@ -11,7 +20,7 @@
         $tempPonudaName = null;
         $tempOpis = null;
         $tempNote = null;
-        $finished_note = null; 
+        $finished_note = null;
         $uniqueName = [];
     @endphp
     @foreach ($swap as $s)
@@ -27,18 +36,18 @@
                 title: 'Uspešno dodato!',
                 icon: 'success',
                 showCancelButton: true,
-                confirmButtonText: 'Završi ponudu',
-                cancelButtonText: 'Dodaj novu poziciju',
+                showConfirmButton: true,
+                confirmButtonText: 'Dodaj novu poziciju',
+                cancelButtonText: 'Završi ponudu',
                 reverseButtons: true,
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 allowEnterKey: false,
-                didClose: () => window.scrollTo({
-                    top: document.body.scrollHeight, 
-                    behavior: 'smooth'
-                })
             }).then((result) => {
                 if (result.isConfirmed) {
+                    setTimeout(scrollDown, 200);
+                }
+                if (result.isDismissed) {
                     EndPonuda('{{ $tempPonudaName }}');
                 }
             })
@@ -48,87 +57,87 @@
         @endphp
     @endif
     @if ($mergedData->isNotEmpty())
-    @php
-        $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
-    @endphp
+        @php
+            $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
+        @endphp
         <div class="overflow-x-auto">
             @foreach ($finalData as $data)
-                    <table class="table mt-7 text-center ponuda-table">
-                        <thead>
-                            <tr>
-                                <th class="p-2" scope="col">r.br.</th>
-                                <th class="p-2" scope="col">Naziv</th>
-                                <th class="p-2" scope="col">j.m.</th>
-                                <th class="p-2" scope="col">Količina</th>
-                                <th class="p-2" scope="col">jed.cena</th>
-                                <th class="p-2" scope="col">ukupno</th>
-                                <th class="p-2" scope="col">izmeni</th>
-                                <th class="p-2" scope="col">izbriši</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <table class="table mt-7 text-center ponuda-table">
+                    <thead>
+                        <tr>
+                            <th class="p-2" scope="col">r.br.</th>
+                            <th class="p-2" scope="col">Naziv</th>
+                            <th class="p-2" scope="col">j.m.</th>
+                            <th class="p-2" scope="col">Količina</th>
+                            <th class="p-2" scope="col">jed.cena</th>
+                            <th class="p-2" scope="col">ukupno</th>
+                            <th class="p-2" scope="col">izmeni</th>
+                            <th class="p-2" scope="col">izbriši</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $subPrice = 0;
+                            $i = 1;
+                        @endphp
+                        @foreach ($data as $item)
                             @php
-                                $subPrice = 0;
-                                $i = 1;
+                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
+                                $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                                $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
                             @endphp
-                            @foreach ($data as $item)
-                                @php
-                                    $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : ''); 
-                                    $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
-                                    $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
-                                @endphp
-                                @if ($name_category != null && !in_array($name_category, $uniqueName))
-                                    <tr>
-                                        <td colspan="8" class="text-left border-bold p-1"
-                                            style="background-color: rgba(0, 0, 0, 0.05);">
-                                            <b>{{ $name_category }}</b>
-                                            @php
-                                                $uniqueName[] = $name_category;
-                                            @endphp
-                                        </td>
-                                    </tr>
-                                @endif
-                                @php
-                                    $subPrice += $item->overall_price;
-                                @endphp
+                            @if ($name_category != null && !in_array($name_category, $uniqueName))
                                 <tr>
-                                    <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-left ponuda-table-des p-1"><b>
-                                        {{ $title }}
-                                        </b><br>
-                                        {{ $desc_now }}
-                                        <br>{{ $item->name_service }}
-                                    </td>
-                                    <td class="text-center">{{ $item->unit_name }}</td>
-                                    <td class="text-center">{{ $item->quantity }}</td>
-                                    <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
-                                    <td class="whitespace-nowrap px-1 border-left text-center">
-                                        {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
-                                    </td>
-                                    <td>
-                                        <button class="edit-btn-table mx-auto"
-                                            onclick="UpdateSwall(() => ({ realId: {{ $item->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}', quantity: '{{ $item->quantity }}', unit_price: '{{ $item->unit_price }}', radioBtn: '{{ $item->service_id }}' }))">
-                                            <i class="ri-edit-line"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="delete-btn-table mx-auto"
-                                            onclick="actionSwall('{{ route('worker.store.new.ponuda.delete') }}','{{ $title }}',{{ $item->id }})">
-                                            <i class="ri-delete-bin-line"></i>
-                                        </button>
+                                    <td colspan="8" class="text-left border-bold p-1"
+                                        style="background-color: rgba(0, 0, 0, 0.05);">
+                                        <b>{{ $name_category }}</b>
+                                        @php
+                                            $uniqueName[] = $name_category;
+                                        @endphp
                                     </td>
                                 </tr>
-                            
-                                @if ($loop->last)
-                                    <tr>
-                                        <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
-                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
+                            @endif
+                            @php
+                                $subPrice += $item->overall_price;
+                            @endphp
+                            <tr>
+                                <td class="text-center">{{ $i++ }}</td>
+                                <td class="text-left ponuda-table-des p-1"><b>
+                                        {{ $title }}
+                                    </b><br>
+                                    {{ $desc_now }}
+                                    <br>{{ $item->name_service }}
+                                </td>
+                                <td class="text-center">{{ $item->unit_name }}</td>
+                                <td class="text-center">{{ $item->quantity }}</td>
+                                <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
+                                <td class="whitespace-nowrap px-1 border-left text-center">
+                                    {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
+                                </td>
+                                <td>
+                                    <button class="edit-btn-table mx-auto"
+                                        onclick="UpdateSwall(() => ({ realId: {{ $item->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}', quantity: '{{ $item->quantity }}', unit_price: '{{ $item->unit_price }}', radioBtn: '{{ $item->service_id }}' }))">
+                                        <i class="ri-edit-line"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="delete-btn-table mx-auto"
+                                        onclick="actionSwall('{{ route('worker.store.new.ponuda.delete') }}','{{ $title }}',{{ $item->id }})">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            @if ($loop->last)
+                                <tr>
+                                    <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
+                                        <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
             @endforeach
             <div>
                 <table class="ponuda-table mt-5">
@@ -143,7 +152,7 @@
                             @endphp
                             @foreach ($data as $rekapitulacija)
                                 @php
-                                    $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null); 
+                                    $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null);
                                     $subPrice += $rekapitulacija->overall_price;
                                 @endphp
                                 @if ($loop->last)
@@ -314,7 +323,7 @@
             </div>
 
             <div class="quantity-div" id="quantity-input">
-                <div class="mt-5 mb-2">
+                <div class="mt-10 mb-2">
                     <span>Cena pozicija sadrži:*</span>
                 </div>
                 <p class="py-3">
@@ -325,16 +334,16 @@
                     <input type="radio" id="service" name="radioButton" value="2">
                     <label for="service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>
                 </p>
-                <div id="quantity-text" class="mt-5">
+                <div id="quantity-text" class="mt-10">
                 </div>
                 <input type="number" name="quantity" class="quantity-input mt-3 mb-1">
-                <div class="mt-5">
+                <div class="mt-10">
                     <span>Cena (RSD)*</span>
                 </div>
                 <input type="number" name="price" class="quantity-input mt-3 mb-1">
             </div>
         </div>
-        <div id="add-new" class="category-div mt-5">
+        <div id="add-new" class="category-div mt-10">
             <div class="flex justify-center mb-5">
                 <button type="submit" class="finish-btn my-3">Dodaj poziciju</button>
             </div>
@@ -345,18 +354,17 @@
     </form>
     @if ($mergedData->isNotEmpty())
         @php
-            if(isset($tempNote))
+            if (isset($tempNote)) {
                 $finished_note = preg_replace('~^"?(.*?)"?$~', '$1', json_encode($tempNote, JSON_HEX_TAG));
+            }
         @endphp
         <div class="flex w-full justify-center mt-5">
             <div class="flex" id="end">
-                <button
-                    onclick="EndPonuda('{{ $tempPonudaName }}')"
-                    class="finish-btn my-3">Završi ponudu</button>
+                <button onclick="EndPonuda('{{ $tempPonudaName }}')" class="finish-btn my-3">Završi ponudu</button>
             </div>
         </div>
     @endif
-    @if(session('accessDenied'))
+    @if (session('accessDenied'))
         <script>
             Swal.fire({
                 title: 'Pristup odbijen',
@@ -367,6 +375,15 @@
         </script>
     @endif
     <script>
+
+        function scrollDown() {
+            var element = document.querySelector(".select-btn-category");
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
         function showDes() {
             var x = document.getElementById("text-area");
             var y = document.getElementById("nope-des");
@@ -417,11 +434,11 @@
             Swal.fire({
                 title: 'Stvarno hoćete da izbrišite "' + name + '"?',
                 icon: 'question',
-                html: '<form method="POST" id="delElement" action="'+url+'">' +
+                html: '<form method="POST" id="delElement" action="' + url + '">' +
                     '@csrf' +
-                    '@method("delete")' +
+                    '@method('delete')' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izbriši</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -441,37 +458,37 @@
             var radioHtml = '';
             if (radioBtn == 1) {
                 radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1" checked>' +
-                    '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                    '<label for="new_material" class="font-bold text-main-color">Cena pozicije sadrži vrednost materiala i usluge</label>' +
                     '<input type="radio" id="new_service" name="new_radioButton" value="2">' +
-                    '<label class="mt-2" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+                    '<label class="mt-2 font-bold text-main-color" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
             } else if (radioBtn == 2) {
                 radioHtml += '<input type="radio" id="new_material" name="new_radioButton" value="1">' +
-                    '<label for="new_material">Cena pozicije sadrži vrednost materiala i usluge</label>' +
+                    '<label for="new_material" class="font-bold text-main-color">Cena pozicije sadrži vrednost materiala i usluge</label>' +
                     '<input type="radio" id="new_service" name="new_radioButton" value="2" checked>' +
-                    '<label class="mt-2" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
+                    '<label class="mt-2 font-bold text-main-color" for="new_service">Cena pozicije sadrži vrednost uslugu (bez materiala)</label>';
             }
             Swal.fire({
                 title: 'Izmeni poziciju',
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
-                    '@method("put")' +
-                    '<span class="font-bold text-black">Naziv pozicija :</span>' +
+                    '@method('put')' +
+                    '<span class="font-bold text-main-color">Naziv pozicija :</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="2" cols="25" type="text" name="new_title" id="updateTitle">' +
                     tempTitle + '</textarea>' +
-                    '<span class="font-bold text-black">Opis pozicije :</span>' +
+                    '<span class="font-bold text-main-color">Opis pozicije :</span>' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="4" cols="50" type="text" name="new_description" id="updateData">' +
                     tempDesc + '</textarea>' +
-                    '<br><p class="mb-3 font-bold text-black">Cena pozicija sadrži:</p>' +
+                    '<br><p class="mb-3 font-bold text-main-color">Cena pozicija sadrži:</p>' +
                     radioHtml +
-                    '<br><label class="mt-3 mb-2 font-bold text-black" for="new_quantity">Novu kolicinu:</label>' +
+                    '<br><label class="mt-3 mb-2 font-bold text-main-color" for="new_quantity">Novu kolicinu:</label>' +
                     '<input type="number" name="new_quantity" class="swal-input" id="new_quantity" value="' +
                     quantity + '">' +
-                    '<label class="mt-3 mb-2 font-bold text-black" for="new_unit_price">Nova cena:</label>' +
+                    '<label class="mt-3 mb-2 font-bold text-main-color" for="new_unit_price">Nova cena:</label>' +
                     '<input type="number" name="new_unit_price" class="swal-input" id="new_unit_price" value="' +
                     unit_price + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 mx-1 mt-5">Izmeni</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">Izmeni</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -488,13 +505,13 @@
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
-                    '<label for="ponuda_name">Naziv ponude:</label>' +
+                    '<label for="ponuda_name" class="font-bold text-main-color">Naziv ponude:</label>' +
                     '<input class="mt-3 swal-input mb-3" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
                     '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 my-3">Završi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">Završi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -511,16 +528,17 @@
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
-                    '<label for="ponuda_name">Naziv ponude:</label>' +
-                    '<input class="mt-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
+                    '<label for="ponuda_name" class="font-bold text-main-color">Naziv ponude:</label>' +
+                    '<input class="mt-3 mb-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
                     '<label for="opis" class="mt-3 hidden">Napomena (neobavezno):</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<label for="note" class="mt-3">Napomena (neobavezno):</label>' +
-                    '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' + '{{ $finished_note }}' +
+                    '<label for="note" class="mt-3 font-bold text-main-color">Napomena (neobavezno):</label>' +
+                    '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' +
+                    '{{ $finished_note }}' +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 my-3">Završi ponudu</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">Završi ponudu</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -538,16 +556,14 @@
                 showCancelButton: true,
                 showConfirmButton: true,
                 showCloseButton: true,
-                confirmButtonText: 'Ne',
-                cancelButtonText: 'Da',
-                confirmButtonColor: '#22ff00',
-                cancelButtonColor: '#d33',
+                confirmButtonText: 'Da',
+                cancelButtonText: 'Ne',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    NameSwall(tempPonudaName);
+                    OpisSwall(tempPonudaName);
                 }
                 if (result.dismiss == 'cancel') {
-                    OpisSwall(tempPonudaName);
+                    NameSwall(tempPonudaName);
                 }
             })
         }

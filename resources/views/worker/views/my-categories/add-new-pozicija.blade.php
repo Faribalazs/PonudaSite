@@ -1,8 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Nova Kategorija
+        Nova pozicija
     </x-slot>
     <x-slot name="header">
+        Nova Pozicija
     </x-slot>
     @php
         $user_id = Auth::guard('worker')->user()->id;
@@ -42,7 +43,7 @@
                 </ul>
             </div>
         </div>
-        <div id="obracun-dropdown" class="">
+        <div id="obracun-dropdown" style="margin-top: -130px">
             <span class="input-label pl-2">Odaberi obračun:</span>
             <div class="select-menu-obracun mt-3">
                 <div class="select-btn-obracun">
@@ -66,12 +67,12 @@
                 </ul>
             </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col" style="margin-top: -50px">
             <span class="input-label pl-2 mb-3">Naziv pozicije:</span>
             <input type="text" name="poz_title" class="input-style mb-14">
             <span class="input-label pl-2 mt-3 mb-3">Opis pozicije:</span>
             <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
-            <button type="submit" class="submit-btn m-auto">Dodaj poziciju</button>
+            <button type="submit" class="main-btn mx-auto mt-10">Dodaj poziciju</button>
         </div>
     </form>
     <script>

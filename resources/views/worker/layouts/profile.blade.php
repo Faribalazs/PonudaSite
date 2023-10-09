@@ -22,7 +22,8 @@
 
         <!-- Page Content -->
         <main class="page-padding-profile">
-            <div class="flex overflow-hidden flex-nowrap">
+            <div class="profile-nav-bg"></div>
+            <div class="flex overflow-hidden flex-nowrap justify-between">
                 <div class="profile-side-panel w-14">
                     <div class="menu-btn">
                         <div class="line line--1"></div>
@@ -86,6 +87,7 @@
 </body>
 <script>
     var menuBtn = document.querySelector('.menu-btn');
+    var navBg = document.querySelector('.profile-nav-bg');
     var navPanel = document.querySelector('.profile-side-panel');
     var lineOne = document.querySelector('.profile-side-panel .menu-btn .line--1');
     var lineTwo = document.querySelector('.profile-side-panel .menu-btn .line--2');
@@ -97,6 +99,7 @@
         lineTwo.classList.toggle('line-fade-out');
         lineThree.classList.toggle('line-cross');
         link.classList.toggle('fade-in');
+        navBg.classList.toggle('profile-nav-open');
     })
 
     function logOut() {

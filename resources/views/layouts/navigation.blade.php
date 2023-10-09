@@ -17,15 +17,6 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
-                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.new.options')">
-                                {{ __('Dodaj Opciju') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
                                 {{ __('Moje Kategorije') }}
                             </x-nav-link>
@@ -41,14 +32,13 @@
                         </div>
                     @endif
                 @endif
-            </div>
-            
+            </div>  
         </div>
     </div>
 </div>
 <nav x-data="{ open: false }" id="nav" class="nav-max">
     <!-- Primary Navigation Menu -->
-    <div class="mx-auto px-4 py-3 sm:px-6 lg:px-8 h-100 align-items-center nav-div">
+    <div class="px-4 py-3 sm:px-6 lg:px-12 h-100 align-items-center nav-div">
         <div class="flex justify-between h-100 nav-items">
             <div class="flex justify-between" style="width: 78%;">
                 <!-- Logo -->
@@ -89,16 +79,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.new.options')" :active="request()->routeIs('worker.new.options')">
-                                {{ __('Dodaj Opciju') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
+                            <x-nav-link :href="route('worker.options.update')" :active="request()->is(app()->getLocale() . '/contractor/my-options*')">
                                 {{ __('Moje Kategorije') }}
                             </x-nav-link>
                         </div>
@@ -156,7 +137,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="mr-2 flex items-center xl:hidden gap-4" style="margin-top:8px;">
+            <div class="flex items-center xl:hidden gap-4" style="margin-top:8px;">
                 <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
@@ -285,7 +266,8 @@
         justify-content: center;
         align-items: center;
         color: white;
-        background-color: #333f9d;
+        margin-left: 5px;
+        background-color: #0d2c5a;
     }
 
     .sticky {

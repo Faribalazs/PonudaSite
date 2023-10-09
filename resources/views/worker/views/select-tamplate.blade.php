@@ -3,6 +3,7 @@
         Izaberi izgled
     </x-slot>
     <x-slot name="header">
+        Generiši PDF
     </x-slot>
     <div class="flex">
     </div>

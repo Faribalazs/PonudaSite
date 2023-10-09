@@ -11,16 +11,11 @@ use App\Helpers\Helper;
 
 class NewOptions extends Controller
 {
-   public function create()
-   {  
-      return view('worker.views.create-options');
-   }
-
    //custom category create & store start
 
    public function CategoryCreate()
    {
-      return view('worker.views.add-new-category');
+      return view('worker.views.my-categories.add-new-category');
    }
 
 
@@ -31,7 +26,7 @@ class NewOptions extends Controller
       ]);
       $this->successCategory($request);
       Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-      return redirect(route('worker.new.options'));  
+      return redirect(route('worker.options.update'));  
    }
    private function successCategory($request){
       $addCategory = new Category();
@@ -64,7 +59,7 @@ class NewOptions extends Controller
    public function SubCategoryCreate()
    {
       $worker_id = Helper::worker();
-      return view('worker.views.add-new-subcategory',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id)]);
+      return view('worker.views.my-categories.add-new-subcategory',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id)]);
    }
 
    public function store_subcategory(Request $request)
@@ -76,7 +71,7 @@ class NewOptions extends Controller
    
       $this->successSubcategory($request);
       Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-      return redirect(route('worker.new.options'));  
+      return redirect(route('worker.options.update'));  
    }
    private function successSubcategory($request){
       $addSubcategory = new Subcategory();
@@ -92,7 +87,7 @@ class NewOptions extends Controller
    public function pozicijaCreate()
    {
       $worker_id = Helper::worker();
-      return view('worker.views.add-new-pozicija',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id), 'subcategories' => $this->Subcategories(), 'custom_subcategories' => $this->custom_Subcategories($worker_id), 'units'=> $this->Units()]);
+      return view('worker.views.my-categories.add-new-pozicija',['categories' => $this->Categories(), 'custom_categories' => $this->custom_Categories($worker_id), 'subcategories' => $this->Subcategories(), 'custom_subcategories' => $this->custom_Subcategories($worker_id), 'units'=> $this->Units()]);
    }
 
    public function store_pozicija(Request $request)
@@ -104,7 +99,7 @@ class NewOptions extends Controller
       {
          $this->successPozicija($request);
          Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
-         return redirect(route('worker.new.options'));  
+         return redirect(route('worker.options.update'));  
       }
       else
       {
