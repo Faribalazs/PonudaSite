@@ -27,6 +27,9 @@
                 <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}" Skini
                     class="archive-pdf-btn">
                     <i class="ri-edit-line"></i>Izmeni ponudu</a>
+                <a href="{{ route('worker.archive.download.contract') }}" Skini
+                    class="archive-pdf-btn">
+                    <i class="ri-download-2-line"></i>Skini ugovor</a>
             </div>
         </div>
         <br>

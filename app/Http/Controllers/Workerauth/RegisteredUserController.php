@@ -40,7 +40,8 @@ class RegisteredUserController extends Controller
             'password' => ['required','string','confirmed', Password::min(8)
                 ->mixedCase()
                 ->numbers()
-                ->uncompromised(3)],
+                // ->uncompromised(10)
+            ],
         ]);
 
        $user = Worker::create([

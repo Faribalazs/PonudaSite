@@ -604,4 +604,10 @@ class Archive extends Controller
         Worker::where('id', $workerId)->update(['ponuda_counter' => $ponuda_id]);
         return true;
     }
+    
+    public function contractPdf()
+    {
+        $pdf = PDF::loadView('worker.pdf.contract');
+        return $pdf->download('contract.pdf');
+    }
 }

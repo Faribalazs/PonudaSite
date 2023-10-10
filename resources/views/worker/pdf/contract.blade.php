@@ -14,21 +14,30 @@
 <body style="padding-left: 20px; padding-right: 20px;">
     <div style="text-align: center">
         <b>
+            @if(isset($foundClient)) 
             UGOVOR br. <u>&nbsp;{{ auth('worker')->user()->id }}P{{ $id }}K{{ $company_data->id }}{{ $type_lica }}{{ $foundClient->id }}&nbsp;</u>
-            <br><br>
+            <br>
+            @else 
+            UGOVOR @endif
             O IZVOĐENJU GRAĐEVINSKO - ZANATSKIH RADOVA
         </b>
     </div>
     <br>
+    @if(isset($foundClient))
     Zaključen između <u>&nbsp;{{ $foundClient->first_name }}&nbsp;{{ $foundClient->last_name }}&nbsp;</u> iz <u>&nbsp;{{ $foundClient->city }}&nbsp;</u>, adresa:<u>&nbsp;{{ $foundClient->address }}&nbsp;</u>, s jedne strane kao naručioca (u daljem tekstu: Naručilac) i
     <br><br>
-    <u>&nbsp;{{ $company_data->company_name }}&nbsp;</u> iz <u>&nbsp;{{ $company_data->city }}&nbsp;</u>, adresa:<u>&nbsp;{{ $company_data->address }}&nbsp;</u>, PIB:<u>&nbsp;{{ $company_data->pib }}&nbsp;</u> s druge strane, koje zastupa direktor <u>&nbsp;{{ auth('worker')->user()->name }}&nbsp;</u> iz <u>______</u>, kao izvođača (u daljem tekstu: Izvođač).
+    <u>&nbsp;{{ $company_data->company_name }}&nbsp;</u> iz <u>&nbsp;{{ $company_data->city }}&nbsp;</u>, adresa:<u>&nbsp;{{ $company_data->address }}&nbsp;</u>, PIB:<u>&nbsp;{{ $company_data->pib }}&nbsp;</u> s druge strane, koje zastupa direktor ____________________________________ iz ______, kao izvođača (u daljem tekstu: Izvođač).
+    @else
+    Zaključen između __________________________ iz ______________, adresa:____________________, s jedne strane kao naručioca (u daljem tekstu: Naručilac) i
+    <br><br>
+    ______________________________ iz ________________________, adresa:____________________, PIB:___________________ s druge strane, koje zastupa direktor ____________________________________ iz __________________, kao izvođača (u daljem tekstu: Izvođač).
+    @endif
     <br><br>
     Ugovorne strane su se sporazumele o sledećem:
     <br><br>
     Član 1.
     <br><br>
-    Izvođač se obavezuje da za račun Naručioca izvede građevinsko - zanatske radove na objektu u <u>&nbsp;&nbsp;</u> ul. <u>&nbsp;&nbsp;</u> br.<u>&nbsp;&nbsp;</u> u svemu prema usvojenoj ponudi Izvođača br.__________ od __. __.____. koja čini sastavni deo ovog Ugovora.
+    Izvođač se obavezuje da za račun Naručioca izvede građevinsko - zanatske radove na objektu u ______________________ ul. ___________________ br.______ u svemu prema usvojenoj ponudi Izvođača br.__________ od __. __.____. koja čini sastavni deo ovog Ugovora.
     <br><br>
     Član 2.
     <br><br>
@@ -42,7 +51,11 @@
     <br><br>
     Član 3.
     <br><br>
+    @if (isset($foundClient))
     Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora, plati izvođaču ukupan iznos od <u>&nbsp;{{ $sum }}&nbsp;</u> dinara (slovima: <u>&nbsp;{{ $sum_in_words }}&nbsp;</u> dinara), sa uračunatim PDV-om.
+    @else
+    Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora, plati izvođaču ukupan iznos od _____________ dinara (slovima:  __________________________________ dinara), sa uračunatim PDV-om.
+    @endif
     <br><br>
     Član 4.
     <br><br>
@@ -77,7 +90,7 @@
     <br><br>
     Ovaj ugovor sačinjen je u _ istovetna  primerka, od kojih se __ primerka nalaze kod Naručioca, a __ primerka kod Izvođača.
     <br><br>
-    U _____________________ , dana {{ now()->format('d.m.Y') }} godine
+    U _____________________ , dana _________________ godine
     <br><br>
     <div style="float:left">
         <div style="text-align: center">

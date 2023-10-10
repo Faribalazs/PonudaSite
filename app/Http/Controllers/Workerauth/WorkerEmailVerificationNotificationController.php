@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use App\Models\Worker;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class WorkerEmailVerificationNotificationController extends Controller
 {
@@ -17,7 +18,17 @@ class WorkerEmailVerificationNotificationController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Worker::find(decrypt($request->mama));
+        $request->validate([
+            'mama' => 'required'
+        ]);
+        try{
+            $decrypted_id = decrypt(substr($request->mama, 4));
+        } catch(DecryptException){
+            toast(__('Something went wrong!'),'error')->position('bottom')->autoClose(10000);
+            return redirect()->back();
+        }
+        
+        $user = Worker::find($decrypted_id);
 
         if($user)
         {
@@ -27,10 +38,10 @@ class WorkerEmailVerificationNotificationController extends Controller
 
             $user->sendEmailVerificationNotification();
 
-            toast(__('app.auth.e-mail-sent'),'success')->position('bottom')->autoClose(5000);
+            toast(__('app.auth.e-mail-sent'),'success')->position('bottom')->autoClose(10000);
             return redirect()->back();
         }
 
-        return redirect()->back()->with('error',__('Something went wrong'));
+        return redirect()->back()->with('error',__('Something went wrong!'));
     }
 }

@@ -20,11 +20,17 @@
                 @if (session('error-email'))
                     <div class="alert alert-danger">
                         {{ session('error-email') }}
-
                     </div>
+                    @php
+                        $mama = 0;
+                        if(session('mama'))
+                        {
+                            $mama = Str::random(4).session('mama');
+                        }
+                    @endphp
                     <form method="POST" action="{{ route('worker.verification.send') }}">
                         @csrf
-                        <input type="text" name="mama" value="{{ session('mama') }}" hidden>
+                        <input type="text" name="mama" value="{{ $mama }}" hidden>
                         <div>
                             <button type="submit" class="mt-3 mb-3 confirm-btn" style="background-color: green">
                                 {{ __('app.auth.resend-email') }}

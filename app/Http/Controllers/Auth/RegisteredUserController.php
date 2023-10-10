@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\UniqueEmail;
+use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
 {
@@ -39,7 +40,8 @@ class RegisteredUserController extends Controller
             'password' => ['required','string','confirmed', Password::min(8)
                 ->mixedCase()
                 ->numbers()
-                ->uncompromised(3)],
+                // ->uncompromised(10)
+            ],
         ]);
 
        $user = User::create([
