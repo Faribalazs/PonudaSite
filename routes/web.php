@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth', 'role:user']], function() {
 
 //admin
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('dashboard', 'admin.admin-dash')->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/users', [AdminController::class, 'selectUsers'])->name('users');
     Route::put('/users/ban', [AdminController::class, 'banUser'])->name('ban.user');
     Route::put('/users/unban', [AdminController::class, 'unbanUser'])->name('unban.user');

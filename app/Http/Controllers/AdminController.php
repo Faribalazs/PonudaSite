@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units};
+use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units, Tracker};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
 class AdminController extends Controller
 {
+  public function dashboard()
+  {
+    $active = Tracker::where('visit_date', date('Y-m-d'))->where('visit_time', '>=', now()->subMinutes(5)->toTimeString())->distinct('worker_id')->count();
+    $workers = Tracker::where('visit_date', date('Y-m-d'))->distinct('worker_id')->count();
+    $workers_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->distinct('worker_id')->count();
+    $max_visit = Tracker::where('visit_date', date('Y-m-d'))->orderByDesc('hits')->first();
+    $overall_visit_today = Tracker::where('visit_date', date('Y-m-d'))->sum('hits');
+    $overall_visit_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->sum('hits');
+    $diff_ip = Tracker::where('visit_date', date('Y-m-d'))->distinct('ip')->count();
+    $diff_ip_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->distinct('ip')->count();
+    return view('admin.admin-dash',compact(['active','workers','workers_last_30_days','max_visit','overall_visit_today','overall_visit_last_30_days','workers_last_30_days','diff_ip','diff_ip_last_30_days']));
+  }
   public function insertAdmin()
   {
     $user = Worker::create([

@@ -7,17 +7,10 @@
     </x-slot>
     <div class="mt-8">
         @php
-            $pozicija_title = '';
-            $pozicija_desc = '';
-            $pozicija_id = '';
+            $pozicija_title = $pozicija->custom_title ?? null;
+            $pozicija_desc = $pozicija->custom_description ?? null;
+            $pozicija_id = $pozicija->id ?? null;
         @endphp
-        @foreach ($pozicija as $custom_pozicija)
-            @php
-                $pozicija_title = $custom_pozicija->custom_title;
-                $pozicija_desc = $custom_pozicija->custom_description;
-                $pozicija_id = $custom_pozicija->id;
-            @endphp
-        @endforeach
         <div class="flex w-full mt-5">
             <form method="POST" id="formPozicija" action="{{ route('worker.options.update.pozicija') }}"
                 class="mt-20 flex flex-col w-full">
@@ -29,6 +22,12 @@
                 <span class="input-label py-3 mt-5">Upiši opis pozicije:</span>
                 <textarea type="text" rows="5" value="{{ $pozicija_desc }}" name="description"
                     class="w-full dropdown-search">{{ $pozicija_desc }}</textarea>
+                <label for="unit">Obračun:</label>
+                <select name="unit" class="mt-3 form-control">
+                    @foreach ($units as $unit)
+                        <option value="{{ $unit->id_unit }}" {{ $unit->id_unit == $pozicija->unit_id ? 'selected' : '' }}>{{ $unit->name }}</option>
+                    @endforeach
+                </select>
                 <input type="hidden" name="id" value="{{ $pozicija_id }}" class="w-full dropdown-search mt-4">
                 <button type="submit" class="main-btn mx-auto mt-10">Sačuvaj</button>
             </form>

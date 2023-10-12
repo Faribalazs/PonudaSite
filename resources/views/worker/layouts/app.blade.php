@@ -34,5 +34,8 @@
     </div>
     @include('footer')
     @include('sweetalert::alert')
+    @php
+        \App\Models\Tracker::hit();
+    @endphp
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija};
+use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija, Units};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -53,7 +53,7 @@ class OptionsController extends Controller
       return Category::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->whereNull('is_category_deleted')
-         ->get();
+         ->first();
    }
 
    public function showSubcategory($id){
@@ -63,17 +63,17 @@ class OptionsController extends Controller
       return Subcategory::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->whereNull('is_subcategory_deleted')
-         ->get();   
+         ->first();   
    }
 
    public function showPozicija($id){
-      return view('worker.views.my-categories.save-pozicija',['pozicija' => $this->custom_Pozicija($id), 'id'=> $id]);
+      return view('worker.views.my-categories.save-pozicija',['pozicija' => $this->custom_Pozicija($id), 'id'=> $id, 'units' => Units::all()]);
    }
    private function custom_Pozicija($id){
       return Pozicija::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->whereNull('is_pozicija_deleted')
-         ->get();   
+         ->first();   
    }
 
    public function updateCategory(Request $request){
@@ -129,6 +129,7 @@ class OptionsController extends Controller
    public function updatePozicija(Request $request){
       $title = $request->input('title');
       $description = $request->input('description');
+      $unit = $request->input('unit');
       $id = $request->input('id');
       $old_name = $this->select_custom_pozicija($id)->custom_title;
       if(empty($description))
@@ -136,7 +137,7 @@ class OptionsController extends Controller
          $description = "";
       }
       if(strlen($title)>=3){
-         $this->update_custom_pozicija($title,$description,$id);
+         $this->update_custom_pozicija($title,$description,$unit,$id);
          return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $title)->with('old_name', $old_name);
       }
       else
@@ -151,11 +152,12 @@ class OptionsController extends Controller
          ->get()
          ->first();   
    }
-   private function update_custom_pozicija($title,$description,$id){
+   private function update_custom_pozicija($title,$description,$unit,$id){
       Pozicija::where('id', $id)
          ->update([
             'custom_title' => $title,
-            'custom_description' => $description
+            'custom_description' => $description,
+            'unit_id' => $unit
          ]);      
    }
 

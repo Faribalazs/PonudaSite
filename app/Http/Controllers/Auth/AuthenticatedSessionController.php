@@ -17,15 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        session(['url.intended' => url()->previous()]);
         return view('auth.login');
     }
 
-    public function loginEmail(LoginRequest $request)
-    {
-        $request->user()->sendEmailVerificationNotification();
-        return view('auth.verify-email');
-    }
     /**
      * Handle an incoming authentication request.
      *
@@ -36,22 +30,13 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        if (session()->has('url.intended')) {
-            $redirectTo = session()->get('url.intended');
-            session()->forget('url.intended');
-        }
-
         $request->session()->regenerate();
 
         if ($request->user()->hasVerifiedEmail()) {
-            if ($redirectTo) {
-                return redirect($redirectTo);
-            }
             return redirect()->intended(route('home'));
-        } else {
-            $request->user()->sendEmailVerificationNotification();
-            return view('auth.verify-email');
         }
+        
+        return redirect()->back();
     }
 
     /**

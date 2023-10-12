@@ -7,15 +7,9 @@
     </x-slot>
     <div class="mt-8">
         @php
-            $category_name = '';
-            $category_id = '';
+            $category_name = $category->name ?? null;
+            $category_id = $category->id ?? null;
         @endphp
-        @foreach ($category as $custom_category)
-            @php
-                $category_name = $custom_category->name;
-                $category_id = $custom_category->id;
-            @endphp
-        @endforeach
         <div class="flex w-full mt-5">
             <form method="POST" id="formCategory" action="{{ route('worker.options.update.category') }}" class="mt-20 flex flex-col w-full">
                 @csrf

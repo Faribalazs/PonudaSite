@@ -16,13 +16,16 @@ class ValidateUser
     public function handle(Request $request, Closure $next): Response
     {
         $user = null;
+        $session_key = null;
         if (auth()->check()) {
             $user = auth();
             $route = 'login';
+            $session_key = 'user_mama';
         }
         elseif(auth('worker')->check()){
             $user = auth('worker');
             $route = 'worker.login';
+            $session_key = 'mama';
         }
         if(isset($user))
         {
@@ -32,7 +35,14 @@ class ValidateUser
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
                 if(!$userdata->hasVerifiedEmail()){
-                    return redirect()->route($route)->with('error-email', 'Molimo Vas, potvrdite Vašu email adresu.')->with('mama', encrypt($userdata->id));
+                    if($session_key != null)
+                    {
+                        return redirect()->route($route)->with('error-email', 'Molimo Vas, potvrdite Vašu email adresu.')->with($session_key, encrypt($userdata->id));
+                    }
+                    else
+                    {
+                        return redirect()->route($route)->with('error', 'Nešto nije u redu.');
+                    }
                 }
                 else{
                     return redirect()->route($route)->with('error', 'Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.');

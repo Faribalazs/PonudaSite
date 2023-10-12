@@ -44,9 +44,6 @@
                     <a href="{{ route('admin.workers') }}">Workers</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.not.activated.workers') }}">Not Activated Workers</a>
-                </div>
-                <div class="py-2 mx-4 border-bottom">
                     <a href="{{ route('admin.categories') }}">Categories</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">

@@ -21,11 +21,6 @@ class AuthenticatedSessionController extends Controller
         return view('admin.admin-login');
     }
 
-    public function loginEmail(LoginRequest $request)
-    {
-        $request->user()->sendEmailVerificationNotification();
-        return view('auth.verify-email');
-    }
     /**
      * Handle an incoming authentication request.
      *

@@ -17,6 +17,27 @@
                         {{ session('error') }}
                     </div>
                 @endif
+                @if (session('error-email'))
+                    <div class="alert alert-danger">
+                        {{ session('error-email') }}
+                    </div>
+                    @php
+                        $mama = 0;
+                        if(session('user_mama'))
+                        {
+                            $mama = Str::random(4).session('user_mama');
+                        }
+                    @endphp
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <input type="text" name="user_mama" value="{{ $mama }}" hidden>
+                        <div>
+                            <button type="submit" class="mt-3 mb-3 confirm-btn" style="background-color: green">
+                                {{ __('app.auth.resend-email') }}
+                            </button>
+                        </div>
+                    </form>
+                @endif
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <!-- Email Address -->

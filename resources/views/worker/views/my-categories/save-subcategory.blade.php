@@ -7,15 +7,9 @@
     </x-slot>
     <div class="mt-8">
         @php
-            $subcategory_name = '';
-            $subcategory_id = '';
+            $subcategory_name = $subcategory->name ?? null;
+            $subcategory_id = $subcategory->id ?? null;
         @endphp
-        @foreach ($subcategory as $custom_subcategory)
-            @php
-                $subcategory_name = $custom_subcategory->name;
-                $subcategory_id = $custom_subcategory->id;
-            @endphp
-        @endforeach
         <div class="flex w-full mt-5">
             <form method="POST" id="formSubcategory" action="{{ route('worker.options.update.subcategory') }}" class="mt-20 flex flex-col w-full">
                 @csrf
