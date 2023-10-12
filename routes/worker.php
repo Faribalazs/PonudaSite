@@ -193,8 +193,11 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::get('contractor/archive/select/template', [Archive::class, 'selectTamplate'])
             ->name('worker.archive.template.select');
         
-        Route::post('contractor/archive/generate/pdf', [Archive::class, 'tamplateGeneratePdf'])
+        Route::post('contractor/archive/generate/pdf', [Archive::class, 'redirctToGeneratePdf'])
             ->name('worker.archive.genarte.tamplate.pdf');
+
+        Route::post('contractor/archive/download/pdf', [Archive::class, 'tamplateGeneratePdf'])
+            ->name('worker.archive.download.tamplate.pdf');
 
         Route::get('contractor/archive/generate/contract', [Archive::class, 'contractPdf'])
             ->name('worker.archive.download.contract');

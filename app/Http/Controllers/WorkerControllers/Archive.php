@@ -373,6 +373,23 @@ class Archive extends Controller
         }
     }
 
+    public function redirctToGeneratePdf(Request $request) 
+    {
+        $request->validate([
+            'ponuda_id' => 'required|numeric|gte:0',
+            'client_id' => 'nullable|numeric|gte:0',
+            'type' => 'required|in:1,2',
+        ]);
+        return view('worker.views.generate-pdf-success',
+                    [ 
+                        'ponuda_id' => $request->ponuda_id,
+                        'type' => $request->type,
+                        'client_id' => $request->client_id,
+                        'temp' => $request->temp ?? 'default',
+                        'temporary' => $request->temporary,
+                    ]);
+    }
+
     public function tamplateGeneratePdf(Request $request) 
     {
         $request->validate([
