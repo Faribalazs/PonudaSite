@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units, Tracker};
+use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units, Tracker, BrowserAgent, DeviceAgent};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -19,7 +19,9 @@ class AdminController extends Controller
     $overall_visit_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->sum('hits');
     $diff_ip = Tracker::where('visit_date', date('Y-m-d'))->distinct('ip')->count();
     $diff_ip_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->distinct('ip')->count();
-    return view('admin.admin-dash',compact(['active','workers','workers_last_30_days','max_visit','overall_visit_today','overall_visit_last_30_days','workers_last_30_days','diff_ip','diff_ip_last_30_days']));
+    $browserType = BrowserAgent::where('date', date('Y-m-d'))->first();
+    $deviceType = DeviceAgent::where('date', date('Y-m-d'))->first();
+    return view('admin.admin-dash',compact(['active','workers','workers_last_30_days','max_visit','overall_visit_today','overall_visit_last_30_days','workers_last_30_days','diff_ip','diff_ip_last_30_days','browserType','deviceType']));
   }
   public function insertAdmin()
   {
@@ -79,7 +81,7 @@ class AdminController extends Controller
 
   public function selectWorkers()
   {
-    $users = Worker::select('id','email','name', 'status')->paginate(15);
+    $users = Worker::select('id','email','name', 'status','ponuda_counter')->paginate(15);
     return view('admin.show-workers', ['users' => $users]);
   }
 

@@ -31,24 +31,20 @@ class Tracker extends Model
         } );
     }
 
-    // // Fill in the IP and today's date
-    // public function scopeCurrent($query) {
-    //     return $query->where('ip', $_SERVER['REMOTE_ADDR'])
-    //                  ->where('date', date('Y-m-d'));
-    // }
-
     public static function hit() {
-        $ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
-        if ($ipAddress) {
-            try {
-                static::firstOrCreate([
-                    'ip'   => $ipAddress,
-                    'worker_id' => auth('worker')->user()->id,
-                    'visit_date' => date('Y-m-d'),
-                ])->save();
-            } catch (\Exception) {
-                //should be empty
-            }
+        try {
+            static::firstOrCreate([
+                'ip' => request()->ip() ?? 'no-ip',
+                'worker_id' => auth('worker')->user()->id,
+                'visit_date' => date('Y-m-d'),
+            ])->save();
+        } catch (\Exception) {
+            //should be empty
         }
+    }
+
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class, 'worker_id')->select('name');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('worker_tracker', function (Blueprint $table) {
             $table->id();
-            $table->string('ip');
+            $table->ipAddress('ip');
             $table->unsignedBigInteger('worker_id');
             $table->unsignedBigInteger('hits');
             $table->date('visit_date');

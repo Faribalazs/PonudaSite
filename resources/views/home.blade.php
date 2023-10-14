@@ -4,6 +4,14 @@
     </x-slot>
     <x-slot name="header">
     </x-slot>
+    @php
+      if(auth('worker')->check())
+      {
+        \App\Models\Tracker::hit();
+        \App\Models\BrowserAgent::updateBrowserCount();
+        \App\Models\DeviceAgent::updateDeviceCount();
+      }
+    @endphp
     <div class="slider">
         <div class="slide_viewer">
             <div class="slide_group">

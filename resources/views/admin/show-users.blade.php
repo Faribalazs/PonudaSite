@@ -12,7 +12,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col">Ime</th>
                 <th scope="col">Email</th>
                 <th scope="col">Status</th>
                 <th scope="col">Ban</th>
@@ -25,7 +25,7 @@
                     <td>{{$key+=1}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
-                    <td>@if($user->status == 1) Active @else Banned @endif</td>
+                    <td>@if($user->status == 1) Aktivan @else Zabranjen @endif</td>
                     <td onclick="BanSwall('{{ $user->id }}', '{{ $user->name }}')">
                         <div class="d-flex justify-content-center">
                             <button class="modositas-btn mr-1">
@@ -49,7 +49,7 @@
     <script>
         function unBanSwall(id, name) {
             Swal.fire({
-                title: 'Would you like to unban '+name+'?',
+                title: 'Da li želite da opozovete zabranu '+name+'?',
                 icon: 'question',
                 html: 
                     '<form method="POST" id="formUnban" action="{{ route('admin.unban.user') }}">' +
@@ -65,7 +65,7 @@
         }
         function BanSwall(id, name) {
             Swal.fire({
-                title: 'Would you like to ban '+name+'?',
+                title: 'Želite li zabraniti '+name+'?',
                 icon: 'question',
                 html: 
                     '<form method="POST" id="formBan" action="{{ route('admin.ban.user') }}">' +

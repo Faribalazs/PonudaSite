@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="pageTitle">
-admin log in
+Admin log in
     </x-slot>
     <x-slot name="header">
     </x-slot>

@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Pozicija') }}
+    {{ __('Positions') }}
 @endsection
 @section('content')
     <div class="main-container" style="overflow: auto">
-        <button class="add-new-btn mt-3" onclick="insertSwall()">Insert new pozicija</button>
+        <button class="add-new-btn mt-3" onclick="insertSwall()">Kreirajte novu poziciju</button>
         <table class="table text-center">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Pozicija title</th>
-                <th scope="col">Pozicija description</th>
-                <th scope="col">Pozicija unit</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Naziv pozicija</th>
+                <th scope="col">Opis pozicija</th>
+                <th scope="col">Jedinica pozicija</th>
+                <th scope="col">Izmeni</th>
+                <th scope="col">Izbriši</th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
     <script>
         function insertSwall() {
             Swal.fire({
-            title: 'Insert new pozicija',
+            title: 'Kreirajte novu poziciju',
             html: 
                 '<form method="POST" id="formnew" action="{{ route('admin.insert.pozicija') }}">' +
                 '@csrf' +
@@ -56,25 +56,25 @@
                         '<option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>'+
                     @endforeach
                 '</select>' +
-                '<label for="new_title">Title pozicija (serbian):</label>' +
+                '<label for="new_title">Naziv pozicija (serbian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_title"/>' +
-                '<label for="new_description">Description pozicija (serbian):</label>' +
+                '<label for="new_description">Opis pozicija (serbian):</label>' +
                 '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description"></textarea>'+
-                '<label for="new_title_en">Title pozicija (english):</label>' +
+                '<label for="new_title_en">Naziv pozicija (english):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_title_en"/>' +
-                '<label for="new_description_en">Description pozicija (english):</label>' +
+                '<label for="new_description_en">Opis pozicija (english):</label>' +
                 '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description_en"></textarea>'+
-                '<label for="new_title_hu">Title pozicija (hungarian):</label>' +
+                '<label for="new_title_hu">Naziv pozicija (hungarian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_title_hu"/>' +
-                '<label for="new_description_hu">Description pozicija (hungarian):</label>' +
+                '<label for="new_description_hu">Opis pozicija (hungarian):</label>' +
                 '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="new_description_hu"></textarea>'+
-                '<label for="unit_options">Unit:</label>' +
+                '<label for="unit_options">Jedinica:</label>' +
                 '<select name="unit_options" class="mt-3 form-control">' +
                     @foreach ($units as $unit)
                         '<option value="{{ $unit->id_unit }}">{{ $unit->name }}</option>'+
                     @endforeach
                 '</select>' +
-                '<button type="submit" class="add-new-btn mt-3">Insert</button>' +
+                '<button type="submit" class="add-new-btn mt-3">Kreiraj</button>' +
                 '</form>',
             showCancelButton: false,
             showConfirmButton: false,
@@ -83,23 +83,23 @@
         }
         function editSwall(id, title, description, unit) {
             Swal.fire({
-            title: 'Edit pozicija',
+            title: 'Izmeni pozicija',
             html: 
                 '<form method="POST" id="formDone" action="{{ route('admin.edit.pozicija') }}">' +
                 '@csrf' +
                 '@method("put")' +
-                '<label for="title">Title pozicija:</label>' +
+                '<label for="title">Naziv pozicija:</label>' +
                 '<input class="mt-3 swal-input" type="text" name="title" value="'+title+'"/>' +
-                '<label for="description" class="mt-3">Description:</label>' +
+                '<label for="description" class="mt-3">Opis:</label>' +
                 '<textarea class="mt-3 swal-input" rows="4" cols="50" type="text" name="description">' +description + '</textarea>' +
-                '<label for="unit">Unit:</label>' +
+                '<label for="unit">Jedinica:</label>' +
                 '<select name="unit" class="mt-3 form-control">' +
                     @foreach ($units as $unit)
                         '<option value="{{ $unit->id_unit }}"' + (unit == {{ $unit->id_unit }} ? 'selected' : '') + '>{{ $unit->name }}</option>'+
                     @endforeach
                 '</select>' +
                 '<input class="mt-3 swal-input" hidden type="text" name="id" value="'+id+'"/>' +
-                '<button type="submit" class="add-new-btn mt-3">Edit</button>' +
+                '<button type="submit" class="add-new-btn mt-3">Izmeni</button>' +
                 '</form>',
             showCancelButton: false,
             showConfirmButton: false,
@@ -108,14 +108,14 @@
         }
         function deleteSwall(id, name) {
             Swal.fire({
-                title: 'Would you like to delete pozicija '+name+'?',
+                title: 'Da li želite da izbrišete poziciju '+name+'?',
                 icon: 'question',
                 html: 
                     '<form method="POST" id="formDelete" action="{{ route('admin.delete.pozicija') }}">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input class="mt-3 swal-input" hidden type="text" name="id" value="'+id+'"/>' +
-                    '<button type="submit" class="add-new-btn mt-3">Delete</button>' +
+                    '<button type="submit" class="add-new-btn mt-3">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,

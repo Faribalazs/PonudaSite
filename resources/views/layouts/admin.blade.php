@@ -38,19 +38,19 @@
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.users') }}">Users</a>
+                    <a href="{{ route('admin.users') }}">{{ __('Users') }}</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.workers') }}">Workers</a>
+                    <a href="{{ route('admin.workers') }}">{{ __('Workers') }}</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.categories') }}">Categories</a>
+                    <a href="{{ route('admin.categories') }}">{{ __('Categories') }}</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.subcategories') }}">Subcategories</a>
+                    <a href="{{ route('admin.subcategories') }}">{{ __('Subcategories') }}</a>
                 </div>
                 <div class="py-2 mx-4 border-bottom">
-                    <a href="{{ route('admin.pozicija') }}">Pozicija</a>
+                    <a href="{{ route('admin.pozicija') }}">{{ __('Positions') }}</a>
                 </div>
                 <div class="alert alert-danger py-2 mx-4 mt-4">
                     <form method="POST" action="{{ route('admin.logout') }}" class="admin-logout">

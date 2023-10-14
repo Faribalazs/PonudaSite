@@ -36,6 +36,8 @@
     @include('sweetalert::alert')
     @php
         \App\Models\Tracker::hit();
+        \App\Models\BrowserAgent::updateBrowserCount();
+        \App\Models\DeviceAgent::updateDeviceCount();
     @endphp
 </body>
 </html>

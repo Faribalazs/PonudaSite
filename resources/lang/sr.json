@@ -4,6 +4,11 @@
     "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "Dati :attribute pojavio se u curenju podataka. Molimo izaberite drugi :attribute.",
     "The email address is already in use.": "E-mejl adresa je već u upotrebi.",
     "Something went wrong!": "Nešto nije u redu!",
-    "Try again later or contact support.": "Pokušajte ponovo kasnije ili kontaktirajte podršku."
+    "Try again later or contact support.": "Pokušajte ponovo kasnije ili kontaktirajte podršku.",
+    "Positions":"Pozicije",
+    "Categories":"Kategorije",
+    "Subcategories":"Podkategorije",
+    "Users":"Korisnici",
+    "Workers":"Radnici"
   }
   

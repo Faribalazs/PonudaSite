@@ -5,14 +5,14 @@
 @endsection
 @section('content')
     <div class="main-container" style="overflow: auto">
-        <button class="add-new-btn mt-3" onclick="insertSwall()">Insert new category</button>
+        <button class="add-new-btn mt-3" onclick="insertSwall()">Kreirajte novu kategoriju</button>
         <table class="table text-center">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Category Name</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Naziv kategorija</th>
+                <th scope="col">Izmeni</th>
+                <th scope="col">Izbriši</th>
             </tr>
             </thead>
             <tbody>
@@ -43,17 +43,17 @@
     <script>
         function insertSwall() {
             Swal.fire({
-            title: 'Insert new category',
+            title: 'Kreirajte novu kategoriju',
             html: 
                 '<form method="POST" id="formnew" action="{{ route('admin.insert.category') }}">' +
                 '@csrf' +
-                '<label for="new_category_name">Category name (serbian):</label>' +
+                '<label for="new_category_name">Naziv kategorija (serbian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_category_name"/>' +
-                '<label for="new_category_name_en">Category name (english):</label>' +
+                '<label for="new_category_name_en">Naziv kategorija (english):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_category_name_en"/>' +
-                '<label for="new_category_name_hu">Category name (hungarian):</label>' +
+                '<label for="new_category_name_hu">Naziv kategorija (hungarian):</label>' +
                 '<input class="mt-3 swal-input" type="text" name="new_category_name_hu"/>' +
-                '<button type="submit" class="add-new-btn mt-3">Insert</button>' +
+                '<button type="submit" class="add-new-btn mt-3">Kreiraj</button>' +
                 '</form>',
             showCancelButton: false,
             showConfirmButton: false,
@@ -62,15 +62,15 @@
         }
         function editSwall(id, name) {
             Swal.fire({
-            title: 'Edit category',
+            title: 'Izmeni kategorija',
             html: 
                 '<form method="POST" id="formDone" action="{{ route('admin.edit.category') }}">' +
                 '@csrf' +
                 '@method("put")' +
-                '<label for="category_name">Category name:</label>' +
+                '<label for="category_name">Naziv kategorija:</label>' +
                 '<input class="mt-3 swal-input" type="text" name="category_name" value="'+name+'"/>' +
                 '<input class="mt-3 swal-input" hidden type="text" name="id" value="'+id+'"/>' +
-                '<button type="submit" class="add-new-btn mt-3">Edit</button>' +
+                '<button type="submit" class="add-new-btn mt-3">Izmeni</button>' +
                 '</form>',
             showCancelButton: false,
             showConfirmButton: false,
@@ -79,14 +79,14 @@
         }
         function deleteSwall(id, name) {
             Swal.fire({
-                title: 'Would you like to delete category '+name+'?',
+                title: 'Želite li da izbrišete kategoriju '+name+'?',
                 icon: 'question',
                 html: 
                     '<form method="POST" id="formDelete" action="{{ route('admin.delete.category') }}">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input class="mt-3 swal-input" hidden type="text" name="id" value="'+id+'"/>' +
-                    '<button type="submit" class="add-new-btn mt-3">Delete</button>' +
+                    '<button type="submit" class="add-new-btn mt-3">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
