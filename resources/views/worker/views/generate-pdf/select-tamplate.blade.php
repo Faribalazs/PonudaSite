@@ -43,21 +43,6 @@
                     Generisi PDF
                 </button>
             </div>
-            {{-- <div class="flex justify-center mt-4">
-                <button type="submit" name="skini" value="skini" class="finish-btn mt-4">
-                    Skini PDF
-                </button>
-            </div>
-            <div class="flex justify-center mt-4">
-                <button type="submit" name="posalji" value="posalji" class="finish-btn mt-4">
-                    Pošalji PDF u imejl
-                </button>
-            </div>
-            <div class="flex justify-center mt-4">
-                <button type="submit" name="ugovor" value="ugovor" class="finish-btn mt-4">
-                    Skini ugovor
-                </button>
-            </div> --}}
         </form>
     </div>
     <style>

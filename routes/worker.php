@@ -201,6 +201,15 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
         Route::get('contractor/archive/generate/contract', [Archive::class, 'contractPdf'])
             ->name('worker.archive.download.contract');
+
+        Route::post('contractor/archive/fill/contract/individual', [Archive::class, 'FizickaLicaUgovor'])
+            ->name('worker.archive.fill.contract.fizicka_lica');
+
+        Route::post('contractor/archive/download/contract/individual', [Archive::class, 'FizickaLicaUgovorGeneratePDF'])
+            ->name('worker.archive.download.contract.fizicka_lica');
+
+        Route::get('contractor/archive/fill/contract/legal-entity', [Archive::class, 'PravnaLicaUgovor'])
+            ->name('worker.archive.fill.contract.pravna_lica');
     });
 });
 

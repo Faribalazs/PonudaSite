@@ -32,7 +32,7 @@
             <input type="hidden" name="temp" value="{{ $temp }}" />
         @endif
         <div class="justify-center mt-20 form1 flex-col">
-           <div class="flex justify-center">
+            <div class="flex justify-center">
                 <div class="sa">
                     <div class="sa-success">
                         <div class="sa-success-tip"></div>
@@ -41,39 +41,77 @@
                         <div class="sa-success-fix"></div>
                     </div>
                 </div>
-           </div>
+            </div>
             <p class="text-center text-4xl font-bold">
                 Ponuda je uspesno generisan <i class="ri-check-double-line"></i>
             </p>
             <p class="text-center text-2xl mt-10">
                 Ponudu mozete skinuti i mozete popuniti ugovor
             </p>
-            <button type="submit" name="skini" value="skini" class="w-1/2 mx-auto text-xl font-bold finish-btn mt-20">
+            <button type="submit" name="skini" value="skini" onclick="showBack()"
+                class="w-1/2 mx-auto text-xl font-bold finish-btn mt-20">
                 Skini PDF
             </button><br>
             <p class="text-2xl text-center">
                 ili
             </p>
-            <button type="submit" name="posalji" value="posalji" class="w-1/2 mx-auto text-xl font-bold finish-btn mt-5">
+            <button type="submit" name="posalji" value="posalji"
+                class="w-1/2 mx-auto text-xl font-bold finish-btn mt-5">
                 Pošalji PDF u E-mail
             </button>
         </div>
     </form>
-    <form class="form2">
-        <button type="submit" name="skini" value="skini" class="w-1/2 mx-auto text-xl font-bold finish-btn mt-5">
+    <div class="div hidden mt-14">
+        <p class="my-5 text-center text-2xl">
+            Mozete izpuniti ugovor ili da se vratite u archivu
+        </p>
+        <button type="button"
+            onclick="ContractSwal('{{ route('worker.archive.fill.contract.fizicka_lica') }}','{{ $ponuda_id }}', '{{ $type }}', '{{ $temporary }}', '{{ $client_id }}')"
+            class="w-1/2 mx-auto text-xl btn justify-center font-bold hidden finish-btn mt-5">
             Izpuni ugovor
         </button>
-    </form>
+        <div class="flex justify-center">
+            <a href="{{ route('worker.archive') }}"
+            class="w-1/2 mx-auto text-xl flex justify-center font-bold finish-btn mt-5">
+            Vrati se u arhivu
+        </a>
+        </div>
+    </div>
     <script>
+        function showBack() {
+            setTimeout(function() {
+                btn = document.querySelector('.btn');
+                div = document.querySelector('.div');
+                btn.style.display = 'flex';
+                div.style.display = 'block';
+            }, 500);
+        }
+
+        function ContractSwal(url, id, type, temporary, client_id) {
+            Swal.fire({
+                title: 'Kakav ugovor hocete da izpunite?',
+                icon: 'question',
+                showCloseButton: true,
+                showConfirmButton: false,
+                html: '<form method="POST" action="' + url + '">' +
+                    '@csrf' +
+                    '<input name="ponuda_id" hidden value="' + id + '">' +
+                    '<input name="type" hidden value="' + type + '">' +
+                    '<input name="temporary" hidden value="' + temporary + '">' +
+                    '<input name="client_id" hidden value="' + client_id + '">' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">Ugovor za fizicka lica</button>' +
+                    '</form>',
+            })
+        }
+
         var body = document.querySelector('body'),
             bar = document.querySelector('.progress-bar'),
             form1 = document.querySelector('.form1'),
-            form2 = document.querySelector('.form2'),
             counter = document.querySelector('.count'),
             barDiv = document.querySelector('.bar-div'),
             mark = document.querySelector('#checkmark-svg'),
             i = 0,
-            throttle = .99; // 0-1
+            throttle = 1; // 0-1
 
         (function draw() {
             if (i <= 100) {
@@ -90,7 +128,6 @@
                 ;
                 bar.className += " animate";
                 form1.className += " show";
-                form2.className += " show";
                 counter.className += " animate";
                 barDiv.className += " animate";
             }
