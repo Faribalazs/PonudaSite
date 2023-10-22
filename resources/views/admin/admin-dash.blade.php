@@ -5,14 +5,14 @@
 @endsection
 @section('content')
     <div class="main-container" style="overflow: auto">
-        <br>Aktivni korisnici (poslednjih 5 minuta): {{ $active }}<br><br>
-        Danas prijavljeni radnici: {{ $workers }}<br>
-        Radnici prijavljeni u poslednjih 30 dana: {{ $workers_last_30_days }}<br>
-        Najviše poseta radnika: {{ $max_visit->worker->name }} klikovi: {{ $max_visit->hits }}<br><br>
-        Ukupna poseta danas: {{ $overall_visit_today }}<br>
-        Ukupne posete u poslednjih 30 dana: {{ $overall_visit_last_30_days }}<br><br>
-        Danas prijavljeni nalozi sa različitim IP adresama: {{ $diff_ip }}<br>
-        Različiti IP u poslednjih 30 dana: {{ $diff_ip_last_30_days }}<br><br>
+        <br>Aktivni korisnici (poslednjih 5 minuta): {{ $active ?? 0}}<br><br>
+        Danas prijavljeni radnici: {{ $workers ?? 0 }}<br>
+        Radnici prijavljeni u poslednjih 30 dana: {{ $workers_last_30_days ?? 0 }}<br>
+        Najviše poseta radnika: {{ $max_visit->worker->name ?? 'null'}} klikovi: {{ $max_visit->hits ?? 0 }}<br><br>
+        Ukupna poseta danas: {{ $overall_visit_today ?? 0 }}<br>
+        Ukupne posete u poslednjih 30 dana: {{ $overall_visit_last_30_days ?? 0 }}<br><br>
+        Danas prijavljeni nalozi sa različitim IP adresama: {{ $diff_ip ?? 0}}<br>
+        Različiti IP u poslednjih 30 dana: {{ $diff_ip_last_30_days ?? 0 }}<br><br>
         @php
             $totalSumBrowser = $browserType->firefox + $browserType->chrome + $browserType->opera + $browserType->safari + $browserType->ie + $browserType->edge + $browserType->unknown;
             $totalSumDevice = $deviceType->desktop + $deviceType->mobile + $deviceType->tablet + $deviceType->bot + $deviceType->unknown;

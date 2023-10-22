@@ -148,7 +148,6 @@
                             required />
                         <p class="{{ $errors->has('maticni_broj') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
                             {{ $errors->first('maticni_broj') }}</p>
-
                     </div>
                 </div>
                 

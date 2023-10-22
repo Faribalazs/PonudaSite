@@ -208,22 +208,38 @@ class Archive extends Controller
         return view('worker.views.generate-pdf.select-contact',['id' => $id]);
     }
 
-    public function showFizicka($id)
+    public function showLice($lice,$id)
     {
-        return view('worker.views.generate-pdf.fizicka-lica',['id' => $id, 'fizicka_lica' => $this->fizickaLica(Helper::worker())]);
+        if ($lice == 'individual') {
+            return view('worker.views.generate-pdf.add-new-or-select-contact',['id' => $id, 'lice' => $lice, 'fizicka_lica' => $this->fizickaLica(Helper::worker())]);
+        }
+
+        if ($lice == 'legal-entity') {
+            return view('worker.views.generate-pdf.add-new-or-select-contact',['id' => $id, 'lice' => $lice, 'pravna_lica' => $this->pravnaLica(Helper::worker())]);
+        }
     }
 
-    public function showPravna($id)
+    public function contactOrForm($lice,$method,$id)
     {
-        return view('worker.views.generate-pdf.pravna_lica',['id' => $id, 'pravna_lica' => $this->pravnaLica(Helper::worker())]);
+        if ($lice == 'individual' && $method == 'contact') {
+            return view('worker.views.generate-pdf.fizicka-lica',['id' => $id, 'lice' => $lice, 'method' => $method, 'fizicka_lica' => $this->fizickaLica(Helper::worker())]);
+        } elseif ($lice == 'individual' && $method == 'add_new') {
+            return view('worker.views.generate-pdf.fizicka-lica',['id' => $id, 'lice' => $lice, 'method' => $method]);
+        }
+
+        if ($lice == 'legal-entity' && $method == 'contact') {
+            return view('worker.views.generate-pdf.pravna-lica',['id' => $id, 'lice' => $lice, 'method' => $method, 'pravna_lica' => $this->pravnaLica(Helper::worker())]);
+        } elseif ($lice == 'legal-entity' && $method == 'add_new') {
+            return view('worker.views.generate-pdf.pravna-lica',['id' => $id, 'lice' => $lice, 'method' => $method]);
+        }
     }
 
     public function submitContact(Request $request){
-        if(isset($request->selectedFizicko)) {
+        if(isset($request->method) && $request->method == 'contact') {
 
-            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->selectedFizicko, 'ponuda_id' => $request->ponuda_id, 'type' => 1]);
+            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->fizicko_id, 'ponuda_id' => $request->ponuda_id, 'type' => 1]);
 
-        } else {
+        } elseif(isset($request->method) && $request->method == 'add_new') {
             $f_name = $request->input('f_name');
             $l_name = $request->input('l_name');
             $grad = $request->input('grad');
@@ -248,25 +264,26 @@ class Archive extends Controller
             ]);
 
             if(isset($request->save))
-            {
-                $client = Fizicko_lice::updateOrCreate(
-                    [
-                        'worker_id' => Helper::worker(),
-                        'email' => $email
-                    ],
-                    [
-                        'worker_id' => Helper::worker(),
-                        'first_name' => $f_name,
-                        'last_name' => $l_name,
-                        'city' => $grad,
-                        'zip_code' => $postcode,
-                        'address' => $adresa,
-                        'email' => $email,
-                        'phone' => $tel,
-                    ]
-                );
-                $temporary = false;
-            }
+                {
+                    $client = Fizicko_lice::updateOrCreate(
+                        [
+                            'worker_id' => Helper::worker(),
+                            'email' => $email
+                        ],
+                        [
+                            'worker_id' => Helper::worker(),
+                            'first_name' => $f_name,
+                            'last_name' => $l_name,
+                            'city' => $grad,
+                            'zip_code' => $postcode,
+                            'address' => $adresa,
+                            'email' => $email,
+                            'phone' => $tel,
+                        ]
+                    );
+                    $temporary = false;
+                    Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+                }
             else{
                 $client = Fizicko_lice_Temporary::updateOrCreate(
                     [
@@ -284,7 +301,6 @@ class Archive extends Controller
                 );
                 $temporary = true;
             }
-
             return view('worker.views.generate-pdf.select-tamplate',
                     [   
                         'ponuda_id' => $request->ponuda_id,
@@ -293,13 +309,14 @@ class Archive extends Controller
                         'type' => 1,
                     ]);
         }
+        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
         return redirect()->back();
     }
 
     public function submitContactPravna(Request $request){
-        if(isset($request->selectedPravno) && isset($request->ponuda_id)) {
-            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->selectedPravno, 'ponuda_id' => $request->ponuda_id, 'type' => 2]);
-        } else {
+        if(isset($request->method) && $request->method == 'contact') {
+            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->pravno_id, 'ponuda_id' => $request->ponuda_id, 'type' => 2]);
+        } elseif(isset($request->method) && $request->method == 'add_new') {
             $company_name = $request->input('company');
             $grad = $request->input('grad');
             $postcode = $request->input('postcode');
@@ -343,6 +360,7 @@ class Archive extends Controller
                     ]
                 );
                 $temporary = false;
+                Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
             }
             else{
                 $client = Pravno_lice_Temporary::updateOrCreate(
@@ -371,6 +389,8 @@ class Archive extends Controller
                         'temporary' => $temporary,
                     ]);
         }
+        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
+        return redirect()->back();
     }
 
     public function redirctToGeneratePdf(Request $request) 

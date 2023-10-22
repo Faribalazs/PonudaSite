@@ -111,6 +111,7 @@ input[type='text']:focus {
     height: 280px;
     font-weight: 800;
     font-size: 35px;
+    opacity: .95;
     justify-content: flex-start;
     margin-top: -93px;
     display: flex;
@@ -221,7 +222,9 @@ input[type='text']:focus {
         padding-left: 20px !important;
         padding-right: 20px !important;
     }
+}
 
+@media (max-width: 640px) {
     .title-div span {
         font-size: 27px !important;
     }
@@ -782,7 +785,7 @@ body.nav-active .nav__list-item:nth-child(4) {
 }
 
 .content-div {
-    width: 85%;
+    width: 97%;
     margin: auto;
     padding-top: 25px;
 }
@@ -964,8 +967,18 @@ body.nav-active .nav__list-item:nth-child(4) {
     font-size: 20px;
     font-weight: 700;
     padding: 10px 30px 10px 30px;
-    border-radius: 25px;
-    height: 50px;
+    border-radius: 16px;
+    width: 100%;
+}
+
+.disabled-btn {
+    background-color: var(--secondary-color);
+    color: #f3f8ff;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px 30px 10px 30px;
+    border-radius: 16px;
+    opacity: .8;
     width: 100%;
 }
 

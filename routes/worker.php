@@ -168,11 +168,11 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
             Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
                 ->name('worker.archive.select.contact');
 
-            Route::get('contractor/fizickalica/{id}', [Archive::class, 'showFizicka'])
-                ->name('worker.archive.fizicka_lica');
+            Route::get('contractor/{lice}/{id}', [Archive::class, 'showLice'])
+                ->name('worker.archive.select.method');
 
-            Route::get('contractor/pravnalica/{id}', [Archive::class, 'showPravna'])
-                ->name('worker.archive.pravna_lica');
+            Route::get('contractor/{lice}/{method}/{id}', [Archive::class, 'contactOrForm'])
+                ->name('worker.archive.show_lica');
         });
 
         Route::get('contractor/archive/search/filter', [Archive::class, 'search'])
