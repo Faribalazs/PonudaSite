@@ -252,6 +252,12 @@ class NewPonuda extends Controller
       $worker_id = Helper::worker();
       if(!empty($this->checkPonudaDone($worker_id))){
          $this->successsponudaDone($request, $worker_id);
+
+         if ($request->edit) {
+            Alert::success('Ponuda je uspešno izmenjena!')->showCloseButton()->showConfirmButton('Zatvori');
+            return redirect(route("worker.new.ponuda"));
+         }
+         
          Alert::success('Ponuda je uspešno kreirana. Možete je pronaći u arhivi!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda"));
       }

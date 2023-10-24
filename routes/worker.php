@@ -66,6 +66,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
     Route::get('contractor/profile/settings', [WorkerController::class, 'profileSettingsCreate'])
         ->name('worker.personal.account.settings');
+
+    Route::get('contractor/profile/conatact/{lice}/{id}', [WorkerController::class, 'showContact'])
+        ->name('worker.contact.show');
         
     Route::post('contractor/profile/settings/change-password', [WorkerController::class, 'updatePassword'])
         ->name('worker.personal.account.settings.update-password');
@@ -158,23 +161,6 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::post('contractor/archive/submit/contact/pravna', [Archive::class, 'submitContactPravna'])
             ->name('worker.archive.submit.contact.pravna');
 
-        Route::middleware(['restrictUserAccess'])->group(function () {
-            Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
-                ->name('worker.archive.selected');
-
-            Route::get('contractor/view/pdf/{id}', [Archive::class, 'viewPDF'])
-                ->name('worker.archive.view.pdf');
-
-            Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
-                ->name('worker.archive.select.contact');
-
-            Route::get('contractor/{lice}/{id}', [Archive::class, 'showLice'])
-                ->name('worker.archive.select.method');
-
-            Route::get('contractor/{lice}/{method}/{id}', [Archive::class, 'contactOrForm'])
-                ->name('worker.archive.show_lica');
-        });
-
         Route::get('contractor/archive/search/filter', [Archive::class, 'search'])
             ->name('worker.archive.search');
 
@@ -210,6 +196,24 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
         Route::get('contractor/archive/fill/contract/legal-entity', [Archive::class, 'PravnaLicaUgovor'])
             ->name('worker.archive.fill.contract.pravna_lica');
+        
+        Route::middleware(['restrictUserAccess'])->group(function () {
+            Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
+                ->name('worker.archive.selected');
+
+            Route::get('contractor/view/pdf/{id}', [Archive::class, 'viewPDF'])
+                ->name('worker.archive.view.pdf');
+
+            Route::get('contractor/archive/select/contact/{id}', [Archive::class, 'selectContact'])
+                ->name('worker.archive.select.contact');
+
+            Route::get('contractor/{lice}/{id}', [Archive::class, 'showLice'])
+                ->name('worker.archive.select.method');
+
+            Route::get('contractor/{lice}/{method}/{id}', [Archive::class, 'contactOrForm'])
+                ->name('worker.archive.show.lica');
+        });
+    
     });
 });
 

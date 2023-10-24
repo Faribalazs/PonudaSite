@@ -73,7 +73,6 @@ input[type='text']:focus {
 }
 
 * {
-    font-family: Poppins;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -100,6 +99,17 @@ input[type='text']:focus {
     color: #ffffff;
     border-radius: 10px;
     font-size: 18px;
+}
+
+.profile-btn {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 5px 15px 5px 15px;
+    border-radius: 16px;
+}
+
+.profile-btn i {
+   font-size: 24px;
 }
 
 .main-btn:hover {

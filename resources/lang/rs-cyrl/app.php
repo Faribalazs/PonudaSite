@@ -7,9 +7,9 @@ return [
 
     'nav' => [
         'dashboard'                 => "Pocetna",
-        'new-ponuda'                => "Nova ponuda",
-        'my-categories'             => "Moje kategorije",
-        'archive'                   => "Moja arhiva",
+        'new-ponuda'                => "Нова понуда",
+        'my-categories'             => "Moja категорије",
+        'archive'                   => "Moja архива",
     ],
 
     'email' => [

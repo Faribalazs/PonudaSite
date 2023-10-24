@@ -505,6 +505,11 @@
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
+                    '@if (isset($swap[0]))' +
+                    '<input type="hidden" name="edit" value="1"/>' +
+                    '@else' +
+                    '<input type="hidden" name="edit" value="0"/>' +
+                    '@endif' +
                     '<label for="ponuda_name" class="font-bold text-main-color">Naziv ponude:</label>' +
                     '<input class="mt-3 swal-input mb-3" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
@@ -528,6 +533,11 @@
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
+                    '@if (isset($swap[0]))' +
+                    '<input type="hidden" name="edit" value="1"/>' +
+                    '@else' +
+                    '<input type="hidden" name="edit" value="0"/>' +
+                    '@endif' +
                     '<label for="ponuda_name" class="font-bold text-main-color">Naziv ponude:</label>' +
                     '<input class="mt-3 mb-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
@@ -548,7 +558,6 @@
             })
         }
 
-        // megcserelni a confirm buttont a cancellel
         function EndPonuda(tempPonudaName) {
             Swal.fire({
                 title: 'Da li želite da dodate opis uz naziv ponude?',

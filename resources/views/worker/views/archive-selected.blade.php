@@ -17,17 +17,17 @@
     @endphp
         <div class="flex mt-16">
             <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
-                <a href="{{ route('worker.archive.select.contact', ['id' => $ponuda_name->id_ponuda]) }}" Skini
+                <a href="{{ route('worker.archive.select.contact', ['id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Generiši PDF</a>
                 <a target="_blank"
-                    href="{{ route('worker.archive.view.pdf', ['id' => $ponuda_name->id_ponuda]) }}" Skini
+                    href="{{ route('worker.archive.view.pdf', ['id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
                     <i class="ri-eye-line"></i>Pogledaj PDF</a>
-                <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}" Skini
+                <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
                     <i class="ri-edit-line"></i>Izmeni ponudu</a>
-                <a href="{{ route('worker.archive.download.contract') }}" Skini
+                <a href="{{ route('worker.archive.download.contract') }}"
                     class="archive-pdf-btn">
                     <i class="ri-download-2-line"></i>Skini ugovor</a>
             </div>

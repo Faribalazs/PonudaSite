@@ -303,4 +303,16 @@ class WorkerController extends Controller
 
       return redirect()->back();
    }
+
+   public function showContact($lice,$id) {
+      if ($lice == 'individual') {
+         $contact = Fizicko_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
+         return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
+      }
+
+      if ($lice == 'legal-entity') {
+         $contact = Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
+         return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
+      }
+   }
 }

@@ -700,6 +700,11 @@ class Archive extends Controller
         return view('worker.views.generate-pdf.fill-up-contract-fizicko-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
     }
 
+    public function contractPdf()
+    {
+        
+    }
+
     public function FizickaLicaUgovorGeneratePDF(Request $request)
     {
         

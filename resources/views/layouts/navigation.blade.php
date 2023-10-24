@@ -9,7 +9,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
-                                {{ __('Nova Ponuda') }}
+                                {{ __('app.nav.new-ponuda') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -18,7 +18,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
-                                {{ __('Moje Kategorije') }}
+                                {{ __('app.nav.my-categories') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -27,7 +27,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') ||Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
-                                {{ __('Moja Arhiva') }}
+                                {{ __('app.nav.archive') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -71,7 +71,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
-                                {{ __('Nova Ponuda') }}
+                                {{ __('app.nav.new-ponuda') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -80,7 +80,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->is(app()->getLocale() . '/contractor/my-options*')">
-                                {{ __('Moje Kategorije') }}
+                                {{ __('app.nav.my-categories') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -89,7 +89,7 @@
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                             <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
-                                {{ __('Moja Arhiva') }}
+                                {{ __('app.nav.archive') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -114,9 +114,7 @@
                         <div class="flex gap-1">
                             <div class="flex justify-center items-center">
                                 <a href="{{ route('myprofile') }}">{{ Auth::user()->name }}</a>
-                            </div>
-                            <div class="profile-circle">
-                                {{ $logInCircle }}
+                                <i class="ri-user-3-line sm:text-3xl text-2xl pl-2"></i>
                             </div>
                         </div>
                     @endif
@@ -127,10 +125,10 @@
                     @endphp
                     <div class="flex gap-1">
                         <div class="flex justify-center items-center">
-                            <a href="{{ route('worker.myprofile') }}">{{ Auth::guard('worker')->user()->name }}</a>
-                        </div>
-                        <div class="profile-circle">
-                            {{ $logInCircle }}
+                            <a href="{{ route('worker.myprofile') }}" class="flex profile-btn items-center">
+                                {{ Auth::guard('worker')->user()->name }}
+                                <i class="ri-user-3-line sm:text-3xl text-2xl pl-2"></i>
+                            </a>
                         </div>
                     </div>
                 @endif
@@ -141,8 +139,12 @@
                 <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
-                @if (!Auth::user())
+                @if (!Auth::guard('worker')->user())
                     <a href="{{ route('worker.login') }}" class="log-in-btn-nav">
+                        <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
+                    </a>
+                @elseif(Auth::guard('worker')->user())
+                    <a href="{{ route('worker.myprofile') }}" class="log-in-btn-nav">
                         <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
                     </a>
                 @endif
@@ -245,10 +247,15 @@
         Swal.fire({
             html: "@if ($lang == 'hu')<a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Hungarian</a><br>" +
                 "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='language-name'>Hungarian</a><br> @endif" +
+
                 "@if ($lang == 'en')<a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
                 "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif" +
-                "@if ($lang == 'rs')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs')) }}' class='disabled-link'>Serbian</a><br>" +
-                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs')) }}' class='language-name'>Serbian</a><br> @endif",
+
+                "@if ($lang == 'sr')<a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='disabled-link'>Serbian (Latinica)</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='language-name'>Serbian (Latinica)</a><br> @endif" +
+
+                "@if ($lang == 'rs-cyrl')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='disabled-link'>Serbian (Цирилица)</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='language-name'>Serbian (Цирилица)</a><br> @endif",
             showCloseButton: true,
             showCancelButton: false,
             showConfirmButton: false,

@@ -44,13 +44,20 @@
                 </a>
                 <div class="contact-list-search">
                     @foreach ($fizicka_lica as $fizicko_lice)
-                        <div class="flex justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
+                        <div style="min-height: max-content"
+                            class="flex flex-grow justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
                             <span class="option-text-fizicka-lica">{{ $fizicko_lice->first_name }}
                                 {{ $fizicko_lice->last_name }}</span>
-                            <a class="edit-btn-table"
-                                href="{{ route('worker.personal.contacts.edit.fizicka', ['id' => $fizicko_lice->id]) }}">
-                                <i class="ri-edit-line"></i>
-                            </a>
+                            <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
+                                <a href="{{ route('worker.contact.show', ['lice' => 'individual', 'id' => $fizicko_lice->id]) }}"
+                                    class="share-btn-table mr-3">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a class="edit-btn-table"
+                                    href="{{ route('worker.personal.contacts.edit.fizicka', ['id' => $fizicko_lice->id]) }}">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -81,10 +88,16 @@
                         <div
                             class="flex justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
                             <span class="option-text-fizicka-lica">{{ $pravno_lice->company_name }}</span>
-                            <a class="edit-btn-table"
-                                href="{{ route('worker.personal.contacts.edit.pravna', ['id' => $pravno_lice->id]) }}">
-                                <i class="ri-edit-line"></i>
-                            </a>
+                            <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
+                                <a href="{{ route('worker.contact.show', ['lice' => 'legal-entity', 'id' => $pravno_lice->id]) }}"
+                                    class="share-btn-table mr-3">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a class="edit-btn-table"
+                                    href="{{ route('worker.personal.contacts.edit.pravna', ['id' => $pravno_lice->id]) }}">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -152,7 +165,9 @@
                 txtValue = a[i].textContent || a[i].innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     a[i].parentElement.style.display = "";
-                    p.remove()
+                    if (no_result) {
+                        no_result.remove();
+                    }
                 } else {
                     a[i].parentElement.style.display = "none";
                     no += 1;
@@ -178,7 +193,9 @@
                 txtValue = a[i].textContent || a[i].innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     a[i].parentElement.style.display = "";
-                    p.remove()
+                    if (no_result) {
+                        no_result.remove();
+                    }
                 } else {
                     a[i].parentElement.style.display = "none";
                     no += 1;

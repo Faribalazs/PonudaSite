@@ -13,7 +13,7 @@
     <div class="mt-24 flex flex-col items-center gap-10">
         <div class="w-1/2">
             @if ((isset($fizicka_lica) && count($fizicka_lica)) || (isset($pravna_lica) && count($pravna_lica)))
-                <a href="{{ route('worker.archive.show_lica', ['lice' => $lice, 'method' => 'contact', 'id' => $id]) }}">
+                <a href="{{ route('worker.archive.show.lica', ['lice' => $lice, 'method' => 'contact', 'id' => $id]) }}">
                     <button class="confirm-btn">Izaberi iz kontakta</button>
                 </a>
             @else
@@ -22,7 +22,7 @@
             @endif
         </div>
         <div class="w-1/2 justify-center">
-            <a href="{{ route('worker.archive.show_lica', ['lice' => $lice, 'method' => 'add_new', 'id' => $id]) }}">
+            <a href="{{ route('worker.archive.show.lica', ['lice' => $lice, 'method' => 'add_new', 'id' => $id]) }}">
                 <button class="confirm-btn">Dodaj novi kontakt</button>
             </a>
         </div>
