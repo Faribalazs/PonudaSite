@@ -27,9 +27,6 @@
                 <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
                     <i class="ri-edit-line"></i>Izmeni ponudu</a>
-                <a href="{{ route('worker.archive.download.contract') }}"
-                    class="archive-pdf-btn">
-                    <i class="ri-download-2-line"></i>Skini ugovor</a>
             </div>
         </div>
         <br>
@@ -95,7 +92,7 @@
                                     {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
                                 </td>
                                 <td><button class="delete-btn-table mx-auto"
-                                        onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', {{ $item->id }}, {{ $item->ponuda_id }})">
+                                        onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', '{{ $item->id }}')">
                                         <i class="ri-delete-bin-line"></i>
                                     </button></td>
 
@@ -194,7 +191,7 @@
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<input name="real_id" hidden value="' + realId + '">' +
+                    '<input name="real_id" hidden value="{{ $ponuda_id }}">' +
                     '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
                     '</form>',
                 showCancelButton: false,

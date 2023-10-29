@@ -20,6 +20,7 @@ class Ponuda extends Model
         'categories_id',
         'subcategories_id',
         'pozicija_id',
+        'service_id',
         'quantity',
         'unit_price',
         'overall_price',

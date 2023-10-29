@@ -8,8 +8,6 @@
       if(auth('worker')->check())
       {
         \App\Models\Tracker::hit();
-        \App\Models\BrowserAgent::updateBrowserCount();
-        \App\Models\DeviceAgent::updateDeviceCount();
       }
     @endphp
     <div class="slider">

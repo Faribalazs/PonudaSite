@@ -201,7 +201,7 @@
         <div class="flex justify-center mt-20">
             <button onClick="showBack()" type="submit"
                 class="sm:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-5">
-                Skini ugovor
+                Skini model ugovora
             </button>
         </div>
         <input type="hidden" name="br"

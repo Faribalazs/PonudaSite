@@ -5,9 +5,6 @@
     <x-slot name="header">
         Nova Pozicija
     </x-slot>
-    @php
-        $user_id = Auth::guard('worker')->user()->id;
-    @endphp
     <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.store.new.pozicija') }}">
         @csrf
         {{-- create ponuda szeruen tudjak kivalasztani az alkategoriat --}}

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Browser;
 
 class Tracker extends Model
 {
@@ -11,7 +12,7 @@ class Tracker extends Model
 
     public $attributes = [ 'hits' => 0 ];
 
-    protected $fillable = [ 'ip', 'worker_id', 'date' ];
+    protected $fillable = [ 'ip', 'worker_id', 'date', 'device', 'browser'];
 
     public $timestamps = false;
 
@@ -33,10 +34,40 @@ class Tracker extends Model
 
     public static function hit() {
         try {
+            $deviceType = 'unknown';
+
+            if (Browser::isMobile()) {
+                $deviceType = 'mobile';
+            } elseif (Browser::isTablet()) {
+                $deviceType = 'tablet';
+            } elseif (Browser::isDesktop()) {
+                $deviceType = 'desktop';
+            } elseif (Browser::isBot()) {
+                $deviceType = 'bot';
+            }     
+
+            $browserType = 'unknown';
+
+            if (Browser::isChrome()) {
+                $browserType = 'chrome';
+            } elseif (Browser::isFirefox()) {
+                $browserType = 'firefox';
+            } elseif (Browser::isOpera()) {
+                $browserType = 'opera';
+            } elseif (Browser::isSafari()) {
+                $browserType = 'safari';
+            } elseif (Browser::isIE()) {
+                $browserType = 'ie';
+            } elseif (Browser::isEdge()) {
+                $browserType = 'edge';
+            }
+            
             static::firstOrCreate([
-                'ip' => request()->ip() ?? 'no-ip',
+                'ip' => request()->ip() ?? '0.0.0.0',
                 'worker_id' => auth('worker')->user()->id,
                 'visit_date' => date('Y-m-d'),
+                'device' => $deviceType,
+                'browser' => $browserType,
             ])->save();
         } catch (\Exception) {
             //should be empty

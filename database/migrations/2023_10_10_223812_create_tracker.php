@@ -16,6 +16,8 @@ return new class extends Migration
             $table->ipAddress('ip');
             $table->unsignedBigInteger('worker_id');
             $table->unsignedBigInteger('hits');
+            $table->string('device');
+            $table->string('browser');
             $table->date('visit_date');
             $table->time('visit_time');
             $table->unique(array('ip', 'visit_date'));

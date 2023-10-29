@@ -5,9 +5,6 @@
     <x-slot name="header">
         Nova podkategorija
     </x-slot>
-    @php
-        $user_id = Auth::guard('worker')->user()->id;
-    @endphp
     <form method="POST" id="add_new_category" class="mt-20" action="{{ route('worker.store.new.subcategory') }}">
         @csrf
         <div id="category-dropdown" class="mt-14">

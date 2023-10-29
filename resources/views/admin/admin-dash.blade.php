@@ -13,16 +13,13 @@
         Ukupne posete u poslednjih 30 dana: {{ $overall_visit_last_30_days ?? 0 }}<br><br>
         Danas prijavljeni nalozi sa različitim IP adresama: {{ $diff_ip ?? 0}}<br>
         Različiti IP u poslednjih 30 dana: {{ $diff_ip_last_30_days ?? 0 }}<br><br>
-        @php
-            $totalSumBrowser = $browserType->firefox + $browserType->chrome + $browserType->opera + $browserType->safari + $browserType->ie + $browserType->edge + $browserType->unknown;
-            $totalSumDevice = $deviceType->desktop + $deviceType->mobile + $deviceType->tablet + $deviceType->bot + $deviceType->unknown;
-        @endphp
-        @if ($totalSumBrowser + $totalSumDevice)
+        
+        @if ($browserType + $deviceType)
             <div class="container">
-                @if($totalSumBrowser)
+                @if($browserType)
                 <div id="pie-chart-browser" style="width: 900px; height: 500px"></div>
                 @endif
-                @if($totalSumDevice)
+                @if($deviceType)
                 <div id="pie-chart-device" style="width: 900px; height: 500px"></div>
                 @endif
             </div>
@@ -34,20 +31,20 @@
                 google.charts.setOnLoadCallback(drawChart);
         
                 function drawChart() {
-                    @if($totalSumBrowser)
+                    @if($browserType)
                     var data = google.visualization.arrayToDataTable([
                         ['Browser', 'Count'],    
-                        ['Chrome', {{ $browserType->chrome }}],
-                        ['Firefox', {{ $browserType->firefox }}],
-                        ['Opera', {{ $browserType->opera }}],
-                        ['Safari', {{ $browserType->safari }}],
-                        ['Internet Explorer', {{ $browserType->ie }}],
-                        ['Microsoft Edge', {{ $browserType->edge }}],
-                        ['Nepoznat', {{ $browserType->unknown }}],
+                        ['Chrome', {{ $chrome }}],
+                        ['Firefox', {{ $firefox }}],
+                        ['Opera', {{ $opera }}],
+                        ['Safari', {{ $safari }}],
+                        ['Internet Explorer', {{ $ie }}],
+                        ['Microsoft Edge', {{ $edge }}],
+                        ['Nepoznat', {{ $unknown_browser }}],
                     ]);
         
                     var options = {
-                        title: 'Detalji pretraživača danas (radnici) - Ukupan broj pretraživača: {{ $totalSumBrowser }}',
+                        title: 'Detalji pretraživača danas (radnici) - Ukupan broj pretraživača: {{ $browserType }}',
                         is3D: true,
                     };
         
@@ -55,18 +52,18 @@
         
                     chart.draw(data, options);
                     @endif
-                    @if($totalSumDevice)
+                    @if($deviceType)
                     var data_device = google.visualization.arrayToDataTable([
                         ['Device', 'Count'],    
-                        ['Desktop', {{ $deviceType->desktop }}],
-                        ['Mobile', {{ $deviceType->mobile }}],
-                        ['Tablet', {{ $deviceType->tablet }}],
-                        ['Bot', {{ $deviceType->bot }}],
-                        ['Nepoznat', {{ $deviceType->unknown }}],
+                        ['Desktop', {{ $desktop }}],
+                        ['Mobile', {{ $mobile }}],
+                        ['Tablet', {{ $tablet }}],
+                        ['Bot', {{ $bot }}],
+                        ['Nepoznat', {{ $unknown_device }}],
                     ]);
         
                     var options_device = {
-                        title: 'Detalji uređaja danas (radnici) - Ukupan broj uređaja: {{ $totalSumDevice }}',
+                        title: 'Detalji uređaja danas (radnici) - Ukupan broj uređaja: {{ $deviceType }}',
                         is3D: true,
                     };
 

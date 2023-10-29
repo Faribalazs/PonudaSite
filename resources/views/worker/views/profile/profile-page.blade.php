@@ -23,6 +23,11 @@
         <div class="mt-3">
             <p class="text-xl"><b>E-mail :</b> {{ $censored_email }}</p>
         </div>
+        <div class="mt-10 flex justify-center flex-col lg:flex-row w-1/3 items-center gap-4">
+            <a href="{{ route('worker.archive.download.contract') }}"
+                        class="archive-pdf-btn">
+                        <i class="ri-download-2-line"></i>Skini prazan model ugovora</a>
+        </div>
     </div>
     
 </x-worker-profile-layout>

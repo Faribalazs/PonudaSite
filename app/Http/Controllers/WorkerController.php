@@ -176,7 +176,10 @@ class WorkerController extends Controller
 
    public function deleteContactFizicka(Request $request)
    {
-      Fizicko_lice::where('id', $request->id)->where('worker_id', Helper::worker())->delete();
+      $request->validate([
+         'id' => ['required']
+      ]);
+      Fizicko_lice::where('id', $request->input('id'))->where('worker_id', Helper::worker())->delete();
       alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->route('worker.personal.contacts');
    }
@@ -241,7 +244,11 @@ class WorkerController extends Controller
 
    public function deleteContactPravno(Request $request)
    {
-      Pravno_lice::where('id', $request->id)->where('worker_id', Helper::worker())->delete();
+      $request->validate([
+         'id' => ['required']
+      ]);
+      
+      Pravno_lice::where('id', $request->input('id'))->where('worker_id', Helper::worker())->delete();
       return redirect()->route('worker.personal.contacts');
    }
 

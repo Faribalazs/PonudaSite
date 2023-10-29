@@ -298,7 +298,7 @@
                             <span class="option-text">{{ $poz->custom_title }}</span>
                             <input class="poz-value" hidden value="{{ $poz->custom_description }}">
                             <p class="poz-id">{{ $poz->custom_subcategory_id }}</p>
-                            <p class="poz-unit">{{ $poz->name }}</p>
+                            <p class="poz-unit">{{ $poz->unit->name }}</p>
                             <p class="pozicija_id">{{ $poz->id }}</p>
                         </li>
                         <hr>
@@ -308,7 +308,7 @@
                             <span class="option-text">{{ $poz->title }}</span>
                             <input class="poz-value" hidden value="{{ $poz->description }}">
                             <p class="poz-id">{{ $poz->subcategory_id }}</p>
-                            <p class="poz-unit">{{ $poz->name }}</p>
+                            <p class="poz-unit">{{ $poz->unit->name }}</p>
                             <p class="pozicija_id">{{ $poz->id }}</p>
                         </li>
                         <hr>

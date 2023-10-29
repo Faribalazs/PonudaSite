@@ -25,6 +25,6 @@ class Default_pozicija extends Model
 
     public function unit()
     {
-        return $this->belongsTo('App\Models\Units', 'unit_id', 'id_unit');
+        return $this->belongsTo(Units::class, 'unit_id', 'id_unit');
     }
 }

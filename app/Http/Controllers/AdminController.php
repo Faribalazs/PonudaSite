@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units, Tracker, BrowserAgent, DeviceAgent};
+use App\Models\{User,Worker,Admin,Default_category, Default_subcategory, Default_pozicija, Units, Tracker};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -19,10 +19,43 @@ class AdminController extends Controller
     $overall_visit_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->sum('hits');
     $diff_ip = Tracker::where('visit_date', date('Y-m-d'))->distinct('ip')->count();
     $diff_ip_last_30_days = Tracker::where('visit_date', '>', now()->subDays(30)->endOfDay())->distinct('ip')->count();
-    $browserType = BrowserAgent::where('date', date('Y-m-d'))->first();
-    $deviceType = DeviceAgent::where('date', date('Y-m-d'))->first();
-    return view('admin.admin-dash',compact(['active','workers','workers_last_30_days','max_visit','overall_visit_today','overall_visit_last_30_days','workers_last_30_days','diff_ip','diff_ip_last_30_days','browserType','deviceType']));
+
+    $browserType = Tracker::select('browser')->where('visit_date', date('Y-m-d'))->count();
+    $deviceType = Tracker::select('device')->where('visit_date', date('Y-m-d'))->count();
+
+    $unknown_browser = $this->browser('unknown');
+    $chrome = $this->browser('chrome');
+    $firefox = $this->browser('firefox');
+    $opera = $this->browser('opera');
+    $safari = $this->browser('safari');
+    $ie = $this->browser('ie');
+    $edge = $this->browser('edge');
+
+    $unknown_device = $this->device('unknown');
+    $desktop = $this->device('desktop');
+    $mobile = $this->device('mobile');
+    $tablet = $this->device('tablet');
+    $bot = $this->device('bot');
+
+    return view('admin.admin-dash',compact(['active','workers','workers_last_30_days','max_visit',
+          'overall_visit_today','overall_visit_last_30_days',
+          'diff_ip','diff_ip_last_30_days',
+          'browserType','deviceType',
+          'unknown_browser', 'chrome', 'firefox', 'opera', 'safari', 'ie', 'edge',
+          'unknown_device', 'desktop', 'mobile', 'tablet', 'bot'
+        ]));
   }
+
+  private function browser($browser)
+  {
+    return Tracker::where('browser', $browser)->where('visit_date', date('Y-m-d'))->count();
+  }
+
+  private function device($device)
+  {
+    return Tracker::where('device', $device)->where('visit_date', date('Y-m-d'))->count();
+  }
+
   public function insertAdmin()
   {
     $user = Worker::create([
@@ -103,7 +136,7 @@ class AdminController extends Controller
   }
 
   public function insertCategory(Request $request){
-    $category = Default_category::create(['name' => ['sr' => $request->new_category_name]]);
+    $category = Default_category::create(['name' => ['sr' => $request->input('new_category_name')]]);
     if($request->input('new_category_name_en') != null)
       $category->setTranslations('name', ['en' => $request->input('new_category_name_en')]);
     if($request->input('new_category_name_hu') != null)
@@ -115,7 +148,7 @@ class AdminController extends Controller
   }
 
   public function editCategory(Request $request){
-    Default_category::where('id', $request->input('id'))->first()->setTranslations('name', [app()->getLocale() => $request->category_name])->save();
+    Default_category::where('id', $request->input('id'))->first()->setTranslations('name', [app()->getLocale() => $request->input('category_name')])->save();
     return redirect()->back();
   }
 
