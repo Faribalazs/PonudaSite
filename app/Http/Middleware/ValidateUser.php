@@ -24,7 +24,7 @@ class ValidateUser
         }
         elseif(auth('worker')->check()){
             $user = auth('worker');
-            $route = 'worker.login';
+            $route = 'worker.session.create';
             $session_key = 'mama';
         }
         if(isset($user))

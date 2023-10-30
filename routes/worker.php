@@ -155,10 +155,10 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::get('contractor/archive/success', [Archive::class, 'generatePdfSuccess'])
             ->name('worker.archive.success');
 
-        Route::post('contractor/archive/submit/contact/fizicka', [Archive::class, 'submitContact'])
+        Route::post('contractor/archive/submit/contact/individual', [Archive::class, 'submitContact'])
             ->name('worker.archive.submit.contact');
 
-        Route::post('contractor/archive/submit/contact/pravna', [Archive::class, 'submitContactPravna'])
+        Route::post('contractor/archive/submit/contact/legal-entity', [Archive::class, 'submitContactPravna'])
             ->name('worker.archive.submit.contact.pravna');
 
         Route::get('contractor/archive/search/filter', [Archive::class, 'search'])

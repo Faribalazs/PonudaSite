@@ -18,6 +18,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        if (auth()->guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (strpos(url()->previous(), 'admin') !== false) {
+            $intendedUrl = url()->previous();
+        } else {
+            $intendedUrl = route('admin.dashboard');
+        }
+
+        session()->put('url.intended', $intendedUrl);
+
         return view('admin.admin-login');
     }
 
@@ -29,9 +41,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $this->validate(request(), [
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
+
         $request->authenticate();
-        $request->session()->regenerate();
-        return redirect()->route('admin.dashboard');
+
+        if (! auth()->guard('admin')->user()->status) {
+            auth()->guard('admin')->logout();
+
+            return redirect()->route('admin.session.create');
+        }
+
+        return redirect()->intended(route('admin.dashboard'));
     }
 
     /**
@@ -44,10 +67,6 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('admin')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect(route('home'));
+        return redirect(route('admin.session.create'));
     }
 }

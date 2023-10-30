@@ -107,6 +107,7 @@ class NewPonuda extends Controller
             'pozicija_id' => 'required|regex:/^[0-9\s]+$/i',
             'price' => 'required|regex:/^[0-9\s]+$/i',
             'radioButton' => 'required|in:1,2',
+            'opis' => 'nullable|regex:/\p{L}/u',
         ]);
 
          if($request->input('quantity') > 0 && $request->input('price') > 0)
@@ -156,6 +157,10 @@ class NewPonuda extends Controller
                   'temporary_title' => $title,
             ]);
             }
+            
+            session()->forget('opis_ponude');
+            session()->put('opis_ponude', $request->input('opis'));
+
             return redirect(route("worker.new.ponuda"))->with('msg', 'added'); 
          }
          else

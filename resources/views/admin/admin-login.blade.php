@@ -12,7 +12,7 @@ Admin log in
                     <span class="welcome-text">{{ __('app.auth.welcome') }}</span>
                     <img src="{{ asset('img/logo.svg') }}" class="welcome-img my-7">
                 </div>
-                <form method="POST" action="{{ route('admin.login') }}">
+                <form method="POST" action="{{ route('admin.session.create') }}">
                     @csrf
                     <!-- Email Address -->
                     <div>

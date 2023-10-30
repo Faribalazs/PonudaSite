@@ -49,13 +49,7 @@ return [
         'worker' => [
             'driver' => 'session',
             'provider' => 'workers',
-        ],
-
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
+        ]
     ],
 
     /*
@@ -139,6 +133,6 @@ return [
     |
     */
 
-    'password_timeout' => 10800,
+    //'password_timeout' => 10800,
 
 ];

@@ -199,23 +199,27 @@
                 </table>
             </div>
         </div>
-        @if (isset($tempOpis))
-            <div class="flex flex-col">
-                <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
-                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ $tempOpis }}</textarea>
-            </div>
-        @else
-            <button onclick="showDes()" id="yes-des" class="finish-btn my-3">Dodaj opštu napomenu</button>
-            <button onclick="hideDes()" id="nope-des" class="finish-btn my-3"
-                style="background-color: #ac1902; display: none;">Necu dodati opštu napomenu</button>
-            <div class="flex flex-col" id="text-area" style="display: none;">
-                <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
-                <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis"></textarea>
-            </div>
-        @endif
     @endif
     <form method="POST" id="form" action="{{ route('worker.store.new.ponuda') }}">
         @csrf
+
+        @if ($mergedData->isNotEmpty())
+            @if (isset($tempOpis))
+                <div class="flex flex-col">
+                    <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
+                    <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ $tempOpis }}</textarea>
+                </div>
+            @else
+                <button onclick="showDes()" type="button" id="yes-des" class="finish-btn my-3 {{session('opis_ponude') != '' ? 'hidden' : 'flex'}}">Dodaj opštu napomenu</button>
+                <button onclick="hideDes()" type="button" id="nope-des" class="finish-btn my-3 {{session('opis_ponude') != '' ? 'flex' : 'hidden'}}"
+                    style="background-color: #ac1902;">Necu dodati opštu napomenu</button>
+                <div class="flex-col {{session('opis_ponude') != '' ? 'flex' : 'hidden'}}" id="text-area">
+                    <label for="opis" class="mt-3">Opšta napomena uz ponudu (neobavezno) :</label>
+                    <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ session('opis_ponude') }}</textarea>
+                </div>
+            @endif
+        @endif
+
         <div id="category-dropdown" class="mt-14">
             <span class="input-label pl-2">Odaberi Kategoriju:*</span>
             <div class="select-menu-category pt-3">
@@ -388,12 +392,16 @@
             var x = document.getElementById("text-area");
             var y = document.getElementById("nope-des");
             var z = document.getElementById("yes-des");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-                y.style.display = "flex";
-                z.style.display = "none";
+            if (x.classList.contains('hidden')) {
+                x.classList.remove('hidden');
+                x.classList.add('flex');
+                y.classList.remove('hidden');
+                y.classList.add('flex');
+                z.classList.remove('flex');
+                z.classList.add('hidden');
             } else {
-                x.style.display = "none";
+                x.classList.remove('flex');
+                x.classList.add('hidden');
             }
         }
 
@@ -401,12 +409,16 @@
             var x = document.getElementById("nope-des");
             var y = document.getElementById("text-area");
             var z = document.getElementById("yes-des");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
+            if (x.classList.contains('hidden')) {
+                x.classList.remove('hidden');
+                x.classList.add('flex');
             } else {
-                x.style.display = "none";
-                y.style.display = "none";
-                z.style.display = "flex";
+                x.classList.remove('flex');
+                x.classList.add('hidden');
+                y.classList.remove('flex');
+                y.classList.add('hidden');
+                z.classList.remove('hidden');
+                z.classList.add('flex');
             }
         }
 

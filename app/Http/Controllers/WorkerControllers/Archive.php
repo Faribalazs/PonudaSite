@@ -223,8 +223,12 @@ class Archive extends Controller
 
     public function submitContact(Request $request){
         if($request->input('method') !== null && $request->input('method') == 'contact') {
-
-            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('fizicko_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 1]);
+            if ($request->input('fizicko_id') != null) {
+                return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('fizicko_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 1]);
+            } else {
+                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
+                return redirect()->back();
+            }
 
         } elseif($request->input('method') !== null && $request->input('method') == 'add_new') {
             $f_name = $request->input('f_name');
@@ -303,7 +307,12 @@ class Archive extends Controller
 
     public function submitContactPravna(Request $request){
         if($request->input('method') !== null && $request->input('method') == 'contact') {
-            return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('pravno_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 2]);
+            if ($request->input('pravno_id') != null) {
+                return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('pravno_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 2]);
+            } else {
+                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
+                return redirect()->back();
+            }
         } elseif($request->input('method') !== null && $request->input('method') == 'add_new') {
             $company_name = $request->input('company');
             $grad = $request->input('grad');

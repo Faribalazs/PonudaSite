@@ -102,7 +102,7 @@
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
                 @if (!Auth::user() && !Auth::guard('worker')->user())
-                    <a href="{{ route('worker.login') }}">
+                    <a href="{{ route('worker.session.create') }}">
                         <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
                     </a>
                 @endif
@@ -140,7 +140,7 @@
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
                 @if (!Auth::guard('worker')->user())
-                    <a href="{{ route('worker.login') }}" class="log-in-btn-nav">
+                    <a href="{{ route('worker.session.create') }}" class="log-in-btn-nav">
                         <i class="ri-user-3-line sm:text-3xl text-2xl"></i>
                     </a>
                 @elseif(Auth::guard('worker')->user())

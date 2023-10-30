@@ -38,7 +38,7 @@
                         </div>
                     </form>
                 @endif
-                <form method="POST" action="{{ route('worker.login') }}">
+                <form method="POST" action="{{ route('worker.session.create') }}">
                     @csrf
                     <!-- Email Address -->
                     <div>

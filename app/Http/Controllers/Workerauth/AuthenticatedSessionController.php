@@ -17,6 +17,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        if (auth()->guard('worker')->check()) {
+            return redirect()->route('worker.myprofile');
+        }
+
+        if (strpos(url()->previous(), 'worker') !== false) {
+            $intendedUrl = url()->previous();
+        } else {
+            $intendedUrl = route('worker.myprofile');
+        }
+
+        session()->put('url.intended', $intendedUrl);
+
         return view('worker.auth.login');
     }
 
@@ -28,15 +40,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $this->validate(request(), [
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
+
         $request->authenticate();
 
-        $request->session()->regenerate();
+        if (! auth()->guard('worker')->user()->status) {
+            auth()->guard('admin')->logout();
 
-        if ($request->user('worker')->hasVerifiedEmail()) {
-            return redirect()->intended(route('worker.myprofile'));
+            return redirect()->route('worker.session.create');
         }
 
-        return redirect()->back();
+        return redirect()->intended(route('worker.myprofile'));
     }
 
     /**
@@ -49,10 +66,6 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('worker')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect(route('home'));
+        return redirect(route('worker.session.create'));
     }
 }
