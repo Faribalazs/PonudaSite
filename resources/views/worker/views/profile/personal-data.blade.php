@@ -14,8 +14,11 @@
     @if (Auth::guard('worker')->user()->hasRole('super_worker') && !empty($company_data))
         <div class="mt-3">
             <form method="POST" action="{{ route('worker.personal.company.delete') }}">
+
                 @csrf
+
                 @method('DELETE')
+
                 <button type="submit" class="finish-btn">
                     Izbriši
                 </button>
@@ -86,7 +89,9 @@
         <div class="flex mt-3 flex-col">
             <form method="POST" action="{{ route('worker.personal.data.save') }}" class="flex flex-col"
                 enctype="multipart/form-data">
+
                 @csrf
+
                 <label for="company_name" class="sm:text-xl text-base my-3">Tačan naziv firme* :</label>
                 <input class="input-style {{ $errors->has('company_name') ? 'border-error mb-1' : 'mb-3' }}"
                     name="company_name" value="{{ old('company_name') }}" maxlength="50" type="text" required />
@@ -150,7 +155,7 @@
                             {{ $errors->first('maticni_broj') }}</p>
                     </div>
                 </div>
-                
+
                 <label for="tekuci_racun" class="sm:text-xl text-base my-3">Tekući račun* :</label>
                 <input class="input-style {{ $errors->has('tekuci_racun') ? 'border-error mb-1' : 'mb-3' }}"
                     name="tekuci_racun" value="{{ old('tekuci_racun') }}" maxlength="30" type="text" required />

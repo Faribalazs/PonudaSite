@@ -158,6 +158,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::post('contractor/archive/submit/contact/individual', [Archive::class, 'submitContact'])
             ->name('worker.archive.submit.contact');
 
+        Route::get('contractor/archive/select-template', [Archive::class, 'selectTempleteCreate'])
+            ->name('worker.archive.select.template');
+
         Route::post('contractor/archive/submit/contact/legal-entity', [Archive::class, 'submitContactPravna'])
             ->name('worker.archive.submit.contact.pravna');
 
@@ -181,6 +184,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         
         Route::post('contractor/archive/generate/pdf', [Archive::class, 'redirctToGeneratePdf'])
             ->name('worker.archive.genarte.tamplate.pdf');
+
+        Route::get('contractor/archive/generate/pdf', [Archive::class, 'createGeneratePdf'])
+            ->name('worker.archive.genarte.tamplate.pdf.create');
 
         Route::post('contractor/archive/download/pdf', [Archive::class, 'tamplateGeneratePdf'])
             ->name('worker.archive.download.tamplate.pdf');

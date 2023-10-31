@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker};
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image as Image;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Hash;
-use App\Helpers\Helper;
+use Intervention\Image\Facades\Image as Image;
+use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker};
 
 class WorkerController extends Controller
 {
@@ -93,7 +93,10 @@ class WorkerController extends Controller
          ]);
 
          if($company_data->wasRecentlyCreated){
-            alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+            alert()->success('Podaci su sačuvane!')->showCloseButton()->showConfirmButton('Zatvori');
+            if (session('ponuda_id') != null) {
+               return redirect()->route('worker.archive.genarte.tamplate.pdf.create');
+            }
             return redirect()->route('worker.personal.data');
          }
       }

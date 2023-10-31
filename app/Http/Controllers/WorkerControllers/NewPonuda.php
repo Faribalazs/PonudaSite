@@ -293,6 +293,8 @@ class NewPonuda extends Controller
             Alert::success('Ponuda je uspešno izmenjena!')->showCloseButton()->showConfirmButton('Zatvori');
             return redirect(route("worker.new.ponuda"));
          }
+
+         session()->forget('opis_ponude');
          
          Alert::success('Ponuda je uspešno kreirana. Možete je pronaći u arhivi!')->showCloseButton()->showConfirmButton('Zatvori');
          return redirect(route("worker.new.ponuda"));

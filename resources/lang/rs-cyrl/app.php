@@ -8,7 +8,7 @@ return [
     'nav' => [
         'dashboard'                 => "Pocetna",
         'new-ponuda'                => "Нова понуда",
-        'my-categories'             => "Moja категорије",
+        'my-categories'             => "Moje категорије",
         'archive'                   => "Moja архива",
     ],
 

@@ -10,17 +10,17 @@
     <div class="flex">
         <form method="POST" action="{{ route('worker.archive.genarte.tamplate.pdf') }}" class="mt-5 w-full">
             @csrf
-            @if (isset($client_id))
-                <input type="hidden" name="client_id" value="{{ $client_id }}" />
+            @if (session('client_id') != null)
+                <input type="hidden" name="client_id" value="{{ session('client_id') }}" />
             @endif
-            @if (isset($type))
-                <input type="hidden" name="type" value="{{ $type }}" />
+            @if (session('type') != null)
+                <input type="hidden" name="type" value="{{ session('type') }}" />
             @endif
-            @if (isset($ponuda_id))
-                <input type="hidden" name="ponuda_id" value="{{ $ponuda_id }}" />
+            @if (session('ponuda_id') != null)
+                <input type="hidden" name="ponuda_id" value="{{ session('ponuda_id') }}" />
             @endif
-            @if (isset($temporary))
-                <input type="hidden" name="temporary" value="{{ $temporary }}" />
+            @if (session('temporary') != null)
+                <input type="hidden" name="temporary" value="{{ session('temporary') }}" />
             @endif
             <div class="radio-btn-container">
                 <ul class="radio-img">

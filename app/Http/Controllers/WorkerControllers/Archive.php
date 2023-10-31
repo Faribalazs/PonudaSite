@@ -191,7 +191,9 @@ class Archive extends Controller
     }
 
     public function selectContact($id){
-
+        session()->forget('client_id');
+        session()->forget('ponuda_id');
+        session()->forget('type');
         return view('worker.views.generate-pdf.select-contact',['id' => $id]);
     }
 
@@ -221,10 +223,20 @@ class Archive extends Controller
         }
     }
 
+    public function selectTempleteCreate(){
+
+        return view('worker.views.generate-pdf.select-tamplate');
+    }
+
     public function submitContact(Request $request){
         if($request->input('method') !== null && $request->input('method') == 'contact') {
             if ($request->input('fizicko_id') != null) {
-                return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('fizicko_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 1]);
+                session(['client_id'=> $request->input('fizicko_id')]);
+                session(['ponuda_id' => $request->input('ponuda_id')]);
+                session(['type' => 1]);
+
+                return redirect()->route('worker.archive.select.template');
+                
             } else {
                 Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
                 return redirect()->back();
@@ -308,7 +320,11 @@ class Archive extends Controller
     public function submitContactPravna(Request $request){
         if($request->input('method') !== null && $request->input('method') == 'contact') {
             if ($request->input('pravno_id') != null) {
-                return view('worker.views.generate-pdf.select-tamplate',['client_id' => $request->input('pravno_id'), 'ponuda_id' => $request->input('ponuda_id'), 'type' => 2]);
+                session(['client_id'=> $request->input('pravno_id')]);
+                session(['ponuda_id' => $request->input('ponuda_id')]);
+                session(['type' => 2]);
+
+                return redirect()->route('worker.archive.select.template');
             } else {
                 Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
                 return redirect()->back();
@@ -391,6 +407,11 @@ class Archive extends Controller
         return redirect()->back();
     }
 
+    public function createGeneratePdf() 
+    {
+        return view('worker.views.generate-pdf.generate-pdf-success');
+    }
+
     public function redirctToGeneratePdf(Request $request) 
     {
         $request->validate([
@@ -398,14 +419,10 @@ class Archive extends Controller
             'client_id' => 'nullable|numeric|gte:0',
             'type' => 'required|in:1,2',
         ]);
-        return view('worker.views.generate-pdf.generate-pdf-success',
-                    [ 
-                        'ponuda_id' => $request->input('ponuda_id'),
-                        'type' => $request->input('type'),
-                        'client_id' => $request->input('client_id'),
-                        'temp' => $request->input('temp') ?? 'default',
-                        'temporary' => $request->input('temporary'),
-                    ]);
+
+        session(['temp' => $request->input('temp') ?? 'default']);
+        
+        return redirect()->route('worker.archive.genarte.tamplate.pdf.create');
     }
 
     public function tamplateGeneratePdf(Request $request) 
@@ -466,68 +483,20 @@ class Archive extends Controller
             }
             $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
             if (isset($pdf_name->ponuda_name)) {
+                session()->forget('client_id');
+                session()->forget('ponuda_id');
+                session()->forget('type');
                 return $pdf->download($pdf_name->ponuda_name . '.pdf');
             } else {
+                session()->forget('client_id');
+                session()->forget('ponuda_id');
+                session()->forget('type');
                 return $pdf->download('Ponuda.pdf');
             }
         }
         elseif($request->input('posalji'))
         {
             return view('worker.views.generate-pdf.send-with-mail',['name' => $pdf_name->ponuda_name ?? "Ponuda", 'id' => $id, 'client_id' => $client_id, 'type' => $type_id, 'temporary' => $request->input('temporary'), 'pdf_blade' => $pdf_blade]);
-        }
-        elseif($request->input('ugovor'))
-        {
-            $sum = 0;
-            foreach($selectedWorkerPonuda as $ponuda)
-            {
-                $sum += $ponuda->overall_price;
-            }
-            if ($type_id && $client_id) {
-                $type_lica = null;
-                if($type_id == 1)
-                {
-                    if($request->input('temporary'))
-                    {
-                        $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
-                        $type_lica = 'FT';
-                    }
-                    else
-                    {
-                        $foundClient = $this->selectedFizicka($worker_id, $client_id);
-                        $type_lica = 'F';
-                    }
-                }
-                elseif($type_id == 2)
-                {
-                    if($request->input('temporary'))
-                    {
-                        $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
-                        $type_lica = 'PT';
-                    }
-                    else
-                    {
-                        $foundClient = $this->selectedPravna($worker_id, $client_id);
-                        $type_lica = 'P';
-                    }
-                }
-                else {
-                    return redirect()->route('worker.archive');
-                }
-
-                if($company_data == null) {
-                    return redirect()->route('worker.archive');
-                }
-
-                $pdv = $sum * 0.2;
-                $sum += $pdv;
-                $sum = ceil($sum);
-                $digit = new \NumberFormatter('sr_Latn_RS', \NumberFormatter::SPELLOUT);
-                $sum_in_words = $digit->format($sum);
-
-                $pdf = PDF::loadView('worker.pdf.contract', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
-                return $pdf->download('contract' . '.pdf');
-            }
-            return redirect()->route('worker.archive');
         }
     }
 

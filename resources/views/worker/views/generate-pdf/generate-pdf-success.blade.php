@@ -16,20 +16,20 @@
     </div>
     <form method="POST" action="{{ route('worker.archive.download.tamplate.pdf') }}" class="mt-5 w-full">
         @csrf
-        @if (isset($client_id))
-            <input type="hidden" name="client_id" value="{{ $client_id }}" />
+        @if (session('client_id') != null)
+            <input type="hidden" name="client_id" value="{{ session('client_id') }}" />
         @endif
-        @if (isset($type))
-            <input type="hidden" name="type" value="{{ $type }}" />
+        @if (session('type') != null)
+            <input type="hidden" name="type" value="{{ session('type') }}" />
         @endif
-        @if (isset($ponuda_id))
-            <input type="hidden" name="ponuda_id" value="{{ $ponuda_id }}" />
+        @if (session('ponuda_id') != null)
+            <input type="hidden" name="ponuda_id" value="{{ session('ponuda_id') }}" />
         @endif
-        @if (isset($temporary))
-            <input type="hidden" name="temporary" value="{{ $temporary }}" />
+        @if (session('temporary') != null)
+            <input type="hidden" name="temporary" value="{{ session('temporary') }}" />
         @endif
-        @if (isset($temp))
-            <input type="hidden" name="temp" value="{{ $temp }}" />
+        @if (session('temp') != null)
+            <input type="hidden" name="temp" value="{{ session('temp') }}" />
         @endif
         <div class="justify-center mt-20 form1 flex-col">
             <div class="flex justify-center">
@@ -66,15 +66,15 @@
             Mozete izpuniti ugovor ili da se vratite u archivu
         </p>
         <button type="button"
-            onclick="ContractSwal('{{ route('worker.archive.fill.contract.fizicka_lica') }}','{{ $ponuda_id }}', '{{ $type }}', '{{ $temporary }}', '{{ $client_id }}')"
+            onclick="ContractSwal('{{ route('worker.archive.fill.contract.fizicka_lica') }}','{{ session('ponuda_id') }}', '{{ session('type') }}', '{{ session('temporary') }}', '{{ session('client_id') }}')"
             class="w-1/2 mx-auto text-xl btn justify-center font-bold hidden finish-btn mt-5">
             Izpuni ugovor
         </button>
         <div class="flex justify-center">
             <a href="{{ route('worker.archive') }}"
-            class="w-1/2 mx-auto text-xl flex justify-center font-bold finish-btn mt-5">
-            Vrati se u arhivu
-        </a>
+                class="w-1/2 mx-auto text-xl flex justify-center font-bold finish-btn mt-5">
+                Vrati se u arhivu
+            </a>
         </div>
     </div>
     <script>
@@ -213,7 +213,7 @@
         .count {
             width: 100%;
             text-align: center;
-            font-weight: 100;
+            font-weight: 400;
             font-size: 3em;
             color: #0d2c5a;
         }
