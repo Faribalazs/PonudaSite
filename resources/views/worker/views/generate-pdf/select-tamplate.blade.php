@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Izaberi izgled
+        Odaberi izgled
     </x-slot>
     <x-slot name="header">
         Generiši PDF
@@ -27,20 +27,20 @@
                     <li>
                         <input type="radio" name="temp" id="cb1" value="default" />
                         <label for="cb1"><img src="{{ asset('img/defautpdf.png') }}" /></label>
-                        <span>Obican sablon</span>
+                        <span>Ponuda bez memoranduma</span>
                     </li>
                 </ul>
                 <ul class="radio-img">
                     <li>
                         <input type="radio" name="temp" id="cb2" value="template-one" />
                         <label for="cb2"><img src="{{ asset('img/newtamplate.png') }}" /></label>
-                        <span>Novi sablon</span>
+                        <span>Ponuda na memorandumu</span>
                     </li>
                 </ul>
             </div>
             <div class="flex justify-center mt-4">
                 <button type="submit" name="skini" value="skini" class="finish-btn mt-4">
-                    Generisi PDF
+                    Generiši PDF
                 </button>
             </div>
         </form>

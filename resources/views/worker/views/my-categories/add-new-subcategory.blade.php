@@ -11,7 +11,7 @@
             <span class="input-label pl-2">Odaberi Kategoriju:</span>
             <div class="select-menu-category pt-3">
                 <div class="select-btn-category">
-                    <span class="sBtn-text-category">Izaberi kategoriju</span>
+                    <span class="sBtn-text-category">Odaberi kategoriju</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -81,8 +81,8 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Izaberi podkategoriju ';
-            sBtn_text.innerText = 'Izaberi poziciju';
+            sBtn_textSub.innerText = 'Odaberi podkategoriju ';
+            sBtn_text.innerText = 'Odaberi poziciju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {

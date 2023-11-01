@@ -179,7 +179,7 @@
                 </label>
                 <div class="flex flex-col sm:flex-row">
                     <label for="file-upload" class="image-upload-btn px-4 py-3 text-center">
-                        Izaberi sliku
+                        Odaberi sliku
                     </label>
                     <input id="file-upload" name="logo" type="file" style="display:none;">
                     <input id="uploadFile" class="text-center sm:text-left sm:pl-3 pl-0 sm:mt-0 mt-2 max-w-full"

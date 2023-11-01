@@ -162,12 +162,12 @@
     <script>
         function addNewOption() {
             Swal.fire({
-                title: 'Šta hoćete da dodate ?',
+                title: 'Šta želiš da dodaš ?',
                 icon: 'question',
                 html: '<div class="flex flex-col gap-5 pb-6">' +
-                    '<a href="{{ route('worker.create.new.category') }}" class="main-btn">Nova kategorija</a>' +
-                    '<a href="{{ route('worker.create.new.subcategory') }}" class="main-btn">Nova subkategorija</a>' +
-                    '<a href="{{ route('worker.create.new.pozicija') }}" class="main-btn">Nova pozicija</a>' +
+                    '<a href="{{ route('worker.create.new.category') }}" class="main-btn">Novu kategoriju</a>' +
+                    '<a href="{{ route('worker.create.new.subcategory') }}" class="main-btn">Novu subkategoriju</a>' +
+                    '<a href="{{ route('worker.create.new.pozicija') }}" class="main-btn">Novu poziciju</a>' +
                     '</div>',
                 showCancelButton: false,
                 showConfirmButton: false,

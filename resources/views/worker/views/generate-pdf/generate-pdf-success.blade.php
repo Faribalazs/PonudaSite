@@ -8,7 +8,7 @@
     <div class="bar-div">
         <div class="mt20">
             <p class="text-center text-4xl py-14 font-bold">
-                Ponuda se generise
+                Ponuda se generiše
             </p>
         </div>
         <div class="progress-bar"></div>
@@ -43,21 +43,21 @@
                 </div>
             </div>
             <p class="text-center text-4xl font-bold">
-                Ponuda je uspesno generisan <i class="ri-check-double-line"></i>
+                Ponuda je uspešno generisana! <i class="ri-check-double-line"></i>
             </p>
             <p class="text-center text-2xl mt-10">
-                Ponudu mozete skinuti i mozete popuniti ugovor
+                Šta želiš da uradiš sa generisanom ponudom?
             </p>
             <button type="submit" name="skini" value="skini" onclick="showBack()"
                 class="w-1/2 mx-auto text-xl font-bold finish-btn mt-20">
-                Skini PDF
+                Skini ponudu
             </button><br>
             <p class="text-2xl text-center">
                 ili
             </p>
             <button type="submit" name="posalji" value="posalji"
                 class="w-1/2 mx-auto text-xl font-bold finish-btn mt-5">
-                Pošalji PDF u E-mail
+                Pošalji ponudu na klijentov E-mail
             </button>
         </div>
     </form>

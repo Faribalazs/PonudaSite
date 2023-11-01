@@ -5,7 +5,7 @@
     <x-slot name="header">
     </x-slot>
     <div class="flex profile-title">
-        <p class="text-3xl font-bold">Podesavanja :</p>
+        <p class="text-3xl font-bold">Podešavanja :</p>
     </div>
     <div class="flex mt-3 flex-col">
         <p class="text-2xl font-bold mt-5">Promeni lozinku :</p>

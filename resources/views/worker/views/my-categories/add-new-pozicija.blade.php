@@ -12,7 +12,7 @@
             <span class="input-label pl-2">Odaberi Podkategoriju:</span>
             <div class="select-menu-subcategory mt-3">
                 <div class="select-btn-subcategory">
-                    <span class="sBtn-text-subcategory">Izaberi podkategoriju</span>
+                    <span class="sBtn-text-subcategory">Odaberi podkategoriju</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -40,11 +40,18 @@
                 </ul>
             </div>
         </div>
-        <div id="obracun-dropdown" style="margin-top: -130px">
+        <div class="flex flex-col" style="margin-top: -130px">
+            <span class="input-label pl-2 mb-3">Naziv pozicije:</span>
+            <input type="text" name="poz_title" class="input-style mb-14">
+            <span class="input-label pl-2 mt-3 mb-3">Opis pozicije:</span>
+            <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
+        </div>
+
+        <div id="obracun-dropdown" >
             <span class="input-label pl-2">Odaberi obračun:</span>
             <div class="select-menu-obracun mt-3">
                 <div class="select-btn-obracun">
-                    <span class="sBtn-text-obracun">Izaberi obračun</span>
+                    <span class="sBtn-text-obracun">Odaberi obračun</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -64,11 +71,7 @@
                 </ul>
             </div>
         </div>
-        <div class="flex flex-col" style="margin-top: -50px">
-            <span class="input-label pl-2 mb-3">Naziv pozicije:</span>
-            <input type="text" name="poz_title" class="input-style mb-14">
-            <span class="input-label pl-2 mt-3 mb-3">Opis pozicije:</span>
-            <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
+        <div class="flex justify-center">
             <button type="submit" class="main-btn mx-auto mt-10">Dodaj poziciju</button>
         </div>
     </form>
@@ -112,7 +115,7 @@
         selectBtnSub.addEventListener("click", function() {
             var optionMenu = document.querySelector(".select-menu");
             var sBtn_text = optionMenuSub.querySelector(".sBtn-text-subcategory");
-            sBtn_text.innerText = 'Izaberi Podkategoriju';
+            sBtn_text.innerText = 'Odaberi Podkategoriju';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {
