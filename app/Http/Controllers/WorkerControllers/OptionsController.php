@@ -76,7 +76,7 @@ class OptionsController extends Controller
    public function updateCategory(Request $request){
       $request->validate([
          'category' => ['required','min:3'],
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Category,id'],
       ]);
 
       $name = $request->input('category');
@@ -88,7 +88,7 @@ class OptionsController extends Controller
    public function updateSubcategory(Request $request){
       $request->validate([
          'subcategory' => ['required','min:3'],
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Subcategory,id'],
       ]);
 
       $name = $request->input('subcategory');
@@ -102,7 +102,7 @@ class OptionsController extends Controller
          'title' => ['required','min:3'],
          'description' => ['nullable'],
          'unit' => ['required'],
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Pozicija,id'],
       ]);
 
       $title = $request->input('title');
@@ -115,19 +115,19 @@ class OptionsController extends Controller
          $description = "";
       }
       Pozicija::where('id', $id)
-      ->where('worker_id', Helper::worker())
-      ->update([
-         'custom_title' => $title,
-         'custom_description' => $description,
-         'unit_id' => $unit
-      ]);     
+         ->where('worker_id', Helper::worker())
+         ->update([
+            'custom_title' => $title,
+            'custom_description' => $description,
+            'unit_id' => $unit
+         ]);     
       return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $title)->with('old_name', Pozicija::select('custom_title')->where('id', $id)->first()->custom_title);
    }
 
 
    public function deleteCategory(Request $request){
       $request->validate([
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Category,id'],
       ]);
 
       $id = $request->input('id');
@@ -149,7 +149,7 @@ class OptionsController extends Controller
 
    public function deleteSubcategory(Request $request){
       $request->validate([
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Subcategory,id'],
       ]);
 
       $id = $request->input('id');
@@ -164,7 +164,7 @@ class OptionsController extends Controller
 
    public function deletePozicija(Request $request){
       $request->validate([
-         'id' => ['required'],
+         'id' => ['required','exists:App\Models\Pozicija,id'],
       ]);
 
       $id = $request->input('id');

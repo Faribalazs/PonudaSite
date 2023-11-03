@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Helpers\Helper;
+use App\Rules\CheckID;
 
 class NewPonuda extends Controller
 {
@@ -101,10 +102,10 @@ class NewPonuda extends Controller
    {
       try {
          $request->validate([
-            'category' => 'required|regex:/^[0-9\s]+$/i',
-            'subcategory' => 'required|regex:/^[0-9\s]+$/i',
+            'category' => ['required', new CheckID(Default_category::class, Category::class)],
+            'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
             'quantity' => 'required|regex:/^[0-9\s]+$/i',
-            'pozicija_id' => 'required|regex:/^[0-9\s]+$/i',
+            'pozicija_id' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
             'price' => 'required|regex:/^[0-9\s]+$/i',
             'radioButton' => 'required|in:1,2',
             'opis' => 'nullable|regex:/\p{L}/u',
@@ -121,7 +122,7 @@ class NewPonuda extends Controller
             $title = $request->input('edit_title') ?? "";
             $pozicija_id = $request->input('pozicija_id');
 
-            Ponuda::create([
+            $new_ponuda = Ponuda::create([
                'worker_id' => $worker_id,
                'ponuda_id' => $counter,
                'categories_id' => $request->input('category'),
@@ -139,7 +140,7 @@ class NewPonuda extends Controller
             $custom_db = Pozicija::select('id', 'custom_description', 'custom_title')
                ->where('id', $pozicija_id)
                ->first();      
-            $id_of_ponuda = Ponuda::where('worker_id', $worker_id)->max('id');      
+            $id_of_ponuda = $new_ponuda->id;      
             $default_desc = $db!==null?$db->description:$custom_db->custom_description;
             $default_title = $db!==null?$db->title:$custom_db->custom_title;
 
@@ -177,7 +178,7 @@ class NewPonuda extends Controller
    public function updateDescription(Request $request)
    {
       $request->validate([
-         'real_id' => ['required'],
+         'real_id' => ['required','exists:App\Models\Ponuda,id'],
          'new_radioButton' => ['required','in:1,2'],
          'new_quantity' => ['required'],
          'new_unit_price' => ['required'],
@@ -327,8 +328,9 @@ class NewPonuda extends Controller
    
    public function deletePonuda(Request $request){
       $request->validate([
-         'id' => ['required']
+         'id' => ['required','exists:App\Models\Ponuda,id']
       ]);
+      
       Ponuda::where('id', $request->input('id'))
          ->where('worker_id', Helper::worker())
          ->delete();

@@ -11,6 +11,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Helpers\Helper;
 use App\Jobs\SendEmail;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\Ponuda_PonudaID;
 
 class Archive extends Controller
 {
@@ -73,6 +75,10 @@ class Archive extends Controller
 
     public function delete(Request $request)
     {
+        $request->validate([
+            'id' => ['required', new Ponuda_PonudaID],
+        ]);
+
         $id = $request->input('id');
         $worker_id = Helper::worker();
         $ponuda = Ponuda::select('id', 'worker_id', 'ponuda_id')->where('worker_id', $worker_id)->where('ponuda_id', $id)->get();
@@ -88,6 +94,11 @@ class Archive extends Controller
 
     public function deleteElement(Request $request)
     {
+        $request->validate([
+            'real_id' => ['required', new Ponuda_PonudaID],
+            'id' => ['required', 'exists:App\Models\Ponuda,id']
+        ]);
+
         $worker_id = Helper::worker();
         $id = $request->input('id');
         $ponuda_id = $request->input('real_id');
@@ -141,8 +152,18 @@ class Archive extends Controller
 
     public function selectedArchive($id)
     {
+        //validator
+        $data = ['id' => $id];
+        $rules = [
+            'id' => ['required', new Ponuda_PonudaID],
+        ];
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
         $worker_id = Helper::worker();
-        $mergedData = $this->mergedData()->where('ponuda.ponuda_id', intval($id))->get()->sortBy('ponuda.id');
+        $mergedData = $this->mergedData()->where('ponuda.ponuda_id', $id)->get()->sortBy('ponuda.id');
         $ponuda_name = Ponuda_Date::select('ponuda_name', 'created_at', 'updated_at', 'opis', 'id_ponuda')->where('worker_id', $worker_id)->where('id_ponuda', $id)->first();
         
         return view('worker.views.archive-selected',['mergedData' => $mergedData, 'ponuda_name' => $ponuda_name, 'ponuda_id' => $id]);
@@ -154,6 +175,16 @@ class Archive extends Controller
     }
 
     public function viewPDF($id) {
+        //validator
+        $data = ['id' => $id];
+        $rules = [
+            'id' => ['required', new Ponuda_PonudaID],
+        ];
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
         list($pdf, $pdf_name) = $this->PDFdata($id);
         return $pdf->stream($pdf_name->ponuda_name);
     }
@@ -259,7 +290,7 @@ class Archive extends Controller
                 'adresa' => 'required | max:50 | regex:/\p{L}/u',
                 'email' => 'required | email',
                 'tel' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
-                'ponuda_id' => ['required'],
+                'ponuda_id' => ['required', new Ponuda_PonudaID],
             ],
             [
                 '*.required' => trans("app.errors.profile-required"),
@@ -326,7 +357,7 @@ class Archive extends Controller
 
                 return redirect()->route('worker.archive.select.template');
             } else {
-                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
+                Alert::error('Izaberite jedan kontakt')->showCloseButton()->showConfirmButton('Zatvori');
                 return redirect()->back();
             }
         } elseif($request->input('method') !== null && $request->input('method') == 'add_new') {
@@ -346,7 +377,7 @@ class Archive extends Controller
                 'email' => 'required | email',
                 'tel' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
                 'pib' => 'max:30 | regex:/^[0-9\-]+$/',
-                'ponuda_id' => ['required'],
+                'ponuda_id' => ['required',new Ponuda_PonudaID],
              ],
              [
                 '*.required' => trans("app.errors.profile-required"),
@@ -415,9 +446,9 @@ class Archive extends Controller
     public function redirctToGeneratePdf(Request $request) 
     {
         $request->validate([
-            'ponuda_id' => 'required|numeric|gte:0',
-            'client_id' => 'nullable|numeric|gte:0',
-            'type' => 'required|in:1,2',
+            'ponuda_id' => ['required', new Ponuda_PonudaID],
+            'client_id' => ['nullable','numeric','gte:0'],
+            'type' => ['required','in:1,2'],
         ]);
 
         session(['temp' => $request->input('temp') ?? 'default']);
@@ -428,8 +459,8 @@ class Archive extends Controller
     public function tamplateGeneratePdf(Request $request) 
     {
         $request->validate([
-            'ponuda_id' => 'required|numeric|gte:0',
-            'client' => 'nullable|numeric|gte:0',
+            'ponuda_id' => ['required', new Ponuda_PonudaID],
+            'client' => ['nullable','numeric','gte:0'],
             'type' => 'required|in:1,2',
         ]);
 
@@ -506,7 +537,7 @@ class Archive extends Controller
             'mailTo' => 'required|string|email:rfc|max:255',
             'mailSubject' => 'nullable|string|max:64',
             'mailBody' => 'nullable|string|max:1024',
-            'id' => 'required|numeric|gte:0',
+            'id' => ['required', new Ponuda_PonudaID],
             'client' => 'nullable|numeric|gte:0',
             'type' => 'required|in:1,2',
         ]);
@@ -565,24 +596,26 @@ class Archive extends Controller
     private function PDFdata($id)
     {
         $worker_id = Helper::worker();
-        if(is_numeric($id) && $id > 0)
-        {
-            $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get() ?? null;
-            $pdf_name = $this->PDFname($id,$worker_id);
-            $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name, 'opis' => $pdf_name->opis]);
-            return array($pdf, $pdf_name);
-        }
-        return redirect()->back();
+        $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get() ?? null;
+        $pdf_name = $this->PDFname($id,$worker_id);
+        $pdf = PDF::loadView('worker.pdf.default',['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name, 'opis' => $pdf_name->opis]);
+        return array($pdf, $pdf_name);
     }
 
     public function editPonuda($ponuda_id){
+        //validator
+        $data = ['ponuda_id' => $ponuda_id];
+        $rules = [
+            'ponuda_id' => ['required', new Ponuda_PonudaID],
+        ];
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
         $workerId = Helper::worker();
-        try {
-            $ponuda_date = Ponuda_Date::where('worker_id', $workerId)->where('id_ponuda', $ponuda_id)->firstOrFail();
-        } catch (ModelNotFoundException) {
-            Alert::error('Ponuda nije pronađena ili niste prijavljeni.')->showCloseButton()->showConfirmButton('Zatvori');
-            return redirect()->back();
-        }        
+        $ponuda_date = Ponuda_Date::where('worker_id', $workerId)->where('id_ponuda', $ponuda_id)->first();
+
         Swap::where('worker_id', $workerId)->delete();
 
         Swap::create([
@@ -599,6 +632,12 @@ class Archive extends Controller
 
     public function FizickaLicaUgovor(Request $request)
     {
+        $request->validate([
+            'type' => ['required', 'in:1,2'],
+            'ponuda_id' => ['required', new Ponuda_PonudaID],
+            'client_id' => ['nullable','numeric','gte:0'],
+        ]);
+
         $client_id = $request->input('client_id') ?? null;
         $worker_id = Helper::worker();
         $company_data = $this->company_data($worker_id) ?? null;

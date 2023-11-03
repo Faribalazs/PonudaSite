@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Helpers\Helper;
+use App\Rules\CheckID;
 
 class NewOptions extends Controller
 {
@@ -57,7 +58,7 @@ class NewOptions extends Controller
    {
       $request->validate([
          'subcategory_name' => 'required|max:64|regex:/^[a-z\s]+$/i',
-         'category' => 'required|max:64|regex:/^[0-9\s]+$/i',
+         'category' => ['required', new CheckID(Default_category::class, Category::class)],
       ]);
    
       Subcategory::create([
@@ -83,8 +84,8 @@ class NewOptions extends Controller
    public function store_pozicija(Request $request)
    {
       $request->validate([
-         'subcategory' => ['required'],
-         'unit_id' => ['required'],
+         'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
+         'unit_id' => ['required','exists:App\Models\Units,id_unit'],
          'poz_title' => ['required'],
          'poz_des' => ['nullable'],
       ]);

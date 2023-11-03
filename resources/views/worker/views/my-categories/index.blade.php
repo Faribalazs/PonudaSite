@@ -166,7 +166,7 @@
                 icon: 'question',
                 html: '<div class="flex flex-col gap-5 pb-6">' +
                     '<a href="{{ route('worker.create.new.category') }}" class="main-btn">Novu kategoriju</a>' +
-                    '<a href="{{ route('worker.create.new.subcategory') }}" class="main-btn">Novu subkategoriju</a>' +
+                    '<a href="{{ route('worker.create.new.subcategory') }}" class="main-btn">Novu podkategoriju</a>' +
                     '<a href="{{ route('worker.create.new.pozicija') }}" class="main-btn">Novu poziciju</a>' +
                     '</div>',
                 showCancelButton: false,

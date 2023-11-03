@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\Facades\Image as Image;
 use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker};
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class WorkerController extends Controller
 {
@@ -133,7 +135,7 @@ class WorkerController extends Controller
             'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
             'address' => 'required | max:50 | regex:/\p{L}/u',
             'email' => 'required | email',
-            'id' => 'max:10 | regex:/^[0-9]+$/',
+            'id' => ['nullable','exists:App\Models\Fizicko_lice,id'],
             'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/'
          ],
          [
@@ -173,6 +175,16 @@ class WorkerController extends Controller
 
    public function editContactFizicka($id)
    {
+      //validator
+      $data = ['id' => $id];
+      $rules = [
+          'id' => ['required', 'exists:App\Models\Fizicko_lice,id'],
+      ];
+      $validator = Validator::make($data, $rules);
+      if ($validator->fails()) {
+          return redirect()->back()->withErrors($validator);
+      }
+
       $contact = Fizicko_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
       return view('worker.views.profile.add-fizicko-lice', ['contact' => $contact]);
    }
@@ -180,8 +192,9 @@ class WorkerController extends Controller
    public function deleteContactFizicka(Request $request)
    {
       $request->validate([
-         'id' => ['required']
+         'id' => ['required','exists:App\Models\Fizicko_lice,id']
       ]);
+
       Fizicko_lice::where('id', $request->input('id'))->where('worker_id', Helper::worker())->delete();
       alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
       return redirect()->route('worker.personal.contacts');
@@ -200,7 +213,7 @@ class WorkerController extends Controller
          'postcode' => 'required | max:10 | regex:/^[0-9]+$/',
          'address' => 'required | max:50 | regex:/\p{L}/u',
          'email' => 'required | email',
-         'id' => 'max:10 | regex:/^[0-9]+$/',
+         'id' => ['nullable','exists:App\Models\Pravno_lice,id'],
          'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
          'pib' => 'max:30 | regex:/^[0-9\-]+$/',
       ],
@@ -242,13 +255,17 @@ class WorkerController extends Controller
 
    public function editContactPravno($id)
    {
+      $request->validate([
+         'id' => ['required','exists:App\Models\Pravno_lice,id']
+      ]);
+      
       return view('worker.views.profile.add-pravno-lice', ['contact' => Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first()]);
    }
 
    public function deleteContactPravno(Request $request)
    {
       $request->validate([
-         'id' => ['required']
+         'id' => ['required','exists:App\Models\Pravno_lice,id']
       ]);
       
       Pravno_lice::where('id', $request->input('id'))->where('worker_id', Helper::worker())->delete();
@@ -264,7 +281,11 @@ class WorkerController extends Controller
    {
       $request->validate([
          'old_password' => 'required',
-         'new_password' => 'required|confirmed',
+         'new_password' => ['required','string','confirmed', 
+            Password::min(8)
+               ->mixedCase()
+               ->numbers()
+         ],
       ],
       [
          'new_password' => trans("app.errors.new_password"),
@@ -290,6 +311,7 @@ class WorkerController extends Controller
          'skini' => 'required|in:1,2',
          'posalji' => 'required|in:1,2',
       ]);
+
       $worker = auth('worker')->user();
       if($request->skini == 1)
       {
@@ -315,6 +337,24 @@ class WorkerController extends Controller
    }
 
    public function showContact($lice,$id) {
+      //validator
+      $data = ['id' => $id, 'lice' => $lice];
+      $rules = [
+         'id' => [
+            'required', 
+            function ($attribute, $value, $fail) {
+               if (!Fizicko_lice::where('id', $value)->exists() && !Pravno_lice::where('id', $value)->exists()) {
+                  $fail('The selected :attribute is invalid.');
+               }
+            },
+         ],
+         'lice' => ['required', 'in:individual,legal-entity'],
+      ];
+      $validator = Validator::make($data, $rules);
+      if ($validator->fails()) {
+          return redirect()->back()->withErrors($validator);
+      }
+
       if ($lice == 'individual') {
          $contact = Fizicko_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
          return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
