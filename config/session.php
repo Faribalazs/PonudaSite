@@ -196,6 +196,6 @@ return [
     |
     */
 
-    'same_site' => null,
+    'same_site' => null, //problemazik ha null, nezd meg inspect elementben (nem biztonsagos)
 
 ];

@@ -16,7 +16,6 @@ class ValidateUser
     public function handle(Request $request, Closure $next): Response
     {
         $user = null;
-        $session_key = null;
         if (auth()->check()) {
             $user = auth();
             $route = 'login';
