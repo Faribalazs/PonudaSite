@@ -17,7 +17,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
-                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options.update')">
+                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.my-categories*')">
                                 {{ __('app.nav.my-categories') }}
                             </x-nav-link>
                         </div>
@@ -26,7 +26,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') ||Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
-                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
+                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
                                 {{ __('app.nav.archive') }}
                             </x-nav-link>
                         </div>
@@ -79,7 +79,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.options.update')" :active="request()->is(app()->getLocale() . '/contractor/my-options*')">
+                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options*')">
                                 {{ __('app.nav.my-categories') }}
                             </x-nav-link>
                         </div>
@@ -88,7 +88,7 @@
                 @if (Auth::guard('worker')->check())
                     @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive')">
+                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
                                 {{ __('app.nav.archive') }}
                             </x-nav-link>
                         </div>

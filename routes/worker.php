@@ -92,56 +92,56 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
     //nove kategorije
     Route::get('contractor/new/options', [NewOptions::class, 'create'])
-        ->name('worker.new.options');
+        ->name('worker.options.new');
     
     Route::get('contractor/new/category', [NewOptions::class, 'CategoryCreate'])
-        ->name('worker.create.new.category');
+        ->name('worker.options.create.new.category');
 
     Route::post('contractor/new/category/store', [NewOptions::class, 'store_category'])
-        ->name('worker.store.new.category');
+        ->name('worker.options.store.new.category');
 
     Route::get('contractor/new/subcategory', [NewOptions::class, 'SubCategoryCreate'])
-        ->name('worker.create.new.subcategory');
+        ->name('worker.options.create.new.subcategory');
 
     Route::post('contractor/new/subcategory/store', [NewOptions::class, 'store_subcategory'])
-        ->name('worker.store.new.subcategory');
+        ->name('worker.options.store.new.subcategory');
 
     Route::get('contractor/new/pozicija', [NewOptions::class, 'pozicijaCreate'])
-        ->name('worker.create.new.pozicija');
+        ->name('worker.options.create.new.pozicija');
 
     Route::post('contractor/new/pozicija/store', [NewOptions::class, 'store_pozicija'])
-        ->name('worker.store.new.pozicija');
+        ->name('worker.options.store.new.pozicija');
 
 
     //moje kategorije
-    Route::get('contractor/my-options/', [OptionsController::class, 'create'])
+    Route::get('contractor/my-categories/', [OptionsController::class, 'create'])
         ->name('worker.options.update');
 
-    Route::get('contractor/my-options/show/category/{category}', [OptionsController::class, 'showCategory'])
+    Route::get('contractor/my-categories/show/category/{category}', [OptionsController::class, 'showCategory'])
         ->name('worker.options.show.category');
 
-    Route::get('contractor/my-options/show/subcategory/{subcategory}', [OptionsController::class, 'showSubcategory'])
+    Route::get('contractor/my-categories/show/subcategory/{subcategory}', [OptionsController::class, 'showSubcategory'])
         ->name('worker.options.show.subcategory');
 
-    Route::get('contractor/my-options/show/pozicija/{pozicija}', [OptionsController::class, 'showPozicija'])
+    Route::get('contractor/my-categories/show/pozicija/{pozicija}', [OptionsController::class, 'showPozicija'])
         ->name('worker.options.show.pozicija');
 
-    Route::put('contractor/my-options/show/category/update', [OptionsController::class, 'updateCategory'])
+    Route::put('contractor/my-categories/show/category/update', [OptionsController::class, 'updateCategory'])
         ->name('worker.options.update.category');
 
-    Route::put('contractor/my-options/show/subcategory/update', [OptionsController::class, 'updateSubcategory'])
+    Route::put('contractor/my-categories/show/subcategory/update', [OptionsController::class, 'updateSubcategory'])
         ->name('worker.options.update.subcategory');
 
-    Route::put('contractor/my-options/show/pozicija/update', [OptionsController::class, 'updatePozicija'])
+    Route::put('contractor/my-categories/show/pozicija/update', [OptionsController::class, 'updatePozicija'])
         ->name('worker.options.update.pozicija');
     
-    Route::put('contractor/my-options/delete/category', [OptionsController::class, 'deleteCategory'])
+    Route::put('contractor/my-categories/delete/category', [OptionsController::class, 'deleteCategory'])
         ->name('worker.options.delete.category');
 
-    Route::put('contractor/my-options/delete/subcategory', [OptionsController::class, 'deleteSubcategory'])
+    Route::put('contractor/my-categories/delete/subcategory', [OptionsController::class, 'deleteSubcategory'])
         ->name('worker.options.delete.subcategory');
 
-    Route::put('contractor/my-options/delete/pozicija', [OptionsController::class, 'deletePozicija'])
+    Route::put('contractor/my-categories/delete/pozicija', [OptionsController::class, 'deletePozicija'])
         ->name('worker.options.delete.pozicija');
 
     Route::post('contractor/mail/pdf', [Archive::class, 'sendPDF'])

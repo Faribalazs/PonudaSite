@@ -81,7 +81,7 @@
             width: 25px;
             height: 25px;
             text-align: center;
-            line-height: 28px;
+            line-height: 26px;
             transition-duration: 0.4s;
             transform: scale(0);
         }

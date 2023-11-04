@@ -5,7 +5,7 @@
     <x-slot name="header">
         Nova podkategorija
     </x-slot>
-    <form method="POST" id="add_new_category" class="mt-20" action="{{ route('worker.store.new.subcategory') }}">
+    <form method="POST" id="add_new_category" class="mt-20" action="{{ route('worker.options.store.new.subcategory') }}">
         @csrf
         <div id="category-dropdown" class="mt-14">
             <span class="input-label pl-2">Odaberi Kategoriju:</span>

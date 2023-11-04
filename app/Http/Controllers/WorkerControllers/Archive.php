@@ -224,6 +224,7 @@ class Archive extends Controller
     public function selectContact($id){
         session()->forget('client_id');
         session()->forget('ponuda_id');
+        session()->forget('temporary');
         session()->forget('type');
         return view('worker.views.generate-pdf.select-contact',['id' => $id]);
     }
@@ -336,13 +337,12 @@ class Archive extends Controller
                 );
                 $temporary = true;
             }
-            return view('worker.views.generate-pdf.select-tamplate',
-                    [   
-                        'ponuda_id' => $request->input('ponuda_id'),
-                        'client_id' => $client->id ?? null,  
-                        'temporary' => $temporary,
-                        'type' => 1,
-                    ]);
+            session(['client_id'=> $client->id ?? null,]);
+            session(['ponuda_id' => $request->input('ponuda_id')]);
+            session(['temporary' => $temporary]);
+            session(['type' => 1]);
+
+            return redirect()->route('worker.archive.select.template');
         }
         Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
         return redirect()->back();
@@ -426,13 +426,12 @@ class Archive extends Controller
                 $temporary = true;
             }
 
-            return view('worker.views.generate-pdf.select-tamplate',
-                    [ 
-                        'ponuda_id' => $request->input('ponuda_id'),
-                        'type' => 2,
-                        'client_id' => $client->id ?? null,  
-                        'temporary' => $temporary,
-                    ]);
+            session(['client_id'=> $client->id ?? null,]);
+            session(['ponuda_id' => $request->input('ponuda_id')]);
+            session(['temporary' => $temporary]);
+            session(['type' => 1]);
+
+            return redirect()->route('worker.archive.select.template');
         }
         Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
         return redirect()->back();
@@ -516,11 +515,13 @@ class Archive extends Controller
             if (isset($pdf_name->ponuda_name)) {
                 session()->forget('client_id');
                 session()->forget('ponuda_id');
+                session()->forget('temporary');
                 session()->forget('type');
                 return $pdf->download($pdf_name->ponuda_name . '.pdf');
             } else {
                 session()->forget('client_id');
                 session()->forget('ponuda_id');
+                session()->forget('temporary');
                 session()->forget('type');
                 return $pdf->download('Ponuda.pdf');
             }

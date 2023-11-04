@@ -5,7 +5,7 @@
     <x-slot name="header">
         Nova Pozicija
     </x-slot>
-    <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.store.new.pozicija') }}">
+    <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.options.store.new.pozicija') }}">
         @csrf
         {{-- create ponuda szeruen tudjak kivalasztani az alkategoriat --}}
         <div id="subCategory-dropdown">
