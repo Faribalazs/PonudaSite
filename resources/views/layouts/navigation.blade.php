@@ -98,7 +98,8 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden xl:flex xl:items-center xl:ml-6 space-x-5">
-                <button onclick="LanguageSwitcher('{{ $lang }}')">
+                <button onclick="LanguageSwitcher('{{ $lang }}')"
+                    title="{{ __('app.basic.choose-language') }}">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
                 @if (!Auth::user() && !Auth::guard('worker')->user())
@@ -136,7 +137,8 @@
 
             <!-- Hamburger -->
             <div class="flex items-center xl:hidden gap-4" style="margin-top:8px;">
-                <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav">
+                <button onclick="LanguageSwitcher('{{ $lang }}')" class="lang-btn-nav"
+                    title="{{ __('app.basic.choose-language') }}">
                     <i class="ri-earth-line sm:text-3xl text-2xl"></i>
                 </button>
                 @if (!Auth::guard('worker')->user())

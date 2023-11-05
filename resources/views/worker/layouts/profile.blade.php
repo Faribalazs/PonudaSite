@@ -8,7 +8,6 @@
     <title>{{ $pageTitle }}</title>
 
     <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- Scripts -->
@@ -40,17 +39,18 @@
                         </a>
                         <a href="{{ route('worker.personal.contacts') }}"
                             class="icons 
-                            {{ request()->routeIs('worker.personal.contacts') ? 'closed-icon-active' : '' }}
-                            {{ request()->routeIs('worker.personal.contacts.add.legal-entity') ? 'closed-icon-active' : '' }}
-                            {{ request()->routeIs('worker.personal.contacts.add.individual') ? 'closed-icon-active' : '' }}
-                            {{ request()->routeIs('worker.personal.contacts.edit.fizicka') ? 'closed-icon-active' : '' }}
-                            {{ request()->routeIs('worker.personal.contacts.edit.pravna') ? 'closed-icon-active' : '' }}">
+                            {{ request()->routeIs('worker.personal.contacts*') ? 'closed-icon-active' : '' }}">
                             <i class="ri-contacts-line"></i>
                         </a>
                         <a href="{{ route('worker.personal.account.settings') }}"
                             class="icons 
                             {{ request()->routeIs('worker.personal.account.settings') ? 'closed-icon-active' : '' }}">
                             <i class="ri-settings-3-line"></i>
+                        </a>
+                        <a href="{{ route('worker.personal.account.contracts') }}"
+                            class="icons 
+                            {{ request()->routeIs('worker.personal.account.contracts') ? 'closed-icon-active' : '' }}">
+                            <i class="ri-file-text-line"></i>
                         </a>
                         <form method="POST" id="log-out-form" action="{{ route('worker.logout') }}" class="icons">
                             @csrf
@@ -70,6 +70,9 @@
                         <a href="{{ route('worker.personal.account.settings') }}" class="link">
                             podešavanja
                         </a>
+                        <a href="{{ route('worker.personal.account.contracts') }}" class="link">
+                            ugovori
+                        </a>
                         <a onclick="logOut()" class="link cursor-pointer">
                             odjavi se
                         </a>
@@ -81,7 +84,7 @@
             </div>
         </main>
     </div>
-    @include('footer')
+    @include('worker.layouts.footer')
     @include('sweetalert::alert')
 </body>
 <script>

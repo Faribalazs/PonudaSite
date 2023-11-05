@@ -3,7 +3,7 @@
         Ugovor
     </x-slot>
     <x-slot name="header">
-        Ugovor za fizicka lica
+        Ugovor za pravna lica
     </x-slot>
     <form method="POST" action="{{ route('worker.archive.download.contract') }}">
         @csrf
@@ -26,28 +26,26 @@
                         <p class="mb-10">
                             Zaključen između
                             <input type="text" style="border-radius: 0px !important;" class="w-60" name="field1"
-                                value="{{ $foundClient->first_name }}">
-                            <input type="text" style="border-radius: 0px !important;" class="w-60" name="field2"
-                                value="{{ $foundClient->last_name }}">iz
-                            <input type="text" style="border-radius: 0px !important;" name="field3"
+                                value="{{ $foundClient->company_name }}">iz
+                            <input type="text" style="border-radius: 0px !important;" name="field2"
                                 value="{{ $foundClient->city }}">,
-                            adresa:<input type="text" style="border-radius: 0px !important;" name="field4"
+                            adresa:<input type="text" style="border-radius: 0px !important;" name="field3"
                                 value="{{ $foundClient->address }}">,
                             s jedne strane kao naručioca (u daljem tekstu: Naručilac) i
                         </p>
                         <p>
-                            <input type="text" style="border-radius: 0px !important;" name="field5"
+                            <input type="text" style="border-radius: 0px !important;" name="field4"
                                 value="{{ $company_data->company_name }}">
                             iz
-                            <input type="text" style="border-radius: 0px !important;" name="field6"
+                            <input type="text" style="border-radius: 0px !important;" name="field5"
                                 value="{{ $company_data->city }}">,
-                            adresa:<input type="text" style="border-radius: 0px !important;" name="field7"
+                            adresa:<input type="text" style="border-radius: 0px !important;" name="field6"
                                 value="{{ $company_data->address }}">,
                             PIB:<input type="text" style="border-radius: 0px !important;" class="w-52"
-                                name="field8" value="{{ $company_data->pib }}">s
+                                name="field7" value="{{ $company_data->pib }}">s
                             druge strane, koje zastupa direktor <input type="text"
-                                style="border-radius: 0px !important;" name="field9">
-                            iz<input type="text" style="border-radius: 0px !important;" name="field10">, kao izvođača
+                                style="border-radius: 0px !important;" name="field8">
+                            iz<input type="text" style="border-radius: 0px !important;" name="field9">, kao izvođača
                             (u daljem tekstu: Izvođač).
                         </p>
                         <p class="my-10">
@@ -58,13 +56,13 @@
                         </p>
                         <p class="mb-10">
                             Izvođač se obavezuje da za račun Naručioca izvede građevinsko - zanatske radove na objektu u
-                            <input type="text" style="border-radius: 0px !important;" class="w-56" name="field11">
-                            ul. <input type="text" style="border-radius: 0px !important;" name="field12">
-                            br.<input type="text" style="border-radius: 0px !important;" name="field13"
+                            <input type="text" style="border-radius: 0px !important;" class="w-56" name="field10">
+                            ul. <input type="text" style="border-radius: 0px !important;" name="field11">
+                            br.<input type="text" style="border-radius: 0px !important;" name="field12"
                                 class="w-32">
                             u svemu prema usvojenoj ponudi Izvođača br. <input type="text" class="w-48"
-                                style="border-radius: 0px !important;" name="field14">
-                            od <input type="date" style="border-radius: 0px !important;" name="field15">
+                                style="border-radius: 0px !important;" name="field13">
+                            od <input type="date" style="border-radius: 0px !important;" name="field14">
                             koja čini sastavni deo ovog Ugovora.
                         </p>
                         <p class="text-center mb-10">
@@ -93,9 +91,9 @@
                             Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora,
                             plati
                             izvođaču ukupan iznos od
-                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field16"
+                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field15"
                                 value="{{ $sum }}"> dinara
-                            (slovima: <input type="text" style="border-radius: 0px !important;" name="field17"
+                            (slovima: <input type="text" style="border-radius: 0px !important;" name="field16"
                                 value="{{ $sum_in_words }}">
                             dinara), sa uračunatim PDV-om.
                         </p>
@@ -116,7 +114,7 @@
                         </p>
                         <p class="mb-10">
                             Naručilac se obavezuje da će na ime avansa Izvođaču uplatiti iznos od
-                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field18">
+                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field17">
                             dinara, u
                             skladu sa uslovima iz usvojene ponude Izvođača.
                         </p>
@@ -125,7 +123,7 @@
                         </p>
                         <p class="mb-10">
                             Izvođač se obavezuje da će radove započeti u roku od
-                            <input type="text" style="border-radius: 0px !important;" class="w-20" name="field19">
+                            <input type="text" style="border-radius: 0px !important;" class="w-20" name="field18">
                             dana
                             od dana uplate avansa, u skladu sa
                             uslovima iz usvojene ponude Izvođača.
@@ -136,7 +134,7 @@
                         <p class="mb-10">
                             Izvođač s obavezuje da sve radove na objektu iz člana 1. ovog ugovora izvede u roku od
                             <input type="text" style="border-radius: 0px !important;" class="w-20"
-                                name="field20">
+                                name="field19">
                             radnihdana, u skladu sa uslovima iz usvojene ponude Izvođača.
                         </p>
                         <p class="text-center mb-10">
@@ -162,7 +160,7 @@
                             nije
                             moguće doći na ovaj način, ugovara se nadležnost suda u
                             <input type="text" style="border-radius: 0px !important;" class="w-52"
-                                name="field21">.
+                                name="field20">.
                         </p>
                         <p class="text-center mb-10">
                             Član 11.
@@ -170,19 +168,19 @@
                         <p class="mb-10">
                             Ovaj ugovor sačinjen je u
                             <input type="text" style="border-radius: 0px !important;" class="w-20"
-                                name="field22">
+                                name="field21">
                             istovetna primerka,
                             od kojih se
                             <input type="text" style="border-radius: 0px !important;" class="w-20"
-                                name="field23">
+                                name="field22">
                             primerka nalaze kod Naručioca,
                             a <input type="text" style="border-radius: 0px !important;" class="w-20"
-                                name="field24">
+                                name="field23">
                             primerka kod Izvođača.
                             U <input type="text" style="border-radius: 0px !important;" class="w-52"
-                                name="field25"> ,
+                                name="field24"> ,
                             dana <input type="text" style="border-radius: 0px !important;" class="w-32"
-                                name="field26"> godine.
+                                name="field25"> godine.
                         </p>
                     </div>
                     <div class="flex justify-between w-100 mt-20">

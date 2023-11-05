@@ -1,10 +1,5 @@
 @import "~sweetalert2/src/sweetalert2.scss";
 
-@font-face {
-    font-family: Poppins;
-    src: url("/fonts/Poppins-Regular.ttf");
-}
-
 //scrollbar design
 
 ::-webkit-scrollbar {
@@ -24,17 +19,19 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--main-color);
+    background: var(--secondary-color);
 }
 
 :root {
     --main-color: #0d2c5a;
+    --main-color-hover: #0d2c5a09;
     --main-light-color: #1f4063;
     --secondary-color: #e8772e;
     --red: #ac1902;
     --white: #ffffff;
     --grey: #adb5bd;
     --black: #000000;
+    --border-gray: #ccc;
 }
 
 button:focus,
@@ -1075,6 +1072,10 @@ body.nav-active .nav__list-item:nth-child(4) {
     font-size: 18px;
 }
 
+.finish-btn:hover {
+    background-color: var(--main-color);
+}
+
 .svega-design {
     text-align: end !important;
 }
@@ -1593,7 +1594,7 @@ textarea:focus {
 /* Archive design start */
 
 .archive-container {
-    border: 1px solid #ccc;
+    border: 2px solid var(--border-gray);
     border-radius: 10px;
     min-height: 120px;
 }
@@ -1619,7 +1620,8 @@ textarea:focus {
 }
 
 .archive-container:hover {
-    box-shadow: 0 0 11px rgba(33, 33, 33, 0.5);
+    background-color: var(--main-color-hover);
+   border-color: var(--main-color);
 }
 
 .select-menu-archive {
@@ -2009,7 +2011,7 @@ body {
 .profile-side-panel {
     overflow: hidden;
     position: relative;
-    min-height: 400px;
+    min-height: 450px;
     transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
     min-width: 44px;
     margin-right: 70px;

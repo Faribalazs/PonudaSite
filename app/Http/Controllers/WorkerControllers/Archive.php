@@ -16,9 +16,14 @@ use App\Rules\Ponuda_PonudaID;
 
 class Archive extends Controller
 {
-    public function show()
+    public function create()
     {   
-        return view('worker.views.archive',[
+        session()->forget('client_id');
+        session()->forget('ponuda_id');
+        session()->forget('temporary');
+        session()->forget('type');
+
+        return view('worker.views.archive.archive',[
             'data' => Ponuda_Date::where('worker_id', Helper::worker())
                 ->orderBy('created_at', 'DESC')
                 ->get()
@@ -31,7 +36,7 @@ class Archive extends Controller
         $searchQuery = '%'.$request->input('query').'%';
         $search_data = $request->input('query');
 
-        return view('worker.views.archive',[
+        return view('worker.views.archive.archive',[
             'data' => Ponuda_Date::where('worker_id', Helper::worker())
                 ->where('ponuda_name', 'LIKE', $searchQuery)
                 ->orderBy('created_at', $sortOrder)
@@ -47,7 +52,7 @@ class Archive extends Controller
         $searchQuery = '%'.$request->input('query').'%';
         $search_data = $request->input('query');
   
-        return view('worker.views.archive',[
+        return view('worker.views.archive.archive',[
             'data' => Ponuda_Date::where('worker_id', Helper::worker())
                 ->where('note', 'LIKE', $searchQuery)
                 ->orderBy('created_at', $sortOrder)
@@ -166,7 +171,7 @@ class Archive extends Controller
         $mergedData = $this->mergedData()->where('ponuda.ponuda_id', $id)->get()->sortBy('ponuda.id');
         $ponuda_name = Ponuda_Date::select('ponuda_name', 'created_at', 'updated_at', 'opis', 'id_ponuda')->where('worker_id', $worker_id)->where('id_ponuda', $id)->first();
         
-        return view('worker.views.archive-selected',['mergedData' => $mergedData, 'ponuda_name' => $ponuda_name, 'ponuda_id' => $id]);
+        return view('worker.views.archive.archive-selected',['mergedData' => $mergedData, 'ponuda_name' => $ponuda_name, 'ponuda_id' => $id]);
     }
 
     private function PDFname($id, $worker)
@@ -513,16 +518,8 @@ class Archive extends Controller
             }
             $pdf = PDF::loadView($pdf_blade,['mergedData' => $selectedWorkerPonuda, 'ponuda_name' => $pdf_name->ponuda_name ?? "Ponuda", 'company' => $company_data, 'client' => $foundClient, 'type' => $type_id, 'opis' => $pdf_name->opis]);
             if (isset($pdf_name->ponuda_name)) {
-                session()->forget('client_id');
-                session()->forget('ponuda_id');
-                session()->forget('temporary');
-                session()->forget('type');
                 return $pdf->download($pdf_name->ponuda_name . '.pdf');
             } else {
-                session()->forget('client_id');
-                session()->forget('ponuda_id');
-                session()->forget('temporary');
-                session()->forget('type');
                 return $pdf->download('Ponuda.pdf');
             }
         }
@@ -631,19 +628,13 @@ class Archive extends Controller
         return redirect()->route('worker.new.ponuda');
     }
 
-    public function FizickaLicaUgovor(Request $request)
+    public function FillUgovor()
     {
-        $request->validate([
-            'type' => ['required', 'in:1,2'],
-            'ponuda_id' => ['required', new Ponuda_PonudaID],
-            'client_id' => ['nullable','numeric','gte:0'],
-        ]);
-
-        $client_id = $request->input('client_id') ?? null;
+        $client_id = session('client_id');
         $worker_id = Helper::worker();
         $company_data = $this->company_data($worker_id) ?? null;
-        $type_id = $request->input('type');
-        $id = $request->input('ponuda_id');
+        $type_id = session('type');
+        $id = session('ponuda_id');
         $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
         $foundClient = null;
         $sum = 0;
@@ -655,7 +646,7 @@ class Archive extends Controller
                 $type_lica = null;
                 if($type_id == 1)
                 {
-                    if($request->input('temporary'))
+                    if(session('temporary'))
                     {
                         $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
                         $type_lica = 'FT';
@@ -668,7 +659,7 @@ class Archive extends Controller
                 }
                 elseif($type_id == 2)
                 {
-                    if($request->input('temporary'))
+                    if(session('temporary'))
                     {
                         $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
                         $type_lica = 'PT';
@@ -694,7 +685,11 @@ class Archive extends Controller
                 $digit = new \NumberFormatter('sr_Latn_RS', \NumberFormatter::SPELLOUT);
                 $sum_in_words = $digit->format($sum);
             }
-        return view('worker.views.generate-pdf.fill-up-contract-fizicko-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+            if ($type_id == 1) {
+                return view('worker.views.generate-pdf.fill-up-contract-fizicko-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+            }elseif ($type_id == 2) {
+                return view('worker.views.generate-pdf.fill-up-contract-pravno-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+            }
     }
 
     public function contractPdf()
@@ -703,16 +698,25 @@ class Archive extends Controller
         return $pdf->download('empty-contract.pdf');
     }
 
-    public function FizickaLicaUgovorGeneratePDF(Request $request)
+    public function UgovorGeneratePDF(Request $request)
     {
         $ugovorBr = $request->input('br');
         $fields = [];
 
-        for ($i = 1; $i <= 26; $i++) {
-            $fields[] = $request->input('field' . $i);
+        if (session('type') == 1) {
+            for ($i = 1; $i <= 26; $i++) {
+                $fields[] = $request->input('field' . $i);
+            }
+    
+            $pdf = PDF::loadView('worker.pdf.contract-individual', compact('fields','ugovorBr'));
+            return $pdf->download('Ugovor.pdf');
+        } elseif (session('type') == 2) {
+            for ($i = 1; $i <= 25; $i++) {
+                $fields[] = $request->input('field' . $i);
+            }
+    
+            $pdf = PDF::loadView('worker.pdf.contract-legal-entity', compact('fields','ugovorBr'));
+            return $pdf->download('Ugovor.pdf');
         }
-
-        $pdf = PDF::loadView('worker.pdf.contract-individual', compact('fields','ugovorBr'));
-        return $pdf->download('Ugovor.pdf');
     }
 }

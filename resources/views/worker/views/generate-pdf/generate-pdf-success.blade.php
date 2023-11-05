@@ -31,7 +31,7 @@
         @if (session('temp') != null)
             <input type="hidden" name="temp" value="{{ session('temp') }}" />
         @endif
-        <div class="justify-center mt-20 form1 flex-col">
+        <div class="justify-center mt-16 form1 flex-col">
             <div class="flex justify-center">
                 <div class="sa">
                     <div class="sa-success">
@@ -49,27 +49,29 @@
                 Šta želiš da uradiš sa generisanom ponudom?
             </p>
             <button type="submit" name="skini" value="skini" onclick="showBack()"
-                class="w-1/2 mx-auto text-xl font-bold finish-btn mt-20">
+                class="md:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-20">
                 Skini ponudu
             </button><br>
             <p class="text-2xl text-center">
                 ili
             </p>
-            <button type="submit" name="posalji" value="posalji"
-                class="w-1/2 mx-auto text-xl font-bold finish-btn mt-5">
-                Pošalji ponudu na klijentov E-mail
-            </button>
+            <div class="flex md:w-1/2 w-full xl:flex-row flex-col mx-auto gap-3">
+                <div class="flex xl:w-1/2">
+                    <a href="{{ route('worker.archive.fill.contract') }}"
+                        class="w-full text-xl flex items-center btn justify-center font-bold finish-btn mt-5">
+                        Izpuni ugovor
+                    </a>
+                </div>
+                <div class="flex xl:w-1/2">
+                    <button type="submit" name="posalji" value="posalji"
+                        class="w-full text-xl font-bold finish-btn mt-5">
+                        Pošalji ponudu na klijentov E-mail
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
     <div class="div hidden mt-14">
-        <p class="my-5 text-center text-2xl">
-            Mozete izpuniti ugovor ili da se vratite u archivu
-        </p>
-        <button type="button"
-            onclick="ContractSwal('{{ route('worker.archive.fill.contract.fizicka_lica') }}','{{ session('ponuda_id') }}', '{{ session('type') }}', '{{ session('temporary') }}', '{{ session('client_id') }}')"
-            class="w-1/2 mx-auto text-xl btn justify-center font-bold hidden finish-btn mt-5">
-            Izpuni ugovor
-        </button>
         <div class="flex justify-center">
             <a href="{{ route('worker.archive') }}"
                 class="w-1/2 mx-auto text-xl flex justify-center font-bold finish-btn mt-5">
@@ -85,23 +87,6 @@
                 btn.style.display = 'flex';
                 div.style.display = 'block';
             }, 500);
-        }
-
-        function ContractSwal(url, id, type, temporary, client_id) {
-            Swal.fire({
-                title: 'Kakav ugovor hocete da izpunite?',
-                icon: 'question',
-                showCloseButton: true,
-                showConfirmButton: false,
-                html: '<form method="POST" action="' + url + '">' +
-                    '@csrf' +
-                    '<input name="ponuda_id" hidden value="' + id + '">' +
-                    '<input name="type" hidden value="' + type + '">' +
-                    '<input name="temporary" hidden value="' + temporary + '">' +
-                    '<input name="client_id" hidden value="' + client_id + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">Ugovor za fizicka lica</button>' +
-                    '</form>',
-            })
         }
 
         var body = document.querySelector('body'),

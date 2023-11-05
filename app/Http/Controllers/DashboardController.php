@@ -22,8 +22,8 @@ class DashboardController extends Controller
     return view('profile');
    }
 
-   public function postcreate()
+   public function home()
    {
-    return view('postcreate');
+    return view('worker.views.home.home');
    }
 }

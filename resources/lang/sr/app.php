@@ -2,7 +2,7 @@
 
 return [
     'basic' => [
-        'welcome'                       => "Logovani kao user!",
+        'choose-language'               => "Izaberi jezik",
     ],
 
     'nav' => [

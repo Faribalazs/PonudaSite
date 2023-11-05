@@ -19,19 +19,22 @@
     <div class="content-height">
         @include('layouts.navigation')
 
-        <!-- Page Content -->
-        <div class="header-div">
-            <div class="title-div px-4 py-3 sm:px-6 lg:px-12">
-                <span class="mt-44">
-                    {{ $header }}
-                </span>
+        @if ($header != '')
+            <!-- Page Content -->
+            <div class="header-div">
+                <div class="title-div px-4 py-3 sm:px-6 lg:px-12">
+                    <span class="mt-44">
+                        {{ $header }}
+                    </span>
+                </div>
             </div>
-        </div>
+        @endif
+
         <main class="page-padding px-4 py-3 sm:px-6 lg:px-12">
             {{ $slot }}
         </main>
     </div>
-    @include('footer')
+    @include('worker.layouts.footer')
     @include('sweetalert::alert')
     @php
         \App\Models\Tracker::hit();

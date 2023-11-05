@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-worker-layout>
     <x-slot name="pageTitle">
         {{ __('Ponuda') }}
     </x-slot>
@@ -130,4 +130,4 @@
       advance();
     });
     </script>
-</x-app-layout>
+</x-app-worker-layout>

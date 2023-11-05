@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WorkerControllers;
 
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
@@ -364,5 +364,10 @@ class WorkerController extends Controller
          $contact = Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first();
          return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
       }
+   }
+
+   public function profileContractsCreate()
+   {
+      return view('worker.views.profile.profile-contracts');
    }
 }

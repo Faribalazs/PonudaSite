@@ -21,7 +21,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback'])->name('callback.google');
 });
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [DashboardController::class, 'home'])->name('home');
 
 //auth route for both 
 Route::group(['middleware' => ['auth']], function() { 

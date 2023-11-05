@@ -49,7 +49,7 @@
                             <span class="option-text-fizicka-lica">{{ $fizicko_lice->first_name }}
                                 {{ $fizicko_lice->last_name }}</span>
                             <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
-                                <a href="{{ route('worker.contact.show', ['lice' => 'individual', 'id' => $fizicko_lice->id]) }}"
+                                <a href="{{ route('worker.personal.contacts.show', ['lice' => 'individual', 'id' => $fizicko_lice->id]) }}"
                                     class="share-btn-table mr-3">
                                     <i class="ri-eye-line"></i>
                                 </a>
@@ -89,7 +89,7 @@
                             class="flex justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
                             <span class="option-text-fizicka-lica">{{ $pravno_lice->company_name }}</span>
                             <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
-                                <a href="{{ route('worker.contact.show', ['lice' => 'legal-entity', 'id' => $pravno_lice->id]) }}"
+                                <a href="{{ route('worker.personal.contacts.show', ['lice' => 'legal-entity', 'id' => $pravno_lice->id]) }}"
                                     class="share-btn-table mr-3">
                                     <i class="ri-eye-line"></i>
                                 </a>

@@ -2,7 +2,7 @@
 
 return [
     'basic' => [
-        'welcome'                           => "Bejelentkezve mint felhasznalo!",
+        'choose-language'                   => "Válasz nyelvet",
     ],
 
     'nav' => [

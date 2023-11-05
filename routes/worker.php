@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\WorkerControllers\WorkerController;
 use App\Http\Controllers\WorkerControllers\NewPonuda;
 use App\Http\Controllers\WorkerControllers\NewOptions;
 use App\Http\Controllers\WorkerControllers\OptionsController;
@@ -67,8 +67,11 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile/settings', [WorkerController::class, 'profileSettingsCreate'])
         ->name('worker.personal.account.settings');
 
+    Route::get('contractor/profile/contracts', [WorkerController::class, 'profileContractsCreate'])
+        ->name('worker.personal.account.contracts');
+
     Route::get('contractor/profile/conatact/{lice}/{id}', [WorkerController::class, 'showContact'])
-        ->name('worker.contact.show');
+        ->name('worker.personal.contacts.show');
         
     Route::post('contractor/profile/settings/change-password', [WorkerController::class, 'updatePassword'])
         ->name('worker.personal.account.settings.update-password');
@@ -149,7 +152,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         
     //archive
     Route::middleware(['checkSwapRecord'])->group(function () {
-        Route::get('contractor/archive', [Archive::class, 'show'])
+        Route::get('contractor/archive', [Archive::class, 'create'])
             ->name('worker.archive');
 
         Route::get('contractor/archive/success', [Archive::class, 'generatePdfSuccess'])
@@ -194,14 +197,12 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         Route::get('contractor/archive/generate/contract', [Archive::class, 'contractPdf'])
             ->name('worker.archive.download.contract');
 
-        Route::post('contractor/archive/fill/contract/individual', [Archive::class, 'FizickaLicaUgovor'])
-            ->name('worker.archive.fill.contract.fizicka_lica');
+        Route::get('contractor/archive/fill/contract', [Archive::class, 'FillUgovor'])
+            ->name('worker.archive.fill.contract');
 
-        Route::post('contractor/archive/download/contract/individual', [Archive::class, 'FizickaLicaUgovorGeneratePDF'])
-            ->name('worker.archive.download.contract.fizicka_lica');
+        Route::post('contractor/archive/download/contract', [Archive::class, 'UgovorGeneratePDF'])
+            ->name('worker.archive.download.contract');
 
-        Route::get('contractor/archive/fill/contract/legal-entity', [Archive::class, 'PravnaLicaUgovor'])
-            ->name('worker.archive.fill.contract.pravna_lica');
         
         Route::middleware(['restrictUserAccess'])->group(function () {
             Route::get('contractor/archive/{id}', [Archive::class, 'selectedArchive'])
