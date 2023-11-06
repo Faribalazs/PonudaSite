@@ -128,7 +128,7 @@ class DataSeeder extends Seeder
                     'category_id' => '5',
                     'name' => [
                         'sr' => 'Spusteni plafoni',
-                        'rs-cyrl' => 'Спустени плафони',
+                        'rs-cyrl' => 'Спуштени плафони',
                     ]
                 ],
                 [

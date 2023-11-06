@@ -38,6 +38,7 @@
                         </div>
                     </form>
                 @endif
+                <p class="mb-5">{{ __('app.basic.what-is-site-about') }}</p>
                 <form method="POST" action="{{ route('worker.session.create') }}">
                     @csrf
                     <!-- Email Address -->

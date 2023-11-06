@@ -1,9 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Moje kategorije
+        {{ __('app.categories.my-categories') }}
     </x-slot>
     <x-slot name="header">
-        Moje kategorije
+        {{ __('app.categories.my-categories') }}
     </x-slot>
     @php
         $i = 1;
@@ -12,11 +12,11 @@
     @endphp
     <div class="grid lg:gap-8 gap-5 mt-24 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-category-grid">
         <div class="w-full flex justify-center flex-col item">
-            <span class="text-center pb-5 my-category-title"><b>Moje kategorije :</b></span>
+            <span class="text-center pb-5 my-category-title"><b>{{ __('app.categories.my-categories') }}:</b></span>
             <div class="flex flex-col my-category-list-div">
                 <div class="flex overflow-y-scroll overflow-x-hidden h-44 flex-col gap-5">
                     @if (!isset($custom_categories[0]))
-                    <span class="text-center my-auto text-lg">Nema dodato kategorija!</span>
+                    <span class="text-center my-auto text-lg">{{ __('app.categories.no-added-category') }}</span>
                     @endif
                     @foreach ($custom_categories as $custom_category)
                         <div class="flex items-center justify-between pr-3">
@@ -41,11 +41,11 @@
         </div>
 
         <div class="w-full flex justify-center flex-col item">
-            <span class="text-center pb-5 my-category-title"><b>Moje podkategorije :</b></span>
+            <span class="text-center pb-5 my-category-title"><b>{{ __('app.categories.my-subcategories') }}:</b></span>
             <div class="flex flex-col my-category-list-div">
                 <div class="flex overflow-y-scroll overflow-x-hidden h-44 flex-col gap-5">
                     @if (!isset($custom_subcategories[0]))
-                        <span class="text-center my-auto text-lg">Nema dodato podkategorija!</span>
+                        <span class="text-center my-auto text-lg">{{ __('app.categories.no-added-subcategory') }}</span>
                     @endif
                     @foreach ($custom_subcategories as $custom_subcategory)
                         <div class="flex items-center justify-between pr-3">
@@ -70,11 +70,11 @@
         </div>
 
         <div class="w-full flex justify-center flex-col item">
-            <span class="text-center pb-5 my-category-title"><b>Moje pozicije :</b></span>
+            <span class="text-center pb-5 my-category-title"><b>{{ __('app.categories.my-pozicija') }}:</b></span>
             <div class="flex flex-col my-category-list-div">
                 <div class="flex overflow-y-scroll overflow-x-hidden h-44 flex-col gap-5">
                     @if (!isset($custom_pozicija[0]))
-                        <span class="text-center my-auto text-lg">Nema dodato pozicija!</span>
+                        <span class="text-center my-auto text-lg">{{ __('app.categories.no-added-pozicija') }}</span>
                     @endif
                     @foreach ($custom_pozicija as $custom_pozicija)
                         <div class="flex items-center justify-between pr-3">
@@ -102,12 +102,12 @@
     <div class="flex items-center flex-col mt-20">
         <div class="mb-10">
             <p class="text-center text-xl font-semibold">
-                Dodaj svoju kategoriju/podkategoriju/poziciju radova koju ćeš koristiti za izradu ponude :
+                {{ __('app.categories.choose-option') }}
             </p>
         </div>
         <div>
             <button onclick="addNewOption()" class="main-btn ml-3">
-                Dodaj
+                {{ __('app.categories.dodaj') }}
             </button>
         </div>
     </div>
@@ -142,7 +142,7 @@
             Swal.fire(
                 title: 'Uspesno ste izbrisali kategoriju',
                 icon: 'success',
-                confirmButtonText: "Zatvori",
+                confirmButtonText: "{{ __('app.basic.close') }}",
                 showConfirmButton: false,
                 showCloseButton: true,
                 confirmButtonColor: '#22ff00',
@@ -162,12 +162,12 @@
     <script>
         function addNewOption() {
             Swal.fire({
-                title: 'Šta želiš da dodaš ?',
+                title: '{{ __('app.categories.what-you-want-to-add') }}',
                 icon: 'question',
                 html: '<div class="flex flex-col gap-5 pb-6">' +
-                    '<a href="{{ route('worker.options.create.new.category') }}" class="main-btn">Novu kategoriju</a>' +
-                    '<a href="{{ route('worker.options.create.new.subcategory') }}" class="main-btn">Novu podkategoriju</a>' +
-                    '<a href="{{ route('worker.options.create.new.pozicija') }}" class="main-btn">Novu poziciju</a>' +
+                    '<a href="{{ route('worker.options.create.new.category') }}" class="main-btn">{{ __('app.categories.new-category') }}</a>' +
+                    '<a href="{{ route('worker.options.create.new.subcategory') }}" class="main-btn">{{ __('app.categories.new-subcategory') }}</a>' +
+                    '<a href="{{ route('worker.options.create.new.pozicija') }}" class="main-btn">{{ __('app.categories.new-pozicija') }}</a>' +
                     '</div>',
                 showCancelButton: false,
                 showConfirmButton: false,

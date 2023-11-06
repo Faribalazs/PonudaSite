@@ -104,14 +104,14 @@ class NewPonuda extends Controller
          $request->validate([
             'category' => ['required', new CheckID(Default_category::class, Category::class)],
             'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
-            'quantity' => 'required|regex:/^[0-9\s]+$/i',
             'pozicija_id' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
-            'price' => 'required|regex:/^[0-9\s]+$/i',
+            'quantity' => ['required','numeric','gt:0','digits_between:1,10'],
+            'price' => ['required','numeric','gt:0','digits_between:1,10'],
             'radioButton' => 'required|in:1,2',
             'opis' => 'nullable|regex:/\p{L}/u',
         ]);
 
-         if($request->input('quantity') > 0 && $request->input('price') > 0)
+         if($request->input('quantity') * $request->input('price') < PHP_INT_MAX)
          {
             $worker_id = Helper::worker();
             $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
@@ -166,11 +166,11 @@ class NewPonuda extends Controller
          }
          else
          {
-            Alert::error('Količina i cena moraju biti više od 0!')->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect(route("worker.new.ponuda"));
          }
        } catch (Exception $e) {
-            Alert::error('Nešto nije u redu!'.$e)->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::error('Nešto nije u redu!'.$e)->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect(route("worker.new.ponuda"));
        }
    }
@@ -180,62 +180,65 @@ class NewPonuda extends Controller
       $request->validate([
          'real_id' => ['required','exists:App\Models\Ponuda,id'],
          'new_radioButton' => ['required','in:1,2'],
-         'new_quantity' => ['required'],
-         'new_unit_price' => ['required'],
+         'new_quantity' => ['required','numeric','gt:0','digits_between:1,10'],
+         'new_unit_price' => ['required','numeric','gt:0','digits_between:1,10'],
          'new_title' => ['required'],
          'new_description' => ['nullable'],
       ]);
 
-      $temp = $request->input('new_description') ?? "";
-      $title = $request->input('new_title');
-      $id = $request->input('real_id');
-
-      $ponuda = Ponuda::where('id', $id)->where('worker_id', Helper::worker())->first();
-
-      $ponuda_desc = Ponuda::join('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
-         ->where('ponuda.id', $id)
-         ->where('ponuda.worker_id', Helper::worker())
-         ->first();
-
-      if($ponuda_desc)
+      if($request->input('new_quantity') * $request->input('new_unit_price') < PHP_INT_MAX)
       {
-         Pozicija_Temporary::where('id_of_ponuda', $id)->update([
-            'temporary_description' => $temp,
+         $temp = $request->input('new_description') ?? "";
+         $title = $request->input('new_title');
+         $id = $request->input('real_id');
+
+         $ponuda = Ponuda::where('id', $id)->where('worker_id', Helper::worker())->first();
+
+         $ponuda_desc = Ponuda::join('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
+            ->where('ponuda.id', $id)
+            ->where('ponuda.worker_id', Helper::worker())
+            ->first();
+
+         if($ponuda_desc)
+         {
+            Pozicija_Temporary::where('id_of_ponuda', $id)->update([
+               'temporary_description' => $temp,
+            ]);
+         }
+         else
+         {
+            Pozicija_Temporary::create([
+               'id_of_ponuda' => $id,
+               'temporary_description' => $temp,
+            ]);
+         }
+
+         $ponuda_title = Ponuda::join('title_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
+            ->where('ponuda.id', $id)
+            ->where('ponuda.worker_id', Helper::worker())
+            ->first();
+
+         if($ponuda_title)
+         {
+            Title_Temporary::where('id_of_ponuda', $id)->update([
+               'temporary_title' => $title,
+            ]);
+         }
+         else
+         {
+            Title_Temporary::create([
+               'id_of_ponuda' => $id,
+               'temporary_title' => $title,
+            ]);
+         }
+
+         Ponuda::where('id', $id)->update([
+            'service_id' => $request->input('new_radioButton'),
+            'quantity' => $request->input('new_quantity'),
+            'unit_price' => $request->input('new_unit_price'),
+            'overall_price' => $request->input('new_quantity') * $request->input('new_unit_price'),
          ]);
       }
-      else
-      {
-         Pozicija_Temporary::create([
-            'id_of_ponuda' => $id,
-            'temporary_description' => $temp,
-         ]);
-      }
-
-      $ponuda_title = Ponuda::join('title_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
-         ->where('ponuda.id', $id)
-         ->where('ponuda.worker_id', Helper::worker())
-         ->first();
-
-      if($ponuda_title)
-      {
-         Title_Temporary::where('id_of_ponuda', $id)->update([
-            'temporary_title' => $title,
-         ]);
-      }
-      else
-      {
-         Title_Temporary::create([
-            'id_of_ponuda' => $id,
-            'temporary_title' => $title,
-         ]);
-      }
-
-      Ponuda::where('id', $id)->update([
-         'service_id' => $request->input('new_radioButton'),
-         'quantity' => $request->input('new_quantity'),
-         'unit_price' => $request->input('new_unit_price'),
-         'overall_price' => $request->input('new_quantity') * $request->input('new_unit_price'),
-      ]);
       return redirect()->route('worker.new.ponuda');
    }
 
@@ -291,18 +294,18 @@ class NewPonuda extends Controller
          }
 
          if ($request->input('edit')) {
-            Alert::success('Ponuda je uspešno izmenjena!')->showCloseButton()->showConfirmButton('Zatvori');
+            Alert::success(__('app.create-ponuda.ponuda-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect(route("worker.new.ponuda"));
          }
 
          session()->forget('opis_ponude');
          
-         Alert::success('Ponuda je uspešno kreirana. Možete je pronaći u arhivi!')->showCloseButton()->showConfirmButton('Zatvori');
+         Alert::success(__('app.create-ponuda.ponuda-created'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
          return redirect(route("worker.new.ponuda"));
       }
       else
       {
-         Alert::error('Niste uneli podatke')->showCloseButton()->showConfirmButton('Zatvori');
+         Alert::error(__('app.create-ponuda.no-data-ponuda'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
          return redirect(route("worker.new.ponuda"));  
       }
    }
@@ -334,7 +337,7 @@ class NewPonuda extends Controller
       Ponuda::where('id', $request->input('id'))
          ->where('worker_id', Helper::worker())
          ->delete();
-      Alert::success('Element ponude je uspešno obrisan!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success('Element ponude je uspešno obrisan!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route("worker.new.ponuda"));
    }
 

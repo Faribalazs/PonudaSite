@@ -31,7 +31,7 @@ class NewOptions extends Controller
          'name' => $request->input('category_name'),
       ]);
 
-      Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route('worker.options.update'));  
    }
 
@@ -67,7 +67,7 @@ class NewOptions extends Controller
          'name' => $request->input('subcategory_name'),
       ]);
 
-      Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route('worker.options.update'));  
    }
    
@@ -98,7 +98,7 @@ class NewOptions extends Controller
          'custom_description' => $request->input('poz_des') ?? "",
       ]);
 
-      Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+      Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route('worker.options.update'));  
    }
 

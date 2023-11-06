@@ -95,14 +95,14 @@ class WorkerController extends Controller
          ]);
 
          if($company_data->wasRecentlyCreated){
-            alert()->success('Podaci su sačuvane!')->showCloseButton()->showConfirmButton('Zatvori');
+            alert()->success('Podaci su sačuvani!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
             if (session('ponuda_id') != null) {
                return redirect()->route('worker.archive.genarte.tamplate.pdf.create');
             }
             return redirect()->route('worker.personal.data');
          }
       }
-      alert()->error('Podaci nisu sačuvane')->showCloseButton()->showConfirmButton('Zatvori');
+      alert()->error('Podaci nisu sačuvani')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect()->route('worker.personal.data');
    }
 
@@ -163,12 +163,12 @@ class WorkerController extends Controller
       ]);
 
       if($fizicko_lice->wasRecentlyCreated){
-         alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       } elseif($fizicko_lice->wasChanged()) {
-         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       else{
-         alert()->error('Podaci nisu sačuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Podaci nisu sačuvani ili promenjeni')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       return redirect()->route('worker.personal.contacts')->with('selected_fizicko', 'fizicko_lice');
    }
@@ -196,7 +196,7 @@ class WorkerController extends Controller
       ]);
 
       Fizicko_lice::where('id', $request->input('id'))->where('worker_id', Helper::worker())->delete();
-      alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton('Zatvori');
+      alert()->success('Kontakt je izbrisan')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect()->route('worker.personal.contacts');
    }
 
@@ -243,12 +243,12 @@ class WorkerController extends Controller
       ]);
 
       if($pravno_lice->wasRecentlyCreated){
-         alert()->success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       } elseif($pravno_lice->wasChanged()) {
-         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->success('Podaci uspešno promenjeni!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       else{
-         alert()->error('Podaci nisu sačuvane ili promenjeni')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Podaci nisu sačuvani ili promenjeni')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       return redirect()->route('worker.personal.contacts')->with('selected_pravna', 'pravno_lice');
    }
@@ -293,14 +293,14 @@ class WorkerController extends Controller
       ]);
 
       if(!Hash::check($request->old_password, auth('worker')->user()->password)){
-         alert()->error('Stara lozinka se ne poklapa!')->showCloseButton()->showConfirmButton('Zatvori');
+         alert()->error('Stara lozinka se ne poklapa!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
          return redirect()->back();
       }
       Worker::whereId(Helper::worker())->update([
             'password' => Hash::make($request->new_password)
       ]);
 
-      alert()->success('Lozinka je uspešno promenjena!')->showCloseButton()->showConfirmButton('Zatvori');
+      alert()->success('Lozinka je uspešno promenjena!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect()->back();
    }
 

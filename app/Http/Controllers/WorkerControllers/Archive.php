@@ -275,7 +275,7 @@ class Archive extends Controller
                 return redirect()->route('worker.archive.select.template');
                 
             } else {
-                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton('Zatvori');
+                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton(__('app.basic.close'));
                 return redirect()->back();
             }
 
@@ -323,7 +323,7 @@ class Archive extends Controller
                         ]
                     );
                     $temporary = false;
-                    Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+                    Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
                 }
             else{
                 $client = Fizicko_lice_Temporary::updateOrCreate(
@@ -349,7 +349,7 @@ class Archive extends Controller
 
             return redirect()->route('worker.archive.select.template');
         }
-        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
+        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->back();
     }
 
@@ -362,7 +362,7 @@ class Archive extends Controller
 
                 return redirect()->route('worker.archive.select.template');
             } else {
-                Alert::error('Izaberite jedan kontakt')->showCloseButton()->showConfirmButton('Zatvori');
+                Alert::error('Izaberite jedan kontakt')->showCloseButton()->showConfirmButton(__('app.basic.close'));
                 return redirect()->back();
             }
         } elseif($request->input('method') !== null && $request->input('method') == 'add_new') {
@@ -410,7 +410,7 @@ class Archive extends Controller
                     ]
                 );
                 $temporary = false;
-                Alert::success('Uspešno dodato!')->showCloseButton()->showConfirmButton('Zatvori');
+                Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             }
             else{
                 $client = Pravno_lice_Temporary::updateOrCreate(
@@ -438,7 +438,7 @@ class Archive extends Controller
 
             return redirect()->route('worker.archive.select.template');
         }
-        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton('Zatvori');
+        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->back();
     }
 
@@ -451,7 +451,7 @@ class Archive extends Controller
     {
         $request->validate([
             'ponuda_id' => ['required', new Ponuda_PonudaID],
-            'client_id' => ['nullable','numeric','gte:0'],
+            'client_id' => ['nullable','numeric','gt:0'],
             'type' => ['required','in:1,2'],
         ]);
 
@@ -464,7 +464,7 @@ class Archive extends Controller
     {
         $request->validate([
             'ponuda_id' => ['required', new Ponuda_PonudaID],
-            'client' => ['nullable','numeric','gte:0'],
+            'client' => ['nullable','numeric','gt:0'],
             'type' => 'required|in:1,2',
         ]);
 
@@ -536,7 +536,7 @@ class Archive extends Controller
             'mailSubject' => 'nullable|string|max:64',
             'mailBody' => 'nullable|string|max:1024',
             'id' => ['required', new Ponuda_PonudaID],
-            'client' => 'nullable|numeric|gte:0',
+            'client' => 'nullable|numeric|gt:0',
             'type' => 'required|in:1,2',
         ]);
 
@@ -587,7 +587,7 @@ class Archive extends Controller
             $emailJobSecond = (new SendEmail(auth('worker')->user()->email, $request->input('mailSubject'), $request->input('mailBody'), $dataPDF, $pdf_name->ponuda_name, $auto_msg));
             dispatch($emailJobSecond);
         }
-        Alert::success('Uspešno poslato!')->showCloseButton()->showConfirmButton('Zatvori');
+        Alert::success('Uspešno poslato!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->route('worker.archive');
     }
 
@@ -675,7 +675,7 @@ class Archive extends Controller
                 }
 
                 if($company_data == null) {
-                    Alert::warning('Izpunite podate kompanije prvo')->showCloseButton()->showConfirmButton('Zatvori');
+                    Alert::warning('Izpunite podate kompanije prvo')->showCloseButton()->showConfirmButton(__('app.basic.close'));
                     return redirect()->route('worker.personal.data');
                 }
 

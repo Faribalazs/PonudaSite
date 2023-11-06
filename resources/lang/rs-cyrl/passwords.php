@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'reset' => 'Vaša lozinka je resetovana!',
-    'sent' => 'Poslali smo Vam e-mejl sa linkom za resetovanje lozinke!',
-    'throttled' => 'Molimo Vas sačekajte pre nego što pokušate ponovo.',
-    'token' => 'Ova oznaka za resetovanje lozinke je neispravna.',
-    'user' => "Ne možemo da pronađemo korisnika sa tom e-mejl adresom.",
+    'reset' => 'Ваша лозинка је ресетована!',
+    'sent' => 'Послали смо Вам е-мејл са линком за ресетовање лозинке!',
+    'throttled' => 'Молимо Вас сачекајте пре него што покушате поново.',
+    'token' => 'Ова ознака за ресетовање лозинке је неисправна.',
+    'user' => "Не можемо да пронађемо корисника са том е-мејл адресом.",
 
 ];

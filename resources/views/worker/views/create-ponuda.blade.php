@@ -33,7 +33,7 @@
     @if (Session::has('msg'))
         <script>
             Swal.fire({
-                title: 'Uspešno dodato!',
+                title: '{{ __("app.basic.successfully-added") }}',
                 icon: 'success',
                 showCancelButton: true,
                 showConfirmButton: true,
@@ -890,7 +890,7 @@
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
-                    span.innerText = "Upiši kolicinu ( " + unitValue + " )*";
+                    span.innerText = "{{ __('app.create-ponuda.upisi-kolicinu') }} ( " + unitValue + " )*";
                     textDiv.appendChild(span);
                     var span_div = document.getElementById("quantity-input");
                     var inputValue = document.createElement("input");

@@ -3,6 +3,9 @@
 return [
     'basic' => [
         'choose-language'               => "Izaberi jezik",
+        'successfully-added'            => "Uspešno dodato!",
+        'close'                         => "Zatvori",
+        'what-is-site-about'            => "Platforma \"Ponuda Majstora\" predstavlja savremen i efikasan alat za izradu ponuda za izvođenje građevinskih i građevinsko - zanatskih radova",
     ],
 
     'nav' => [
@@ -56,6 +59,25 @@ return [
         'swal-add-opis'                 => "Da li želite da dodate opis uz naziv ponude",
         'swal-yes'                      => "Da",
         'swal-no'                       => "Ne",
+        'upisi-kolicinu'                => "Upiši kolicinu", 
+        'ponuda-created'                => "Ponuda je uspešno kreirana. Možete je pronaći u arhivi!",
+        'ponuda-changed'                => "Ponuda je uspešno izmenjena!",
+        'no-data-ponuda'                => "Niste uneli podatke!",
+    ],
+
+    'categories' => [
+        'my-categories'                 => "Moje kategorije",
+        'my-subcategories'              => "Moje podkategorije",
+        'my-pozicija'                   => "Moje pozicije",
+        'no-added-category'             => "Nema dodatih kategorija!",
+        'no-added-subcategory'          => "Nema dodatih podkategorija!",
+        'no-added-pozicija'             => "Nema dodatih pozicija!",
+        'choose-option'                 => "Dodaj svoju kategoriju/podkategoriju/poziciju radova koju ćeš koristiti za izradu ponude:",
+        'dodaj'                         => "Dodaj",
+        'new-category'                  => "Novu kategoriju",
+        'new-subcategory'               => "Novu podkategoriju",
+        'new-pozicija'                  => "Novu poziciju",
+        'what-you-want-to-add'          => "Šta želiš da dodaš?",
     ],
 
     'email' => [
@@ -75,7 +97,7 @@ return [
         'register-btn'                  => "Registracija",
         'e-mail'                        => "E-mail adresa",
         'password'                      => "Lozinka",
-        'welcome'                       => "DOBRODOSLI KOD",
+        'welcome'                       => "Dobrodošli na platformu",
         'welcome-register'              => "BUDI DEO TIMA",
         'log-in-text'                   => "Ulogujte se",
         'google'                        => "Nastavi sa Google -om",
