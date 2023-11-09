@@ -1,9 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Moja Arhiva
+        {{ __('app.nav.archive') }}
     </x-slot>
     <x-slot name="header">
-        Moja arhiva
+        {{ __('app.nav.archive') }}
     </x-slot>
     @php
         $i = 1;
@@ -11,12 +11,18 @@
         $title = '';
         $collection = collect($data);
         $note = $collection->groupBy('id_category');
-        \Carbon\Carbon::setLocale(app()->getLocale())
+        if(app()->getLocale() == "rs-cyrl")
+        {
+            \Carbon\Carbon::setLocale("sr_RS");
+        }
+        else {
+            \Carbon\Carbon::setLocale(app()->getLocale());
+        }
     @endphp
     <div class="flex mt-16 filter-search-div">
         <form method="GET" action="{{ route('worker.archive.search') }}" class="">
             @if (isset($search_data))
-                <input type="text" name="query" value="{{ $search_data }}" placeholder="Traži po nazivu..."
+                <input type="text" name="query" value="{{ $search_data }}" placeholder="{{ __('app.archive.search-name') }}..."
                     id="search-input">
                 <button type="button" onclick="searchIcon()" class="my-3 search-icon-div" id="close">
                     <a href="{{ route('worker.archive') }}">
@@ -27,7 +33,7 @@
                     <i class="ri-search-2-line"></i>
                 </button>
             @else
-                <input type="text" name="query" placeholder="Traži po nazivu..." id="search-input">
+                <input type="text" name="query" placeholder="{{ __('app.archive.search-name') }}..." id="search-input">
                 <button type="submit" class="my-3 search-icon">
                     <i class="ri-search-2-line"></i>
                 </button>
@@ -37,7 +43,7 @@
         <form method="GET" action="{{ route('worker.archive.search.napomena') }}" class="">
             @if (isset($search_data_napomena))
                 <input type="text" name="query" value="{{ $search_data_napomena }}"
-                    placeholder="Traži po napomeni..." id="search_input_napomena">
+                    placeholder="{{ __('app.archive.search-note') }}..." id="search_input_napomena">
                 <button type="button" onclick="searchIconNapomena()" class="my-3 search-icon-div" id="close_napomena">
                     <a href="{{ route('worker.archive') }}">
                         <i class="ri-close-line"></i>
@@ -47,7 +53,7 @@
                     <i class="ri-search-2-line"></i>
                 </button>
             @else
-                <input type="text" name="query" placeholder="Traži po napomeni..." id="search_input_napomena">
+                <input type="text" name="query" placeholder="{{ __('app.archive.search-note') }}..." id="search_input_napomena">
                 <button type="submit" class="my-3 search-icon">
                     <i class="ri-search-2-line"></i>
                 </button>
@@ -59,13 +65,13 @@
                 <div class="select-btn-archive">
                     @if (isset($sort))
                         @if ($sort == 'asc')
-                            <span class="sBtn-text-archive">Najstariji</span>
+                            <span class="sBtn-text-archive">{{ __('app.archive.oldest') }}</span>
                         @endif
                         @if ($sort == 'desc')
-                            <span class="sBtn-text-archive">Najnoviji</span>
+                            <span class="sBtn-text-archive">{{ __('app.archive.newest') }}</span>
                         @endif
                     @else
-                        <span class="sBtn-text-archive">Sortiraj</span>
+                        <span class="sBtn-text-archive">{{ __('app.archive.sort') }}</span>
                     @endif
                     <i class="ri-arrow-down-s-line"></i>
                 </div>
@@ -73,15 +79,15 @@
                     @if (isset($sort))
                         <a href="{{ route('worker.archive') }}" class="clear-filter">
                             <li class="option-archive">
-                                Izbriši filter
+                                {{ __('app.archive.delete-filter') }}
                             </li>
                         </a>
                     @endif
                     <li class="option-archive">
-                        <button class="option-text-archive" type="submit">Najnoviji</button>
+                        <button class="option-text-archive" type="submit">{{ __('app.archive.newest') }}</button>
                     </li>
                     <li class="option-archive">
-                        <button class="option-text-archive" type="submit">Najstariji</button>
+                        <button class="option-text-archive" type="submit">{{ __('app.archive.oldest') }}</button>
                     </li>
                 </ul>
             </div>
@@ -96,18 +102,18 @@
                 <div class=" justify-between items-center flex p-3 archive-container my-2">
                     <a href="{{ route('worker.archive.selected', ['id' => $ponuda->id_ponuda]) }}" class="flex w-full">
                         <div class="w-full">
-                            Naziv : <b>{{ $ponuda->ponuda_name }}</b>
+                            {{ __('app.archive.name') }}: <b>{{ $ponuda->ponuda_name }}</b>
                             <p>
-                                Kreirano : <b>{{ $ponuda->created_at->translatedFormat('jS F Y H:i') }}</b>
+                                {{ __('app.archive.created') }} : <b>{{ $ponuda->created_at->translatedFormat('jS F Y H:i') }}</b>
                             </p>
                             @if (isset($ponuda->updated_at))
                                 <p>
-                                    Ažuriran : {{ $ponuda->updated_at->translatedFormat('jS F Y H:i') }}
+                                    {{ __('app.archive.updated') }} : {{ $ponuda->updated_at->translatedFormat('jS F Y H:i') }}
                                 </p>
                             @endif
                             @if (isset($ponuda->note))
                                 <p class="mt-3">
-                                    Opis : <pre><b>{{  $ponuda->note  }}</b></pre>
+                                    {{ __('app.archive.description') }} : <pre><b>{{  $ponuda->note  }}</b></pre>
                                 </p>
                             @endif
                         </div>
@@ -138,20 +144,20 @@
     @else
         <div class=" text-2xl flex w-full mt-36">
             <span class="w-full text-center">
-                Nismo našli nikakvu ponudu&nbsp;!
+                {{ __('app.archive.offer-not-found') }}&nbsp;!
             </span>
         </div>
     @endif
     <script>
         function actionSwall(url, name, id) {
             Swal.fire({
-                title: 'Stvarno hoćete da izbrišite ponudu "' + name + '"?',
+                title: '{{ __('app.create-ponuda.swal-are-you-sure-delete') }} "' + name + '"?',
                 icon: 'question',
                 html: '<form method="POST" id="delElement" action="'+url+'">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">{{ __('app.basic.delete') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -161,7 +167,7 @@
 
         function updateSwall(url, name) {
             Swal.fire({
-                title: 'Stvarno hoćete da menjate nešto u "' + name + '"?',
+                title: '{{ __('app.archive.swal-are-you-sure-change') }} "' + name + '"?',
                 icon: 'question',
                 confirmButtonText: "Izmeni",
                 cancelButtonText: "Nazad",
@@ -192,29 +198,21 @@
                 sBtn_text.innerText = selectedOption;
                 var existInput = document.getElementById("filter");
                 var div = document.getElementById("filter-div");
-                if (selectedOption == 'Najnoviji') {
-                    var input = document.createElement("input");
-                    if (existInput) {
-                        existInput.remove();
-                    }
-                    input.id = "filter";
-                    input.name = "sort_order";
-                    input.type = "text";
-                    input.defaultValue = "desc";
-                    input.value = "desc";
-                    div.appendChild(input);
-                } else {
-                    var input = document.createElement("input");
-                    if (existInput) {
-                        existInput.remove();
-                    }
-                    input.id = "filter";
-                    input.name = "sort_order";
-                    input.type = "text";
+                if (existInput) {
+                    existInput.remove();
+                }
+                var input = document.createElement("input");
+                input.id = "filter";
+                input.name = "sort_order";
+                input.type = "text";
+                if (selectedOption == "{{ __('app.archive.oldest') }}") {
                     input.defaultValue = "asc";
                     input.value = "asc";
-                    div.appendChild(input);
+                } else {
+                    input.defaultValue = "desc";
+                    input.value = "desc";
                 }
+                div.appendChild(input);
 
                 optionMenu.classList.remove("active");
             });

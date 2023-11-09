@@ -1,15 +1,21 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Moja Arhiva
+        {{ __('app.nav.archive') }}
     </x-slot>
     <x-slot name="header">
-        Moja Arhiva
+        {{ __('app.nav.archive') }}
     </x-slot>
     @php
         $finalPrice = 0;
         $titleBold = 0;
         $uniqueName = [];
-        \Carbon\Carbon::setLocale(app()->getLocale())
+        if(app()->getLocale() == "rs-cyrl")
+        {
+            \Carbon\Carbon::setLocale("sr_RS");
+        }
+        else {
+            \Carbon\Carbon::setLocale(app()->getLocale());
+        }    
     @endphp
     @if ($mergedData != null)
     @php
@@ -19,23 +25,23 @@
             <div class="flex justify-center flex-col lg:flex-row w-full items-center gap-4">
                 <a href="{{ route('worker.archive.select.contact', ['id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
-                    <i class="ri-download-2-line"></i>Generiši PDF</a>
+                    <i class="ri-download-2-line"></i>{{ __('app.archive-selected.generate-pdf') }}</a>
                 <a target="_blank"
                     href="{{ route('worker.archive.view.pdf', ['id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
-                    <i class="ri-eye-line"></i>Pogledaj PDF</a>
+                    <i class="ri-eye-line"></i>{{ __('app.archive-selected.check-pdf') }}</a>
                 <a href="{{ route('worker.archive.edit', ['ponuda_id' => $ponuda_name->id_ponuda]) }}"
                     class="archive-pdf-btn">
-                    <i class="ri-edit-line"></i>Izmeni ponudu</a>
+                    <i class="ri-edit-line"></i>{{ __('app.archive-selected.modify-offer') }}</a>
             </div>
         </div>
         <br>
         <p>
-            Kreirano : <b>{{ $ponuda_name->created_at->translatedFormat('l jS F Y H:i') }}</b>
+            {{ __('app.archive.created') }}: <b>{{ $ponuda_name->created_at->translatedFormat('l jS F Y H:i') }}</b>
         </p>
         @if (isset($ponuda_name->updated_at))
             <p>
-                Ažuriran : {{ $ponuda_name->updated_at->translatedFormat('l jS F Y H:i') }}
+                {{ __('app.archive.updated') }}: {{ $ponuda_name->updated_at->translatedFormat('l jS F Y H:i') }}
             </p>
         @endif
         <div class="overflow-auto">
@@ -43,13 +49,13 @@
                 <table class="ponuda-table w-full mt-5">
                     <thead>
                         <tr>
-                            <th scope="col" class="p-2 text-center">r.br.</th>
-                            <th scope="col" class="p-2 text-center">Naziv</th>
-                            <th scope="col" class="p-2 text-center">j.m.</th>
-                            <th scope="col" class="p-2 text-center">količina</th>
-                            <th scope="col" class="p-2 text-center">jed.cena</th>
-                            <th scope="col" class="p-2 text-center">ukupno</th>
-                            <th scope="col" class="p-2 text-center">izbriši</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-r-br') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-naziv') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-j-m') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-kolicina') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-jed-cena') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-ukupno') }}</th>
+                            <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-izbrisi') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,7 +109,7 @@
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
-                                        <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                        <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                     </td>
                                 </tr>
                             @endif
@@ -116,7 +122,7 @@
                     <tbody>
                         <tr>
                             <td colspan="8" class="text-left border-bold p-1"
-                                style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
+                                style="background-color: rgba(0, 0, 0, 0.05);"><b>{{ __('app.create-ponuda.table-rekapitulacija') }}</b></td>
                         </tr>
                         @foreach ($finalData as $data)
                             @php
@@ -146,7 +152,7 @@
                 <table class="table mt-20 text-end ponuda-table w-full">
                     <tr>
                         <td class="text-right whitespace-nowrap p-1">
-                            <b>UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
@@ -164,7 +170,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>Ukupno sa PDV: {{ number_format($final, 0, ',', ' ') }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final, 0, ',', ' ') }}&nbsp;RSD</b>
                         </td>
                     </tr>
                 </table>
@@ -173,7 +179,7 @@
         @if (isset($ponuda_name->opis))
             <div>
                 <p class="mt-10 font-bold">
-                    Napomene :
+                    {{ __('app.archive-selected.note') }}:
                 </p>
                 <br>
                 <p>
@@ -185,14 +191,14 @@
     <script>
         function actionSwall(url, name, id, realId) {
             Swal.fire({
-                title: 'Stvarno hoćete da izbrišite element ponudu "' + name + '"?',
+                title: '{{ __('app.create-ponuda.swal-are-you-sure-delete') }} "' + name + '"?',
                 icon: 'question',
                 html: '<form method="POST" id="delete_item" action="'+url+'">' +
                     '@csrf' +
                     '@method("delete")' +
                     '<input name="id" hidden value="' + id + '">' +
                     '<input name="real_id" hidden value="{{ $ponuda_id }}">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">{{ __('app.basic.delete') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,

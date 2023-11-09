@@ -1,17 +1,17 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Nova podkategorija
+        {{ __('app.categories.new-subcategory') }}
     </x-slot>
     <x-slot name="header">
-        Nova podkategorija
+        {{ __('app.categories.new-subcategory') }}
     </x-slot>
     <form method="POST" id="add_new_category" class="mt-20" action="{{ route('worker.options.store.new.subcategory') }}">
         @csrf
         <div id="category-dropdown" class="mt-14">
-            <span class="input-label pl-2">Odaberi Kategoriju:</span>
+            <span class="input-label pl-2">{{ __('app.create-ponuda.choose-category') }}:</span>
             <div class="select-menu-category pt-3">
                 <div class="select-btn-category">
-                    <span class="sBtn-text-category">Odaberi kategoriju</span>
+                    <span class="sBtn-text-category">{{ __('app.create-ponuda.choose-category') }}</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -37,9 +37,9 @@
                 </ul>
             </div>
             <div class="flex w-full flex-col" style="margin-top: -115px">
-                <span class="input-label py-2">Upiši naziv podkategorije:</span>
+                <span class="input-label py-2">{{ __('app.categories.write-name-subcategory') }}:</span>
                 <input type="text" name="subcategory_name" class="input-style mb-10">
-                <button type="submit" class="main-btn mx-auto mt-10">Dodaj podkategoriju</button>
+                <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
             </div>
         </div>
     </form>
@@ -81,8 +81,8 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = 'Odaberi podkategoriju ';
-            sBtn_text.innerText = 'Odaberi poziciju';
+            sBtn_textSub.innerText = '{{ __("app.create-ponuda.choose-subcategory") }} ';
+            sBtn_text.innerText = '{{ __("app.create-ponuda.choose-pozicija") }} ';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {

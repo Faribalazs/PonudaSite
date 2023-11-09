@@ -6,6 +6,8 @@ return [
         'successfully-added'            => "Uspešno dodato!",
         'close'                         => "Zatvori",
         'what-is-site-about'            => "Platforma \"Ponuda Majstora\" predstavlja savremen i efikasan alat za izradu ponuda za izvođenje građevinskih i građevinsko - zanatskih radova",
+        'save'                          => "Sačuvaj",
+        'delete'                        => "Izbriši",
     ],
 
     'nav' => [
@@ -78,6 +80,37 @@ return [
         'new-subcategory'               => "Novu podkategoriju",
         'new-pozicija'                  => "Novu poziciju",
         'what-you-want-to-add'          => "Šta želiš da dodaš?",
+        'update-category'               => "Ažuriraj kategoriju",
+        'write-name-category'           => "Upiši naziv kategorije",
+        'update-subcategory'            => "Ažuriraj podkategoriju",
+        'write-name-subcategory'        => "Upiši naziv podkategorije",
+        'update-position'               => "Ažuriraj poziciju",
+        'write-name-position'           => "Upiši naziv pozicije",
+        'description-position'          => "Upiši opis pozicije",
+        'calculation'                   => "Obračun",
+        'choose-calculation'            => "Odaberi obračun",
+    ],
+
+    'archive' => [
+        'search-name'                   => "Traži po nazivu",
+        'search-note'                   => "Traži po napomeni",
+        'oldest'                        => "Najstariji",
+        'newest'                        => "Najnoviji",
+        'sort'                          => "Sortiraj",
+        'delete-filter'                 => "Izbriši filter",
+        'name'                          => "Naziv",
+        'created'                       => "Kreirano",
+        'updated'                       => "Ažuriran",
+        'description'                   => "Opis",
+        'offer-not-found'               => "Nismo našli nikakvu ponudu",
+        'swal-are-you-sure-change'      => "Stvarno hoćete da menjate nešto u",
+    ],
+
+    'archive-selected' => [
+        'note'                          => "Napomene",
+        'modify-offer'                  => "Izmeni ponudu",
+        'check-pdf'                     => "Pogledaj PDF",
+        'generate-pdf'                  => "Generiši PDF",
     ],
 
     'email' => [

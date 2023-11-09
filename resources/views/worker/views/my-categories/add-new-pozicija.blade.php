@@ -1,18 +1,18 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Nova pozicija
+        {{ __('app.categories.new-pozicija') }}
     </x-slot>
     <x-slot name="header">
-        Nova Pozicija
+        {{ __('app.categories.new-pozicija') }}
     </x-slot>
     <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.options.store.new.pozicija') }}">
         @csrf
         {{-- create ponuda szeruen tudjak kivalasztani az alkategoriat --}}
         <div id="subCategory-dropdown">
-            <span class="input-label pl-2">Odaberi Podkategoriju:</span>
+            <span class="input-label pl-2">{{ __('app.create-ponuda.choose-subcategory') }}:</span>
             <div class="select-menu-subcategory mt-3">
                 <div class="select-btn-subcategory">
-                    <span class="sBtn-text-subcategory">Odaberi podkategoriju</span>
+                    <span class="sBtn-text-subcategory">{{ __('app.create-ponuda.choose-subcategory') }}</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -41,17 +41,17 @@
             </div>
         </div>
         <div class="flex flex-col" style="margin-top: -130px">
-            <span class="input-label pl-2 mb-3">Naziv pozicije:</span>
+            <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name') }}:</span>
             <input type="text" name="poz_title" class="input-style mb-14">
-            <span class="input-label pl-2 mt-3 mb-3">Opis pozicije:</span>
+            <span class="input-label pl-2 mt-3 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
             <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
         </div>
 
         <div id="obracun-dropdown" >
-            <span class="input-label pl-2">Odaberi obračun:</span>
+            <span class="input-label pl-2">{{ __('app.categories.choose-calculation') }}:</span>
             <div class="select-menu-obracun mt-3">
                 <div class="select-btn-obracun">
-                    <span class="sBtn-text-obracun">Odaberi obračun</span>
+                    <span class="sBtn-text-obracun">{{ __('app.categories.choose-calculation') }}</span>
                     <svg role="img" viewBox="0 0 512 512">
                         <path
                             d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="flex justify-center">
-            <button type="submit" class="main-btn mx-auto mt-10">Dodaj poziciju</button>
+            <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
         </div>
     </form>
     <script>
@@ -115,7 +115,7 @@
         selectBtnSub.addEventListener("click", function() {
             var optionMenu = document.querySelector(".select-menu");
             var sBtn_text = optionMenuSub.querySelector(".sBtn-text-subcategory");
-            sBtn_text.innerText = 'Odaberi Podkategoriju';
+            sBtn_text.innerText = '{{ __("app.create-ponuda.choose-subcategory") }}';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {

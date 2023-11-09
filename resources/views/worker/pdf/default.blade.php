@@ -83,12 +83,12 @@
                 <table class="ponuda-table">
                     <thead>
                         <tr>
-                            <th scope="col" class="padding-5">r.br.</th>
-                            <th scope="col" class="padding-5">Naziv</th>
-                            <th scope="col" class="padding-5">j.m.</th>
-                            <th scope="col" class="padding-5">količina</th>
-                            <th scope="col" class="padding-5">jed.cena</th>
-                            <th scope="col" class="padding-5">ukupno</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-r-br') }}</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-naziv') }}</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-j-m') }}</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-kolicina') }}</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-jed-cena') }}</th>
+                            <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-ukupno') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -138,7 +138,7 @@
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                        <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                        <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
                                     </td>
                                 </tr>
                             @endif
@@ -154,7 +154,7 @@
                 <tbody>
                     <tr>
                         <td colspan="8" class="text-left border-bold padding-5"
-                            style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
+                            style="background-color: rgba(0, 0, 0, 0.05);"><b>{{ __('app.create-ponuda.table-rekapitulacija') }}</b></td>
                     </tr>
                     @foreach ($finalData as $data)
                             @php
@@ -184,7 +184,7 @@
             <table class="table mt-20 text-center ponuda-table" style="text-align: right">
                 <tr>
                     <td class="text-right no-wrap">
-                        <b>UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
+                        <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
                     </td>
                 </tr>
                 <tr>
@@ -202,13 +202,13 @@
                         @php
                             $final = $pdv + $finalPrice;
                         @endphp
-                        <b>Ukupno sa PDV: {{ number_format($final, 0, ',', ' ') }}&nbsp;RSD</b>
+                        <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final, 0, ',', ' ') }}&nbsp;RSD</b>
                     </td>
                 </tr>
             </table>
             @if (isset($opis))
                 <p class="text-bold" style="font-size: 12px;">
-                    Napomene :
+                    {{ __('app.archive-selected.note') }}:
                 </p>
                 <br>
                 <p style="margin-top: -15px;">
@@ -217,7 +217,13 @@
             @endif
             <div style="float:right;">
                 @php
-                    \Carbon\Carbon::setLocale(app()->getLocale())
+                    if(app()->getLocale() == "rs-cyrl")
+                    {
+                        \Carbon\Carbon::setLocale("sr_RS");
+                    }
+                    else {
+                        \Carbon\Carbon::setLocale(app()->getLocale());
+                    }
                 @endphp
                 <p>{{ now()->translatedFormat('l jS F Y') }}</p>
             </div>

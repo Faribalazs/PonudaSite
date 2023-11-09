@@ -183,7 +183,13 @@
                         <p>Bank account : {{ $company->bank_account }} EUR</p>
                         <p>{{ $company->bank_name }}</p>
                         @php
-                            \Carbon\Carbon::setLocale(app()->getLocale())
+                            if(app()->getLocale() == "rs-cyrl")
+                            {
+                                \Carbon\Carbon::setLocale("sr_RS");
+                            }
+                            else {
+                                \Carbon\Carbon::setLocale(app()->getLocale());
+                            }
                         @endphp
                         <p>{{ now()->translatedFormat('l jS F Y') }}</p>
                     </div>

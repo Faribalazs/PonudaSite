@@ -6,6 +6,8 @@ return [
         'successfully-added'            => "Успешно додато!",
         'close'                         => "Затвори",
         'what-is-site-about'            => "Платформа \"Понуда Мајстора\" представља савремен и ефикасан алат за израду понуда за извођење грађевинских и грађевинско - занатских радова",
+        'save'                          => "Сачувај",
+        'delete'                        => "Избриши",
     ],
 
     'nav' => [
@@ -78,6 +80,37 @@ return [
         'new-subcategory'               => "Нову подкатегорију",
         'new-pozicija'                  => "Нову позицију",
         'what-you-want-to-add'          => "Шта желиш да додаш?",
+        'update-category'               => "Ажурирај категорију",
+        'write-name-category'           => "Упиши назив категорије",
+        'update-subcategory'            => "Ажурирај подкатегорију",
+        'write-name-subcategory'        => "Упиши назив подкатегорије",
+        'update-position'               => "Ажурирај позицију",
+        'write-name-position'           => "Упиши назив позиције",
+        'description-position'          => "Упиши опис позиције",
+        'calculation'                   => "Обрачун",
+        'choose-calculation'            => "Одабери обрачун",
+    ],
+
+    'archive' => [
+        'search-name'                   => "Тражи по називу",
+        'search-note'                   => "Тражи по напомени",
+        'oldest'                        => "Најстарији",
+        'newest'                        => "Најновији",
+        'sort'                          => "Сортирај",
+        'delete-filter'                 => "Избриши филтер",
+        'name'                          => "Назив",
+        'created'                       => "Креирано",
+        'updated'                       => "Ажуриран",
+        'description'                   => "Опис",
+        'offer-not-found'               => "Нисмо нашли никакву понуду",
+        'swal-are-you-sure-change'      => "Стварно хоћете да мењате нешто у",
+    ],
+
+    'archive-selected' => [
+        'note'                          => "Напомене",
+        'modify-offer'                  => "Измени понуду",
+        'check-pdf'                     => "Погледај ПДФ",
+        'generate-pdf'                  => "Генериши ПДФ",
     ],
 
     'email' => [
