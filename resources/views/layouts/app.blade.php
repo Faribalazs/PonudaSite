@@ -24,7 +24,7 @@
             {{ $slot }}
         </main>
     </div>
-    @include('footer')
+    @include('worker.layouts.footer')
     @include('sweetalert::alert')
 </body>
 
