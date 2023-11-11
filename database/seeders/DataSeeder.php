@@ -3406,26 +3406,32 @@ class DataSeeder extends Seeder
                 [
                     'subcategory_id' => $data['subcategory_id'],
                     'unit_id' => $data['unit_id'],
-                    'title' => ['sr' => $data['t_sr'], 'rs_cyrl' => $data['t_sr_c']],
-                    'description' => ['sr' => $data['d_sr'], 'rs_cyrl' => $data['d_sr_c']],
+                    'title' => [
+                      'sr' => $data['t_sr'], 
+                      'rs-cyrl' => $data['t_sr_c']
+                    ],
+                    'description' => [
+                      'sr' => $data['d_sr'],
+                      'rs-cyrl' => $data['d_sr_c']
+                    ],
                 ]
             );
 
-            if (isset($data['t_en'])) {
-                $pozicija->setTranslations('title', ['en' => $data['t_en']]);
-            }
+            // if (isset($data['t_en'])) {
+            //     $pozicija->setTranslations('title', ['en' => $data['t_en']]);
+            // }
 
-            if (isset($data['t_hu'])) {
-                $pozicija->setTranslations('title', ['hu' => $data['t_hu']]);
-            }
+            // if (isset($data['t_hu'])) {
+            //     $pozicija->setTranslations('title', ['hu' => $data['t_hu']]);
+            // }
 
-            if (isset($data['d_en'])) {
-                $pozicija->setTranslations('description', ['en' => $data['d_en']]);
-            }
+            // if (isset($data['d_en'])) {
+            //     $pozicija->setTranslations('description', ['en' => $data['d_en']]);
+            // }
 
-            if (isset($data['d_hu'])) {
-                $pozicija->setTranslations('description', ['hu' => $data['d_hu']]);
-            }
+            // if (isset($data['d_hu'])) {
+            //     $pozicija->setTranslations('description', ['hu' => $data['d_hu']]);
+            // }
 
             $pozicija->save();
         }
