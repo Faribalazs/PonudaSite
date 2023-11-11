@@ -23,7 +23,6 @@ class Ponuda extends Migration
             $table->foreignIdFor(\App\Models\Ponuda_Service::class,'service_id')->constrained()->references('id_service')->cascadeOnDelete();
             $table->integer('quantity')->unsigned();
             $table->double('unit_price')->unsigned();
-            $table->double('overall_price')->unsigned();
         });
     }
 

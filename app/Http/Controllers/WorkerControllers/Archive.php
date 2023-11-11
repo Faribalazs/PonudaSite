@@ -114,7 +114,8 @@ class Archive extends Controller
             $this->ponudaDate($ponuda_id,$worker_id)->delete();
             return redirect()->route('worker.archive');
         }
-        return $this->selectedArchive($ponuda_id);
+        
+        return redirect()->route('worker.archive.selected',['id' => $ponuda_id]);
     }
     
     private function mergedData(){
@@ -124,7 +125,6 @@ class Archive extends Controller
                     'ponuda.service_id',
                     'ponuda.quantity',
                     'ponuda.unit_price',
-                    'ponuda.overall_price',
                     'ponuda.categories_id',
                     'c.name AS name_category',
                     'c_c.name AS name_custom_category',
@@ -640,7 +640,7 @@ class Archive extends Controller
         $sum = 0;
             foreach($selectedWorkerPonuda as $ponuda)
             {
-                $sum += $ponuda->overall_price;
+                $sum += $ponuda->quantity * $ponuda->unit_price;
             }
             if ($type_id && $client_id) {
                 $type_lica = null;
@@ -675,7 +675,7 @@ class Archive extends Controller
                 }
 
                 if($company_data == null) {
-                    Alert::warning('Izpunite podate kompanije prvo')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+                    Alert::warning('Ispunite podate kompanije prvo')->showCloseButton()->showConfirmButton(__('app.basic.close'));
                     return redirect()->route('worker.personal.data');
                 }
 

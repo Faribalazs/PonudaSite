@@ -180,7 +180,6 @@
                         <p>PIB :{{ $company->pib }}</p>
                         <p>Matični broj / Registration code : {{ $company->maticni_broj }}</p>
                         <p>Tekući racun : {{ $company->tekuci_racun }} RSD</p>
-                        <p>Bank account : {{ $company->bank_account }} EUR</p>
                         <p>{{ $company->bank_name }}</p>
                         @php
                             if(app()->getLocale() == "rs-cyrl")
@@ -271,7 +270,8 @@
                                 </tr>
                             @endif
                             @php
-                                $subPrice += $item->overall_price;
+                                $overall_price = $item->quantity * $item->unit_price;
+                                $subPrice += $overall_price;
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
@@ -285,7 +285,7 @@
                                 <td class="text-center">{{ $item->quantity }}</td>
                                 <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
+                                    {{ $overall_price }}&nbsp;RSD
                                 </td>
                             </tr>
 
@@ -295,7 +295,7 @@
                                 @if ($loop->last)
                                     <tr>
                                         <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -320,7 +320,7 @@
                             @foreach ($data as $rekapitulacija)
                                 @php
                                     $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null); 
-                                    $subPrice += $rekapitulacija->overall_price;
+                                    $subPrice += $rekapitulacija->quantity * $rekapitulacija->unit_price;
                                 @endphp
                                 @if ($loop->last)
                                     <tr>
@@ -328,7 +328,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="padding-5 text-center no-wrap">
-                                            {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;RSD
+                                            {{ $subPrice }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -341,15 +341,15 @@
                 <table class="table mt-20 text-center ponuda-table" style="text-align: right">
                     <tr>
                         <td class="text-right no-wrap">
-                            <b>UKUPNO: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;RSD</b>
+                            <b>UKUPNO: {{ $finalPrice }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
                         <td class="text-right no-wrap">
                             @php
-                                $pdv = intval($finalPrice) * 0.2;
+                                $pdv = $finalPrice * 0.2;
                             @endphp
-                            PDV: {{ number_format($pdv, 0, ',', ' ') }}&nbsp;RSD
+                            PDV: {{ number_format($pdv, 2) }}&nbsp;RSD
                         </td>
                     </tr>
                 </table>
@@ -359,7 +359,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>Ukupno sa PDV: {{ number_format($final, 0, ',', ' ') }}&nbsp;RSD</b>
+                            <b>Ukupno sa PDV: {{ ceil($final) }}&nbsp;RSD</b>
                         </td>
                     </tr>
                 </table>

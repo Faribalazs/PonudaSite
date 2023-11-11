@@ -7,7 +7,7 @@
     </x-slot>
     <div class="mt-32 font-bold text-3xl">
         <p class="text-center">
-            Kome šaješ ponudu ?
+            Kome šalješ ponudu?
         </p>
     </div>
     <div class="mt-24 flex flex-col items-center gap-10">

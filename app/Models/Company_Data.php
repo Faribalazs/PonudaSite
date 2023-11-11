@@ -29,7 +29,6 @@ class Company_Data extends Model
         'pib',
         'maticni_broj',
         'tekuci_racun',
-        'bank_account',
         'bank_name',
         'logo',
     ];

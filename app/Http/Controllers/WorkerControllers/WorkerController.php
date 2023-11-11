@@ -47,7 +47,6 @@ class WorkerController extends Controller
             'phone' => 'required | max:25 | regex:/^([0-9\s\-\+\(\)]*)$/',
             'pib' => 'required | max:20 | regex:/^[0-9\-]+$/',
             'maticni_broj' => 'required | max:25 | regex:/^[0-9\-]+$/',
-            'bank_account' => 'nullable | max:30 | regex:/^[0-9\-]+$/',
             'tekuci_racun' => 'required | max:30 | regex:/^[0-9\-]+$/',
             'bank_name' => 'required | max:30 | regex:/\p{L}/u',
             'logo' => 'required | mimes:jpeg,png,jpg,webp | max:2048 ',
@@ -60,7 +59,6 @@ class WorkerController extends Controller
             'postcode.regex' => trans("app.errors.profile-only-numbers"),
             'pib.regex' => trans("app.errors.profile-only-numbers"),
             'maticni_broj.regex' => trans("app.errors.profile-only-numbers"),
-            'bank_account.regex' => trans("app.errors.profile-only-numbers"),
             'tekuci_racun.regex' => trans("app.errors.profile-only-numbers"),
             'email.email' => trans("app.errors.profile-email"),
          ]);
@@ -89,7 +87,6 @@ class WorkerController extends Controller
             'pib' => $data['pib'],
             'maticni_broj' => $data['maticni_broj'],
             'tekuci_racun' => $data['tekuci_racun'],
-            'bank_account' => $data['bank_account'] ?? null,
             'bank_name' => $data['bank_name'],
             'logo' => $path,
          ]);

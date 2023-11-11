@@ -8,11 +8,11 @@
     <div class="mt-24 font-bold text-3xl">
         @if ($method == 'contact')
             <p class="text-center">
-                Odaberi iz baze kontakata
+                Odaberi iz baze kontakta
             </p>
         @elseif ($method == 'add_new')
             <p class="text-center">
-                Izpunite formu
+                Ispunite formu
             </p>
         @endif
     </div>

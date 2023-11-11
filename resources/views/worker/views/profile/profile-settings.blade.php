@@ -1,79 +1,79 @@
 <x-worker-profile-layout>
     <x-slot name="pageTitle">
-        Profil
+        {{ __("app.profile.settings") }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
     <div class="flex profile-title">
-        <p class="text-3xl font-bold">Podešavanja :</p>
+        <p class="text-3xl font-bold">{{ __("app.profile.settings") }} :</p>
     </div>
     <div class="flex mt-3 flex-col">
-        <p class="text-2xl font-bold mt-5">Promeni lozinku :</p>
+        <p class="text-2xl font-bold mt-5">{{ __("app.profile.change-password") }} :</p>
         <form action="{{ route('worker.personal.account.settings.update-password') }}" method="POST">
             @csrf
             <div class="flex flex-col">
-                <label for="old_password" class="sm:text-xl text-base my-3">Stara lozinka :</label>
+                <label for="old_password" class="sm:text-xl text-base my-3">{{ __("app.profile.old-password") }}  :</label>
                 <input class="input-style {{ $errors->has('old_password') ? 'border-error mb-1' : 'mb-3' }}"
-                    name="old_password" type="password" placeholder="Stara lozinka" required>
+                    name="old_password" type="password" placeholder="{{ __('app.profile.old-password') }}" required>
                 <p class="{{ $errors->has('old_password') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
                     {{ $errors->first('old_password') }}</p>
             </div>
             <div class="flex flex-col">
-                <label for="newPasswordInput" class="sm:text-xl text-base my-3">Nova lozinka :</label>
+                <label for="newPasswordInput" class="sm:text-xl text-base my-3">{{ __("app.profile.new-password") }} :</label>
                 <input name="new_password" type="password"
                     class="input-style {{ $errors->has('new_password') ? 'border-error mb-1' : 'mb-3' }}"
-                    id="newPasswordInput" placeholder="Nova lozinka" required>
+                    id="newPasswordInput" placeholder="{{ __('app.profile.new-password') }}" required>
                 <p class="{{ $errors->has('new_password') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
                     {{ $errors->first('new_password') }}</p>
             </div>
             <div class="flex flex-col">
-                <label for="confirmNewPasswordInput" class="sm:text-xl text-base my-3">Potvrdite novu lozinku :</label>
+                <label for="confirmNewPasswordInput" class="sm:text-xl text-base my-3">{{ __("app.profile.confirm-new-password") }} :</label>
                 <input name="new_password_confirmation" type="password" class="input-style" id="confirmNewPasswordInput"
-                    placeholder="Potvrdite novu lozinku" required>
+                    placeholder="{{ __('app.profile.confirm-new-password') }}" required>
             </div>
             <button class="add-new-contact-btn flex rounded-md text-xl justify-center mt-10 w-2/4 py-2 mx-auto"
-                type="submit">Promeni</button>
+                type="submit">{{ __('app.profile.change') }}</button>
         </form>
     </div>
 
     <div class="flex mt-10 flex-col mb-20">
-        <p class="text-2xl font-bold mt-5 mb-5">E-mail poruke :</p>
+        <p class="text-2xl font-bold mt-5 mb-5">{{ __("app.profile.email-messages") }} :</p>
         <form action="{{ route('worker.myprofile.send.email') }}" method="POST">
             @csrf
             @method('PUT')
             <div>
-                <label class="sm:text-xl text-base my-3">Pošalji ponudu na moj E-mail nakon skidanja PDF dokumenta:</label>
+                <label class="sm:text-xl text-base my-3">{{ __("app.profile.send-email-on-download") }}:</label>
                 <div class="flex mt-5">
                     <div class="mr-20">
                         <input type="radio" id="skini_no" name="skini" value="1"
                             @if (!auth('worker')->user()->send_email_on_download) {{ 'checked' }} @endif />
-                        <label for="skini_no">Ne</label>
+                        <label for="skini_no">{{ __("app.profile.no") }}</label>
                     </div>
                     <div>
                         <input type="radio" id="skini_yes" name="skini" value="2"
                             @if (auth('worker')->user()->send_email_on_download) {{ 'checked' }} @endif />
-                        <label for="skini_yes">Da</label>
+                        <label for="skini_yes">{{ __("app.profile.yes") }}</label>
                     </div>
                 </div>
             </div>
 
             <div class="mt-10">
-                <label class="sm:text-xl text-base my-3">Pošalji ponudu na moj E-mail nakon slanja PDF dokumenta klijentu:</label>
+                <label class="sm:text-xl text-base my-3">{{ __("app.profile.send-email-on-send") }}:</label>
                 <div class="flex mt-5">
                     <div class="mr-20">
                         <input type="radio" id="posalji_no" name="posalji" value="1"
                             @if (!auth('worker')->user()->send_email_on_send) {{ 'checked' }} @endif />
-                        <label for="posalji_no">Ne</label>
+                        <label for="posalji_no">{{ __("app.profile.no") }}</label>
                     </div>
                     <div>
                         <input type="radio" id="posalji_yes" name="posalji" value="2"
                             @if (auth('worker')->user()->send_email_on_send) {{ 'checked' }} @endif />
-                        <label for="posalji_yes">Da</label>
+                        <label for="posalji_yes">{{ __("app.profile.yes") }}</label>
                     </div>
                 </div>
             </div>
             <button class="add-new-contact-btn flex rounded-md text-xl justify-center mt-10 w-2/4 py-2 mx-auto"
-                type="submit">Promeni</button>
+                type="submit">{{ __("app.profile.change") }}</button>
         </form>
     </div>
 

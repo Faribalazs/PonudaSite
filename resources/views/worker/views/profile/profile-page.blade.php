@@ -1,11 +1,11 @@
 <x-worker-profile-layout>
     <x-slot name="pageTitle">
-        Profil
+        {{ __("app.profile.my-account") }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
     <div class="flex profile-title">
-        <p class="text-3xl font-bold">Moj nalog</p>
+        <p class="text-3xl font-bold">{{ __("app.profile.my-account") }}</p>
     </div>
     <div class="flex mt-3 flex-col">
         @php 
@@ -21,7 +21,7 @@
             );
         @endphp
         <div class="mt-3">
-            <p class="text-xl"><b>E-mail :</b> {{ $censored_email }}</p>
+            <p class="text-xl"><b>{{ __("app.profile.email") }} :</b> {{ $censored_email }}</p>
         </div>
     </div> 
 </x-worker-profile-layout>

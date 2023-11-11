@@ -86,7 +86,8 @@ return [
 
     'locale' => 'sr',
 
-    'locales' => ['en','hu', 'sr', 'rs-cyrl'],
+    // 'locales' => ['en','hu', 'sr', 'rs-cyrl'],
+    'locales' => ['sr', 'rs-cyrl'],
 
     /*
     |--------------------------------------------------------------------------

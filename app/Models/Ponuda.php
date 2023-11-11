@@ -23,7 +23,6 @@ class Ponuda extends Model
         'service_id',
         'quantity',
         'unit_price',
-        'overall_price',
     ];
 
     public $translatable = ['title', 'description','name_category','name_service','unit_name'];

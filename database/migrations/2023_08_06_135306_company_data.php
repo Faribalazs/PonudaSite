@@ -26,7 +26,6 @@ class CompanyData extends Migration
             $table->string('pib');
             $table->string('maticni_broj');
             $table->string('tekuci_racun');
-            $table->string('bank_account')->nullable();
             $table->string('bank_name');
             $table->string('logo');
         });

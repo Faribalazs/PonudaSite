@@ -59,22 +59,22 @@
                     </div>
                     <div class="nav-links">
                         <a href="{{ route('worker.myprofile') }}" class="link">
-                            Moj nalog
+                            {{ __("app.profile.my-account") }}
                         </a>
                         <a href="{{ route('worker.personal.data') }}" class="link">
-                            podaci firme
+                            {{ __("app.profile.company-data") }}
                         </a>
                         <a href="{{ route('worker.personal.contacts') }}" class="link">
-                            moji klijenti
+                            {{ __("app.profile.my-clients") }}
                         </a>
                         <a href="{{ route('worker.personal.account.settings') }}" class="link">
-                            podešavanja
+                            {{ __("app.profile.settings") }}
                         </a>
                         <a href="{{ route('worker.personal.account.contracts') }}" class="link">
-                            ugovori
+                            {{ __("app.profile.contracts") }}
                         </a>
                         <a onclick="logOut()" class="link cursor-pointer">
-                            odjavi se
+                            {{ __("app.profile.log-out") }}
                         </a>
                     </div>
                 </div>

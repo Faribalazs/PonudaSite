@@ -1,11 +1,11 @@
 <x-worker-profile-layout>
     <x-slot name="pageTitle">
-        Moji klijenti
+        {{ __("app.profile.my-clients") }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
     <div class="flex profile-title">
-        <p class="text-3xl font-bold">Moji klijenti</p>
+        <p class="text-3xl font-bold">{{ __("app.profile.my-clients") }}</p>
     </div>
     <div class="flex mt-10 md:flex-row flex-col md:gap-0 gap-7">
         <div class="flex md:w-1/2 w-full flex-col text-center md:border-r-2 md:border-grey">
@@ -14,7 +14,7 @@
                     class="{{ \Session::has('selected_pravna') ? '' : 'contact-selected' }}
                     {{ \Session::has('selected_fizicko') ? 'contact-selected' : '' }}">
                     <span>
-                        Fizička lica
+                        {{ __("app.profile.individual") }}
                     </span>
                     <i class="ri-user-line pl-2"></i>
                 </span>
@@ -24,7 +24,7 @@
             <p class="text-xl font-bold cursor-pointer" onclick="selectPravnoLice()">
                 <span id="pravna_lica" class="{{ \Session::has('selected_pravna') ? 'contact-selected' : '' }}">
                     <span>
-                        Pravna lica
+                        {{ __("app.profile.legal-entity") }}
                     </span>
                     <i class="ri-user-2-line pl-2"></i>
                 </span>
@@ -35,11 +35,11 @@
         id="fizicka_lica_list">
         @if (count($fizicka_lica) > 0)
             <div class="flex flex-col w-full" id="fizicko_div">
-                <input type="text" placeholder="Traži..." id="fizicko_search" onkeyup="filterFizickoLice()"
+                <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="fizicko_search" onkeyup="filterFizickoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.individual') }}">
                     <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">
-                        Dodaj fizičko lice
+                        {{ __("app.profile.add-individual") }}
                     </div>
                 </a>
                 <div class="contact-list-search">
@@ -65,10 +65,10 @@
         @else
             <a href="{{ route('worker.personal.contacts.add.individual') }}">
                 <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
-                    Dodaj fizičko lice
+                    {{ __("app.profile.add-individual") }}
                 </div>
             </a>
-            <p class="text-xl flex text-center justify-center mt-8">Nema dodato fizičko lice</p>
+            <p class="text-xl flex text-center justify-center mt-8">{{ __("app.profile.no-added-individual") }}</p>
         @endif
     </div>
 
@@ -76,11 +76,11 @@
         id="pravna_lica_list">
         @if (count($pravna_lica) > 0)
             <div class="flex flex-col w-full" id="pravno_div">
-                <input type="text" placeholder="Traži..." id="pravno_search" onkeyup="filterPravnoLice()"
+                <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="pravno_search" onkeyup="filterPravnoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
                     <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">
-                        Dodaj pravno lice
+                        {{ __("app.profile.add-legal-entity") }}
                     </div>
                 </a>
                 <div class="contact-list-search">
@@ -105,10 +105,10 @@
         @else
             <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
-                    Dodaj pravno lice
+                    {{ __("app.profile.add-legal-entity") }}
                 </a>
             </div>
-            <p class="text-xl flex text-center justify-center mt-8">Nema dodato pravno lice</p>
+            <p class="text-xl flex text-center justify-center mt-8">{{ __("app.profile.no-added-legal-entity") }}</p>
         @endif
     </div>
 
@@ -176,7 +176,7 @@
             if (a.length == no && !no_result) {
                 p = document.createElement("p");
                 p.id = 'no_result';
-                p.innerHTML = 'Nema takav kontakt';
+                p.innerHTML = '{{ __("app.profile.no-such-contact") }}';
                 div.append(p);
             }
         }
@@ -204,7 +204,7 @@
             if (a.length == no && !no_result) {
                 p = document.createElement("p");
                 p.id = 'no_result';
-                p.innerHTML = 'Nema takav kontakt';
+                p.innerHTML = '{{ __("app.profile.no-such-contact") }}';
                 div.append(p);
             }
         }

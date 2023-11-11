@@ -1,6 +1,6 @@
 <x-worker-profile-layout>
     <x-slot name="pageTitle">
-        Dodaj pravno lice
+        {{ __('app.profile.add-legal-entity') }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -8,17 +8,17 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: 'Nešto niste dobro uneli'
+                title: '{{ __("app.profile.something-wrong") }}'
             })
         </script>
     @endif
     @if(isset($contact))
         <div class="flex profile-title">
-            <p class="text-3xl font-bold">Izmeni podatke</p>
+            <p class="text-3xl font-bold">{{ __('app.profile.modify-data') }}</p>
         </div>
     @else
         <div class="flex profile-title">
-            <p class="text-3xl font-bold">Dodaj pravno lice</p>
+            <p class="text-3xl font-bold">{{ __('app.profile.add-legal-entity') }}</p>
         </div>
     @endif
 
@@ -28,7 +28,7 @@
             @if(isset($contact))
                 <input type="hidden" name="id" value="{{$contact->id}}"/>
             @endif
-            <label for="company_name" class="text-xl my-3">Naziv kompanije* :</label>
+            <label for="company_name" class="text-xl my-3">{{ __('app.profile.company-name') }}* :</label>
             <input 
                 class="input-style
                 {{$errors->has('company_name') ? 'border-error mb-1' : 'mb-3'}}"
@@ -39,7 +39,7 @@
                 required/>
             <p class="{{$errors->has('company_name') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('company_name')}}</p>
 
-            <label for="pib" class="text-xl my-3">PIB* :</label>
+            <label for="pib" class="text-xl my-3">{{ __('app.profile.pib') }}* :</label>
             <input 
                 class="input-style
                 {{$errors->has('pib') ? 'border-error mb-1' : 'mb-3'}}"
@@ -50,7 +50,7 @@
                 required/>
             <p class="{{$errors->has('pib') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('pib')}}</p>
 
-            <label for="city" class="text-xl my-3">Grad* :</label>
+            <label for="city" class="text-xl my-3">{{ __('app.profile.city') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('city') ? 'border-error mb-1' : 'mb-3'}}"
@@ -63,7 +63,7 @@
 
             <div class="flex lg:flex-row flex-col">
                 <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pl-0">
-                    <label for="address" class="text-xl my-3">Adresa* :</label>
+                    <label for="address" class="text-xl my-3">{{ __('app.profile.address') }}* :</label>
                     <input 
                         class="input-style
                         {{$errors->has('address') ? 'border-error mb-1' : 'mb-3'}}"
@@ -75,7 +75,7 @@
                     <p class="{{$errors->has('address') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('address')}}</p>
                 </div>
                 <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                    <label for="postcode" class="text-xl my-3">Poštanski broj* :</label>
+                    <label for="postcode" class="text-xl my-3">{{ __('app.profile.post-code') }}* :</label>
                     <input
                         class="input-style
                         {{$errors->has('postcode') ? 'border-error mb-1' : 'mb-3'}}"
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <label for="email" class="text-xl my-3">E-mail* :</label>
+            <label for="email" class="text-xl my-3">{{ __('app.profile.email') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('email') ? 'border-error mb-1' : 'mb-3'}}" 
@@ -99,7 +99,7 @@
                 required/>
             <p class="{{$errors->has('email') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('email')}}</p>
 
-            <label for="phone" class="text-xl my-3">Telefon* :</label>
+            <label for="phone" class="text-xl my-3">{{ __('app.profile.telefon') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('phone') ? 'border-error mb-1' : 'mb-3'}}"
@@ -111,9 +111,9 @@
             <p class="{{$errors->has('phone') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('phone')}}</p>
 
             @if(isset($contact))
-                <button type="submit" class="finish-btn mt-10 text-xl">Promeni podatke</button>
+                <button type="submit" class="finish-btn mt-10 text-xl">{{ __('app.profile.modify-data') }}</button>
             @else
-                <button type="submit" class="finish-btn mt-10 text-xl">Sačuvaj kontakt</button>
+                <button type="submit" class="finish-btn mt-10 text-xl">{{ __('app.profile.save-contact') }}</button>
             @endif
         </form>
         @if(isset($contact))
@@ -121,7 +121,7 @@
             @csrf
             <input type="hidden" name="id" value="{{$contact->id}}"/>
             <button type="submit" class="finish-btn mt-16 bg-red text-xl text-center">
-                Izbriši kontakt<i class="ri-delete-bin-line pl-2"></i>
+                {{ __('app.profile.delete-contact') }}<i class="ri-delete-bin-line pl-2"></i>
             </button>
         </form>
         @endif

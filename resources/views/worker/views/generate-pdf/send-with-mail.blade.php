@@ -3,11 +3,11 @@
         Slanje u emailu
     </x-slot>
     <x-slot name="header">
-        Pošaji ponudu
+        Pošalji ponudu
     </x-slot>
     <div class="mt-24 font-bold text-3xl">
         <p class="text-center">
-            Pošajite ponudu <b>{{ $name }}.pdf</b>
+            Pošalji ponudu <b>{{ $name }}.pdf</b>
         </p>
     </div>
     <form method="POST" id="sendPDF"
@@ -28,13 +28,13 @@
         @if (isset($pdf_blade))
             <input type="hidden" name="pdf" value="{{ $pdf_blade }}" />
         @endif
-        <label class="pl-1">Kome sejete :</label>
+        <label class="pl-1">Kome šalješ:</label>
         <input type="email" placeholder="Imejl adresa osobe" name="mailTo"
             class="w-full dropdown-search mt-2">
-        <label class="mt-4 pl-1">Predmet E-maila :</label>
+        <label class="mt-4 pl-1">Predmet E-maila:</label>
         <input type="text" placeholder="Predmet e-pošte" name="mailSubject"
             class="w-full dropdown-search mt-2">
-        <label class="mt-4 pl-1">Telo E-maila :</label>
+        <label class="mt-4 pl-1">Telo E-maila:</label>
         <textarea placeholder="Telo e-pošte" name="mailBody" class="mb-4 w-full dropdown-search mt-2" rows="4"
             cols="50"></textarea>
         <button type="submit" class="add-new-btn w-full my-4">Pošalji</button>

@@ -59,7 +59,7 @@
                 <div class="flex xl:w-1/2">
                     <a href="{{ route('worker.archive.fill.contract') }}"
                         class="w-full text-xl flex items-center btn justify-center font-bold finish-btn mt-5">
-                        Izpuni ugovor
+                        Ispuni ugovor
                     </a>
                 </div>
                 <div class="flex xl:w-1/2">

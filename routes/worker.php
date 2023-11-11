@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile/contracts', [WorkerController::class, 'profileContractsCreate'])
         ->name('worker.personal.account.contracts');
 
-    Route::get('contractor/profile/conatact/{lice}/{id}', [WorkerController::class, 'showContact'])
+    Route::get('contractor/profile/contact/{lice}/{id}', [WorkerController::class, 'showContact'])
         ->name('worker.personal.contacts.show');
         
     Route::post('contractor/profile/settings/change-password', [WorkerController::class, 'updatePassword'])

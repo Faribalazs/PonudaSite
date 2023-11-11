@@ -114,7 +114,8 @@
                                 </tr>
                             @endif
                             @php
-                                $subPrice += $item->overall_price;
+                                $overall_price = $item->quantity * $item->unit_price;
+                                $subPrice += $overall_price;
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
@@ -128,7 +129,7 @@
                                 <td class="text-center">{{ $item->quantity }}</td>
                                 <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ number_format($item->overall_price, 0, ',', ' ') }}&nbsp;RSD
+                                    {{ $overall_price }}&nbsp;RSD
                                 </td>
                                 <td>
                                     <button class="edit-btn-table mx-auto"
@@ -150,7 +151,7 @@
                                         <b>
                                             {{ __('app.create-ponuda.table-svega') }}&nbsp;
                                             <span class="lowercase">{{ $name_category }}</span>:
-                                        </b>&nbsp;{{ number_format($subPrice, 0, ',', ' ') }}&nbsp;
+                                        </b>&nbsp;{{ $subPrice }}&nbsp;
                                         {{ __('app.create-ponuda.table-rsd') }}
                                     </td>
                                 </tr>
@@ -177,7 +178,7 @@
                             @foreach ($data as $rekapitulacija)
                                 @php
                                     $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null);
-                                    $subPrice += $rekapitulacija->overall_price;
+                                    $subPrice += $rekapitulacija->quantity * $rekapitulacija->unit_price;
                                 @endphp
                                 @if ($loop->last)
                                     <tr>
@@ -185,7 +186,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="p-1 text-center whitespace-nowrap">
-                                            {{ number_format($subPrice, 0, ',', ' ') }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                            {{ $subPrice }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -201,15 +202,15 @@
                 <table class="table mt-20 text-center ponuda-table w-full mb-7">
                     <tr>
                         <td class="text-right p-1">
-                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice, 0, ',', ' ') }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ $finalPrice }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                     <tr>
                         <td class="text-right p-1">
                             @php
-                                $pdv = intval($finalPrice) * 0.2;
+                                $pdv = $finalPrice * 0.2;
                             @endphp
-                            {{ __('app.create-ponuda.table-pdv') }}: {{ number_format($pdv, 0, ',', ' ') }} {{ __('app.create-ponuda.table-rsd') }}
+                            {{ __('app.create-ponuda.table-pdv') }}: {{ number_format($pdv, 2) }} {{ __('app.create-ponuda.table-rsd') }}
                         </td>
                     </tr>
                     <tr>
@@ -217,7 +218,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final, 0, ',', ' ') }} {{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ ceil($final) }} {{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                 </table>
@@ -370,7 +371,7 @@
                 <div class="mt-10">
                     <span>{{ __('app.create-ponuda.price-rsd') }}*</span>
                 </div>
-                <input type="number" name="price" class="quantity-input mt-3 mb-1">
+                <input type="number" name="price" step=".01" min="1" class="quantity-input mt-3 mb-1">
             </div>
         </div>
         <div id="add-new" class="category-div mt-10">

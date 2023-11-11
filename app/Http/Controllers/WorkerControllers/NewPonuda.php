@@ -64,7 +64,6 @@ class NewPonuda extends Controller
                'ponuda.service_id',
                'ponuda.quantity',
                'ponuda.unit_price',
-               'ponuda.overall_price',
                'ponuda.categories_id',
                'c.name AS name_category',
                'c_c.name AS name_custom_category',
@@ -95,6 +94,7 @@ class NewPonuda extends Controller
          ->whereNull('c_c.is_category_deleted')
          ->whereNull('c_poz.is_pozicija_deleted')
          ->get();
+     
       return $ponuda;
    }
 
@@ -105,8 +105,8 @@ class NewPonuda extends Controller
             'category' => ['required', new CheckID(Default_category::class, Category::class)],
             'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
             'pozicija_id' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
-            'quantity' => ['required','numeric','gt:0','digits_between:1,10'],
-            'price' => ['required','numeric','gt:0','digits_between:1,10'],
+            'quantity' => ['required','integer','gt:0','digits_between:1,10'],
+            'price' => ['required','numeric','gt:0','regex:/^\d{1,8}(\.\d{1,2})?$/'],
             'radioButton' => 'required|in:1,2',
             'opis' => 'nullable|regex:/\p{L}/u',
         ]);
@@ -131,7 +131,6 @@ class NewPonuda extends Controller
                'service_id' => $request->input('radioButton'),
                'quantity' => $request->input('quantity'),
                'unit_price' => $request->input('price'),
-               'overall_price' => $request->input('quantity') * $request->input('price')
             ]);
 
             $db = Default_pozicija::select('id', 'description', 'title')
@@ -180,9 +179,9 @@ class NewPonuda extends Controller
       $request->validate([
          'real_id' => ['required','exists:App\Models\Ponuda,id'],
          'new_radioButton' => ['required','in:1,2'],
-         'new_quantity' => ['required','numeric','gt:0','digits_between:1,10'],
-         'new_unit_price' => ['required','numeric','gt:0','digits_between:1,10'],
-         'new_title' => ['required'],
+         'new_quantity' => ['required','integer','gt:0','digits_between:1,10'],
+         'new_unit_price' => ['required','numeric','gt:0','regex:/^\d{1,8}(\.\d{1,2})?$/'],
+         'new_title' => ['required','string'],
          'new_description' => ['nullable'],
       ]);
 
@@ -236,7 +235,6 @@ class NewPonuda extends Controller
             'service_id' => $request->input('new_radioButton'),
             'quantity' => $request->input('new_quantity'),
             'unit_price' => $request->input('new_unit_price'),
-            'overall_price' => $request->input('new_quantity') * $request->input('new_unit_price'),
          ]);
       }
       return redirect()->route('worker.new.ponuda');

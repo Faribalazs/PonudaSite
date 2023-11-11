@@ -7,14 +7,14 @@
     </x-slot>
     <div class="mt-32 font-bold text-3xl">
         <p class="text-center">
-            Da li želiš odabrati iz baze kontakata ili ćes dodati novi kontakt ?
+            Da li želiš odabrati iz baze kontakta ili ćes dodati novi kontakt ?
         </p>
     </div>
     <div class="mt-24 flex flex-col items-center gap-10">
         <div class="w-1/2">
             @if ((isset($fizicka_lica) && count($fizicka_lica)) || (isset($pravna_lica) && count($pravna_lica)))
                 <a href="{{ route('worker.archive.show.lica', ['lice' => $lice, 'method' => 'contact', 'id' => $id]) }}">
-                    <button class="confirm-btn">Odaberi iz baze kontakata</button>
+                    <button class="confirm-btn">Odaberi iz baze kontakta</button>
                 </a>
             @else
                 <button class="disabled-btn" disabled >Odaberi iz kontakta</button>
