@@ -431,7 +431,7 @@ class Archive extends Controller
                 $temporary = true;
             }
 
-            session(['client_id'=> $client->id ?? null,]);
+            session(['client_id'=> $client ? $client->id : null ]);
             session(['ponuda_id' => $request->input('ponuda_id')]);
             session(['temporary' => $temporary]);
             session(['type' => 1]);
@@ -453,9 +453,10 @@ class Archive extends Controller
             'ponuda_id' => ['required', new Ponuda_PonudaID],
             'client_id' => ['nullable','numeric','gt:0'],
             'type' => ['required','in:1,2'],
+            'temp' => ['required','in:template-one,default'],
         ]);
 
-        session(['temp' => $request->input('temp') ?? 'default']);
+        session(['temp' => $request->input('temp')]);
         
         return redirect()->route('worker.archive.genarte.tamplate.pdf.create');
     }
@@ -465,12 +466,13 @@ class Archive extends Controller
         $request->validate([
             'ponuda_id' => ['required', new Ponuda_PonudaID],
             'client' => ['nullable','numeric','gt:0'],
-            'type' => 'required|in:1,2',
+            'type' => ['required','in:1,2'],
+            'temp' => ['required','in:template-one,default'],
         ]);
 
         $worker_id = Helper::worker();
         $company_data = $this->company_data($worker_id) ?? null;
-        $template = $request->input('temp') ?? 'default';
+        $template = $request->input('temp');
         if($company_data === null && $template == "template-one")
             return redirect()->route('worker.personal.data');
         $pdf_blade = 'worker.pdf.'. $template;

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'custom_categories';
 
@@ -17,4 +18,6 @@ class Category extends Model
         'name',
         'worker_id',
     ];
+
+    public $translatable = ['name'];
 }
