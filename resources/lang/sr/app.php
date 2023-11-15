@@ -2,6 +2,7 @@
 
 return [
     'basic' => [
+        'app_name'                      => "Ponuda Majstora",
         'choose-language'               => "Izaberi jezik",
         'successfully-added'            => "Uspešno dodato!",
         'close'                         => "Zatvori",
@@ -15,6 +16,13 @@ return [
         'new-ponuda'                    => "Nova ponuda",
         'my-categories'                 => "Moje kategorije",
         'archive'                       => "Moja arhiva",
+    ],
+
+    'footer' => [
+        'all-rights-reserved'           => "Sva prava zadržana",
+        'social-media'                  => "Društveni mediji",
+        'contacts'                      => "Kontakti",
+        'informations'                  => "Informacije",
     ],
 
     'create-ponuda' => [
@@ -163,7 +171,59 @@ return [
         'data-about'                    => "Podaci o",
         'contact'                       => "Kontakt",
         'log-out'                       => "Odjavi se",
+        'log-out-ask'                   => "Da li zaista želite da se odjavite",
 
+    ],
+
+    'generate-pdf' => [
+        'choose-contact'                => "Odaberi kontakt",
+        'to-whom-you-send'              => "Kome šalješ ponudu",
+        'individual'                    => "Fizičkom licu",
+        'legal-entity'                  => "Pravnom licu",
+        'contact-from-db-or-add-new'    => "Da li želiš odabrati iz baze kontakta ili ćes dodati novi kontakt",
+        'choose-from-db'                => "Odaberi iz baze kontakta",
+        'no-added-contact'              => "Nemate dodato kontakta",
+        'add-new-contact'               => "Dodaj novi kontakt",
+        'fill-form'                     => "Ispunite formu",
+        'continue'                      => "Nastavi",
+        'choose-look'                   => "Odaberi izgled",
+        'ponuda-without-memorandum'     => "Ponuda bez memoranduma",
+        'ponuda-with-memorandum'        => "Ponuda na memorandumu",
+        'ponuda-is-generating'          => "Ponuda se generiše",
+        'ponuda-is-generated'           => "Ponuda je uspešno generisana",
+        'what-you-want-to-do-with-ponuda' => "Šta želiš da uradiš sa generisanom ponudom",
+        'download-ponuda'               => "Skini ponudu",
+        'or'                            => "ili",
+        'fill-contract'                 => "Ispuni ugovor",
+        'send-ponuda-to-client-email'   => "Pošalji ponudu na klijentov E-mail",
+        'go-back-to-archive'            => "Vrati se u arhivu",
+        'send-ponuda'                   => "Pošalji ponudu",
+        'sending-email'                 => "Slanje u emailu",
+        'pdf'                           => "pdf",
+        'subject-email'                 => "Predmet E-maila",
+        'body-email'                    => "Telo E-maila",
+    ],
+
+    'controllers' => [
+        'something-went-wrong'          => "Nešto nije u redu.",
+        'try-again'                     => "Pokušajte ponovo kasnije ili kontaktirajte podršku!",
+        'your-email-is-verified'        => "Vaša email adresa je uspešno verifikovana",
+        'data-is-saved'                 => "Podaci su sačuvani.",
+        'data-is-not-saved'             => "Podaci nisu sačuvani.",
+        'data-is-changed'               => "Podaci uspešno promenjeni!",
+        'data-is-not-saved-or-changed'  => "Podaci nisu sačuvani ili promenjeni.",
+        'contact-is-deleted'            => "Kontakt je izbrisan!",
+        'old-password-not-matching'     => "Stara lozinka se ne poklapa.",
+        'password-is-changed'           => "Lozinka je uspešno promenjena!",
+        'choose-one-contact'            => "Izaberite jedan kontakt.",
+        'successfully-sent'             => "Uspešno poslato!",
+        'fill-company-data-first'       => "Ispunite podatke firme prvo!",
+        'ponuda-element-is-deleted'     => "Elementa ponuda je uspešno izbrisana!",
+        'deleted-category'              => "Uspešno ste izbrisali kategoriju!",
+        'deleted-subcategory'           => "Uspešno ste izbrisali podkategoriju!",
+        'deleted-pozicija'              => "Uspešno ste izbrisali poziciju!",
+        'email-address-is-occupied'     => "E-mail adresa je već u upotrebi.",
+        'finish-ponuda-first'           => "Morate završiti uređivanje ponude pre nego što pristupite ovoj stranici.",
     ],
 
     'email' => [
@@ -175,6 +235,8 @@ return [
         'reset-password-text'           => "Primili ste ovu e-poštu jer smo primili zahtev za resetovanje lozinke za vaš nalog.",
         'reset-password-btn-text'       => "Resetuj lozinku",
         'reset-password-expire'         => "Ova veza za resetovanje lozinke ističe za 60 minuta.",
+        'verify-email'                  => "Molimo Vas, potvrdite Vašu email adresu.",
+        'banned'                        => "Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.",
     ],
 
     'auth' => [

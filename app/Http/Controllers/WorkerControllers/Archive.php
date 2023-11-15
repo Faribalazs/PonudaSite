@@ -275,7 +275,7 @@ class Archive extends Controller
                 return redirect()->route('worker.archive.select.template');
                 
             } else {
-                Alert::error('Izaberite jedan kontact')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+                Alert::error(__('app.controllers.choose-one-contact'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
                 return redirect()->back();
             }
 
@@ -349,7 +349,7 @@ class Archive extends Controller
 
             return redirect()->route('worker.archive.select.template');
         }
-        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+        Alert::error(__('app.controllers.something-went-wrong'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->back();
     }
 
@@ -362,7 +362,7 @@ class Archive extends Controller
 
                 return redirect()->route('worker.archive.select.template');
             } else {
-                Alert::error('Izaberite jedan kontakt')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+                Alert::error(__('app.controllers.choose-one-contact'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
                 return redirect()->back();
             }
         } elseif($request->input('method') !== null && $request->input('method') == 'add_new') {
@@ -438,7 +438,7 @@ class Archive extends Controller
 
             return redirect()->route('worker.archive.select.template');
         }
-        Alert::error('Nesto nije u redu')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+        Alert::error(__('app.controllers.something-went-wrong'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->back();
     }
 
@@ -589,7 +589,7 @@ class Archive extends Controller
             $emailJobSecond = (new SendEmail(auth('worker')->user()->email, $request->input('mailSubject'), $request->input('mailBody'), $dataPDF, $pdf_name->ponuda_name, $auto_msg));
             dispatch($emailJobSecond);
         }
-        Alert::success('Uspešno poslato!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+        Alert::success(__('app.controllers.successfully-sent'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->route('worker.archive');
     }
 
@@ -677,7 +677,7 @@ class Archive extends Controller
                 }
 
                 if($company_data == null) {
-                    Alert::warning('Ispunite podate kompanije prvo')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+                    Alert::warning(__('app.controllers.fill-company-data-first'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
                     return redirect()->route('worker.personal.data');
                 }
 

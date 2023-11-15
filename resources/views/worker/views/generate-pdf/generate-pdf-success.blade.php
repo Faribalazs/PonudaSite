@@ -1,14 +1,14 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Generiši PDF
+        {{ __('app.archive-selected.generate-pdf') }}    
     </x-slot>
     <x-slot name="header">
-        Generiši PDF
+        {{ __('app.archive-selected.generate-pdf') }}    
     </x-slot>
     <div class="bar-div">
         <div class="mt20">
             <p class="text-center text-4xl py-14 font-bold">
-                Ponuda se generiše
+                {{ __('app.generate-pdf.ponuda-is-generating') }}
             </p>
         </div>
         <div class="progress-bar"></div>
@@ -43,29 +43,29 @@
                 </div>
             </div>
             <p class="text-center text-4xl font-bold">
-                Ponuda je uspešno generisana! <i class="ri-check-double-line"></i>
+                {{ __('app.generate-pdf.ponuda-is-generated') }}! <i class="ri-check-double-line"></i>
             </p>
             <p class="text-center text-2xl mt-10">
-                Šta želiš da uradiš sa generisanom ponudom?
+                {{ __('app.generate-pdf.what-you-want-to-do-with-ponuda') }}?
             </p>
             <button type="submit" name="skini" value="skini" onclick="showBack()"
                 class="md:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-20">
-                Skini ponudu
+                {{ __('app.generate-pdf.download-ponuda') }}
             </button><br>
             <p class="text-2xl text-center">
-                ili
+                {{ __('app.generate-pdf.or') }}
             </p>
             <div class="flex md:w-1/2 w-full xl:flex-row flex-col mx-auto gap-3">
                 <div class="flex xl:w-1/2">
                     <a href="{{ route('worker.archive.fill.contract') }}"
                         class="w-full text-xl flex items-center btn justify-center font-bold finish-btn mt-5">
-                        Ispuni ugovor
+                        {{ __('app.generate-pdf.fill-contract') }}
                     </a>
                 </div>
                 <div class="flex xl:w-1/2">
                     <button type="submit" name="posalji" value="posalji"
                         class="w-full text-xl font-bold finish-btn mt-5">
-                        Pošalji ponudu na klijentov E-mail
+                        {{ __('app.generate-pdf.send-ponuda-to-client-email') }}
                     </button>
                 </div>
             </div>
@@ -75,7 +75,7 @@
         <div class="flex justify-center">
             <a href="{{ route('worker.archive') }}"
                 class="w-1/2 mx-auto text-xl flex justify-center font-bold finish-btn mt-5">
-                Vrati se u arhivu
+                {{ __('app.generate-pdf.go-back-to-archive') }}
             </a>
         </div>
     </div>

@@ -143,7 +143,7 @@ class OptionsController extends Controller
             ->where('worker_id', Helper::worker())
             ->update(['is_pozicija_deleted' => 1]);
       }      
-      Alert::success('Uspešno ste izbrisali kategoriju')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      Alert::success(__('app.controllers.deleted-category'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route("worker.options.update"));
    }
 
@@ -158,7 +158,7 @@ class OptionsController extends Controller
          ->update(['is_subcategory_deleted' => 1]);
       Pozicija::where('custom_subcategory_id', $id)
          ->update(['is_pozicija_deleted' => 1]);      
-      Alert::success('Uspešno ste izbrisali podkategoriju')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      Alert::success(__('app.controllers.deleted-subcategory'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route("worker.options.update"));
    }
 
@@ -171,7 +171,7 @@ class OptionsController extends Controller
       Pozicija::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->update(['is_pozicija_deleted' => 1]);      
-      Alert::success('Uspešno ste izbrisali poziciju')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      Alert::success(__('app.controllers.deleted-pozicija'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route("worker.options.update"));
    }
 }

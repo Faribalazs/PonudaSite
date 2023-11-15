@@ -1,9 +1,9 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Odaberi izgled
+        {{ __('app.generate-pdf.choose-look') }}
     </x-slot>
     <x-slot name="header">
-        Generiši PDF
+        {{ __('app.archive-selected.generate-pdf') }}    
     </x-slot>
     <div class="flex">
     </div>
@@ -27,20 +27,20 @@
                     <li>
                         <input type="radio" name="temp" id="cb1" value="default" />
                         <label for="cb1"><img src="{{ asset('img/defautpdf.png') }}" /></label>
-                        <span>Ponuda bez memoranduma</span>
+                        <span>{{ __('app.generate-pdf.ponuda-without-memorandum') }}</span>
                     </li>
                 </ul>
                 <ul class="radio-img">
                     <li>
                         <input type="radio" name="temp" id="cb2" value="template-one" />
                         <label for="cb2"><img src="{{ asset('img/newtamplate.png') }}" /></label>
-                        <span>Ponuda na memorandumu</span>
+                        <span>{{ __('app.generate-pdf.ponuda-with-memorandum') }}</span>
                     </li>
                 </ul>
             </div>
             <div class="flex justify-center mt-4">
                 <button type="submit" name="skini" value="skini" class="finish-btn mt-4">
-                    Generiši PDF
+                    {{ __('app.archive-selected.generate-pdf') }}
                 </button>
             </div>
         </form>

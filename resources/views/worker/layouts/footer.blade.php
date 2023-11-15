@@ -1,25 +1,22 @@
-@php
-    $date = date("Y");
-@endphp
 <div class="footer-bg w-100">
     <div class="flex flex-row flex-wrap justify-around content-div">
         <div class="mt-4 links">
-            <span class="footer-title">Információk</span>
+            <span class="footer-title">{{ __('app.footer.informations') }}</span>
             <div class="flex flex-col">
-                <div class="pt-3"><a href="#" class="footer-category-text">Rólunk</a></div>
+                <div class="pt-3"><a href="#" class="footer-category-text">Link</a></div>
                 <div class="pt-3"><a href="#" class="footer-category-text">Link1</a></div>
                 <div class="pt-3"><a href="#" class="footer-category-text">Link2</a></div>
               </div>
         </div>
         <div class="mt-4 links">
-            <span class="footer-title">Kapcsolatok</span>
+            <span class="footer-title">{{ __('app.footer.contacts') }}</span>
             <div class="flex flex-col text-left mt-3">
                 <div class="pt-1 flex media-text ">
                     <div class="flex align-center">
                         <i class="ri-phone-fill phone-icon"></i>
                     </div>
                     <div class="flex align-center">
-                        <a href="tel:+381 87 452 147" class="footer-category-text pl-3">+381 87 452 147</a>
+                        <a href="tel:{{ config('app.phone_number') }}" class="footer-category-text pl-3">{{ config('app.phone_number') }}</a>
                     </div>
                 </div>
                 <div class="pt-3 flex media-text">
@@ -33,7 +30,7 @@
               </div>
         </div>
         <div class="mt-4 pr-3">
-            <span class="footer-title">Közösségi médiák</span>
+            <span class="footer-title">{{ __('app.footer.social-media') }}</span>
             <div class="flex flex-col">
                 <div class="pt-1 flex justify-between media-align">
                     <div class="flex align-center">
@@ -49,5 +46,5 @@
               </div>
         </div>
     </div>
-    <span class="copyright">Copyright © {{$date}} Farkas Balazs All Rights Reserved</span>
+    <span class="copyright">Copyright © {{ date("Y") }} {{ __('app.basic.app_name') }} {{ __('app.footer.all-rights-reserved') }}</span>
 </div>

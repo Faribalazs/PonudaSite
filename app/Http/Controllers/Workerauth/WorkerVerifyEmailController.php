@@ -17,7 +17,7 @@ class WorkerVerifyEmailController extends Controller
         try{
             $user = Worker::findOrFail($request->route('id'));
         } catch (ModelNotFoundException) {
-            alert()->error('Nešto nije u redu. Pokušajte ponovo kasnije ili kontaktirajte administratora.')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+            alert()->error(__('app.controllers.something-went-wrong').' '.__('app.controllers.try-again'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect()->intended(route('worker.register'));
         }
 
@@ -26,7 +26,7 @@ class WorkerVerifyEmailController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
-            alert()->success('Vaša email adresa je uspešno verifikovana.')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+            alert()->success(__('app.controllers.your-email-is-verified'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect()->intended(route('home'));
         }
 
@@ -34,7 +34,7 @@ class WorkerVerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        alert()->success('Vaša email adresa je uspešno verifikovana.')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+        alert()->success(__('app.controllers.your-email-is-verified'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
         return redirect()->intended(route('home'));
     }
 }

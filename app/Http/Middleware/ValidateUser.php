@@ -36,15 +36,15 @@ class ValidateUser
                 if(!$userdata->hasVerifiedEmail()){
                     if($session_key != null)
                     {
-                        return redirect()->route($route)->with('error-email', 'Molimo Vas, potvrdite Vašu email adresu.')->with($session_key, encrypt($userdata->id));
+                        return redirect()->route($route)->with('error-email', __('app.email.verify-email'))->with($session_key, encrypt($userdata->id));
                     }
                     else
                     {
-                        return redirect()->route($route)->with('error', 'Nešto nije u redu.');
+                        return redirect()->route($route)->with('error', __('app.controllers.something-went-wrong'));
                     }
                 }
                 else{
-                    return redirect()->route($route)->with('error', 'Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.');
+                    return redirect()->route($route)->with('error', __('app.email.banned'));
                 }
             }
         }

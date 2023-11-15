@@ -1,18 +1,18 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Pravna lica
+        {{ __('app.profile.legal-entity') }}
     </x-slot>
     <x-slot name="header">
-        Generiši PDF
+        {{ __('app.archive-selected.generate-pdf') }}
     </x-slot>
     <div class="mt-24 font-bold text-3xl">
         @if ($method == 'contact')
             <p class="text-center">
-                Odaberi iz baze kontakta
+                {{ __('app.generate-pdf.choose-from-db') }}
             </p>
         @elseif ($method == 'add_new')
             <p class="text-center">
-                Ispunite formu
+                {{ __('app.generate-pdf.fill-form') }}
             </p>
         @endif
     </div>
@@ -23,7 +23,7 @@
                 <div id="contact-dropdown" class="flex w-full items-center justify-center relative">
                     <div class="select-menu w-full">
                         <div class="select-btn">
-                            <span class="sBtn-text">Odaberi kontakt</span>
+                            <span class="sBtn-text">{{ __('app.generate-pdf.choose-contact') }}</span>
                             <svg role="img" viewBox="0 0 512 512">
                                 <path
                                     d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
@@ -31,7 +31,7 @@
                         </div>
                         <ul class="options absolute" id="ul">
                             <li class="option">
-                                <input type="text" placeholder="Trazi..." id="search"
+                                <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="search"
                                     onkeyup="filterFunctionCategory()" class="w-full dropdown-search">
                             </li>
                             @foreach ($pravna_lica as $client)
@@ -108,7 +108,7 @@
             @elseif($method == 'add_new')
                 <div class="flex flex-col w-full">
                     <div class="flex flex-col w-full" id="pravna_lica">
-                        <label for="company" class="sm:text-xl text-base my-3">Naziv firme* :</label>
+                        <label for="company" class="sm:text-xl text-base my-3">{{ __('app.profile.company-name') }}* :</label>
                         <input class="input-style {{ $errors->has('company') ? 'border-error mb-1' : 'mb-3' }}"
                             name="company" value="{{ old('company') }}" maxlength="25" type="text" required />
                         <p class="{{ $errors->has('company') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -116,14 +116,14 @@
 
                         <div class="flex lg:flex-row flex-col">
                             <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pr-0">
-                                <label for="email" class="sm:text-xl text-base my-3">E-mail* :</label>
+                                <label for="email" class="sm:text-xl text-base my-3">{{ __('app.profile.email') }}* :</label>
                                 <input class="input-style {{ $errors->has('email') ? 'border-error mb-1' : 'mb-3' }}"
                                     name="email" value="{{ old('email') }}" maxlength="20" type="text" required />
                                 <p class="{{ $errors->has('email') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
                                     {{ $errors->first('email') }}</p>
                             </div>
                             <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                                <label for="tel" class="sm:text-xl text-base my-3">Telefon* :</label>
+                                <label for="tel" class="sm:text-xl text-base my-3">{{ __('app.profile.telefon') }}* :</label>
                                 <input class="input-style {{ $errors->has('tel') ? 'border-error mb-1' : 'mb-3' }}"
                                     name="tel" value="{{ old('tel') }}" maxlength="25" type="text"
                                     required />
@@ -132,7 +132,7 @@
                             </div>
                         </div>
 
-                        <label for="pib" class="sm:text-xl text-base my-3">PIB* :</label>
+                        <label for="pib" class="sm:text-xl text-base my-3">{{ __('app.profile.pib') }}* :</label>
                         <input class="input-style {{ $errors->has('pib') ? 'border-error mb-1' : 'mb-3' }}"
                             name="pib" value="{{ old('pib') }}" maxlength="25" type="text" required />
                         <p class="{{ $errors->has('pib') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -140,7 +140,7 @@
 
                         <div class="flex lg:flex-row flex-col">
                             <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pr-0">
-                                <label for="grad" class="sm:text-xl text-base my-3">Grad* :</label>
+                                <label for="grad" class="sm:text-xl text-base my-3">{{ __('app.profile.city') }}* :</label>
                                 <input class="input-style {{ $errors->has('grad') ? 'border-error mb-1' : 'mb-3' }}"
                                     name="grad" value="{{ old('grad') }}" maxlength="20" type="text"
                                     required />
@@ -148,7 +148,7 @@
                                     {{ $errors->first('grad') }}</p>
                             </div>
                             <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                                <label for="postcode" class="sm:text-xl text-base my-3">Poštanski broj* :</label>
+                                <label for="postcode" class="sm:text-xl text-base my-3">{{ __('app.profile.post-code') }}* :</label>
                                 <input
                                     class="input-style {{ $errors->has('postcode') ? 'border-error mb-1' : 'mb-3' }}"
                                     name="postcode" value="{{ old('postcode') }}" maxlength="25" type="text"
@@ -158,7 +158,7 @@
                             </div>
                         </div>
 
-                        <label for="adresa" class="sm:text-xl text-base my-3">Adresa* :</label>
+                        <label for="adresa" class="sm:text-xl text-base my-3">{{ __('app.profile.address') }}* :</label>
                         <input class="input-style {{ $errors->has('adresa') ? 'border-error mb-1' : 'mb-3' }}"
                             name="adresa" value="{{ old('adresa') }}" maxlength="25" type="text" required />
                         <p class="{{ $errors->has('adresa') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
@@ -167,7 +167,7 @@
                     </div>
                 </div>
                 <div class="flex items-center mt-5">
-                    <label for="save" class="text-xl my-3">Sačuvaj klijenta</label>
+                    <label for="save" class="text-xl my-3">{{ __('app.profile.save-contact') }}</label>
                     <input type="checkbox" class="ml-3" name="save" value="1" />
                 </div>
         </div>
@@ -178,7 +178,7 @@
         <input type="hidden" value="{{ $method }}" name="method">
 
         <div class="flex mt-20 w-1/2 mx-auto">
-            <button type="submit" class="finish-btn mt-5 text-xl w-full">Nastavi</button>
+            <button type="submit" class="finish-btn mt-5 text-xl w-full">{{ __('app.generate-pdf.continue') }}</button>
         </div>
     </form>
     <style>

@@ -165,11 +165,11 @@ class NewPonuda extends Controller
          }
          else
          {
-            Alert::error('Nešto nije u redu!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+            Alert::error(__('app.controllers.something-went-wrong'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect(route("worker.new.ponuda"));
          }
-       } catch (Exception $e) {
-            Alert::error('Nešto nije u redu!'.$e)->showCloseButton()->showConfirmButton(__('app.basic.close'));
+       } catch (Exception) {
+            Alert::error(__('app.controllers.something-went-wrong'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect(route("worker.new.ponuda"));
        }
    }
@@ -335,7 +335,7 @@ class NewPonuda extends Controller
       Ponuda::where('id', $request->input('id'))
          ->where('worker_id', Helper::worker())
          ->delete();
-      Alert::success('Element ponude je uspešno obrisan!')->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      Alert::success(__('app.controllers.ponuda-element-is-deleted'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route("worker.new.ponuda"));
    }
 

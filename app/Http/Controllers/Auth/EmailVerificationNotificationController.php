@@ -24,7 +24,7 @@ class EmailVerificationNotificationController extends Controller
         try{
             $decrypted_id = decrypt(substr($request->user_mama, 4));
         } catch(DecryptException){
-            toast(__('Something went wrong!'),'error')->position('bottom')->autoClose(10000);
+            toast(__('app.controllers.something-went-wrong'),'error')->position('bottom')->autoClose(10000);
             return redirect()->back();
         }
         
@@ -42,7 +42,7 @@ class EmailVerificationNotificationController extends Controller
             return redirect()->back();
         }
 
-        return redirect()->back()->with('error',__('Something went wrong!'));
+        return redirect()->back()->with('error',__('app.controllers.something-went-wrong'));
 
         // if ($request->user()->hasVerifiedEmail()) {
         //     return redirect()->intended(route('home'));

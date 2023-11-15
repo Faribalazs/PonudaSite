@@ -106,13 +106,13 @@
 
     function logOut() {
         Swal.fire({
-            title: 'Da li zaista želite da se odjavite?',
+            title: '{{ __("app.profile.log-out-ask") }}?',
             showCancelButton: true,
             icon: 'question',
-            confirmButtonText: 'Da',
+            confirmButtonText: '{{ __("app.profile.yes") }}',
             showCloseButton: true,
             confirmButtonColor: '#ac1902',
-            cancelButtonText: 'Ne',
+            cancelButtonText: '{{ __("app.profile.no") }}',
         }).then((result) => {
             if (result.isConfirmed) {
                 document.querySelector('#log-out-form').submit();

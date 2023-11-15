@@ -6,6 +6,10 @@ return [
 
     'email' => 'ponudamajstora@gmail.com',
 
+    //app phone number
+
+    'phone_number' => '+381 87 452 147',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

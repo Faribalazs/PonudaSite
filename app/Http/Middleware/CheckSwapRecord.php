@@ -20,7 +20,7 @@ class CheckSwapRecord
         {
             if(Swap::where('worker_id', auth('worker')->user()->id)->first())
             {
-                return redirect()->route('worker.new.ponuda')->with('accessDenied', 'Morate završiti uređivanje ponude pre nego što pristupite ovoj stranici.');
+                return redirect()->route('worker.new.ponuda')->with('accessDenied', __('app.controllers.finish-ponuda-first'));
             }
         }
         return $next($request);

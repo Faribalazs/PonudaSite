@@ -1,29 +1,29 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        Odaberi kontakt
+        {{ __('app.generate-pdf.choose-contact') }}
     </x-slot>
     <x-slot name="header">
-        Generiši PDF
+        {{ __('app.archive-selected.generate-pdf') }}
     </x-slot>
     <div class="mt-32 font-bold text-3xl">
         <p class="text-center">
-            Da li želiš odabrati iz baze kontakta ili ćes dodati novi kontakt ?
+            {{ __('app.generate-pdf.contact-from-db-or-add-new') }}?
         </p>
     </div>
     <div class="mt-24 flex flex-col items-center gap-10">
         <div class="w-1/2">
             @if ((isset($fizicka_lica) && count($fizicka_lica)) || (isset($pravna_lica) && count($pravna_lica)))
                 <a href="{{ route('worker.archive.show.lica', ['lice' => $lice, 'method' => 'contact', 'id' => $id]) }}">
-                    <button class="confirm-btn">Odaberi iz baze kontakta</button>
+                    <button class="confirm-btn">{{ __('app.generate-pdf.choose-from-db') }}</button>
                 </a>
             @else
-                <button class="disabled-btn" disabled >Odaberi iz kontakta</button>
-                <p class="text-red mt-2 text-center">Nemate dodato kontakta</p>
+                <button class="disabled-btn" disabled >{{ __('app.generate-pdf.choose-contact') }}</button>
+                <p class="text-red mt-2 text-center">{{ __('app.generate-pdf.no-added-contact') }}</p>
             @endif
         </div>
         <div class="w-1/2 justify-center">
             <a href="{{ route('worker.archive.show.lica', ['lice' => $lice, 'method' => 'add_new', 'id' => $id]) }}">
-                <button class="confirm-btn">Dodaj novi kontakt</button>
+                <button class="confirm-btn">{{ __('app.generate-pdf.add-new-contact') }}</button>
             </a>
         </div>
     </div>
