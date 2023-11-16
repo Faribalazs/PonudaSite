@@ -319,14 +319,14 @@ class DataSeeder extends Seeder
             [
                 [
                     'name_service' => [
-                        'sr' => 'Cena pozicije sadrži vrednost materiala i usluge.',
-                        'rs-cyrl' => 'Цена позиције садржи вредност материала и услуге.',
+                        'sr' => 'Cena pozicije sadrži vrednost materijala i usluge.',
+                        'rs-cyrl' => 'Цена позиције садржи вредност материјала и услуге.',
                     ]
                 ],
                 [
                     'name_service' => [
-                        'sr' => 'Cena pozicije sadrži vrednost uslugu (bez materiala).',
-                        'rs-cyrl' => 'Цена позиције садржи вредност услугу (без материала).',
+                        'sr' => 'Cena pozicije sadrži vrednost uslugu (bez materijala).',
+                        'rs-cyrl' => 'Цена позиције садржи вредност услугу (без материјала).',
                     ]
                 ]
             ];

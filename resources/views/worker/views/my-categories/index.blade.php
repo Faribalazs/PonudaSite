@@ -115,9 +115,9 @@
     <script>
         function actionSwall(url, id) {
             Swal.fire({
-                title: 'Stvarno hoćete da izbrišite?',
+                title: '{{ __("app.create-ponuda.swal-are-you-sure-delete") }}?',
                 icon: 'question',
-                confirmButtonText: "Izbriši",
+                confirmButtonText: "{{ __('app.basic.delete') }}",
                 cancelButtonText: "Nazad",
                 showConfirmButton: false,
                 showCancelButton: false,
@@ -128,7 +128,7 @@
                     '@csrf' +
                     '@method('put')' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn mx-1 mt-5">Izbriši</button>' +
+                    '<button type="submit" class="add-new-btn mx-1 mt-5">{{ __("app.basic.delete") }}</button>' +
                     '</form>',
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -140,7 +140,7 @@
     @if ($successMsg == 'kecske' && Auth::guard('worker')->check())
         <script>
             Swal.fire(
-                title: 'Uspesno ste izbrisali kategoriju',
+                title: '{{ __("app.controllers.deleted-category") }}',
                 icon: 'success',
                 confirmButtonText: "{{ __('app.basic.close') }}",
                 showConfirmButton: false,
@@ -153,7 +153,7 @@
     @if ($successMsg == 'cica' && !empty($name) && Auth::guard('worker')->check())
         <script>
             Swal.fire(
-                'You have successfully deleted: {{ $name }}',
+                '{{ __("app.create-ponuda.cica") }}: {{ $name }}',
                 '',
                 'info'
             )
@@ -162,12 +162,12 @@
     <script>
         function addNewOption() {
             Swal.fire({
-                title: '{{ __('app.categories.what-you-want-to-add') }}',
+                title: '{{ __("app.categories.what-you-want-to-add") }}',
                 icon: 'question',
                 html: '<div class="flex flex-col gap-5 pb-6">' +
-                    '<a href="{{ route('worker.options.create.new.category') }}" class="main-btn">{{ __('app.categories.new-category') }}</a>' +
-                    '<a href="{{ route('worker.options.create.new.subcategory') }}" class="main-btn">{{ __('app.categories.new-subcategory') }}</a>' +
-                    '<a href="{{ route('worker.options.create.new.pozicija') }}" class="main-btn">{{ __('app.categories.new-pozicija') }}</a>' +
+                    '<a href=\"{{ route("worker.options.create.new.category") }}\" class="main-btn">{{ __("app.categories.new-category") }}</a>' +
+                    '<a href=\"{{ route("worker.options.create.new.subcategory") }}\" class="main-btn">{{ __("app.categories.new-subcategory") }}</a>' +
+                    '<a href=\"{{ route("worker.options.create.new.pozicija") }}\" class="main-btn">{{ __("app.categories.new-pozicija") }}</a>' +
                     '</div>',
                 showCancelButton: false,
                 showConfirmButton: false,

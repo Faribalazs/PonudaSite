@@ -709,16 +709,31 @@ class Archive extends Controller
             for ($i = 1; $i <= 26; $i++) {
                 $fields[] = $request->input('field' . $i);
             }
-    
+
+            $fields[14] = $this->formatDateToSerbian($fields[14]);
+
             $pdf = PDF::loadView('worker.pdf.contract-individual', compact('fields','ugovorBr'));
             return $pdf->download('Ugovor.pdf');
         } elseif (session('type') == 2) {
             for ($i = 1; $i <= 25; $i++) {
                 $fields[] = $request->input('field' . $i);
             }
+
+            $fields[13] = $this->formatDateToSerbian($fields[13]);
     
             $pdf = PDF::loadView('worker.pdf.contract-legal-entity', compact('fields','ugovorBr'));
             return $pdf->download('Ugovor.pdf');
         }
+    }
+
+    private function formatDateToSerbian($date)
+    {
+        $dateTime = \DateTime::createFromFormat('Y-m-d', $date);
+
+        if ($dateTime) {
+            return $dateTime->format('d.m.Y');
+        }
+
+        return $date;
     }
 }

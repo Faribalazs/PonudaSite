@@ -52,14 +52,14 @@ return [
         'search'                        => "Traži",
         'izbrisi'                       => "Izbriši",
         'price-with-material-title'     => "Cena pozicija sadrži",
-        'price-with-material'           => "Cena pozicije sadrži vrednost materiala i usluge",
-        'price-without-material'        => "Cena pozicije sadrži vrednost uslugu (bez materiala)",
+        'price-with-material'           => "Cena pozicije sadrži vrednost materijala i usluge",
+        'price-without-material'        => "Cena pozicije sadrži vrednost uslugu (bez materijala)",
         'price-rsd'                     => "Cena (RSD)",
         'price'                         => "Cena",
         'add-pozicija-btn'              => "Dodaj poziciju",
         'finish-ponuda-btn'             => "Završi ponudu",
         'swal-access-denied'            => "Pristup odbijen",
-        'swal-are-you-sure-delete'      => "Stvarno hoćete da izbrišite",
+        'swal-are-you-sure-delete'      => "Da li zaista želiš da izbrišeš",
         'swal-change-pozicija'          => "Izmeni poziciju",
         'swal-pozicija-name'            => "Naziv pozicija",
         'swal-pozicija-des'             => "Opis pozicije",
@@ -73,6 +73,7 @@ return [
         'ponuda-created'                => "Ponuda je uspešno kreirana. Možete je pronaći u arhivi!",
         'ponuda-changed'                => "Ponuda je uspešno izmenjena!",
         'no-data-ponuda'                => "Niste uneli podatke!",
+        'cica'                          => "Uspešno ste izbrisali",
     ],
 
     'categories' => [
@@ -111,7 +112,7 @@ return [
         'updated'                       => "Ažuriran",
         'description'                   => "Opis",
         'offer-not-found'               => "Nismo našli nikakvu ponudu",
-        'swal-are-you-sure-change'      => "Stvarno hoćete da menjate nešto u",
+        'swal-are-you-sure-change'      => "Da li zaista želiš da menjaš nešto u",
     ],
 
     'archive-selected' => [
@@ -171,7 +172,7 @@ return [
         'data-about'                    => "Podaci o",
         'contact'                       => "Kontakt",
         'log-out'                       => "Odjavi se",
-        'log-out-ask'                   => "Da li zaista želite da se odjavite",
+        'log-out-ask'                   => "Da li zaista želiš da se odjaviš",
 
     ],
 

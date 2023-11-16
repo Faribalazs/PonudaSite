@@ -62,7 +62,7 @@
                                 class="w-32">
                             u svemu prema usvojenoj ponudi Izvođača br. <input type="text" class="w-48"
                                 style="border-radius: 0px !important;" name="field13">
-                            od <input type="date" style="border-radius: 0px !important;" name="field14">
+                            od <input type="date" id="dateInput" value="{{ date('Y-m-d') }}" onchange="myDateFormat()" min="2013-01-01" max="2033-12-31" class="w-44" style="border-radius: 0px !important;" name="field14"><input type="text" id="showDate" class="w-44" style="border-radius: 0px !important; display:none" onclick="showDatePicker()" readonly></span>
                             koja čini sastavni deo ovog Ugovora.
                         </p>
                         <p class="text-center mb-10">
@@ -135,7 +135,7 @@
                             Izvođač s obavezuje da sve radove na objektu iz člana 1. ovog ugovora izvede u roku od
                             <input type="text" style="border-radius: 0px !important;" class="w-20"
                                 name="field19">
-                            radnihdana, u skladu sa uslovima iz usvojene ponude Izvođača.
+                            radnih dana, u skladu sa uslovima iz usvojene ponude Izvođača.
                         </p>
                         <p class="text-center mb-10">
                             Član 8.
@@ -199,7 +199,7 @@
         <div class="flex justify-center mt-20">
             <button onClick="showBack()" type="submit"
                 class="sm:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-5">
-                Skini model ugovora
+                Skini ispunjen Ugovor
             </button>
         </div>
         <input type="hidden" name="br"
@@ -209,6 +209,23 @@
         function showBack() {
             btn = document.querySelector('.btn');
             btn.style.display = 'flex';
+        }
+
+        function myDateFormat() {
+            var dateControl = document.getElementById('dateInput');
+            const [year, month, day] = dateControl.value.split('-');
+            const result = [day, month, year].join('/');
+            document.getElementById("showDate").value = result;
+            document.getElementById("showDate").style.display = 'inline-block';
+            document.getElementById("dateInput").style.display = 'none';
+        }
+
+        function showDatePicker() {
+            var dateInput = document.getElementById('dateInput');
+            dateInput.style.display = 'inline-block';
+            document.getElementById("showDate").style.display = 'none';
+
+            dateInput.focus();
         }
     </script>
     <style>
