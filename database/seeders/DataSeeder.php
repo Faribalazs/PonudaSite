@@ -198,7 +198,7 @@ class DataSeeder extends Seeder
                     'category_id' => '7',
                     'name' => [
                         'sr' => 'Priprema podloge',
-                        'rs-cyrl' => 'Priprema podloge',
+                        'rs-cyrl' => 'Припрема подлоге',
                     ]
                 ],
                 [
@@ -3388,11 +3388,53 @@ class DataSeeder extends Seeder
                 't_sr_c' => 'Уградња дрвених прозора.',
                 'd_sr_c' => 'Прозори се уграђују уз помоћ дрвених кајли. Простор између квента и штока се попуњава Пур-пеном.',
             ],
+            [
+              'subcategory_id' => 14,
+              'unit_id' => 1,
+              't_sr' => 'Demontaža stare podne obloge od laminatna',
+              'd_sr' => 'Stari laminat  i lajsne se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km',
+              't_sr_c' => 'Демонтажа старе подне облоге од ламинатна',
+              'd_sr_c' => 'Стари ламинат  и лајсне се пажљиво демонтирају и депонују у оквиру градилишта на место које које одреди инвеститор. Шут и остали отпадни материјал се товари у превозно средство и одвози на градску депонију на удаљености до 10км',
+            ],
+            [
+                'subcategory_id' => 14,
+                'unit_id' => 1,
+                't_sr' => 'Demontaža stare podne obloge od lamel parketa',
+                'd_sr' => 'Stari lamel parket  i lajsne se pažljivo demontiraju i deponuju u okviru gradilišta na mesto koje koje odredi investitor. Šut i ostali otpadni materijal se tovari u prevozno sredstvo i odvozi na gradsku deponiju na udaljenosti do 10km',
+                't_sr_c' => 'Демонтажа старе подне облоге од ламел паркета',
+                'd_sr_c' => 'Стари ламел паркет  и лајсне се пажљиво демонтирају и депонују у оквиру градилишта на место које које одреди инвеститор. Шут и остали отпадни материјал се товари у превозно средство и одвози на градску депонију на удаљености до 10км',
+            ],
+            [
+              'subcategory_id' => 15,
+              'unit_id' => 1,
+              't_sr' => 'Postavljanje Stirodura ispod podne obloge',
+              'd_sr' => 'Na betonski pod ili pod od cementne košuljice prvo postavlja parna brana, preko koje se postavlja Stirodur u debljini od 2cm. Table stirodura se spajaju i ukrajaju pored zidova.',
+              't_sr_c' => 'Постављање Стиродура испод подне облоге',
+              'd_sr_c' => 'На бетонски под или под од цементне кошуљице прво поставља парна брана, преко које се поставља Стиродур у дебљини од 2цм. Табле стиродура се спајају и украјају поред зидова.',
+            ],
+            [
+              'subcategory_id' => 16,
+              'unit_id' => 1,
+              't_sr' => 'Postavljanje podne obloge od laminata',
+              'd_sr' => 'Laminat se postavlja preko pripremljene i čiste podloge. Spajanje ploča se vrši na odgovarajući način, u zavisnosti od tipa laminata. Po obimu poda se postavljaju odgovarajuće lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.',
+              't_sr_c' => 'Постављање подне облоге од ламината',
+              'd_sr_c' => 'Ламинат се поставља преко припремљене и чисте подлоге. Спајање плоча се врши на одговарајући начин, у зависности од типа ламината. По обиму пода се постављају одговарајуће лајсне. Спојеви лајсни у негативним и позитивним угловима се герују.',
+            ],
+            [
+              'subcategory_id' => 16,
+              'unit_id' => 1,
+              't_sr' => 'Postavljanje podne obloge od lamel parketa',
+              'd_sr' => 'Laminat se postavlja preko pripremljene i čiste podloge. Spajanje ploča se vrši na odgovarajući način, u skladu sa uputstvom proizvođača. Po obimu poda se postavljaju odgovarajuće lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.',
+              't_sr_c' => 'Постављање подне облоге од ламел паркета',
+              'd_sr_c' => 'Ламинат се поставља преко припремљене и чисте подлоге. Спајање плоча се врши на одговарајући начин, у складу са упутством произвођача. По обиму пода се постављају одговарајуће лајсне. Спојеви лајсни у негативним и позитивним угловима се герују.',
+            ],
             // [
-            //     'subcategory_id' => 30,
-            //     'unit_id' => 1,
-            //     't_sr' => '',
-            //     'd_sr' => '',
+            //   'subcategory_id' => 14,
+            //   'unit_id' => 1,
+            //   't_sr' => '',
+            //   'd_sr' => '',
+            //   't_sr_c' => '',
+            //   'd_sr_c' => '',
             // ],
         ];
 
