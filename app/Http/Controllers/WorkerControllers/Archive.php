@@ -731,7 +731,7 @@ class Archive extends Controller
         $dateTime = \DateTime::createFromFormat('Y-m-d', $date);
 
         if ($dateTime) {
-            return $dateTime->format('d.m.Y');
+            return $dateTime->format('d/m/Y');
         }
 
         return $date;
