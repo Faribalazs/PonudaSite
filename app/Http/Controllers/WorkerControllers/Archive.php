@@ -637,10 +637,9 @@ class Archive extends Controller
         $company_data = $this->company_data($worker_id) ?? null;
         $type_id = session('type');
         $id = session('ponuda_id');
-        $selectedWorkerPonuda = $this->mergedData()->where('ponuda_id', $id)->get();
         $foundClient = null;
         $sum = 0;
-            foreach($selectedWorkerPonuda as $ponuda)
+            foreach(Ponuda::select('quantity','unit_price')->where('ponuda_id', $id)->where('worker_id', Helper::worker())->get() as $ponuda)
             {
                 $sum += $ponuda->quantity * $ponuda->unit_price;
             }

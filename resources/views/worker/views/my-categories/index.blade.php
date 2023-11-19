@@ -6,9 +6,8 @@
         {{ __('app.categories.my-categories') }}
     </x-slot>
     @php
-        $i = 1;
-        $j = 1;
-        $k = 1;
+        $arrayCategory = [];
+        $arraySubcategory = [];
     @endphp
     <div class="grid lg:gap-8 gap-5 mt-24 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-category-grid">
         <div class="w-full flex justify-center flex-col item">
@@ -21,7 +20,7 @@
                     @foreach ($custom_categories as $custom_category)
                         <div class="flex items-center justify-between pr-3">
                             <div class="my-category-name">
-                                <span># {{ $i++ }}&nbsp;</span>
+                                <span># {{ array_push($arrayCategory,$custom_category->id) }}&nbsp;</span>
                                 <span class="mr-10">{{ $custom_category->name }}</span>
                             </div>
                             <div class="flex">
@@ -48,18 +47,23 @@
                         <span class="text-center my-auto text-lg">{{ __('app.categories.no-added-subcategory') }}</span>
                     @endif
                     @foreach ($custom_subcategories as $custom_subcategory)
+                        @php
+                            $id_subcategory = $custom_subcategory->id;
+                            $num_subcategory = array_search($custom_subcategory->custom_category_id, $arrayCategory)+1;
+                            $arraySubcategory[$num_subcategory] = $id_subcategory;   
+                        @endphp
                         <div class="flex items-center justify-between pr-3">
                             <div>
-                                <span># {{ $j++ }}&nbsp;</span>
+                                <span># {{ $num_subcategory }}&nbsp;</span>
                                 <span class="mr-10">{{ $custom_subcategory->name }}</span>
                             </div>
                             <div class="flex">
                                 <a class="edit-btn-table mx-2"
-                                    href="{{ route('worker.options.show.subcategory', ['subcategory' => $custom_subcategory->id]) }}">
+                                    href="{{ route('worker.options.show.subcategory', ['subcategory' => $id_subcategory]) }}">
                                     <i class="ri-edit-line"></i>
                                 </a>
                                 <button class="delete-btn-table"
-                                    onclick="actionSwall('{{ route('worker.options.delete.subcategory') }}','{{ $custom_subcategory->id }}')">
+                                    onclick="actionSwall('{{ route('worker.options.delete.subcategory') }}','{{ $id_subcategory }}')">
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
                             </div>
@@ -79,7 +83,7 @@
                     @foreach ($custom_pozicija as $custom_pozicija)
                         <div class="flex items-center justify-between pr-3">
                             <div>
-                                <span># {{ $k++ }}&nbsp;</span>
+                                <span># {{ array_search($custom_pozicija->custom_subcategory_id, $arraySubcategory) }}&nbsp;</span>
                                 <span class="mr-10">{{ $custom_pozicija->custom_title }}</span>
                             </div>
                             <div class="flex">

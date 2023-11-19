@@ -9,7 +9,7 @@
     </div>
     <div class="flex mt-3 flex-col">
         <div class="mt-10 flex justify-center flex-col lg:flex-row w-1/3 items-center gap-4">
-            <a href="{{ route('worker.archive.download.contract') }}"
+            <a href="{{ route('worker.archive.download.empty.contract') }}"
                 class="archive-pdf-btn">
                 <i class="ri-download-2-line"></i>{{ __("app.profile.download-empty-contract") }}
             </a>

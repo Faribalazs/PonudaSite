@@ -13,30 +13,20 @@ class OptionsController extends Controller
    public function create()
    {  
       $worker_id = Helper::worker();
-      list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija) = $this->selectData($worker_id);
-      return view('worker.views.my-categories.index', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
-   }
 
-   private function selectData($worker_id)
-   {
-      //default
-      $categories = Default_category::all();
-      $subcategories = Default_subcategory::all();
-      $pozicija = Default_pozicija::join('units', 'pozicija.unit_id', '=', 'units.id_unit')->get();
-      //custom
-      $custom_categories = Category::where('worker_id', $worker_id)
+      $custom_categories = Category::select('id','name')->where('worker_id', $worker_id)
          ->whereNull('is_category_deleted')
          ->get();
 
-      $custom_subcategories = Subcategory::where('worker_id', $worker_id)
+      $custom_subcategories = Subcategory::select('id','name','custom_category_id')->where('worker_id', $worker_id)
          ->whereNull('is_subcategory_deleted')
          ->get();
 
-      $custom_pozicija = Pozicija::where('worker_id', $worker_id)
+      $custom_pozicija = Pozicija::select('id','custom_title','custom_subcategory_id')->where('worker_id', $worker_id)
          ->whereNull('is_pozicija_deleted')
          ->get();
 
-      return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija);
+      return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
    }
 
    public function showCategory($id){

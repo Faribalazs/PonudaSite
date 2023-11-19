@@ -46,6 +46,7 @@ class NewPonuda extends Controller
 
       $custom_pozicija = Pozicija::where('worker_id', $worker_id)
          ->whereNull('is_pozicija_deleted')
+         ->join('units', 'custom_pozicija.unit_id', '=', 'units.id_unit')
          ->get();
 
       $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
