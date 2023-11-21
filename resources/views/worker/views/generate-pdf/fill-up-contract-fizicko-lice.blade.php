@@ -93,10 +93,10 @@
                             Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora,
                             plati
                             izvođaču ukupan iznos od
-                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field16"
-                                value="{{ $sum }}"> dinara
+                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field16" disabled
+                                value="{{ number_format($sum,2) }}"> dinara
                             (slovima: <input type="text" style="border-radius: 0px !important;" name="field17"
-                                value="{{ $sum_in_words }}">
+                                value="{{ $sum_in_words }}" disabled>
                             dinara), sa uračunatim PDV-om.
                         </p>
                         <p class="text-center mb-10">

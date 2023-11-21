@@ -283,9 +283,9 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
+                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ $overall_price }}&nbsp;RSD
+                                    {{ number_format($overall_price,2) }}&nbsp;RSD
                                 </td>
                             </tr>
 
@@ -295,7 +295,7 @@
                                 @if ($loop->last)
                                     <tr>
                                         <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ $subPrice }}&nbsp;RSD
+                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice,2) }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -328,7 +328,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="padding-5 text-center no-wrap">
-                                            {{ $subPrice }}&nbsp;RSD
+                                            {{ number_format($subPrice,2) }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -341,7 +341,7 @@
                 <table class="table mt-20 text-center ponuda-table" style="text-align: right">
                     <tr>
                         <td class="text-right no-wrap">
-                            <b>UKUPNO: {{ $finalPrice }}&nbsp;RSD</b>
+                            <b>UKUPNO: {{ number_format($finalPrice,2) }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
@@ -359,7 +359,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>Ukupno sa PDV: {{ ceil($final) }}&nbsp;RSD</b>
+                            <b>Ukupno sa PDV: {{ number_format($final,2) }}&nbsp;RSD</b>
                         </td>
                     </tr>
                 </table>

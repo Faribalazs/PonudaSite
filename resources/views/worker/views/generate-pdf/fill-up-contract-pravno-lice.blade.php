@@ -92,9 +92,9 @@
                             plati
                             izvođaču ukupan iznos od
                             <input type="text" style="border-radius: 0px !important;" class="w-40" name="field15"
-                                value="{{ $sum }}"> dinara
+                                value="{{ number_format($sum,2) }}" disabled> dinara
                             (slovima: <input type="text" style="border-radius: 0px !important;" name="field16"
-                                value="{{ $sum_in_words }}">
+                                value="{{ $sum_in_words }}" disabled>
                             dinara), sa uračunatim PDV-om.
                         </p>
                         <p class="text-center mb-10">
