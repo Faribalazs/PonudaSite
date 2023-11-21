@@ -127,9 +127,9 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
+                                <td class="text-center">{{ number_format($item->unit_price) }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ $overall_price }}&nbsp;RSD
+                                    {{ number_format($overall_price) }}&nbsp;RSD
                                 </td>
                                 <td>
                                     <button class="edit-btn-table mx-auto"
@@ -151,7 +151,7 @@
                                         <b>
                                             {{ __('app.create-ponuda.table-svega') }}&nbsp;
                                             <span class="lowercase">{{ $name_category }}</span>:
-                                        </b>&nbsp;{{ $subPrice }}&nbsp;
+                                        </b>&nbsp;{{ number_format($subPrice) }}&nbsp;
                                         {{ __('app.create-ponuda.table-rsd') }}
                                     </td>
                                 </tr>
@@ -186,7 +186,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="p-1 text-center whitespace-nowrap">
-                                            {{ $subPrice }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                            {{ number_format($subPrice) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -202,7 +202,7 @@
                 <table class="table mt-20 text-center ponuda-table w-full mb-7">
                     <tr>
                         <td class="text-right p-1">
-                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ $finalPrice }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                     <tr>
@@ -218,7 +218,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ ceil($final) }} {{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final) }} {{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                 </table>

@@ -233,7 +233,7 @@
                     <p>Pib: {{ request()->pib }}</p>
                 @endif
             @endif
-            Направи понуду
+
             @foreach ($finalData as $data)
                 <div style="border-right: 1px solid black;">
                     <table class="ponuda-table">

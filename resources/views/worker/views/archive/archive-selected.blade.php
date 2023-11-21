@@ -94,9 +94,9 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ $item->unit_price }}&nbsp;RSD</td>
+                                <td class="text-center">{{ number_format($item->unit_price) }}&nbsp;RSD</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ $overall_price }}&nbsp;RSD
+                                    {{ number_format($overall_price) }}&nbsp;RSD
                                 </td>
                                 <td><button class="delete-btn-table mx-auto"
                                         onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', '{{ $item->id }}')">
@@ -110,7 +110,7 @@
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
-                                        <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ ceil($subPrice) }}&nbsp;RSD
+                                        <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice) }}&nbsp;RSD
                                     </td>
                                 </tr>
                             @endif
@@ -140,7 +140,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="px-1 text-center whitespace-nowrap">
-                                            {{ $subPrice }}&nbsp;RSD
+                                            {{ number_format($subPrice) }}&nbsp;RSD
                                         </td>
                                     </tr>
                                 @endif
@@ -153,7 +153,7 @@
                 <table class="table mt-20 text-end ponuda-table w-full">
                     <tr>
                         <td class="text-right whitespace-nowrap p-1">
-                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ $finalPrice }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice) }}&nbsp;RSD</b>
                         </td>
                     </tr>
                     <tr>
@@ -171,7 +171,7 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ ceil($final) }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final) }}&nbsp;RSD</b>
                         </td>
                     </tr>
                 </table>
