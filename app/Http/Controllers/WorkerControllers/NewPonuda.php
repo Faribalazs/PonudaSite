@@ -106,20 +106,21 @@ class NewPonuda extends Controller
             'category' => ['required', new CheckID(Default_category::class, Category::class)],
             'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
             'pozicija_id' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
-            'quantity' => ['required','integer','gt:0','digits_between:1,10'],
+            'quantity' => ['required','integer','gt:0','digits_between:1,7'],
             'price' => ['required','numeric','gt:0','regex:/^\d{1,8}(\.\d{1,2})?$/'],
             'radioButton' => 'required|in:1,2',
             'opis' => 'nullable|regex:/\p{L}/u',
         ]);
 
-         if($request->input('quantity') * $request->input('price') < PHP_INT_MAX)
+        $billion = 1000000000;
+         if($request->input('quantity') * $request->input('price') < $billion)
          {
             $worker_id = Helper::worker();
             $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
                ->where('workers.id', $worker_id)
                ->first();  
             $counter = $swap!==null?$swap->swap_id:auth('worker')->user()->ponuda_counter;
-            $des = $request->input('edit_des') ?? "";
+            $des = $request->input('edit_des') ?? "&nbsp;";
             $title = $request->input('edit_title') ?? "";
             $pozicija_id = $request->input('pozicija_id');
 
@@ -180,15 +181,16 @@ class NewPonuda extends Controller
       $request->validate([
          'real_id' => ['required','exists:App\Models\Ponuda,id'],
          'new_radioButton' => ['required','in:1,2'],
-         'new_quantity' => ['required','integer','gt:0','digits_between:1,10'],
+         'new_quantity' => ['required','integer','gt:0','digits_between:1,7'],
          'new_unit_price' => ['required','numeric','gt:0','regex:/^\d{1,8}(\.\d{1,2})?$/'],
          'new_title' => ['required','string'],
-         'new_description' => ['nullable'],
+         'new_description' => ['nullable','string'],
       ]);
 
-      if($request->input('new_quantity') * $request->input('new_unit_price') < PHP_INT_MAX)
+      $billion = 1000000000;
+      if($request->input('new_quantity') * $request->input('new_unit_price') < $billion)
       {
-         $temp = $request->input('new_description') ?? "";
+         $temp = $request->input('new_description') ?? "&nbsp;";
          $title = $request->input('new_title');
          $id = $request->input('real_id');
 

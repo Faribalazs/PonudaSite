@@ -254,9 +254,10 @@
                         @endphp
                         @foreach ($data as $item)
                             @php
-                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : ''); 
+                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
                                 $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
                                 $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
+                                $desc_now = $desc_now === "&nbsp;" ? "" : $desc_now;
                             @endphp
                             @if ($name_category != null && !in_array($name_category, $uniqueName))
                                 <tr>

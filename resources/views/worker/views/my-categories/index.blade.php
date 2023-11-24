@@ -8,6 +8,9 @@
     @php
         $arrayCategory = [];
         $arraySubcategory = [];
+        $arraySubcategoryCounter = [];
+        $j = 1;
+        $i = 1;
     @endphp
     <div class="grid lg:gap-8 gap-5 mt-24 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-category-grid">
         <div class="w-full flex justify-center flex-col item">
@@ -49,12 +52,20 @@
                     @foreach ($custom_subcategories as $custom_subcategory)
                         @php
                             $id_subcategory = $custom_subcategory->id;
-                            $num_subcategory = array_search($custom_subcategory->custom_category_id, $arrayCategory)+1;
-                            $arraySubcategory[$num_subcategory] = $id_subcategory;   
+                            if(isset($num_subcategory) && $num_subcategory == array_search($custom_subcategory->custom_category_id, $arrayCategory)+1)
+                            {
+                                $j++;
+                            }
+                            else {
+                                $num_subcategory = array_search($custom_subcategory->custom_category_id, $arrayCategory)+1;
+                                $j = 1;
+                            }
+                            $arraySubcategory[$id_subcategory] = $num_subcategory;   
+                            $arraySubcategoryCounter[$id_subcategory] = $j;
                         @endphp
                         <div class="flex items-center justify-between pr-3">
                             <div>
-                                <span># {{ $num_subcategory }}&nbsp;</span>
+                                <span># {{ $num_subcategory }}-{{ $j }}</span>
                                 <span class="mr-10">{{ $custom_subcategory->name }}</span>
                             </div>
                             <div class="flex">
@@ -83,7 +94,18 @@
                     @foreach ($custom_pozicija as $custom_pozicija)
                         <div class="flex items-center justify-between pr-3">
                             <div>
-                                <span># {{ array_search($custom_pozicija->custom_subcategory_id, $arraySubcategory) }}&nbsp;</span>
+                                @php
+                                    if(isset($category_count) && isset($subcategory_count) && $category_count == $arraySubcategory[$custom_pozicija->custom_subcategory_id] && $subcategory_count == $arraySubcategoryCounter[$custom_pozicija->custom_subcategory_id])
+                                    {
+                                        $i++;
+                                    }
+                                    else {
+                                        $i = 1;
+                                        $category_count = $arraySubcategory[$custom_pozicija->custom_subcategory_id] ?? 0;
+                                        $subcategory_count = $arraySubcategoryCounter[$custom_pozicija->custom_subcategory_id] ?? 0;
+                                    }
+                                @endphp
+                                <span># {{ $category_count }}-{{ $subcategory_count }}-{{ $i }}</span>
                                 <span class="mr-10">{{ $custom_pozicija->custom_title }}</span>
                             </div>
                             <div class="flex">
