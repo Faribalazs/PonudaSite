@@ -26,10 +26,12 @@
 
         function convertLatinToCyrillic(inputText) {
             const latinToCyrillicMap = {
+                'NJ': 'Њ', 'LJ': 'Љ', 'DJ': 'Ђ', 'Nj': 'Њ', 'Lj': 'Љ', 'Dj': 'Ђ', 'nj': 'њ', 'lj': 'љ', 'dj': 'ђ', 'č': 'ч', 'š': 'ш', 'Č': 'Ч', 'Š': 'Ш', 'ć': 'ћ', 'Ć': 'Ћ', 'ž': 'ж', 'Ž': 'Ж', 'đ': 'ђ', 'Đ': 'Ђ','x': 'кс',
+
                 'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
                 'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
                 'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
-                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
+                'v': 'в', 'w': 'в', 'y': 'y', 'z': 'з',
 
                 'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
                 'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
@@ -37,11 +39,7 @@
                 'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
             };
 
-            // Convert each character in the input text
-            const cyrillicText = inputText.split('').map(char => {
-                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
-                return latinToCyrillicMap[char] || char;
-            }).join('');
+            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
 
             return cyrillicText;
         }

@@ -644,18 +644,15 @@ class Archive extends Controller
                 $sum += $ponuda->quantity * $ponuda->unit_price;
             }
             if ($type_id && $client_id) {
-                $type_lica = null;
                 if($type_id == 1)
                 {
                     if(session('temporary'))
                     {
                         $foundClient = $this->selectedFizickaTemporary($worker_id, $client_id);
-                        $type_lica = 'FT';
                     }
                     else
                     {
                         $foundClient = $this->selectedFizicka($worker_id, $client_id);
-                        $type_lica = 'F';
                     }
                 }
                 elseif($type_id == 2)
@@ -663,12 +660,10 @@ class Archive extends Controller
                     if(session('temporary'))
                     {
                         $foundClient = $this->selectedPravnaTemporary($worker_id, $client_id);
-                        $type_lica = 'PT';
                     }
                     else
                     {
                         $foundClient = $this->selectedPravna($worker_id, $client_id);
-                        $type_lica = 'P';
                     }
                 }
                 else {
@@ -687,9 +682,9 @@ class Archive extends Controller
                 $sum_in_words = $digit->format($sum);
             }
             if ($type_id == 1) {
-                return view('worker.views.generate-pdf.fill-up-contract-fizicko-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+                return view('worker.views.generate-pdf.fill-up-contract-fizicko-lice', compact(['foundClient', 'company_data', 'id', 'sum', 'sum_in_words']));
             }elseif ($type_id == 2) {
-                return view('worker.views.generate-pdf.fill-up-contract-pravno-lice', compact(['foundClient', 'company_data', 'type_lica', 'id', 'sum', 'sum_in_words']));
+                return view('worker.views.generate-pdf.fill-up-contract-pravno-lice', compact(['foundClient', 'company_data', 'id', 'sum', 'sum_in_words']));
             }
     }
 

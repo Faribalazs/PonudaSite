@@ -95,9 +95,9 @@
                         <div class="flex items-center justify-between pr-3">
                             <div>
                                 @php
-                                    if(isset($category_count) && isset($subcategory_count) && $category_count == $arraySubcategory[$custom_pozicija->custom_subcategory_id] && $subcategory_count == $arraySubcategoryCounter[$custom_pozicija->custom_subcategory_id])
+                                    if(isset($category_count) && isset($subcategory_count) && isset($arraySubcategory[$custom_pozicija->custom_subcategory_id]) && isset($arraySubcategoryCounter[$custom_pozicija->custom_subcategory_id]) && $category_count == $arraySubcategory[$custom_pozicija->custom_subcategory_id] && $subcategory_count == $arraySubcategoryCounter[$custom_pozicija->custom_subcategory_id])
                                     {
-                                        $i++;
+                                            $i++;
                                     }
                                     else {
                                         $i = 1;

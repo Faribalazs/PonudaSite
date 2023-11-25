@@ -12,14 +12,8 @@
                 <div class="px-10 flex flex-col">
                     <div class="text-lg text-center mb-14">
                         <b>
-                            @if (isset($foundClient))
-                                UGOVOR br.
-                                <u>&nbsp;{{ auth('worker')->user()->id }}P{{ $id }}K{{ $company_data->id }}{{ $type_lica }}{{ $foundClient->id }}&nbsp;</u>
-                                <br>
-                            @else
-                                UGOVOR
-                            @endif
-                            O IZVOĐENJU GRAĐEVINSKO - ZANATSKIH RADOVA
+                            UGOVOR br. <input type="text" class="w-20" style="border-radius: 0px !important;" name="br">
+                            <br>O IZVOĐENJU GRAĐEVINSKO - ZANATSKIH RADOVA
                         </b>
                     </div>
                     <div class="text-lg lg:text-justify">
@@ -91,11 +85,10 @@
                             Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora,
                             plati
                             izvođaču ukupan iznos od
-                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field15"
-                                value="{{ number_format($sum,2) }}" disabled> dinara
+                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field15" readonly
+                                value="{{ number_format($sum,2) }}"> dinara<br>
                             (slovima: <input type="text" style="border-radius: 0px !important;" name="field16"
-                                value="{{ $sum_in_words }}" disabled>
-                            dinara), sa uračunatim PDV-om.
+                                value="{{ $sum_in_words }}" readonly> dinara), sa uračunatim PDV-om.
                         </p>
                         <p class="text-center mb-10">
                             Član 4.
@@ -202,8 +195,6 @@
                 Skini ispunjen Ugovor
             </button>
         </div>
-        <input type="hidden" name="br"
-            value="{{ auth('worker')->user()->id }}P{{ $id }}K{{ $company_data->id }}{{ $type_lica }}{{ $foundClient->id }}">
     </form>
     <script>
         function showBack() {
@@ -226,6 +217,22 @@
             document.getElementById("showDate").style.display = 'none';
 
             dateInput.focus();
+        }
+        function resizable(el, factor) {
+            var int = Number(factor) || 11;
+            function resize() {
+                el.style.width = ((el.value.length + 3) * int) + 'px';
+            }
+            var e = 'keyup,keypress,focus,blur,change'.split(',');
+            for (var i in e) {
+                el.addEventListener(e[i], resize, false);
+            }
+            resize();
+        }
+
+        var inputs = document.querySelectorAll('input');
+        for (var i = 0; i < inputs.length; i++) {
+            resizable(inputs[i], 11);
         }
     </script>
     <style>
