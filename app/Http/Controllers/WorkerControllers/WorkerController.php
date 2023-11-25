@@ -362,9 +362,4 @@ class WorkerController extends Controller
          return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
       }
    }
-
-   public function profileContractsCreate()
-   {
-      return view('worker.views.profile.profile-contracts');
-   }
 }

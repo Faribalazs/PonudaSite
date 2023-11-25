@@ -38,7 +38,12 @@
             </div>
             <div class="flex w-full flex-col" style="margin-top: -115px">
                 <span class="input-label py-2">{{ __('app.categories.write-name-subcategory') }}:</span>
-                <input type="text" name="subcategory_name" class="input-style mb-10">
+                <input type="text" name="subcategory_name_sr" class="input-style" id="inputText"
+                    oninput="convertToCyrillic(this.value)">
+
+                <span class="input-label py-2 mt-5">{{ __('app.categories.write-name-subcategory') }} ciril:</span>
+                <input type="text" class="input-style" name="subcategory_name_rs_cyrl" id="outputText">
+
                 <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
             </div>
         </div>
@@ -52,6 +57,7 @@
                 }
             }
         }, true);
+
         // category select start
 
         function filterFunctionCategory() {
@@ -81,8 +87,8 @@
             var optionMenuSub = document.querySelector(".select-menu-subcategory");
             var sBtn_textSub = optionMenuSub.querySelector(".sBtn-text-subcategory");
             var sBtn_text = optionMenu.querySelector(".sBtn-text");
-            sBtn_textSub.innerText = '{{ __("app.create-ponuda.choose-subcategory") }} ';
-            sBtn_text.innerText = '{{ __("app.create-ponuda.choose-pozicija") }} ';
+            sBtn_textSub.innerText = '{{ __('app.create-ponuda.choose-subcategory') }} ';
+            sBtn_text.innerText = '{{ __('app.create-ponuda.choose-pozicija') }} ';
             var existInput = document.getElementById("editField");
             var btn = document.getElementById("btn");
             if (existInput) {
@@ -130,5 +136,32 @@
             });
         });
         // category select end
+
+        function convertToCyrillic(inputText) {
+            const cyrillicText = convertLatinToCyrillic(inputText);
+            document.getElementById('outputText').value = cyrillicText;
+        }
+
+        function convertLatinToCyrillic(inputText) {
+            const latinToCyrillicMap = {
+                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
+                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
+                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
+
+                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
+                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
+                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
+            };
+
+            // Convert each character in the input text
+            const cyrillicText = inputText.split('').map(char => {
+                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
+                return latinToCyrillicMap[char] || char;
+            }).join('');
+
+            return cyrillicText;
+        }
     </script>
 </x-app-worker-layout>

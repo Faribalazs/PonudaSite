@@ -67,9 +67,6 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/profile/settings', [WorkerController::class, 'profileSettingsCreate'])
         ->name('worker.personal.account.settings');
 
-    Route::get('contractor/profile/contracts', [WorkerController::class, 'profileContractsCreate'])
-        ->name('worker.personal.account.contracts');
-
     Route::get('contractor/profile/contact/{lice}/{id}', [WorkerController::class, 'showContact'])
         ->name('worker.personal.contacts.show');
         

@@ -42,12 +42,26 @@
         </div>
         <div class="flex flex-col" style="margin-top: -130px">
             <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name') }}:</span>
-            <input type="text" name="poz_title" class="input-style mb-14">
-            <span class="input-label pl-2 mt-3 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
-            <textarea name="poz_des" rows="3" class="input-style mb-16"></textarea>
+            <div class="add-pozicija-section">
+                <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name-latin') }}: *</span>
+                <input type="text" name="pozicija_name_sr" class="input-style" id="inputTextName"
+                oninput="convertToCyrillicName(this.value)">
+
+                <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-name-ciril') }}:</span>
+                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName">
+            </div>
+
+            <span class="input-label pl-2 mt-20 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
+            <div class="add-pozicija-section">
+                <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-des-latin') }}: *</span>
+                <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes" oninput="convertToCyrillicDes(this.value)"></textarea>
+
+                <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-des-ciril') }}:</span>
+                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes"></textarea>
+            </div>
         </div>
 
-        <div id="obracun-dropdown" >
+        <div id="obracun-dropdown" class="mt-20" >
             <span class="input-label pl-2">{{ __('app.categories.choose-calculation') }}:</span>
             <div class="select-menu-obracun mt-3">
                 <div class="select-btn-obracun">
@@ -241,5 +255,59 @@
             });
         });
         // obracun select end
+
+        function convertToCyrillicName(inputText) {
+            const cyrillicText = convertLatinToCyrillicName(inputText);
+            document.getElementById('outputTextName').value = cyrillicText;
+        }
+
+        function convertLatinToCyrillicName(inputText) {
+            const latinToCyrillicMap = {
+                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
+                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
+                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
+
+                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
+                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
+                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
+            };
+
+            // Convert each character in the input text
+            const cyrillicText = inputText.split('').map(char => {
+                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
+                return latinToCyrillicMap[char] || char;
+            }).join('');
+
+            return cyrillicText;
+        }
+
+        function convertToCyrillicDes(inputText) {
+            const cyrillicText = convertLatinToCyrillicDes(inputText);
+            document.getElementById('outputTextDes').value = cyrillicText;
+        }
+
+        function convertLatinToCyrillicDes(inputText) {
+            const latinToCyrillicMap = {
+                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
+                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
+                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
+
+                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
+                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
+                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
+            };
+
+            // Convert each character in the input text
+            const cyrillicText = inputText.split('').map(char => {
+                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
+                return latinToCyrillicMap[char] || char;
+            }).join('');
+
+            return cyrillicText;
+        }
     </script>
 </x-app-worker-layout>

@@ -235,9 +235,9 @@ pre {
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 390px) {
     .title-div span {
-        font-size: 27px !important;
+        font-size: 31px !important;
     }
 }
 
@@ -1306,7 +1306,7 @@ textarea:focus {
 }
 
 .input-label {
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .options-category {
@@ -1527,6 +1527,7 @@ textarea:focus {
 }
 
 .input-style {
+    font-size: 18px !important;
     border-radius: 15px !important;
     border-color: #ccc !important;
 }
@@ -1587,6 +1588,14 @@ textarea:focus {
         border-bottom: 1px solid gray;
         padding-bottom: 25px;
     }
+}
+
+.add-pozicija-section {
+    border: 1px solid var(--border-gray);
+    border-radius: 10px;
+    padding: 20px 20px 30px 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Moje kategorije design end */
@@ -2006,7 +2015,7 @@ body {
 
 /* Profile page design end */
 
-/* Extendable side menu design start */
+/* Extendable side menu design s tart */
 
 .profile-side-panel {
     overflow: hidden;

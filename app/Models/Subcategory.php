@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Subcategory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'custom_subcategories';
 
@@ -18,4 +19,6 @@ class Subcategory extends Model
         'custom_category_id',
         'name',
     ];
+
+    public $translatable = ['name'];
 }

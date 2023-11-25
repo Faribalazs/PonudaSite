@@ -128,9 +128,9 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;RSD</td>
+                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ number_format($overall_price,2) }}&nbsp;RSD
+                                    {{ number_format($overall_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                 </td>
                                 <td>
                                     <button class="edit-btn-table mx-auto"

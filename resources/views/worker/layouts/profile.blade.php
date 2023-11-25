@@ -47,11 +47,6 @@
                             {{ request()->routeIs('worker.personal.account.settings') ? 'closed-icon-active' : '' }}">
                             <i class="ri-settings-3-line"></i>
                         </a>
-                        <a href="{{ route('worker.personal.account.contracts') }}"
-                            class="icons 
-                            {{ request()->routeIs('worker.personal.account.contracts') ? 'closed-icon-active' : '' }}">
-                            <i class="ri-file-text-line"></i>
-                        </a>
                         <form method="POST" id="log-out-form" action="{{ route('worker.logout') }}" class="icons">
                             @csrf
                             <button type="button" onclick="logOut()"><i class="ri-logout-box-r-line"></i></button>
@@ -69,9 +64,6 @@
                         </a>
                         <a href="{{ route('worker.personal.account.settings') }}" class="link">
                             {{ __("app.profile.settings") }}
-                        </a>
-                        <a href="{{ route('worker.personal.account.contracts') }}" class="link">
-                            {{ __("app.profile.contracts") }}
                         </a>
                         <a onclick="logOut()" class="link cursor-pointer">
                             {{ __("app.profile.log-out") }}
