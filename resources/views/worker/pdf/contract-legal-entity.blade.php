@@ -43,7 +43,7 @@
     <br><br>
     Član 3.
     <br><br>
-    Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora, plati izvođaču ukupan iznos od <u>&nbsp;{{ number_format($fields[14],2) }}&nbsp;</u> dinara (slovima: <u>&nbsp;{{ $fields[15] }}&nbsp;</u> dinara), sa uračunatim PDV-om.
+    Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora, plati izvođaču ukupan iznos od <u>&nbsp;{{ $fields[14] }}&nbsp;</u> dinara (slovima: <u>&nbsp;{{ $fields[15] }}&nbsp;</u> dinara), sa uračunatim PDV-om.
     <br><br>
     Član 4.
     <br><br>

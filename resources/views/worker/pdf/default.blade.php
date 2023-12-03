@@ -134,9 +134,6 @@
                             </td>
                         </tr>
 
-                            @php 
-                                $finalPrice += $subPrice;
-                            @endphp
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
@@ -178,6 +175,9 @@
                                     </tr>
                                 @endif
                             @endforeach
+                            @php
+                                $finalPrice += $subPrice;
+                            @endphp
                         @endforeach
                 </tbody>
             </table>
