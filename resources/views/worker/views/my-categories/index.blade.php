@@ -16,10 +16,10 @@
     <div class="category-container">
         <ul id="categoryUl">
             @foreach ($custom_categories as $custom_category)
-                @if ($custom_category->has_subcategory)
+                @if (!empty($custom_category->merged_id))
                     <li>
                         <div class="flex items-center">
-                            <a class="mb-1 font-bold hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.category', ['category' => $custom_category->id]) }}">
+                            <a class="mb-1 font-bold hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.category', ['category' => $custom_category->merged_id]) }}">
                                 {{ $custom_category->name }}
                             </a>
                             <span class="caret">
@@ -28,10 +28,10 @@
                         </div>
                         <ul class="nested">
                             @foreach ($custom_subcategories as $custom_subcategory)
-                                @if ($custom_subcategory->has_pozicija && $custom_subcategory->custom_category_id == $custom_category->id)
+                                @if (!empty($custom_subcategory->merged_id) && ($custom_subcategory->custom_category_id == $custom_category->id || $custom_subcategory->category_id == $custom_category->id))
                                     <li>
                                         <div class="flex items-center">
-                                            <a class="mb-1 hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.subcategory', ['subcategory' => $custom_subcategory->id]) }}">
+                                            <a class="mb-1 hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.subcategory', ['subcategory' => $custom_subcategory->merged_id]) }}">
                                                 {{ $custom_subcategory->name }}
                                             </a>
                                             <span class="caret">
@@ -40,10 +40,10 @@
                                         </div>
                                         <ul class="nested">
                                             @foreach ($custom_pozicije as $custom_pozicija)
-                                                @if ($custom_pozicija->custom_subcategory_id == $custom_subcategory->id)
+                                                @if ($custom_pozicija->custom_subcategory_id == $custom_subcategory->id || $custom_pozicija->subcategory_id == $custom_subcategory->id)
                                                     <li>
                                                         <a class="hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.pozicija', ['pozicija' => $custom_pozicija->id]) }}">
-                                                            {{ $custom_pozicija->custom_title }}
+                                                            {{ $custom_pozicija->title ?? $custom_pozicija->custom_title }}
                                                         </a>
                                                     </li>
                                                 @endif

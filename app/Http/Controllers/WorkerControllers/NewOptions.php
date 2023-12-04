@@ -37,7 +37,6 @@ class NewOptions extends Controller
             'sr' => $category_name_sr,
             'rs-cyrl' => $category_name_rs_cyrl,
          ],
-         'has_subcategory' => false,
       ]);
 
       Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
@@ -70,17 +69,14 @@ class NewOptions extends Controller
          'category' => ['required', new CheckID(Default_category::class, Category::class)],
       ]);
    
-      $new_subcategory = Subcategory::create([
+      Subcategory::create([
          'worker_id' => Helper::worker(),
          'custom_category_id' => $request->input('category'),
          'name' => [
             'sr' => $request->input('subcategory_name_sr'),
             'rs-cyrl' => $request->input('subcategory_name_rs_cyrl') ?? "",
          ],
-         'has_pozicija' => false,
       ]);
-
-      Category::whereId($new_subcategory->custom_category_id)->update(['has_subcategory' => true]);
 
       Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route('worker.options.update'));  
@@ -107,7 +103,7 @@ class NewOptions extends Controller
          'poz_des_rs_cyrl' => ['nullable','string'],
       ]);
 
-      $new_pozicija = Pozicija::create([
+      Pozicija::create([
          'worker_id' => Helper::worker(),
          'custom_subcategory_id' => $request->input('subcategory'),
          'unit_id' => $request->input('unit_id'),
@@ -120,8 +116,6 @@ class NewOptions extends Controller
             'rs-cyrl' => $request->input('poz_des_rs_cyrl') ?? "",
          ],
       ]);
-
-      Subcategory::whereId($new_pozicija->custom_subcategory_id)->update(['has_pozicija' => true]);
 
       Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       return redirect(route('worker.options.update'));  
