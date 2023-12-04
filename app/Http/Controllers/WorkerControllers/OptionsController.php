@@ -66,37 +66,55 @@ class OptionsController extends Controller
    }
 
    public function showCategory($id){
-      return view('worker.views.my-categories.save-category',
-      [
-         'category' => Category::where('id', $id)
-            ->where('worker_id', Helper::worker())
-            ->whereNull('is_category_deleted')
-            ->first(), 
-         'id' => $id
-      ]);
+      $category = Category::where('id', $id)
+         ->where('worker_id', Helper::worker())
+         ->whereNull('is_category_deleted')
+         ->first();
+      if($category != null)
+      {
+         return view('worker.views.my-categories.save-category',
+         [
+            'category' => $category, 
+            'id' => $id
+         ]);
+      }
+
+      return redirect()->back();
    }
 
    public function showSubcategory($id){
-      return view('worker.views.my-categories.save-subcategory',
-      [
-         'subcategory' => Subcategory::where('id', $id)
-            ->where('worker_id', Helper::worker())
-            ->whereNull('is_subcategory_deleted')
-            ->first(), 
-         'id' => $id
-      ]);
+      $subcategory = Subcategory::where('id', $id)
+         ->where('worker_id', Helper::worker())
+         ->whereNull('is_subcategory_deleted')
+         ->first();
+      if($subcategory != null)
+      {
+         return view('worker.views.my-categories.save-subcategory',
+         [
+               'subcategory' => $subcategory, 
+               'id' => $id
+         ]);
+      }
+
+      return redirect()->back();
    }
 
    public function showPozicija($id){
-      return view('worker.views.my-categories.save-pozicija',
-      [
-         'pozicija' => Pozicija::where('id', $id)
-            ->where('worker_id', Helper::worker())
-            ->whereNull('is_pozicija_deleted')
-            ->first(), 
-         'id' => $id, 
-         'units' => Units::all()
-      ]);
+      $pozicija = Pozicija::where('id', $id)
+         ->where('worker_id', Helper::worker())
+         ->whereNull('is_pozicija_deleted')
+         ->first();
+      if($pozicija != null)
+      {
+         return view('worker.views.my-categories.save-pozicija',
+         [
+            'pozicija' => $pozicija, 
+            'id' => $id, 
+            'units' => Units::all()
+         ]);
+      }
+
+      return redirect()->back();
    }
 
    public function updateCategory(Request $request){
