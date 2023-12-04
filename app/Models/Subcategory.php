@@ -18,6 +18,7 @@ class Subcategory extends Model
         'worker_id',
         'custom_category_id',
         'name',
+        'has_pozicija',
     ];
 
     public $translatable = ['name'];

@@ -14,11 +14,11 @@ class OptionsController extends Controller
    {  
       $worker_id = Helper::worker();
 
-      $custom_categories = Category::select('id','name')->where('worker_id', $worker_id)
+      $custom_categories = Category::select('id','name','has_subcategory')->where('worker_id', $worker_id)
          ->whereNull('is_category_deleted')
          ->get();
 
-      $custom_subcategories = Subcategory::select('id','name','custom_category_id')->where('worker_id', $worker_id)
+      $custom_subcategories = Subcategory::select('id','name','custom_category_id','has_pozicija')->where('worker_id', $worker_id)
          ->whereNull('is_subcategory_deleted')
          ->get();
 
@@ -26,7 +26,7 @@ class OptionsController extends Controller
          ->whereNull('is_pozicija_deleted')
          ->get();
 
-      return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
+      return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicija])->with('successMsg', '')->with('name','')->with('old_name', '');
    }
 
    public function showCategory($id){

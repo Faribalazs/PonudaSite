@@ -71,22 +71,22 @@
                             <th class="p-2 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-naziv') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-6 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-j-m') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-6 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-kolicina') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-6 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-jed-cena') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-6 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-ukupno') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-3 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-izmeni') }}
                             </th>
-                            <th class="p-2 lowercase" scope="col">
+                            <th class="p-2 px-3 lowercase" scope="col">
                                 {{ __('app.create-ponuda.table-izbrisi') }}
                             </th>
                         </tr>
@@ -128,8 +128,8 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</td>
-                                <td class="whitespace-nowrap px-1 border-left text-center">
+                                <td class="text-center lg:px-4 px-3">{{ number_format($item->unit_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</td>
+                                <td class="whitespace-nowrap lg:px-4 px-3 border-left text-center">
                                     {{ number_format($overall_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                 </td>
                                 <td>

@@ -17,6 +17,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'worker_id',
+        'has_subcategory',
     ];
 
     public $translatable = ['name'];

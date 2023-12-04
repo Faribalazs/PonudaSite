@@ -19,6 +19,7 @@ class CustomSubcategories extends Migration
             $table->bigInteger('custom_category_id')->unsigned();
             $table->string('name');
             $table->tinyInteger('is_subcategory_deleted')->nullable();
+            $table->boolean('has_pozicija');
         });
     }
 

@@ -18,6 +18,7 @@ class CustomCategories extends Migration
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->json('name');
             $table->tinyInteger('is_category_deleted')->nullable();
+            $table->boolean('has_subcategory');
         });
     }
 
