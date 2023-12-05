@@ -325,8 +325,8 @@ class DataSeeder extends Seeder
                 ],
                 [
                     'name_service' => [
-                        'sr' => 'Cena pozicije sadrži vrednost uslugu (bez materijala).',
-                        'rs-cyrl' => 'Цена позиције садржи вредност услугу (без материјала).',
+                        'sr' => 'Cena pozicije sadrži vrednost usluge (bez materijala).',
+                        'rs-cyrl' => 'Цена позиције садржи вредност услуге (без материјала).',
                     ]
                 ]
             ];
@@ -2269,8 +2269,8 @@ class DataSeeder extends Seeder
               'subcategory_id' => '16',
               'unit_id' => '1',
               'title' => [
-                'sr' => 'Postavljanje hrastovog parketa d=22mm lepljenjem za  podlogu',
-                'rs-cyrl' => 'Постављање храстовог паркета д=22мм лепљењем за  подлогу',
+                'sr' => 'Postavljanje hrastovog parketa d=22mm lepljenjem za podlogu',
+                'rs-cyrl' => 'Постављање храстовог паркета д=22мм лепљењем за подлогу',
               ],
               'description' => [
                 'sr' => 'Parket se postavlja na očišćenu podlogu. Po obimu poda se postavljaju odgovarajuće hrastove lajsne. Spojevi lajsni u negativnim i pozitivnim uglovima se geruju.',
