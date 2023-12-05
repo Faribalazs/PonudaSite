@@ -342,7 +342,7 @@ class Archive extends Controller
                 );
                 $temporary = true;
             }
-            session(['client_id'=> $client->id ?? null,]);
+            session(['client_id' => $client ? $client->id : null]);
             session(['ponuda_id' => $request->input('ponuda_id')]);
             session(['temporary' => $temporary]);
             session(['type' => 1]);
@@ -431,10 +431,10 @@ class Archive extends Controller
                 $temporary = true;
             }
 
-            session(['client_id'=> $client ? $client->id : null ]);
+            session(['client_id' => $client ? $client->id : null]);
             session(['ponuda_id' => $request->input('ponuda_id')]);
             session(['temporary' => $temporary]);
-            session(['type' => 1]);
+            session(['type' => 2]);
 
             return redirect()->route('worker.archive.select.template');
         }

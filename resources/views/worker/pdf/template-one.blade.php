@@ -152,7 +152,7 @@
                 <div style="margin-bottom: 50px;">
                     <div class="header-style">
                         <div class="logo-side">
-                            <img src="{{ $company_logo }}" alt="{{ $company_name }}" style="object-fit:contain; width:150px; height:80px;">
+                            <img src="{{ $company_logo }}" style="object-fit:contain; width:150px; height:80px;">
                         </div>
                         <div class="name-company">
                             <p>{{ $company_name }}</p>
@@ -173,13 +173,13 @@
                         <p>{{ $company->country }}</p>
                         <p>{{ $company->zip_code }} {{ $company_city }}</p>
                         <p>{{ $company->address }}</p>
-                        <p>Tel : {{ $company->phone }}</p>
-                        <p>E mail: {{ $company->email }}</p>
+                        <p>{{ __('app.profile.telefon') }}: {{ $company->phone }}</p>
+                        <p>{{ __('app.profile.email') }}: {{ $company->email }}</p>
                     </div>
                     <div class="right-side">
-                        <p>PIB :{{ $company->pib }}</p>
-                        <p>Matični broj / Registration code : {{ $company->maticni_broj }}</p>
-                        <p>Tekući racun : {{ $company->tekuci_racun }} RSD</p>
+                        <p>{{ __('app.profile.pib') }}:{{ $company->pib }}</p>
+                        <p>{{ __('app.profile.id-number') }}: {{ $company->maticni_broj }}</p>
+                        <p>{{ __('app.profile.bank-account') }}: {{ $company->tekuci_racun }}</p>
                         <p>{{ $company->bank_name }}</p>
                         @php
                             if(app()->getLocale() == "rs-cyrl")
@@ -209,28 +209,28 @@
                 @if($type == 1)
                     <p>{{ $client->first_name }} {{ $client->last_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
-                    <p>E-mail: {{ $client->email }}</p>
-                    <p>Tel: {{ $client->phone }}</p>
+                    <p>{{ __('app.profile.telefon') }}: {{ $client->phone }}</p>
+                    <p>{{ __('app.profile.email') }}: {{ $client->email }}</p>
                 @elseif($type == 2)
                     <p>{{ $client->company_name }}</p>
                     <p>{{ $client->city }}, {{ $client->address }}, {{ $client->zip_code }}</p>
-                    <p>E-mail: {{ $client->email }}</p>
-                    <p>Tel: {{ $client->phone }}</p>
-                    <p>Pib: {{ $client->pib }}</p>
+                    <p>{{ __('app.profile.telefon') }}: {{ $client->phone }}</p>
+                    <p>{{ __('app.profile.email') }}: {{ $client->email }}</p>
+                    <p>{{ __('app.profile.pib') }}: {{ $client->pib }}</p>
                 @endif
             @endif
             @if(isset($new) && $new !== null)
                 @if(request()->type == 1)
                     <p>{{ request()->f_name }} {{ request()->l_name }}</p>
                     <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
-                    <p>E-mail: {{ request()->email }}</p>
-                    <p>Tel: {{ request()->phone }}</p>
+                    <p>{{ __('app.profile.telefon') }}: {{ request()->phone }}</p>
+                    <p>{{ __('app.profile.email') }}: {{ request()->email }}</p>
                 @elseif(request()->type == 2)
                     <p>{{ request()->company_name }}</p>
                     <p>{{ request()->city }}, {{ request()->adresa }}, {{ request()->zip }}</p>
-                    <p>E-mail: {{ request()->email }}</p>
-                    <p>Tel: {{ request()->phone }}</p>
-                    <p>Pib: {{ request()->pib }}</p>
+                    <p>{{ __('app.profile.telefon') }}: {{ request()->phone }}</p>
+                    <p>{{ __('app.profile.email') }}: {{ request()->email }}</p>
+                    <p>{{ __('app.profile.pib') }}: {{ request()->pib }}</p>
                 @endif
             @endif
 
@@ -239,12 +239,12 @@
                     <table class="ponuda-table">
                         <thead>
                             <tr>
-                                <th scope="col" class="padding-5">r.br.</th>
-                                <th scope="col" class="padding-5">Naziv</th>
-                                <th scope="col" class="padding-5">j.m.</th>
-                                <th scope="col" class="padding-5">količina</th>
-                                <th scope="col" class="padding-5">jed.cena</th>
-                                <th scope="col" class="padding-5">ukupno</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-r-br') }}</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-naziv') }}</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-j-m') }}</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-kolicina') }}</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-jed-cena') }}</th>
+                                <th scope="col" class="padding-5">{{ __('app.create-ponuda.table-ukupno') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -284,16 +284,16 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;RSD</td>
+                                <td class="text-center">{{ number_format($item->unit_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</td>
                                 <td class="whitespace-nowrap px-1 border-left text-center">
-                                    {{ number_format($overall_price,2) }}&nbsp;RSD
+                                    {{ number_format($overall_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                 </td>
                             </tr>
 
                                 @if ($loop->last)
                                     <tr>
                                         <td colspan="8" class="text-right border-bold whitespace-nowrap px-1">
-                                            <b>Svega&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice,2) }}&nbsp;RSD
+                                            <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -309,7 +309,7 @@
                     <tbody>
                         <tr>
                             <td colspan="8" class="text-left border-bold padding-5"
-                                style="background-color: rgba(0, 0, 0, 0.05);"><b>Rekapitulacija</b></td>
+                                style="background-color: rgba(0, 0, 0, 0.05);"><b>{{ __('app.create-ponuda.table-rekapitulacija') }}</b></td>
                         </tr>
                         @foreach ($finalData as $data)
                             @php
@@ -326,7 +326,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="padding-5 text-center no-wrap">
-                                            {{ number_format($subPrice,2) }}&nbsp;RSD
+                                            {{ number_format($subPrice,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -342,7 +342,7 @@
                 <table class="table mt-20 text-center ponuda-table" style="text-align: right">
                     <tr>
                         <td class="text-right no-wrap">
-                            <b>UKUPNO: {{ number_format($finalPrice,2) }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                     <tr>
@@ -350,7 +350,7 @@
                             @php
                                 $pdv = $finalPrice * 0.2;
                             @endphp
-                            PDV: {{ number_format($pdv, 2) }}&nbsp;RSD
+                            {{ __('app.create-ponuda.table-pdv') }}: {{ number_format($pdv, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                         </td>
                     </tr>
                 </table>
@@ -360,13 +360,13 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>Ukupno sa PDV: {{ number_format($final,2) }}&nbsp;RSD</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                 </table>
                 @if (isset($opis))
                     <p style="font-size: 12px;">
-                       <b>Napomene :</b>
+                       <b>{{ __('app.archive-selected.note') }}:</b>
                     </p>
                     <br>
                     <p style="margin-top: -15px;">
