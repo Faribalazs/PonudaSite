@@ -37,6 +37,6 @@ class SendEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($mailTo)->send(new mailPDF($mailSubject, $mailBody, $pdf, $pdfName, $autoMsg));
+        Mail::to($this->mailTo)->send(new mailPDF($this->mailSubject, $this->mailBody, $this->pdf, $this->pdfName, $this->autoMsg));
     }
 }

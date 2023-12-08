@@ -39,7 +39,7 @@ class mailPDF extends Mailable
     {
         return new Envelope(
             from: new Address(config('app.email'), config('app.name')),
-            subject: $mailSubject ?? $pdfName ?? config('app.name'),
+            subject: $this->mailSubject ?? $this->pdfName ?? config('app.name'),
         );
     }
 
@@ -51,8 +51,8 @@ class mailPDF extends Mailable
         return new Content(
             view: 'worker.emails.send_pdf',
             with: [
-                'auto_msg' => $autoMsg,
-                'mailBody' => $mailBody,
+                'auto_msg' => $this->autoMsg,
+                'mailBody' => $this->mailBody,
             ],
         );
     }
@@ -65,7 +65,7 @@ class mailPDF extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => PDF::loadView($pdf['pdf_blade'],['mergedData' => $pdf['mergedData'], 'ponuda_name' => $pdf['ponuda_name'], 'company' => $pdf['company'], 'client' => $pdf['client'], 'type' => $pdf['type'], 'opis' => $pdf['opis']])->output(), $pdfName . '.pdf')
+            Attachment::fromData(fn () => PDF::loadView($this->pdf['pdf_blade'],['mergedData' => $this->pdf['mergedData'], 'ponuda_name' => $this->pdf['ponuda_name'], 'company' => $this->pdf['company'], 'client' => $this->pdf['client'], 'type' => $this->pdf['type'], 'opis' => $this->pdf['opis']])->output(), $this->pdfName . '.pdf')
                 ->withMime('application/pdf'),
         ];
     }
