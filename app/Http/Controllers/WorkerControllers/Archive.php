@@ -678,7 +678,20 @@ class Archive extends Controller
                 $pdv = $sum * 0.2;
                 $sum += $pdv;
                 $sum = ceil($sum);
-                $digit = new \NumberFormatter('sr_Latn_RS', \NumberFormatter::SPELLOUT);
+                $lang = null;
+                if(app()->getLocale() == "sr")
+                {
+                    $lang = "sr_Latn_RS";
+                }
+                elseif(app()->getLocale() == "rs-cyrl")
+                {
+                    $lang = "sr_RS";
+                }
+                else
+                {
+                    return redirect()->back();
+                }
+                $digit = new \NumberFormatter($lang, \NumberFormatter::SPELLOUT);
                 $sum_in_words = $digit->format($sum);
             }
             if ($type_id == 1) {
