@@ -45,19 +45,19 @@
             <div class="add-pozicija-section">
                 <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name-latin') }}: *</span>
                 <input type="text" name="pozicija_name_sr" class="input-style" id="inputTextName"
-                oninput="convertToCyrillicName(this.value)">
+                oninput="convertToCyrillic(this.value, 'outputTextName')">
 
                 <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-name-ciril') }}:</span>
-                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName">
+                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName" readonly>
             </div>
 
             <span class="input-label pl-2 mt-20 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
             <div class="add-pozicija-section">
                 <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-des-latin') }}: *</span>
-                <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes" oninput="convertToCyrillicDes(this.value)"></textarea>
+                <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes" oninput="convertToCyrillic(this.value, 'outputTextDes')"></textarea>
 
                 <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-des-ciril') }}:</span>
-                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes"></textarea>
+                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes" readonly></textarea>
             </div>
         </div>
 
@@ -256,56 +256,27 @@
         });
         // obracun select end
 
-        function convertToCyrillicName(inputText) {
-            const cyrillicText = convertLatinToCyrillicName(inputText);
-            document.getElementById('outputTextName').value = cyrillicText;
+        function convertToCyrillic(inputText, id) {
+            const cyrillicText = convertLatinToCyrillic(inputText);
+            document.getElementById(id).value = cyrillicText;
         }
 
-        function convertLatinToCyrillicName(inputText) {
+        function convertLatinToCyrillic(inputText) {
             const latinToCyrillicMap = {
+                'NJ': 'Њ', 'LJ': 'Љ', 'DJ': 'Ђ', 'Nj': 'Њ', 'Lj': 'Љ', 'Dj': 'Ђ', 'nj': 'њ', 'lj': 'љ', 'dj': 'ђ', 'č': 'ч', 'š': 'ш', 'Č': 'Ч', 'Š': 'Ш', 'ć': 'ћ', 'Ć': 'Ћ', 'ž': 'ж', 'Ž': 'Ж', 'đ': 'ђ', 'Đ': 'Ђ','x': 'кс',
+
                 'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
                 'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
-                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
-                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
+                'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'v': 'в', 'w': 'в', 'y': 'y', 'z': 'з',
 
                 'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
                 'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
-                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'O': 'О', 'P': 'П', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
                 'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
             };
 
-            // Convert each character in the input text
-            const cyrillicText = inputText.split('').map(char => {
-                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
-                return latinToCyrillicMap[char] || char;
-            }).join('');
-
-            return cyrillicText;
-        }
-
-        function convertToCyrillicDes(inputText) {
-            const cyrillicText = convertLatinToCyrillicDes(inputText);
-            document.getElementById('outputTextDes').value = cyrillicText;
-        }
-
-        function convertLatinToCyrillicDes(inputText) {
-            const latinToCyrillicMap = {
-                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
-                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
-                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
-                'v': 'в', 'w': 'в', 'x': 'кс', 'y': 'y', 'z': 'з',
-
-                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
-                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
-                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
-                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
-            };
-
-            // Convert each character in the input text
-            const cyrillicText = inputText.split('').map(char => {
-                // If the character has a mapping, use the Cyrillic equivalent; otherwise, keep the original character
-                return latinToCyrillicMap[char] || char;
-            }).join('');
+            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
 
             return cyrillicText;
         }

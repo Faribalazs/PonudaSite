@@ -63,7 +63,9 @@ class AdminController extends Controller
       'email' => 'test@test.com',
       'password' => Hash::make('testpass'),
       'email_verified_at' => '2023-05-03',
-      'photo_name' => 'null',
+      'image' => 'null',
+      'cv'  => null,
+      'phone' => null,
     ]);
     $user->attachRole('super_worker'); 
     event(new Registered($user));
@@ -73,7 +75,9 @@ class AdminController extends Controller
       'email' => 'worker@worker.com',
       'password' => Hash::make('worker'),
       'email_verified_at' => '2023-05-03',
-      'photo_name' => 'null',
+      'image' => 'null',
+      'cv'  => null,
+      'phone' => null,
     ]);
     $user->attachRole('worker'); 
     event(new Registered($user));
@@ -83,7 +87,7 @@ class AdminController extends Controller
       'email' => 'admin@admin.com',
       'password' => Hash::make('admin123'),
       'email_verified_at' => '2023-05-03',
-      'photo_name' => 'null',
+      'image' => 'null',
     ]);
     $user->attachRole('admin');
     event(new Registered($user));

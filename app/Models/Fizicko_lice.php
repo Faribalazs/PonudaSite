@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Fizicko_lice extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
     
     protected $table = 'fizicka_lica';
 
@@ -23,4 +24,6 @@ class Fizicko_lice extends Model
         'email',
         'phone',
     ];
+
+    public $translatable = ['first_name','last_name','city','address'];
 }

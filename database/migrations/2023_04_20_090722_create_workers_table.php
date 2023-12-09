@@ -19,7 +19,9 @@ class CreateWorkersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('photo_name')->nullable();
+            $table->string('image')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('cv')->nullable();
             $table->bigInteger('ponuda_counter')->unsigned()->default(1);
             $table->smallInteger('status')->default(1);
             $table->boolean('send_email_on_download')->default(false);

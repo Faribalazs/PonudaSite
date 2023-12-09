@@ -36,7 +36,15 @@
                 value="{{ isset($contact->company_name) ? $contact->company_name : old('company_name') }}"
                 type="text"
                 maxlength="30"
+                oninput="convertToCyrillic(this.value,'output_company_name')"
                 required/>
+            <input 
+                class="input-style"
+                name="company_name_rs-cyrl"
+                id="output_company_name"
+                type="text"
+                maxlength="30"
+                readonly/>
             <p class="{{$errors->has('company_name') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('company_name')}}</p>
 
             <label for="pib" class="text-xl my-3">{{ __('app.profile.pib') }}* :</label>
@@ -58,7 +66,15 @@
                 value="{{ isset($contact->city) ? $contact->city : old('city') }}"
                 type="text"
                 maxlength="30"
+                oninput="convertToCyrillic(this.value,'output_city')"
                 required/>
+            <input
+                class="input-style"
+                name="city_rs-cyrl"
+                id="output_city"
+                type="text"
+                maxlength="30"
+                readonly/>
             <p class="{{$errors->has('city') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('city')}}</p>
 
             <div class="flex lg:flex-row flex-col">
@@ -71,7 +87,15 @@
                         value="{{ isset($contact->address) ? $contact->address : old('address') }}"
                         type="text"
                         maxlength="50"
+                        oninput="convertToCyrillic(this.value,'output_address')"
                         required/>
+                    <input 
+                        class="input-style"
+                        name="address_rs-cyrl"
+                        id="output_address"
+                        type="text"
+                        maxlength="50"
+                        readonly/>
                     <p class="{{$errors->has('address') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('address')}}</p>
                 </div>
                 <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
@@ -126,4 +150,30 @@
         </form>
         @endif
     </div>
+    <script>
+        function convertToCyrillic(inputText, id) {
+            const cyrillicText = convertLatinToCyrillic(inputText);
+            document.getElementById(id).value = cyrillicText;
+        }
+
+        function convertLatinToCyrillic(inputText) {
+            const latinToCyrillicMap = {
+                'NJ': 'Њ', 'LJ': 'Љ', 'DJ': 'Ђ', 'Nj': 'Њ', 'Lj': 'Љ', 'Dj': 'Ђ', 'nj': 'њ', 'lj': 'љ', 'dj': 'ђ', 'č': 'ч', 'š': 'ш', 'Č': 'Ч', 'Š': 'Ш', 'ć': 'ћ', 'Ć': 'Ћ', 'ž': 'ж', 'Ž': 'Ж', 'đ': 'ђ', 'Đ': 'Ђ','x': 'кс',
+
+                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
+                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
+                'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'v': 'в', 'w': 'в', 'y': 'y', 'z': 'з',
+
+                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
+                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
+                'O': 'О', 'P': 'П', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
+            };
+
+            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
+
+            return cyrillicText;
+        }
+    </script>
 </x-worker-profile-layout>

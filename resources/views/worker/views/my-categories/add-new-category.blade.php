@@ -13,7 +13,7 @@
             <input type="text" name="category_name_sr" class="input-style" id="inputText" oninput="convertToCyrillic(this.value)">
     
             <span class="input-label py-2 mt-5">{{ __('app.categories.write-name-category') }} ciril:</span>
-            <input type="text" class="input-style" name="category_name_rs_cyrl" id="outputText">
+            <input type="text" class="input-style" name="category_name_rs_cyrl" id="outputText" readonly>
 
             <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
         </form>
@@ -30,16 +30,16 @@
 
                 'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
                 'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
-                'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
+                'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
                 'v': 'в', 'w': 'в', 'y': 'y', 'z': 'з',
 
                 'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
                 'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
-                'O': 'О', 'P': 'П', 'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
+                'O': 'О', 'P': 'П', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
                 'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
             };
 
-            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
+            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
 
             return cyrillicText;
         }

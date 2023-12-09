@@ -39,6 +39,19 @@
                         <x-input id="password_confirmation" class="block mt-1 w-full rounded-3xl" type="password"
                             name="password_confirmation" required />
                     </div>
+                    <div class="mt-3">
+                        <x-label for="phone" :value="'Phone number'" class="pl-3"/>
+                        <x-input id="phone" class="block mt-1 w-full rounded-3xl" type="text"
+                            name="phone"/>
+                    </div>
+                    <div class="mt-3">
+                        <x-label for="cv" :value="'CV'" class="pl-3"/>
+                        <textarea name="cv" rows="3" class="block mt-1 w-full rounded-3xl"></textarea>
+                    </div>
+                    <div class="mt-3">
+                        <x-label for="user_image" :value="'Profile image'" class="pl-3"/><br/>
+                        <input id="user_image" class="block w-full pl-3 mb-5 form-control" type="file" accept=".png, .jpg, .jpeg" name="user_image"/>
+                    </div>
                     <div class="d-flex align-items-baseline justify-content-between mt-4 form-buttons">
                         <button class="mt-3 confirm-btn">
                             {{ __('app.auth.register-btn') }}

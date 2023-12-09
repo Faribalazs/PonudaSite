@@ -102,6 +102,7 @@ return [
         'description-position'          => "Упиши опис позиције",
         'calculation'                   => "Обрачун",
         'choose-calculation'            => "Одабери обрачун",
+        'catalogue-categories'          => "Каталог позиције",
     ],
 
     'archive' => [

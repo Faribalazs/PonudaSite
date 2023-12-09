@@ -42,12 +42,28 @@ class RegisteredUserController extends Controller
                 ->numbers()
                 // ->uncompromised(10)
             ],
+            'phone' => 'nullable|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+            'cv' => ['nullable','string','max:2048'],
+            'user_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
         ]);
+
+        $fileName = null;
+        if ($request->hasFile('user_image')) {
+            $image = $request->file('user_image');
+            $fileName = uniqid().time(). '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(160, 160);
+            $img->stream();
+            Storage::disk('local')->put('public/workers/avatars/'.$fileName, $img, 'public');
+        }
 
        $user = Worker::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'image' => $fileName,
+            'phone' => $request->phone,
+            'cv' => $request->cv,
         ]);
         $user->attachRole('worker'); 
         event(new Registered($user));

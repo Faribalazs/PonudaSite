@@ -206,7 +206,7 @@
             resize();
         }
 
-        var inputs = document.querySelectorAll('input');
+        var inputs = document.querySelectorAll('input:not(#showDate,#dateInput)');
         for (var i = 0; i < inputs.length; i++) {
             resizable(inputs[i], 11);
         }

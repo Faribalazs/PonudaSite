@@ -24,18 +24,15 @@ class NewOptions extends Controller
    {
       $request->validate([
          'category_name_sr' => ['required','max:64','string'],
-         'category_name_rs_cyrl' => ['max:64','string'],
       ]);
 
       $category_name_sr = $request->input('category_name_sr');
-
-      $category_name_rs_cyrl = $request->input('category_name_rs_cyrl') ?? "";
 
       Category::create([
          'worker_id' => Helper::worker(),
          'name' => [
             'sr' => $category_name_sr,
-            'rs-cyrl' => $category_name_rs_cyrl,
+            'rs-cyrl' => Helper::transToCyrl($category_name_sr),
          ],
       ]);
 
@@ -65,7 +62,6 @@ class NewOptions extends Controller
    {
       $request->validate([
          'subcategory_name_sr' => 'required|max:64|regex:/^[a-z\s]+$/i',
-         'subcategory_name_rs_cyrl' => ['max:64','string'],
          'category' => ['required', new CheckID(Default_category::class, Category::class)],
       ]);
    
@@ -74,7 +70,7 @@ class NewOptions extends Controller
          'custom_category_id' => $request->input('category'),
          'name' => [
             'sr' => $request->input('subcategory_name_sr'),
-            'rs-cyrl' => $request->input('subcategory_name_rs_cyrl') ?? "",
+            'rs-cyrl' => Helper::transToCyrl($request->input('subcategory_name_sr')),
          ],
       ]);
 
@@ -98,9 +94,7 @@ class NewOptions extends Controller
          'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
          'unit_id' => ['required','exists:App\Models\Units,id_unit'],
          'pozicija_name_sr' => ['required','string'],
-         'pozicija_name_rs_cyrl' => ['string'],
          'poz_des_sr' => ['nullable','string'],
-         'poz_des_rs_cyrl' => ['nullable','string'],
       ]);
 
       Pozicija::create([
@@ -109,11 +103,11 @@ class NewOptions extends Controller
          'unit_id' => $request->input('unit_id'),
          'custom_title' => [
             'sr' => $request->input('pozicija_name_sr'),
-            'rs-cyrl' => $request->input('pozicija_name_rs_cyrl') ?? "",
+            'rs-cyrl' => Helper::transToCyrl($request->input('pozicija_name_sr')),
          ],
          'custom_description' => [
             'sr' => $request->input('poz_des_sr'),
-            'rs-cyrl' => $request->input('poz_des_rs_cyrl') ?? "",
+            'rs-cyrl' => Helper::transToCyrl($request->input('poz_des_rs_cyrl')),
          ],
       ]);
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker};
+use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker,Default_category,Default_subcategory,Default_pozicija};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -77,11 +77,23 @@ class WorkerController extends Controller
 
          $company_data = Company_Data::create([
             'worker_id' => Helper::worker(),
-            'company_name' => $data['company_name'],
-            'country' => $data['country'],
-            'city' => $data['city'],
+            'company_name' => [
+               'sr' => $data['company_name'],
+               'rs-cyrl' => Helper::transToCyrl($data['company_name'])
+            ],
+            'country' => [
+               'sr' => $data['country'],
+               'rs-cyrl' => Helper::transToCyrl($data['country'])
+            ],
+            'city' => [
+               'sr' => $data['city'],
+               'rs-cyrl' => Helper::transToCyrl($data['city'])
+            ],
             'zip_code' => $data['postcode'],
-            'address' => $data['address'],
+            'address' => [
+               'sr' => $data['address'],
+               'rs-cyrl' => Helper::transToCyrl($data['address'])
+            ],
             'phone' => $data['phone'],
             'email' => $data['email'],
             'pib' => $data['pib'],
@@ -150,11 +162,23 @@ class WorkerController extends Controller
          ],
          [
          'worker_id' => Helper::worker(),
-         'first_name' => $data['f_name'],
-         'last_name' => $data['l_name'],
-         'city' => $data['city'],
+         'first_name' => [
+            'sr' => $data['f_name'],
+            'rs-cyrl' => Helper::transToCyrl($data['f_name'])
+         ],
+         'last_name' => [
+            'sr' => $data['l_name'],
+            'rs-cyrl' => Helper::transToCyrl($data['l_name'])
+         ],
+         'city' => [
+            'sr' => $data['city'],
+            'rs-cyrl' => Helper::transToCyrl($data['city'])
+         ],
          'zip_code' => $data['postcode'],
-         'address' => $data['address'],
+         'address' => [
+            'sr' => $data['address'],
+            'rs-cyrl' => Helper::transToCyrl($data['address'])
+         ],
          'email' => $data['email'],
          'phone' => $data['phone']
       ]);
@@ -230,10 +254,19 @@ class WorkerController extends Controller
          ],
          [
          'worker_id' => Helper::worker(),
-         'company_name' => $data['company_name'],
-         'city' => $data['city'],
+         'company_name' => [
+            'sr' => $data['company_name'],
+            'rs-cyrl' => Helper::transToCyrl($data['company_name'])
+         ],
+         'city' => [
+            'sr' => $data['city'],
+            'rs-cyrl' => Helper::transToCyrl($data['city'])
+         ],
          'zip_code' => $data['postcode'],
-         'address' => $data['address'],
+         'address' => [
+            'sr' => $data['address'],
+            'rs-cyrl' => Helper::transToCyrl($data['address'])
+         ],
          'email' => $data['email'],
          'phone' => $data['phone'],
          'pib' => $data['pib'],
@@ -362,4 +395,59 @@ class WorkerController extends Controller
          return view('worker.views.profile.show-contact', ['contact' => $contact, 'lice'=> $lice]);
       }
    }
+   public function editUser(Request $request) {
+        $request->validate([
+          'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+          'user_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
+          'cv' => ['nullable','string','max:2048'],
+        ]);
+        $phone = $request->input('phone');
+        $cv = $request->input('cv');
+        $fileName = null;
+        if ($request->hasFile('user_image')) {
+          if(Auth::guard('worker')->user()->image !== null)
+          {
+            $path = 'public/workers/avatars/' . Auth::guard('worker')->user()->image;
+            if (Storage::exists($path)) {
+              Storage::delete($path);
+            }
+          }
+          $image = $request->file('user_image');
+          $fileName = uniqid().time() . '.' . $image->getClientOriginalExtension();
+          $img = Image::make($image->getRealPath());
+          $img->resize(160, 160);
+          $img->stream();
+          Storage::disk('local')->put('public/workers/avatars/'.$fileName, $img, 'public');
+          Worker::whereId(Helper::worker())->update(['phone' => $phone, 'image' => $fileName, 'cv' => $cv]);
+        }
+        else
+        {
+          Worker::whereId(Helper::worker())->update(['phone' => $phone, 'cv' => $cv]);
+        }
+        Alert::success('Your data is successfully updated')->showCloseButton()->showConfirmButton('Aight');
+        return redirect()->back();
+    }
+
+    public function catalogueCategories()
+    {
+      $custom_categories = Default_category::select(
+            'categories.id',
+            'categories.name',
+            "sc.category_id AS merged_id"
+         )
+         ->leftJoin('subcategories as sc', 'sc.category_id', '=', 'categories.id')
+         ->distinct()
+         ->get();
+
+      $custom_subcategories = Default_subcategory::select('subcategories.id','subcategories.name','subcategories.category_id',
+            "p.subcategory_id AS merged_id"
+         )
+         ->leftJoin('pozicija as p', 'p.subcategory_id', '=', 'subcategories.id')
+         ->distinct()
+         ->get();
+
+         $custom_pozicije = Default_pozicija::select('id','title','subcategory_id')->get();
+
+      return view('worker.views.catalogue-categories', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije]);
+    }
 }

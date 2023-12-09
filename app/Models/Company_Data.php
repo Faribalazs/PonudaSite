@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Translatable\HasTranslations;
 
 class Company_Data extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
     use LogsActivity;
 
     protected $table = 'company_data';
@@ -40,5 +41,7 @@ class Company_Data extends Model
             ->logOnlyDirty();
     }
     
+    public $translatable = ['company_name', 'city', 'country', 'address'];
+
     // protected static $logAttributes = ['name', 'password'];
 }

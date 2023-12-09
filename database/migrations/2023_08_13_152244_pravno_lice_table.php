@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('pravna_lica', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
-            $table->string('company_name');
-            $table->string('city');
+            $table->json('company_name');
+            $table->json('city');
             $table->string('zip_code');
-            $table->string('address');
+            $table->json('address');
             $table->string('email');
             $table->string('phone');
             $table->string('pib');

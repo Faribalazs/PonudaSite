@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('fizicka_lica', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('city');
+            $table->json('first_name');
+            $table->json('last_name');
+            $table->json('city');
             $table->integer('zip_code');
-            $table->string('address');
+            $table->json('address');
             $table->string('email');
             $table->string('phone');
         });

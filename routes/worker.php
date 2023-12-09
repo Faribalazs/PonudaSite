@@ -21,6 +21,10 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         return Image::make(storage_path('app/logo/' . $filename))->response();
     })->name('show.img');
 
+
+    Route::get('contractor/catalogue', [WorkerController::class, 'catalogueCategories'])
+        ->name('worker.catalogue-categories');
+
     //profile routes
     Route::get('contractor/profile', [WorkerController::class, 'profile'])
         ->name('worker.myprofile');
@@ -72,6 +76,13 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         
     Route::post('contractor/profile/settings/change-password', [WorkerController::class, 'updatePassword'])
         ->name('worker.personal.account.settings.update-password');
+
+    Route::put('contractor/profile/settings/change-data', [WorkerController::class, 'editUser'])
+        ->name('worker.personal.account.settings.change-data');
+
+    Route::get('storage/avatars/{filename}', function ($filename){
+            return Image::make(storage_path('app/public/workers/avatars/' . $filename))->response();})
+        ->name('show.avatar');
 
     // nova ponuda
     Route::get('contractor/new', [NewPonuda::class, 'create'])

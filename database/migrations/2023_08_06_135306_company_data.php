@@ -16,11 +16,11 @@ class CompanyData extends Migration
         Schema::create('company_data', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('worker_id')->unsigned();
-            $table->string('company_name');
-            $table->string('country');
-            $table->string('city');
+            $table->json('company_name');
+            $table->json('country');
+            $table->json('city');
             $table->string('zip_code');
-            $table->string('address');
+            $table->json('address');
             $table->string('phone');
             $table->string('email');
             $table->string('pib');
