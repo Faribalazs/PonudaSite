@@ -48,7 +48,7 @@
                 oninput="convertToCyrillic(this.value, 'outputTextName')">
 
                 <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-name-ciril') }}:</span>
-                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName" readonly>
+                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName" >
             </div>
 
             <span class="input-label pl-2 mt-20 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
@@ -57,7 +57,7 @@
                 <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes" oninput="convertToCyrillic(this.value, 'outputTextDes')"></textarea>
 
                 <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-des-ciril') }}:</span>
-                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes" readonly></textarea>
+                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes" ></textarea>
             </div>
         </div>
 

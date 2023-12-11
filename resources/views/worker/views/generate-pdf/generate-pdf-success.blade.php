@@ -181,7 +181,7 @@
             position: relative;
             width: 80%;
             margin: auto;
-            background-color: white;
+            background-color: #fafafa;
         }
 
         .progress-bar {
@@ -211,7 +211,7 @@
             width: 140px;
             height: 140px;
             padding: 26px;
-            background-color: #fff;
+            background-color: #fafafa;
         }
 
         .sa-success {
@@ -221,13 +221,13 @@
             height: 80px;
             padding: 0;
             position: relative;
-            background-color: #fff;
+            background-color: #fafafa;
             width: 80px;
         }
 
         .sa-success:after,
         .sa-success:before {
-            background: #fff;
+            background: #fafafa;
             content: '';
             height: 120px;
             position: absolute;
@@ -268,7 +268,7 @@
         }
 
         .sa-success-fix {
-            background-color: #fff;
+            background-color: #fafafa;
             height: 90px;
             left: 28px;
             position: absolute;

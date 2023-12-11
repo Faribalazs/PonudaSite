@@ -15,7 +15,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen">
+    <div class="profile-page-min-height">
         @include('layouts.navigation')
 
         <!-- Page Content -->

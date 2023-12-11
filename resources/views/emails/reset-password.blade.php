@@ -63,6 +63,11 @@
         justify-content: center;
         margin-top: 30px;
         margin-bottom: 30px;
+        width: 100%;
+    }
+
+    .logo-div img {
+        width: 140px;
     }
 
     .btn-div {

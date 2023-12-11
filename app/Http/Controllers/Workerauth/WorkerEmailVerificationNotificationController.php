@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use App\Models\Worker;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class WorkerEmailVerificationNotificationController extends Controller
@@ -24,7 +25,7 @@ class WorkerEmailVerificationNotificationController extends Controller
         try{
             $decrypted_id = decrypt(substr($request->mama, 4));
         } catch(DecryptException){
-            toast(__('app.controllers.something-went-wrong'),'error')->position('bottom')->autoClose(10000);
+            Alert::error(__('app.controllers.something-went-wrong'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect()->back();
         }
         
@@ -38,7 +39,7 @@ class WorkerEmailVerificationNotificationController extends Controller
 
             $user->sendEmailVerificationNotification();
 
-            toast(__('app.auth.e-mail-sent'),'success')->position('bottom')->autoClose(10000);
+            Alert::success(__('app.auth.e-mail-sent'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
             return redirect()->back();
         }
 

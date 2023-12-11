@@ -6,7 +6,8 @@
         <div class="nav__list px-4 gap-4">
             <div class="nav__list-item mt-32 text-center">
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                            Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.catalogue-categories')" :active="request()->routeIs('worker.catalogue-categories')">
                                 {{ __('app.categories.catalogue-categories') }}
@@ -15,7 +16,8 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                            Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
                                 {{ __('app.nav.new-ponuda') }}
@@ -24,7 +26,8 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                            Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.my-categories*')">
                                 {{ __('app.nav.my-categories') }}
@@ -33,7 +36,8 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') ||Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                            Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
                                 {{ __('app.nav.archive') }}
@@ -41,7 +45,7 @@
                         </div>
                     @endif
                 @endif
-            </div>  
+            </div>
         </div>
     </div>
 </div>
@@ -49,70 +53,72 @@
     <!-- Primary Navigation Menu -->
     <div class="px-4 py-3 sm:px-6 lg:px-12 h-100 align-items-center nav-div">
         <div class="flex justify-between h-100 nav-items">
-            <div class="flex justify-between" style="width: 78%;">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center z-50">
-                    <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                @if (Auth::user())
-                    @if (Auth::user()->hasRole('user'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('myprofile')" :active="request()->routeIs('myprofile')">
-                                {{ __('My Profile') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::user())
-                    @if (Auth::user()->hasRole('admin'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('admin.profile')" :active="request()->routeIs('admin.profile')">
-                                {{ __('Admin Profile') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.catalogue-categories')" :active="request()->routeIs('worker.catalogue-categories')">
-                                {{ __('app.categories.catalogue-categories') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
-                                {{ __('app.nav.new-ponuda') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options*')">
-                                {{ __('app.nav.my-categories') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
-                @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
-                        <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
-                            <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
-                                {{ __('app.nav.archive') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                @endif
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center z-50">
+                <a href="{{ route('home') }}">
+                    <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                </a>
             </div>
+
+            <!-- Navigation Links -->
+            @if (Auth::user())
+                @if (Auth::user()->hasRole('user'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('myprofile')" :active="request()->routeIs('myprofile')">
+                            {{ __('My Profile') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
+            @if (Auth::user())
+                @if (Auth::user()->hasRole('admin'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('admin.profile')" :active="request()->routeIs('admin.profile')">
+                            {{ __('Admin Profile') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
+            @if (Auth::guard('worker')->check())
+                @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('worker.catalogue-categories')" :active="request()->routeIs('worker.catalogue-categories')">
+                            {{ __('app.categories.catalogue-categories') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
+            @if (Auth::guard('worker')->check())
+                @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
+                            {{ __('app.nav.new-ponuda') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
+            @if (Auth::guard('worker')->check())
+                @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options*')">
+                            {{ __('app.nav.my-categories') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
+            @if (Auth::guard('worker')->check())
+                @if (Auth::guard('worker')->user()->hasRole('worker') ||
+                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                    <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
+                        <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
+                            {{ __('app.nav.archive') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden xl:flex xl:items-center xl:ml-6 space-x-5">
@@ -145,7 +151,7 @@
                     <div class="flex gap-1">
                         <div class="flex justify-center items-center">
                             <a href="{{ route('worker.myprofile') }}" class="flex profile-btn items-center">
-                                {{ Auth::guard('worker')->user()->name }}
+                                {{ Auth::guard('worker')->user()->first_name }}
                                 <i class="ri-user-3-line sm:text-3xl text-2xl pl-2"></i>
                             </a>
                         </div>
@@ -265,18 +271,17 @@
 
     function LanguageSwitcher(lang) {
         Swal.fire({
-            html: 
-                "@if ($lang == 'sr')<a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='disabled-link'>Srpski - latinica</a><br>" +
+            html: "@if ($lang == 'sr')<a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='disabled-link'>Srpski - latinica</a><br>" +
                 "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='language-name'>Srpski - latinica</a><br> @endif" +
 
                 "@if ($lang == 'rs-cyrl')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='disabled-link'>Српски - ћирилица</a><br>" +
                 "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='language-name'>Српски - ћирилица</a><br> @endif",
 
-                // "@if ($lang == 'hu')<a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Magyar</a><br>" +
-                // "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='language-name'>Magyar</a><br> @endif" +
+            // "@if ($lang == 'hu')<a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Magyar</a><br>" +
+            // "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='language-name'>Magyar</a><br> @endif" +
 
-                // "@if ($lang == 'en')<a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
-                // "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif",
+            // "@if ($lang == 'en')<a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='disabled-link'>English</a><br>" +
+            // "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('en')) }}' class='language-name' >English</a><br> @endif",
             showCloseButton: true,
             showCancelButton: false,
             showConfirmButton: false,

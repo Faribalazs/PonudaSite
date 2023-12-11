@@ -22,8 +22,8 @@
         @if ($header != '')
             <!-- Page Content -->
             <div class="header-div">
-                <div class="title-div px-4 py-3 sm:px-6 lg:px-12">
-                    <span class="mt-44">
+                <div class="title-div px-5 py-3 sm:px-6 lg:px-12">
+                    <span class="mt-36">
                         {{ $header }}
                     </span>
                 </div>

@@ -32,7 +32,7 @@
     --grey: #adb5bd;
     --black: #000000;
     --border-gray: #ccc;
-    --off-white: #f3f3f3;
+    --off-white: #fafafa;
 }
 
 button:focus,
@@ -124,7 +124,7 @@ pre {
 }
 
 .header-div {
-    height: 280px;
+    height: 220px;
     font-weight: 800;
     font-size: 35px;
     opacity: .95;
@@ -983,7 +983,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     font-size: 20px;
     font-weight: 700;
     padding: 10px 30px 10px 30px;
-    border-radius: 16px;
+    border-radius: 8px;
     width: 100%;
 }
 
@@ -993,7 +993,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     font-size: 20px;
     font-weight: 700;
     padding: 10px 30px 10px 30px;
-    border-radius: 16px;
+    border-radius: 8px;
     opacity: .8;
     width: 100%;
 }
@@ -1028,7 +1028,7 @@ body.nav-active .nav__list-item:nth-child(4) {
     border: 1px solid black;
     font-size: 20px;
     padding: 10px 30px 10px 30px;
-    border-radius: 25px;
+    border-radius: 8px;
     height: 50px;
     width: 100%;
 }
@@ -1358,6 +1358,7 @@ textarea:focus {
     font-weight: 400;
     border-radius: 10px;
     align-items: center;
+    background-color: var(--white);
     cursor: pointer;
     border: 1px solid var(--grey) !important;
     justify-content: space-between;
@@ -1532,9 +1533,14 @@ textarea:focus {
 }
 
 .input-style {
-    font-size: 18px !important;
-    border-radius: 15px !important;
+    border-radius: 8px !important;
     border-color: #ccc !important;
+    @media (min-width: 640px) {
+        font-size: 17px !important;
+    }
+    @media (max-width: 640px) {
+        font-size: 15px !important;
+    }
 }
 
 .input-style:focus {
@@ -1854,6 +1860,44 @@ textarea:focus {
     height: fit-content;
 }
 
+.profile-image {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--border-gray);
+    @media (max-width: 400px) {
+        width: 130px;
+        height: 130px;
+    }
+    @media (min-width: 1300px) {
+        width: 190px;
+        height: 190px;
+    }
+}
+
+.update-profile-btn {
+    background-color: var(--main-color);
+    padding: 12px 25px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    color: var(--white);
+    height: fit-content;
+}
+
+.update-profile-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+#profile_change {
+    scroll-margin-top: 160px;
+}
+
+.profile-page-min-height {
+    min-height: 90vh;
+}
+
 .profile-nav-bg {
     background-color: var(--secondary-color);
     height: 100%;
@@ -1983,13 +2027,13 @@ body {
 }
 
 .add-new-contact-btn:hover {
-    background-color: var(--main-color) !important;
+    background-color: var(--secondary-color) !important;
     color: #ffffff !important;
 }
 
 #uploadFile {
     border: none;
-    background-color: white;
+    background-color: #fafafa;
     color: black;
 }
 
@@ -2000,7 +2044,11 @@ body {
 .image-upload-btn {
     background-color: var(--main-color);
     color: var(--white);
-    border-radius: 10px;
+    border-radius: 8px;
+}
+
+.image-upload-btn:hover {
+    background-color: var(--secondary-color);
 }
 
 .contact-selected {
@@ -2029,7 +2077,7 @@ body {
 
 /* Profile page design end */
 
-/* Extendable side menu design s tart */
+/* Extendable side menu design start */
 
 .profile-side-panel {
     overflow: hidden;

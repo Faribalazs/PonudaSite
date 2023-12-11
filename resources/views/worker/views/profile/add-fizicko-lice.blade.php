@@ -30,102 +30,133 @@
             @endif
             <div class="flex lg:flex-row flex-col">
                 <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pr-0">
+
+                    <!-- First Name -->
                     <label for="f_name" class="text-xl my-3">{{ __('app.profile.name') }}* :</label>
                     <input 
                         class="input-style
                         {{$errors->has('f_name') ? 'border-error mb-1' : 'mb-3'}}"
                         name="f_name"
-                        value="{{ isset($contact->first_name) ? $contact->first_name : old('f_name') }}"
+                        placeholder="{{ __('app.profile.name') }}"
+                        value="{{ isset($contact->first_name) ? $contact->getTranslation('first_name', 'sr') : old('f_name') }}"
                         type="text"
                         maxlength="30"
                         oninput="convertToCyrillic(this.value,'output_f_name')"
                         required/>
+
+                    <!-- First Name Cyrl -->
                     <input 
                         class="input-style"
                         name="f_name_rs-cyrl"
                         id="output_f_name"
                         type="text"
+                        value="{{ isset($contact->first_name, ) ? $contact->getTranslation('first_name', 'rs-cyrl') : old('f_name') }}"
+                        placeholder="{{ __('app.profile.name-cyrl') }}"
                         maxlength="30"
-                        readonly/>
+                        />
                     <p class="{{$errors->has('f_name') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('f_name')}}</p>
                 </div>
                 <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                    <label for="l_name" class="text-xl my-3">{{ __('app.profile.surname') }}* :</label>
+
+                    <!-- Last Name -->
+                    <label for="l_name" class="text-xl {{ isset($contact) ? 'my-3' : 'mb-3 lg:mt-7 mt-5' }}">{{ __('app.profile.surname') }}* :</label>
                     <input 
                         class="input-style
                         {{$errors->has('l_name') ? 'border-error mb-1' : 'mb-3'}}"
                         name="l_name"
-                        value="{{ isset($contact->last_name) ? $contact->last_name : old('l_name') }}"
+                        value="{{ isset($contact->last_name) ? $contact->getTranslation('last_name', 'sr') : old('l_name') }}"
                         type="text"
-                        maxlength=""
+                        maxlength="30"
+                        placeholder="{{ __('app.profile.surname') }}"
                         oninput="convertToCyrillic(this.value,'output_l_name')"
                         required/>
+
+                    <!-- Last Name Cyrl -->
                     <input 
                         class="input-style"
                         name="l_name_rs-cyrl"
                         id="output_l_name"
                         type="text"
-                        maxlength=""
-                        readonly/>
+                        value="{{ isset($contact->last_name) ? $contact->getTranslation('last_name', 'rs-cyrl') : old('l_name') }}"
+                        maxlength="30"
+                        placeholder="{{ __('app.profile.surname-cyrl') }}"
+                        />
                     <p class="{{$errors->has('l_name') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('l_name')}}</p>
                 </div>
             </div>
 
-            <label for="city" class="text-xl my-3">{{ __('app.profile.city') }}* :</label>
+            <!-- City -->
+            <label for="city" class="text-xl mb-3 lg:mt-7 mt-5">{{ __('app.profile.city') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('city') ? 'border-error mb-1' : 'mb-3'}}"
                 name="city"
-                value="{{ isset($contact->city) ? $contact->city : old('city') }}"
+                value="{{ isset($contact->city) ? $contact->getTranslation('city', 'sr') : old('city') }}"
                 type="text"
                 maxlength="30"
+                placeholder="{{ __('app.profile.city') }}"
                 oninput="convertToCyrillic(this.value,'output_city')"
                 required/>
+
+            <!-- City Cyrl -->
             <input
                 class="input-style"
                 name="city_rs-cyrl"
                 id="output_city"
                 type="text"
+                value="{{ isset($contact->city) ? $contact->getTranslation('city', 'rs-cyrl') : old('city') }}"
+                placeholder="{{ __('app.profile.city-cyrl') }}"
                 maxlength="30"
-                readonly/>
+                />
             <p class="{{$errors->has('city') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('city')}}</p>
 
             <div class="flex lg:flex-row flex-col">
                 <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pl-0">
-                    <label for="address" class="text-xl my-3">{{ __('app.profile.address') }}* :</label>
+
+                    <!-- Address -->
+                    <label for="address" class="text-xl mb-3 lg:mt-7 mt-5">{{ __('app.profile.address') }}* :</label>
                     <input 
                         class="input-style
                         {{$errors->has('address') ? 'border-error mb-1' : 'mb-3'}}"
                         name="address"
-                        value="{{ isset($contact->address) ? $contact->address : old('address') }}"
+                        value="{{ isset($contact->address) ? $contact->getTranslation('address', 'sr') : old('address') }}"
                         type="text"
+                        placeholder="{{ __('app.profile.address') }}"
                         maxlength="50"
                         oninput="convertToCyrillic(this.value,'output_address')"
                         required/>
+
+                    <!-- Address Cyrl -->
                     <input 
                         class="input-style"
                         name="address_rs-cyrl"
                         id="output_address"
                         type="text"
+                        value="{{ isset($contact->address) ? $contact->getTranslation('address', 'rs-cyrl') : old('address') }}"
+                        placeholder="{{ __('app.profile.address-cyrl') }}"
                         maxlength="50"
                         required/>
                     <p class="{{$errors->has('address') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('address')}}</p>
                 </div>
                 <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
-                    <label for="postcode" class="text-xl my-3">{{ __('app.profile.post-code') }}* :</label>
+
+                    <!-- Postcode -->
+                    <label for="postcode" class="text-xl mb-3 lg:mt-7 mt-5">{{ __('app.profile.post-code') }}* :</label>
                     <input
                         class="input-style
                         {{$errors->has('postcode') ? 'border-error mb-1' : 'mb-3'}}"
                         name="postcode"
                         value="{{ isset($contact->zip_code) ? $contact->zip_code : old('postcode') }}"
                         type="text"
+                        placeholder="{{ __('app.profile.post-code') }}"
                         maxlength="10"
                         required/>
                     <p class="{{$errors->has('postcode') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('postcode')}}</p>
                 </div>
             </div>
 
-            <label for="email" class="text-xl my-3">{{ __('app.profile.email') }}* :</label>
+            <!-- Email -->
+            <label for="email" class="text-xl mb-3 lg:mt-7 mt-5">{{ __('app.profile.email') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('email') ? 'border-error mb-1' : 'mb-3'}}" 
@@ -133,24 +164,27 @@
                 value="{{ isset($contact->email) ? $contact->email : old('email') }}"
                 type="text"
                 maxlength="50"
+                placeholder="{{ __('app.profile.email') }}"
                 required/>
             <p class="{{$errors->has('email') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('email')}}</p>
 
-            <label for="phone" class="text-xl my-3">{{ __('app.profile.telefon') }}* :</label>
+            <!-- Phone -->
+            <label for="phone" class="text-xl mb-3 lg:mt-7 mt-5">{{ __('app.profile.telefon') }}* :</label>
             <input
                 class="input-style
                 {{$errors->has('phone') ? 'border-error mb-1' : 'mb-3'}}"
                 name="phone"
                 value="{{ isset($contact->phone) ? $contact->phone : old('phone') }}"
                 type="text"
+                placeholder="{{ __('app.profile.telefon') }}"
                 maxlength="25"
                 required/>
             <p class="{{$errors->has('phone') ? 'flex text-red mt-1 pl-1' : 'hidden'}}">{{$errors->first('phone')}}</p>
 
             @if(isset($contact))
-                <button type="submit" class="finish-btn mt-5 text-xl">{{ __('app.profile.modify-data') }}</button>
+                <button type="submit" class="finish-btn mt-5 text-xl mb-20">{{ __('app.profile.modify-data') }}</button>
             @else
-                <button type="submit" class="finish-btn mt-5 text-xl">{{ __('app.profile.save-contact') }}</button>
+                <button type="submit" class="finish-btn mt-5 text-xl mb-20">{{ __('app.profile.save-contact') }}</button>
             @endif
         </form>
         @if(isset($contact))

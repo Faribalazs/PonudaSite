@@ -285,9 +285,15 @@ class WorkerController extends Controller
 
    public function editContactPravno($id)
    {
-      $request->validate([
-         'id' => ['required','exists:App\Models\Pravno_lice,id']
-      ]);
+      //validator
+      $data = ['id' => $id];
+      $rules = [
+            'id' => ['required','exists:App\Models\Pravno_lice,id'],
+      ];
+      $validator = Validator::make($data, $rules);
+      if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+      }
       
       return view('worker.views.profile.add-pravno-lice', ['contact' => Pravno_lice::where('id', $id)->where('worker_id', Helper::worker())->first()]);
    }
@@ -415,7 +421,6 @@ class WorkerController extends Controller
           $image = $request->file('user_image');
           $fileName = uniqid().time() . '.' . $image->getClientOriginalExtension();
           $img = Image::make($image->getRealPath());
-          $img->resize(160, 160);
           $img->stream();
           Storage::disk('local')->put('public/workers/avatars/'.$fileName, $img, 'public');
           Worker::whereId(Helper::worker())->update(['phone' => $phone, 'image' => $fileName, 'cv' => $cv]);

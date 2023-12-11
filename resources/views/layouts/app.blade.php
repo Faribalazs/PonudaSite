@@ -18,9 +18,18 @@
 <body class="font-sans antialiased">
     <div class="content-height">
         @include('layouts.navigation')
-        {{ $header }}
-        <!-- Page Content -->
-        <main class="page-padding">
+        @if ($header != '')
+            <!-- Page Content -->
+            <div class="header-div">
+                <div class="title-div px-5 py-3 sm:px-6 lg:px-12">
+                    <span class="mt-36">
+                        {{ $header }}
+                    </span>
+                </div>
+            </div>
+        @endif
+
+        <main class="page-padding px-4 py-3 sm:px-6 lg:px-12">
             {{ $slot }}
         </main>
     </div>

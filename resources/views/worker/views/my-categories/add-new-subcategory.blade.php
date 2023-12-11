@@ -42,7 +42,7 @@
                     oninput="convertToCyrillic(this.value)">
 
                 <span class="input-label py-2 mt-5">{{ __('app.categories.write-name-subcategory') }} ciril:</span>
-                <input type="text" class="input-style" name="subcategory_name_rs_cyrl" id="outputText" readonly>
+                <input type="text" class="input-style" name="subcategory_name_rs_cyrl" id="outputText" >
 
                 <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
             </div>

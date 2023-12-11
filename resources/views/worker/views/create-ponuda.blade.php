@@ -33,7 +33,7 @@
     @if (Session::has('msg'))
         <script>
             Swal.fire({
-                title: '{{ __("app.basic.successfully-added") }}',
+                title: '{{ __('app.basic.successfully-added') }}',
                 icon: 'success',
                 showCancelButton: true,
                 showConfirmButton: true,
@@ -63,47 +63,19 @@
         <div class="overflow-x-auto">
             @foreach ($finalData as $data)
                 <table class="table mt-7 text-center ponuda-table">
-                    <thead>
-                        <tr>
-                            <th class="p-2 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-r-br') }}
-                            </th>
-                            <th class="p-2 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-naziv') }}
-                            </th>
-                            <th class="p-2 px-6 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-j-m') }}
-                            </th>
-                            <th class="p-2 px-6 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-kolicina') }}
-                            </th>
-                            <th class="p-2 px-6 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-jed-cena') }}
-                            </th>
-                            <th class="p-2 px-6 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-ukupno') }}
-                            </th>
-                            <th class="p-2 px-3 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-izmeni') }}
-                            </th>
-                            <th class="p-2 px-3 lowercase" scope="col">
-                                {{ __('app.create-ponuda.table-izbrisi') }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    @php
+                        $subPrice = 0;
+                        $i = 1;
+                    @endphp
+                    @foreach ($data as $item)
                         @php
-                            $subPrice = 0;
-                            $i = 1;
+                            $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
+                            $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                            $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
+                            $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
                         @endphp
-                        @foreach ($data as $item)
-                            @php
-                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
-                                $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
-                                $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
-                                $desc_now = $desc_now === "&nbsp;" ? "" : $desc_now;
-                            @endphp
-                            @if ($name_category != null && !in_array($name_category, $uniqueName))
+                        @if ($name_category != null && !in_array($name_category, $uniqueName))
+                            <thead>
                                 <tr>
                                     <td colspan="8" class="text-left border-bold p-1"
                                         style="background-color: rgba(0, 0, 0, 0.05);">
@@ -113,11 +85,39 @@
                                         @endphp
                                     </td>
                                 </tr>
-                            @endif
-                            @php
-                                $overall_price = $item->quantity * $item->unit_price;
-                                $subPrice += $overall_price;
-                            @endphp
+                            </thead>
+                        @endif
+                        @php
+                            $overall_price = $item->quantity * $item->unit_price;
+                            $subPrice += $overall_price;
+                        @endphp
+                        <tbody>
+                            <tr>
+                                <th class="p-2 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-r-br') }}
+                                </th>
+                                <th class="p-2 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-naziv') }}
+                                </th>
+                                <th class="p-2 px-6 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-j-m') }}
+                                </th>
+                                <th class="p-2 px-6 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-kolicina') }}
+                                </th>
+                                <th class="p-2 px-6 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-jed-cena') }}
+                                </th>
+                                <th class="p-2 px-6 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-ukupno') }}
+                                </th>
+                                <th class="p-2 px-3 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-izmeni') }}
+                                </th>
+                                <th class="p-2 px-3 lowercase" scope="col">
+                                    {{ __('app.create-ponuda.table-izbrisi') }}
+                                </th>
+                            </tr>
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-left ponuda-table-des p-1"><b>
@@ -128,9 +128,11 @@
                                 </td>
                                 <td class="text-center">{{ $item->unit_name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center lg:px-4 px-3">{{ number_format($item->unit_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</td>
+                                <td class="text-center lg:px-4 px-3">
+                                    {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                </td>
                                 <td class="whitespace-nowrap lg:px-4 px-3 border-left text-center">
-                                    {{ number_format($overall_price,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                    {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                 </td>
                                 <td>
                                     <button class="edit-btn-table mx-auto"
@@ -152,12 +154,12 @@
                                         <b>
                                             {{ __('app.create-ponuda.table-svega') }}&nbsp;
                                             <span class="lowercase">{{ $name_category }}</span>:
-                                        </b>&nbsp;{{ number_format($subPrice,2) }}&nbsp;
+                                        </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
                                         {{ __('app.create-ponuda.table-rsd') }}
                                     </td>
                                 </tr>
                             @endif
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
             @endforeach
@@ -187,7 +189,7 @@
                                             {{ $name_category_rekapitulacija }}&nbsp;
                                         </td>
                                         <td class="p-1 text-center whitespace-nowrap">
-                                            {{ number_format($subPrice,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                            {{ number_format($subPrice, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>
                                 @endif
@@ -203,7 +205,8 @@
                 <table class="table mt-20 text-center ponuda-table w-full mb-7">
                     <tr>
                         <td class="text-right p-1">
-                            <b>{{ __('app.create-ponuda.table-ukupno') }}: {{ number_format($finalPrice,2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno') }}:
+                                {{ number_format($finalPrice, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                     <tr>
@@ -211,7 +214,8 @@
                             @php
                                 $pdv = $finalPrice * 0.2;
                             @endphp
-                            {{ __('app.create-ponuda.table-pdv') }}: {{ number_format($pdv, 2) }} {{ __('app.create-ponuda.table-rsd') }}
+                            {{ __('app.create-ponuda.table-pdv') }}: {{ number_format($pdv, 2) }}
+                            {{ __('app.create-ponuda.table-rsd') }}
                         </td>
                     </tr>
                     <tr>
@@ -219,7 +223,8 @@
                             @php
                                 $final = $pdv + $finalPrice;
                             @endphp
-                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final,2) }} {{ __('app.create-ponuda.table-rsd') }}</b>
+                            <b>{{ __('app.create-ponuda.table-ukupno-sa-pdv') }}: {{ number_format($final, 2) }}
+                                {{ __('app.create-ponuda.table-rsd') }}</b>
                         </td>
                     </tr>
                 </table>
@@ -236,10 +241,12 @@
                     <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ $tempOpis }}</textarea>
                 </div>
             @else
-                <button onclick="showDes()" type="button" id="yes-des" class="finish-btn my-3 {{session('opis_ponude') != '' ? 'hidden' : 'flex'}}">{{ __('app.create-ponuda.opis-btn-add') }}</button>
-                <button onclick="hideDes()" type="button" id="nope-des" class="finish-btn my-3 {{session('opis_ponude') != '' ? 'flex' : 'hidden'}}"
+                <button onclick="showDes()" type="button" id="yes-des"
+                    class="finish-btn my-3 {{ session('opis_ponude') != '' ? 'hidden' : 'flex' }}">{{ __('app.create-ponuda.opis-btn-add') }}</button>
+                <button onclick="hideDes()" type="button" id="nope-des"
+                    class="finish-btn my-3 {{ session('opis_ponude') != '' ? 'flex' : 'hidden' }}"
                     style="background-color: #ac1902;">{{ __('app.create-ponuda.opis-btn-remove') }}</button>
-                <div class="flex-col {{session('opis_ponude') != '' ? 'flex' : 'hidden'}}" id="text-area">
+                <div class="flex-col {{ session('opis_ponude') != '' ? 'flex' : 'hidden' }}" id="text-area">
                     <label for="opis" class="mt-3">{{ __('app.create-ponuda.opis-label') }}:</label>
                     <textarea class="mt-3 swal-input" id="opis" rows="6" cols="50" type="text" name="opis">{{ session('opis_ponude') }}</textarea>
                 </div>
@@ -258,8 +265,8 @@
                 </div>
                 <ul class="options-category" id="category-ul">
                     <li class="option-subcategory">
-                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="category-search"
-                            onkeyup="filterFunctionCategory()" class="w-full dropdown-search">
+                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..."
+                            id="category-search" onkeyup="filterFunctionCategory()" class="w-full dropdown-search">
                     </li>
                     @foreach ($custom_categories as $category)
                         <li class="option-category">
@@ -288,8 +295,8 @@
                 </div>
                 <ul class="options-subcategory" id="subcategory-ul">
                     <li class="option-subcategory">
-                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="subcategory-filter"
-                            onkeyup="filterFunctionSub()" class="w-full dropdown-search">
+                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..."
+                            id="subcategory-filter" onkeyup="filterFunctionSub()" class="w-full dropdown-search">
                     </li>
                     @foreach ($custom_subcategories as $subcategory)
                         <li class="option-subcategory">
@@ -320,8 +327,8 @@
                 </div>
                 <ul class="options" id="poz-ul">
                     <li class="option-subcategory">
-                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="poz-filter" onkeyup="filterFunctionPoz()"
-                            class="w-full dropdown-search">
+                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="poz-filter"
+                            onkeyup="filterFunctionPoz()" class="w-full dropdown-search">
                     </li>
                     @foreach ($custom_pozicija as $poz)
                         <li class="option">
@@ -347,8 +354,7 @@
             </div>
             <div id="clear-btn" class="category-div">
                 <div class="flex justify-end">
-                    <button id="btn" type="button" onclick="clearData()"
-                        class="del-btn my-3">
+                    <button id="btn" type="button" onclick="clearData()" class="del-btn my-3">
                         {{ __('app.create-ponuda.izbrisi') }}
                     </button>
                 </div>
@@ -372,12 +378,14 @@
                 <div class="mt-10">
                     <span>{{ __('app.create-ponuda.price-rsd') }}*</span>
                 </div>
-                <input type="number" name="price" step=".01" min="1" class="quantity-input mt-3 mb-1">
+                <input type="number" name="price" step=".01" min="1"
+                    class="quantity-input mt-3 mb-1">
             </div>
         </div>
         <div id="add-new" class="category-div mt-10">
             <div class="flex justify-center mb-5">
-                <button type="submit" class="finish-btn my-3">{{ __('app.create-ponuda.add-pozicija-btn') }}</button>
+                <button type="submit"
+                    class="finish-btn my-3">{{ __('app.create-ponuda.add-pozicija-btn') }}</button>
             </div>
             @if ($mergedData->isNotEmpty())
                 <hr>
@@ -392,7 +400,8 @@
         @endphp
         <div class="flex w-full justify-center mt-5">
             <div class="flex" id="end">
-                <button onclick="EndPonuda('{{ $tempPonudaName }}')" class="finish-btn my-3">{{ __('app.create-ponuda.finish-ponuda-btn') }}</button>
+                <button onclick="EndPonuda('{{ $tempPonudaName }}')"
+                    class="finish-btn my-3">{{ __('app.create-ponuda.finish-ponuda-btn') }}</button>
             </div>
         </div>
     @endif
@@ -407,7 +416,6 @@
         </script>
     @endif
     <script>
-
         function scrollDown() {
             var element = document.querySelector(".select-btn-category");
             element.scrollIntoView({
@@ -478,7 +486,7 @@
                     '@csrf' +
                     '@method('delete')' +
                     '<input name="id" hidden value="' + id + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">{{ __("app.create-ponuda.izbrisi") }}</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">{{ __('app.create-ponuda.izbrisi') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -499,40 +507,40 @@
             if (radioBtn == 1) {
                 radioHtml += '<div class="flex justify-start flex-col">' +
                     '<input type="radio" id="new_material" name="new_radioButton" value="1" checked>' +
-                    '<label for="new_material" class="font-bold text-main-color">{{ __("app.create-ponuda.price-with-material") }}</label>' +
+                    '<label for="new_material" class="font-bold text-main-color">{{ __('app.create-ponuda.price-with-material') }}</label>' +
                     '<input type="radio" id="new_service" name="new_radioButton" value="2">' +
-                    '<label class="mt-2 font-bold text-main-color" for="new_service">{{ __("app.create-ponuda.price-without-material") }}</label>'+
+                    '<label class="mt-2 font-bold text-main-color" for="new_service">{{ __('app.create-ponuda.price-without-material') }}</label>' +
                     '</div>';
             } else if (radioBtn == 2) {
                 radioHtml += '<div class="flex justify-start flex-col">' +
                     '<input type="radio" id="new_material" name="new_radioButton" value="1">' +
-                    '<label for="new_material" class="font-bold text-main-color">{{ __("app.create-ponuda.price-with-material") }}</label>' +
+                    '<label for="new_material" class="font-bold text-main-color">{{ __('app.create-ponuda.price-with-material') }}</label>' +
                     '<input type="radio" id="new_service" name="new_radioButton" value="2" checked>' +
-                    '<label class="mt-2 font-bold text-main-color" for="new_service">{{ __("app.create-ponuda.price-without-material") }}</label>' +
+                    '<label class="mt-2 font-bold text-main-color" for="new_service">{{ __('app.create-ponuda.price-without-material') }}</label>' +
                     '</div>';
             }
             Swal.fire({
-                title: '{{ __("app.create-ponuda.swal-change-pozicija") }}',
+                title: '{{ __('app.create-ponuda.swal-change-pozicija') }}',
                 icon: 'question',
                 html: '<form method="POST" id="updateDescription" action="{{ route('worker.store.new.update.desc') }}">' +
                     '@csrf' +
                     '@method('put')' +
-                    '<span class="font-bold text-main-color">{{ __("app.create-ponuda.swal-pozicija-name") }} :</span>' +
+                    '<span class="font-bold text-main-color">{{ __('app.create-ponuda.swal-pozicija-name') }} :</span>' +
                     '<input name="real_id" hidden value="' + realId + '">' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="3" cols="50" type="text" name="new_title" id="updateTitle">' +
                     tempTitle + '</textarea>' +
-                    '<span class="font-bold text-main-color">{{ __("app.create-ponuda.swal-pozicija-des") }} :</span>' +
+                    '<span class="font-bold text-main-color">{{ __('app.create-ponuda.swal-pozicija-des') }} :</span>' +
                     '<textarea class="mt-3 mb-3 swal-input" rows="3" cols="50" type="text" name="new_description" id="updateData">' +
                     tempDesc + '</textarea>' +
-                    '<br><p class="mb-3 font-bold text-main-color">{{ __("app.create-ponuda.price-with-material-title") }}:</p>' +
+                    '<br><p class="mb-3 font-bold text-main-color">{{ __('app.create-ponuda.price-with-material-title') }}:</p>' +
                     radioHtml +
-                    '<br><label class="mt-3 mb-2 font-bold text-main-color" for="new_quantity">{{ __("app.create-ponuda.table-kolicina") }}:</label>' +
+                    '<br><label class="mt-3 mb-2 font-bold text-main-color" for="new_quantity">{{ __('app.create-ponuda.table-kolicina') }}:</label>' +
                     '<input type="number" name="new_quantity" class="swal-input mt-3 mb-2" id="new_quantity" value="' +
                     quantity + '">' +
-                    '<label class="mt-3 mb-2 font-bold text-main-color" for="new_unit_price">{{ __("app.create-ponuda.price") }}:</label>' +
+                    '<label class="mt-3 mb-2 font-bold text-main-color" for="new_unit_price">{{ __('app.create-ponuda.price') }}:</label>' +
                     '<input type="number" name="new_unit_price" class="swal-input mt-3 mb-2" id="new_unit_price" value="' +
                     unit_price + '">' +
-                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">{{ __("app.create-ponuda.table-izmeni") }}</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full mx-1 mt-5">{{ __('app.create-ponuda.table-izmeni') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -545,7 +553,7 @@
         function NameSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
-                title: '{{ __("app.create-ponuda.swal-save-ponuda") }}',
+                title: '{{ __('app.create-ponuda.swal-save-ponuda') }}',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
@@ -554,13 +562,13 @@
                     '@else' +
                     '<input type="hidden" name="edit" value="0"/>' +
                     '@endif' +
-                    '<label for="ponuda_name" class="font-bold text-main-color">{{ __("app.create-ponuda.swal-ponuda-name") }}:</label>' +
+                    '<label for="ponuda_name" class="font-bold text-main-color">{{ __('app.create-ponuda.swal-ponuda-name') }}:</label>' +
                     '<input class="mt-3 swal-input mb-3" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
-                    '<label for="opis" class="mt-3 hidden">{{ __("app.create-ponuda.swal-ponuda-napomena") }}:</label>' +
+                    '<label for="opis" class="mt-3 hidden">{{ __('app.create-ponuda.swal-ponuda-napomena') }}:</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">{{ __("app.create-ponuda.finish-ponuda-btn") }}</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">{{ __('app.create-ponuda.finish-ponuda-btn') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -573,7 +581,7 @@
         function OpisSwall(tempPonudaName) {
             let opis = document.getElementById("opis").value;
             Swal.fire({
-                title: '{{ __("app.create-ponuda.swal-save-ponuda") }}',
+                title: '{{ __('app.create-ponuda.swal-save-ponuda') }}',
                 icon: 'question',
                 html: '<form method="POST" id="formDone" action="{{ route('worker.store.new.ponuda.done') }}">' +
                     '@csrf' +
@@ -582,17 +590,17 @@
                     '@else' +
                     '<input type="hidden" name="edit" value="0"/>' +
                     '@endif' +
-                    '<label for="ponuda_name" class="font-bold text-main-color">{{ __("app.create-ponuda.swal-ponuda-name") }}:</label>' +
+                    '<label for="ponuda_name" class="font-bold text-main-color">{{ __('app.create-ponuda.swal-ponuda-name') }}:</label>' +
                     '<input class="mt-3 mb-3 swal-input" type="text" name="ponuda_name" value="' + tempPonudaName +
                     '"/>' +
-                    '<label for="opis" class="mt-3 hidden">{{ __("app.create-ponuda.swal-ponuda-napomena") }}:</label>' +
+                    '<label for="opis" class="mt-3 hidden">{{ __('app.create-ponuda.swal-ponuda-napomena') }}:</label>' +
                     '<textarea class="mt-3 swal-input hidden" rows="4" cols="50" type="text" name="opis">' + opis +
                     '</textarea>' +
-                    '<label for="note" class="mt-3 font-bold text-main-color">{{ __("app.create-ponuda.swal-ponuda-napomena") }}:</label>' +
+                    '<label for="note" class="mt-3 font-bold text-main-color">{{ __('app.create-ponuda.swal-ponuda-napomena') }}:</label>' +
                     '<textarea class="mt-3 swal-input mb-3" rows="4" cols="50" type="text" name="note">' +
                     '{{ $finished_note }}' +
                     '</textarea>' +
-                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">{{ __("app.create-ponuda.finish-ponuda-btn") }}</button>' +
+                    '<button type="submit" class="add-new-btn-swal2 w-full my-3">{{ __('app.create-ponuda.finish-ponuda-btn') }}</button>' +
                     '</form>',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -604,13 +612,13 @@
 
         function EndPonuda(tempPonudaName) {
             Swal.fire({
-                title: '{{ __("app.create-ponuda.swal-add-opis") }}' + '?',
+                title: '{{ __('app.create-ponuda.swal-add-opis') }}' + '?',
                 icon: 'question',
                 showCancelButton: true,
                 showConfirmButton: true,
                 showCloseButton: true,
-                confirmButtonText: '{{ __("app.create-ponuda.swal-yes") }}',
-                cancelButtonText: '{{ __("app.create-ponuda.swal-no") }}',
+                confirmButtonText: '{{ __('app.create-ponuda.swal-yes') }}',
+                cancelButtonText: '{{ __('app.create-ponuda.swal-no') }}',
             }).then((result) => {
                 if (result.isConfirmed) {
                     OpisSwall(tempPonudaName);
@@ -892,7 +900,8 @@
                     textDiv.appendChild(pozID);
                     var span = document.createElement("span");
                     span.id = "unit";
-                    span.innerText = "{{ __('app.create-ponuda.upisi-kolicinu') }} ( " + unitValue + " )*";
+                    span.innerText = "{{ __('app.create-ponuda.upisi-kolicinu') }} ( " + unitValue +
+                        " )*";
                     textDiv.appendChild(span);
                     var span_div = document.getElementById("quantity-input");
                     var inputValue = document.createElement("input");

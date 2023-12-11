@@ -4,7 +4,7 @@
     <div class="secondary-div">
         <div class="white-div">
             <div class="logo-div">
-                <x-application-logo class="block h-10 w-auto fill-current" />
+                <x-application-logo />
             </div>
             <div class="text-div">
                <span class="text-title">{{__('app.email.title')}}</span>
@@ -62,6 +62,11 @@
         justify-content: center;
         margin-top: 30px;
         margin-bottom: 30px;
+        width: 100%
+    }
+
+    .logo-div img {
+        width: 140px;
     }
 
     .btn-div {

@@ -57,7 +57,7 @@
                                 class="w-32"> 
                             {{ __('u svemu prema usvojenoj ponudi Izvođača br.') }} <input type="text" class="w-48"
                                 style="border-radius: 0px !important;" name="field14"> 
-                            {{ __('od') }} <input type="date" id="dateInput" value="{{ date('Y-m-d') }}" onchange="myDateFormat()" min="2013-01-01" max="2033-12-31" class="w-44" style="border-radius: 0px !important;" name="field15"><input type="text" id="showDate" class="w-44" style="border-radius: 0px !important; display:none" onclick="showDatePicker()" readonly> 
+                            {{ __('od') }} <input type="date" id="dateInput" value="{{ date('Y-m-d') }}" onchange="myDateFormat()" min="2013-01-01" max="2033-12-31" class="w-44" style="border-radius: 0px !important;" name="field15"><input type="text" id="showDate" class="w-44" style="border-radius: 0px !important; display:none" onclick="showDatePicker()" > 
                             {{ __('koja čini sastavni deo ovog Ugovora.') }}
                         </p>
                         <p class="text-center mb-10">
@@ -78,9 +78,9 @@
                         </p>
                         <p class="mb-10">
                             {{ __('Naručilac se obavezuje da na ime cene za sve radove na objektu, iz člana 1. ovog ugovora, plati izvođaču ukupan iznos od') }} 
-                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field16" readonly
+                            <input type="text" style="border-radius: 0px !important;" class="w-40" name="field16" 
                                 value="{{ number_format($sum,2) }}"> {{ __('dinara (slovima:') }} <input type="text" style="border-radius: 0px !important;" name="field17"
-                                value="{{ $sum_in_words }}" readonly> {{ __('dinara), sa uračunatim PDV-om.') }}
+                                value="{{ $sum_in_words }}" > {{ __('dinara), sa uračunatim PDV-om.') }}
                         </p>
                         <p class="text-center mb-10">
                             {{ __('Član') }} 4.
@@ -219,6 +219,7 @@
             text-align: center;
             padding-bottom: 3px !important;
             font-size: 18px !important;
+            background-color: #fafafa !important;
         }
 
         p {

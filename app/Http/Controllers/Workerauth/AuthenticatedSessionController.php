@@ -49,8 +49,11 @@ class AuthenticatedSessionController extends Controller
 
         if (! auth()->guard('worker')->user()->status) {
             auth()->guard('admin')->logout();
-
             return redirect()->route('worker.session.create');
+        }
+
+        if (! auth()->guard('worker')->user()->hasVerifiedEmail()) {
+            return redirect()->back();
         }
 
         return redirect()->intended(route('worker.myprofile'));

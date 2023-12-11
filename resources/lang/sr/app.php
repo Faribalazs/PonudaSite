@@ -28,7 +28,7 @@ return [
     'create-ponuda' => [
         'create-title'                  => "Nova ponuda",
         'edit-title'                    => "Izmena ponude",
-        'swal-add-new-pozicija'         => "Dodaj novu poziciju",
+        'swal-add-new-pozicija'         => "Dodaj novu poziciju / napomenu",
         'swal-finish-ponuda'            => "Završi ponudu",
         'table-r-br'                    => "r.br.",
         'table-naziv'                   => "naziv",
@@ -134,18 +134,25 @@ return [
         'modify-data'                   => "Izmeni podatke",
         'name'                          => "Ime",
         'surname'                       => "Prezime",
+        'name-cyrl'                     => "Ime na ćirilici",
+        'surname-cyrl'                  => "Prezime na ćirilici",
         'city'                          => "Grad",
+        'city-cyrl'                     => "Grad na ćirilici",
         'address'                       => "Adresa",
+        'address-cyrl'                  => "Adresa na ćirilici",
         'post-code'                     => "Poštanski broj",
         'email'                         => "E-mail",
         'telefon'                       => "Broj telefona",
         'save-contact'                  => "Sačuvaj kontakt",
         'delete-contact'                => "Izbriši kontakt",
         'company-name'                  => "Naziv firme",
+        'company-name-cryl'             => "Naziv firme na ćirilici",
         'company-name-correct'          => "Tačan naziv firme",
+        'company-name-correct-cyrl'     => "Tačan naziv firme na ćirilici",
         'pib'                           => "PIB",
         'company-data'                  => "Podaci firme",
         'country'                       => "Država",
+        'country-cyrl'                  => "Država na ćirilici",
         'id-number'                     => "Matični broj",
         'bank-account'                  => "Tekući račun",
         'bank-name'                     => "Naziv banke",
@@ -178,7 +185,7 @@ return [
         'contact'                       => "Kontakt",
         'log-out'                       => "Odjavi se",
         'log-out-ask'                   => "Da li zaista želiš da se odjaviš",
-
+        'update-profile'                => "Promeni podatke profila",
     ],
 
     'generate-pdf' => [
@@ -268,6 +275,10 @@ return [
         'thanks'                        => "Hvala što ste se prijavili!",
         'resend-email'                  => "Ponovo pošalji e-mail za verifikaciju",
         'verify-email'                  => "Pre nego što počnete, možete li da verifikujete svoju adresu e-pošte tako što ćete kliknuti na vezu koju smo vam upravo poslali? Ako niste primili e-poštu, rado ćemo vam poslati drugu.",
+        'o-mojstoru'                    => "O majstoru",
+        'last-name'                     => "Prezime",
+        'phone-number'                  => "Kontakt telefon",
+        'profile-pics'                  => "Slika profila",
     ],
 
     'errors' => [
@@ -280,5 +291,7 @@ return [
         'profile-only-numbers'          => "Samo brojeve i '-' možete upisati",
         'profile-email'                 => "Upišite validan email adresu",
         'new_password'                  => "Nova lozinka se ne poklapa",
+        'password-validation'           => "Lozinka mora da bude minimum 8 karektera i treba da sadrži Barem jedno veliko slovo i brojeve",
+        'only-char'                     => "Samo slova možete upisati",
     ],
 ];

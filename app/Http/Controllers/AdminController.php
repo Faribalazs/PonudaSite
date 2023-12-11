@@ -59,25 +59,27 @@ class AdminController extends Controller
   public function insertAdmin()
   {
     $user = Worker::create([
-      'name' => 'Test',
+      'first_name' => 'Pista',
+      'last_name' => 'Kovacs',
       'email' => 'test@test.com',
       'password' => Hash::make('testpass'),
       'email_verified_at' => '2023-05-03',
       'image' => 'null',
-      'cv'  => null,
-      'phone' => null,
+      'cv'  => 'Opis majstora cime se bavim i takve stavri',
+      'phone' => '0645871325',
     ]);
     $user->attachRole('super_worker'); 
     event(new Registered($user));
 
     $user = Worker::create([
-      'name' => 'worker',
+      'first_name' => 'Pista',
+      'last_name' => 'Kovacs',
       'email' => 'worker@worker.com',
       'password' => Hash::make('worker'),
       'email_verified_at' => '2023-05-03',
       'image' => 'null',
-      'cv'  => null,
-      'phone' => null,
+      'cv'  => 'Opis majstora cime se bavim i takve stavri',
+      'phone' => '0645871325',
     ]);
     $user->attachRole('worker'); 
     event(new Registered($user));

@@ -35,7 +35,8 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|regex:/\p{L}/u|max:255',
+            'last_name' => 'required|regex:/\p{L}/u|max:255',
             'email' => ['required','string','email:rfc','max:255', new UniqueEmail],
             'password' => ['required','string','confirmed', Password::min(8)
                 ->mixedCase()
@@ -44,15 +45,24 @@ class RegisteredUserController extends Controller
             ],
             'phone' => 'nullable|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
             'cv' => ['nullable','string','max:2048'],
-            'user_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
-        ]);
+            'user_image' => 'nullable|mimes:jpeg,png,jpg,webp|max:2048', 
+        ],
+        [
+            '*.required' => trans("app.errors.profile-required"),
+            'user_image.mimes' => trans("app.errors.profile-image"),
+            'user_image.max' => trans("app.errors.profile-image-max"),
+            'postcode.regex' => trans("app.errors.profile-only-numbers"),
+            'email.email' => trans("app.errors.profile-email"),
+            'password.*' => trans("app.errors.password-validation"),
+            'first_name.regex' => trans("app.errors.only-char"),
+            'last_name.regex' => trans("app.errors.only-char"),
+         ]);
 
         $fileName = null;
         if ($request->hasFile('user_image')) {
             $image = $request->file('user_image');
             $fileName = uniqid().time(). '.' . $image->getClientOriginalExtension();
             $img = Image::make($image->getRealPath());
-            $img->resize(160, 160);
             $img->stream();
             Storage::disk('local')->put('public/workers/avatars/'.$fileName, $img, 'public');
         }

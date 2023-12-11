@@ -58,9 +58,13 @@ class OptionsController extends Controller
       $pozicije = Default_pozicija::select('id','title','subcategory_id')
          ->get();
 
-      $custom_categories = $c_categories->merge($categories);
-      $custom_subcategories = $c_subcategories->merge($subcategories);
-      $custom_pozicije = $c_pozicije->merge($pozicije);
+      // $custom_categories = $c_categories->merge($categories);
+      // $custom_subcategories = $c_subcategories->merge($subcategories);
+      // $custom_pozicije = $c_pozicije->merge($pozicije);
+
+      $custom_categories = $c_categories;
+      $custom_subcategories = $c_subcategories;
+      $custom_pozicije = $c_pozicije;
 
       return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije])->with('successMsg', '')->with('name','')->with('old_name', '');
    }
