@@ -17,9 +17,9 @@ class PonudaDate extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('id_ponuda')->unsigned();
-            $table->string('ponuda_name');
-            $table->string('note')->nullable();
-            $table->text('opis')->nullable();
+            $table->json('ponuda_name');
+            $table->json('note')->nullable();
+            $table->json('opis')->nullable();
             $table->timestamp('updated_at')->nullable()->default(null);
             $table->timestamp('created_at')->nullable()->default(null);
         });

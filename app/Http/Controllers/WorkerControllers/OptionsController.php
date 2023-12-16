@@ -18,7 +18,6 @@ class OptionsController extends Controller
       $c_categories = Category::select(
             'custom_categories.id',
             'custom_categories.name',
-            DB::raw("CONCAT(COALESCE(sc.category_id, ''), COALESCE(c_sc.custom_category_id, '')) AS merged_id")
          )
          ->leftJoin('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'custom_categories.id')
          ->leftJoin('subcategories as sc', 'sc.category_id', '=', 'custom_categories.id')
@@ -29,42 +28,37 @@ class OptionsController extends Controller
       $categories = Default_category::select(
             'categories.id',
             'categories.name',
-            DB::raw("CONCAT(COALESCE(sc.category_id, ''), COALESCE(c_sc.custom_category_id, '')) AS merged_id")
          )
-         ->leftJoin('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'categories.id')
-         ->leftJoin('subcategories as sc', 'sc.category_id', '=', 'categories.id')
+         ->join('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'categories.id')
+         ->join('subcategories as sc', 'sc.category_id', '=', 'categories.id')
          ->get();
 
-      $c_subcategories = Subcategory::select('custom_subcategories.id','custom_subcategories.name','custom_subcategories.custom_category_id',
-            DB::raw("CONCAT(COALESCE(p.subcategory_id, ''), COALESCE(c_p.custom_subcategory_id, '')) AS merged_id")
-         )
+      $c_subcategories = Subcategory::select('custom_subcategories.id','custom_subcategories.name','custom_subcategories.custom_category_id')
          ->leftJoin('pozicija as p', 'p.subcategory_id', '=', 'custom_subcategories.id')
          ->leftJoin('custom_pozicija as c_p', 'c_p.custom_subcategory_id', '=', 'custom_subcategories.id')
          ->where('custom_subcategories.worker_id', $worker_id)
          ->whereNull('custom_subcategories.is_subcategory_deleted')
          ->get();
 
-      $subcategories = Default_subcategory::select('subcategories.id','subcategories.name','subcategories.category_id',
-            DB::raw("CONCAT(COALESCE(p.subcategory_id, ''), COALESCE(c_p.custom_subcategory_id, '')) AS merged_id")
-         )
-         ->leftJoin('pozicija as p', 'p.subcategory_id', '=', 'subcategories.id')
-         ->leftJoin('custom_pozicija as c_p', 'c_p.custom_subcategory_id', '=', 'subcategories.id')
+      $subcategories = Default_subcategory::select('subcategories.id','subcategories.name','subcategories.category_id')
+         ->join('pozicija as p', 'p.subcategory_id', '=', 'subcategories.id')
+         ->join('custom_pozicija as c_p', 'c_p.custom_subcategory_id', '=', 'subcategories.id')
+         ->distinct()
          ->get();
 
-      $c_pozicije = Pozicija::select('id','custom_title','custom_subcategory_id')->where('worker_id', $worker_id)
+      $custom_pozicije = Pozicija::select('id','custom_title','custom_subcategory_id')->where('worker_id', $worker_id)
          ->whereNull('is_pozicija_deleted')
          ->get();
 
-      $pozicije = Default_pozicija::select('id','title','subcategory_id')
+      $mergedIds = $subcategories->pluck('id')->toArray();
+      $result = Default_category::join('subcategories as sc', 'sc.category_id', '=', 'categories.id')
+         ->whereIn('sc.id', $mergedIds)
+         ->select('categories.id','categories.name')  
+         ->distinct()       
          ->get();
 
-      // $custom_categories = $c_categories->merge($categories);
-      // $custom_subcategories = $c_subcategories->merge($subcategories);
-      // $custom_pozicije = $c_pozicije->merge($pozicije);
-
-      $custom_categories = $c_categories;
-      $custom_subcategories = $c_subcategories;
-      $custom_pozicije = $c_pozicije;
+      $custom_categories = $c_categories->merge($categories)->concat($result);      
+      $custom_subcategories = $c_subcategories->merge($subcategories);
 
       return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije])->with('successMsg', '')->with('name','')->with('old_name', '');
    }
@@ -129,7 +123,13 @@ class OptionsController extends Controller
 
       $name = $request->input('category');
       $id = $request->input('id');
-      Category::where('id', $id)->where('worker_id', Helper::worker())->update(['name' => ['sr' => $name]]);
+      Category::where('id', $id)->where('worker_id', Helper::worker())
+         ->update([
+            'name' => [
+               'sr' => Helper::transliterate($name,"sr"),
+               'rs-cyrl' => Helper::transliterate($name,"rs-cyrl")
+            ]
+         ]);
       return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $name)->with('old_name', Category::select('name')->where('id', $id)->first()->name);
    }
 
@@ -141,7 +141,13 @@ class OptionsController extends Controller
 
       $name = $request->input('subcategory');
       $id = $request->input('id');
-      Subcategory::where('id', $id)->where('worker_id', Helper::worker())->update(['name' => ['sr' => $name]]);
+      Subcategory::where('id', $id)->where('worker_id', Helper::worker())
+         ->update([
+            'name' => [
+               'sr' => Helper::transliterate($name,"sr"),
+               'rs-cyrl' => Helper::transliterate($name,"rs-cyrl")
+            ]
+         ]);
       return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $name)->with('old_name', Subcategory::select('name')->where('id', $id)->first()->name);
    }
 
@@ -160,13 +166,26 @@ class OptionsController extends Controller
 
       if(empty($description))
       {
-         $description = "";
+         $finalDescription = [
+            'sr' => "",
+            'rs-cyrl' => ""
+         ];
+      }
+      else
+      {
+         $finalDescription = [
+            'sr' => Helper::transliterate($description,"sr"),
+            'rs-cyrl' => Helper::transliterate($description,"rs-cyrl")
+         ];
       }
       Pozicija::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->update([
-            'custom_title' => ['sr' => $title],
-            'custom_description' => ['sr' => $description],
+            'custom_title' => [
+               'sr' => Helper::transliterate($title,"sr"),
+               'rs-cyrl' => Helper::transliterate($title,"rs-cyrl")
+            ],
+            'custom_description' => $finalDescription,
             'unit_id' => $unit
          ]);     
       return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $title)->with('old_name', Pozicija::select('custom_title')->where('id', $id)->first()->custom_title);

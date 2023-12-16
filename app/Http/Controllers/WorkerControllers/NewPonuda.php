@@ -247,7 +247,7 @@ class NewPonuda extends Controller
    {
       
       $request->validate([
-         'ponuda_name' => 'required|min:3|max:64|regex:/^[a-zA-Z0-9\s\-\/_]+$/',
+         'ponuda_name' => 'required|min:3|max:64',
          'opis' => 'nullable',
          'note' => 'nullable|max:64'
       ]);
@@ -269,9 +269,18 @@ class NewPonuda extends Controller
             [
                'worker_id' => $worker_id,
                'id_ponuda' => $swap->swap_id,
-               'ponuda_name' => $ponuda_name,
-               'note' => $request->input('note'),
-               'opis' => $request->input('opis'),
+               'ponuda_name' => [
+                  'sr' => Helper::transliterate($ponuda_name,"sr"),
+                  'rs-cyrl' => Helper::transliterate($ponuda_name,"rs-cyrl")
+               ],
+               'note' => [
+                  'sr' => Helper::transliterate($request->input('note'),"sr",1),
+                  'rs-cyrl' => Helper::transliterate($request->input('note'),"rs-cyrl",1)
+               ],
+               'opis' => [
+                  'sr' => Helper::transliterate($request->input('opis'),"sr",1),
+                  'rs-cyrl' => Helper::transliterate($request->input('opis'),"rs-cyrl",1)
+               ],
             ]);
    
             if (!$p_date->wasRecentlyCreated) {
@@ -286,9 +295,18 @@ class NewPonuda extends Controller
             Ponuda_Date::create([
                'worker_id' => $worker_id,
                'id_ponuda' => auth('worker')->user()->ponuda_counter,
-               'ponuda_name' => $ponuda_name,
-               'note' => $request->input('note'),
-               'opis' => $request->input('opis'),
+               'ponuda_name' => [
+                  'sr' => Helper::transliterate($ponuda_name,"sr"),
+                  'rs-cyrl' => Helper::transliterate($ponuda_name,"rs-cyrl")
+               ],
+               'note' => [
+                  'sr' => Helper::transliterate($request->input('note'),"sr",1),
+                  'rs-cyrl' => Helper::transliterate($request->input('note'),"rs-cyrl",1)
+               ],
+               'opis' => [
+                  'sr' => Helper::transliterate($request->input('opis'),"sr",1),
+                  'rs-cyrl' => Helper::transliterate($request->input('opis'),"rs-cyrl",1)
+               ],
             ]);         
             auth('worker')->user()->increment('ponuda_counter');
             Worker::where('id', $worker_id)->update(['ponuda_counter' => auth('worker')->user()->ponuda_counter]);

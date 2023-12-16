@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Ponuda_Date extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'ponuda_date';
 
@@ -27,4 +28,6 @@ class Ponuda_Date extends Model
             $model->updated_at = null;
         });
     }
+
+    public $translatable = ['ponuda_name','note','opis'];
 }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Swap extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table = 'swap_ponuda';
 
@@ -21,4 +22,6 @@ class Swap extends Model
         'temp_note',
         'temp_opis',
     ];
+
+    public $translatable = ['temp_ponuda_name','temp_note','temp_opis'];
 }

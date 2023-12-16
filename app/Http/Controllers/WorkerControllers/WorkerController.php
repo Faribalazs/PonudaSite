@@ -78,21 +78,21 @@ class WorkerController extends Controller
          $company_data = Company_Data::create([
             'worker_id' => Helper::worker(),
             'company_name' => [
-               'sr' => $data['company_name'],
-               'rs-cyrl' => Helper::transToCyrl($data['company_name'])
+               'sr' => Helper::transliterate($data['company_name'],"sr"),
+               'rs-cyrl' => Helper::transliterate($data['company_name'],"rs-cyrl")
             ],
             'country' => [
-               'sr' => $data['country'],
-               'rs-cyrl' => Helper::transToCyrl($data['country'])
+               'sr' => Helper::transliterate($data['country'],"sr"),
+               'rs-cyrl' => Helper::transliterate($data['country'],"rs-cyrl")
             ],
             'city' => [
-               'sr' => $data['city'],
-               'rs-cyrl' => Helper::transToCyrl($data['city'])
+               'sr' => Helper::transliterate($data['city'],"sr"),
+               'rs-cyrl' => Helper::transliterate($data['city'],"rs-cyrl")
             ],
             'zip_code' => $data['postcode'],
             'address' => [
-               'sr' => $data['address'],
-               'rs-cyrl' => Helper::transToCyrl($data['address'])
+               'sr' => Helper::transliterate($data['address'],"sr"),
+               'rs-cyrl' => Helper::transliterate($data['address'],"rs-cyrl")
             ],
             'phone' => $data['phone'],
             'email' => $data['email'],
@@ -163,21 +163,21 @@ class WorkerController extends Controller
          [
          'worker_id' => Helper::worker(),
          'first_name' => [
-            'sr' => $data['f_name'],
-            'rs-cyrl' => Helper::transToCyrl($data['f_name'])
+            'sr' => Helper::transliterate($data['f_name'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['f_name'],"rs-cyrl")
          ],
          'last_name' => [
-            'sr' => $data['l_name'],
-            'rs-cyrl' => Helper::transToCyrl($data['l_name'])
+            'sr' => Helper::transliterate($data['l_name'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['l_name'],"rs-cyrl")
          ],
          'city' => [
-            'sr' => $data['city'],
-            'rs-cyrl' => Helper::transToCyrl($data['city'])
+            'sr' => Helper::transliterate($data['city'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['city'],"rs-cyrl")
          ],
          'zip_code' => $data['postcode'],
          'address' => [
-            'sr' => $data['address'],
-            'rs-cyrl' => Helper::transToCyrl($data['address'])
+            'sr' => Helper::transliterate($data['address'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['address'],"rs-cyrl")
          ],
          'email' => $data['email'],
          'phone' => $data['phone']
@@ -189,7 +189,7 @@ class WorkerController extends Controller
          alert()->success(__('app.controllers.data-is-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       else{
-         alert()->error(__('app.controllers.data-is-not-saved-or-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+         alert()->info(__('app.controllers.data-is-not-saved-or-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       return redirect()->route('worker.personal.contacts')->with('selected_fizicko', 'fizicko_lice');
    }
@@ -255,17 +255,17 @@ class WorkerController extends Controller
          [
          'worker_id' => Helper::worker(),
          'company_name' => [
-            'sr' => $data['company_name'],
-            'rs-cyrl' => Helper::transToCyrl($data['company_name'])
+            'sr' => Helper::transliterate($data['company_name'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['company_name'],"rs-cyrl")
          ],
          'city' => [
-            'sr' => $data['city'],
-            'rs-cyrl' => Helper::transToCyrl($data['city'])
+            'sr' => Helper::transliterate($data['city'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['city'],"rs-cyrl")
          ],
          'zip_code' => $data['postcode'],
          'address' => [
-            'sr' => $data['address'],
-            'rs-cyrl' => Helper::transToCyrl($data['address'])
+            'sr' => Helper::transliterate($data['address'],"sr"),
+            'rs-cyrl' => Helper::transliterate($data['address'],"rs-cyrl")
          ],
          'email' => $data['email'],
          'phone' => $data['phone'],

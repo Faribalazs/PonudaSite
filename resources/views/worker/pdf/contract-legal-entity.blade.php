@@ -51,7 +51,7 @@
     <br><br>
     {{ __('Član') }} 5.
     <br><br>
-    {{ __('Naručilac se obavezuje da će na ime avansa Izvođaču uplatiti iznos od') }} <u>&nbsp;{{ number_format($fields[16],2) }}&nbsp;</u> {{ __('dinara, u skladu sa uslovima iz usvojene ponude Izvođača.') }} 
+    {{ __('Naručilac se obavezuje da će na ime avansa Izvođaču uplatiti iznos od') }} <u>&nbsp;{{ $fields[16] }}&nbsp;</u> {{ __('dinara, u skladu sa uslovima iz usvojene ponude Izvođača.') }} 
     <br><br>
     {{ __('Član') }} 6.
     <br><br>

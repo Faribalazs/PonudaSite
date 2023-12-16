@@ -31,8 +31,8 @@ class NewOptions extends Controller
       Category::create([
          'worker_id' => Helper::worker(),
          'name' => [
-            'sr' => $category_name_sr,
-            'rs-cyrl' => Helper::transToCyrl($category_name_sr),
+            'sr' => Helper::transliterate($category_name_sr, "sr"),
+            'rs-cyrl' => Helper::transliterate($category_name_sr, "rs-cyrl"),
          ],
       ]);
 
@@ -69,8 +69,8 @@ class NewOptions extends Controller
          'worker_id' => Helper::worker(),
          'custom_category_id' => $request->input('category'),
          'name' => [
-            'sr' => $request->input('subcategory_name_sr'),
-            'rs-cyrl' => Helper::transToCyrl($request->input('subcategory_name_sr')),
+            'sr' => Helper::transliterate($request->input('subcategory_name_sr'),"sr"),
+            'rs-cyrl' => Helper::transliterate($request->input('subcategory_name_sr'),"rs-cyrl"),
          ],
       ]);
 
@@ -102,12 +102,12 @@ class NewOptions extends Controller
          'custom_subcategory_id' => $request->input('subcategory'),
          'unit_id' => $request->input('unit_id'),
          'custom_title' => [
-            'sr' => $request->input('pozicija_name_sr'),
-            'rs-cyrl' => Helper::transToCyrl($request->input('pozicija_name_sr')),
+            'sr' => Helper::transliterate($request->input('pozicija_name_sr'),"sr"),
+            'rs-cyrl' => Helper::transliterate($request->input('pozicija_name_sr'),"rs-cyrl"),
          ],
          'custom_description' => [
-            'sr' => $request->input('poz_des_sr'),
-            'rs-cyrl' => Helper::transToCyrl($request->input('poz_des_rs_cyrl')),
+            'sr' => Helper::transliterate($request->input('poz_des_sr'),"sr"),
+            'rs-cyrl' => Helper::transliterate($request->input('poz_des_rs_cyrl'),"rs-cyrl"),
          ],
       ]);
 

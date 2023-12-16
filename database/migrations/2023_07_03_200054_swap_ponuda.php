@@ -18,9 +18,9 @@ class SwapPonuda extends Migration
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('original_id')->unsigned();
             $table->bigInteger('swap_id')->unsigned();
-            $table->string('temp_ponuda_name');
-            $table->string('temp_note')->nullable();
-            $table->text('temp_opis')->nullable();
+            $table->json('temp_ponuda_name');
+            $table->json('temp_note')->nullable();
+            $table->json('temp_opis')->nullable();
         });
     }
 

@@ -16,24 +16,32 @@
     <div class="category-container">
         <ul id="categoryUl">
             @foreach ($custom_categories as $custom_category)
-                @if (!empty($custom_category->merged_id))
+                @if (!empty($custom_category->id))
                     <li>
                         <div class="flex items-center">
-                            <a class="mb-1 font-bold hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.category', ['category' => $custom_category->merged_id]) }}">
+                            @if($custom_category->id >= 500)
+                                <a class="mb-1 font-bold hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.category', ['category' => $custom_category->id]) }}">
+                                    {{ $custom_category->name }}
+                                </a>
+                            @else
                                 {{ $custom_category->name }}
-                            </a>
+                            @endif
                             <span class="caret">
                                 <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
                             </span>
                         </div>
                         <ul class="nested">
                             @foreach ($custom_subcategories as $custom_subcategory)
-                                @if (!empty($custom_subcategory->merged_id) && ($custom_subcategory->custom_category_id == $custom_category->id || $custom_subcategory->category_id == $custom_category->id))
+                                @if (!empty($custom_subcategory->id) && ($custom_subcategory->custom_category_id == $custom_category->id || $custom_subcategory->category_id == $custom_category->id))
                                     <li>
                                         <div class="flex items-center">
-                                            <a class="mb-1 hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.subcategory', ['subcategory' => $custom_subcategory->merged_id]) }}">
+                                            @if($custom_subcategory->id >= 2000)
+                                                <a class="mb-1 hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.subcategory', ['subcategory' => $custom_subcategory->id]) }}">
+                                                    {{ $custom_subcategory->name }}
+                                                </a>
+                                            @else
                                                 {{ $custom_subcategory->name }}
-                                            </a>
+                                            @endif
                                             <span class="caret">
                                                 <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
                                             </span>

@@ -313,11 +313,23 @@ class Archive extends Controller
                         ],
                         [
                             'worker_id' => Helper::worker(),
-                            'first_name' => $f_name,
-                            'last_name' => $l_name,
-                            'city' => $grad,
+                            'first_name' => [
+                                'sr' => Helper::transliterate($f_name,"sr"),
+                                'rs-cyrl' => Helper::transliterate($f_name,"rs-cyrl")
+                            ],
+                            'last_name' => [
+                                'sr' => Helper::transliterate($l_name,"sr"),
+                                'rs-cyrl' => Helper::transliterate($l_name,"rs-cyrl")
+                            ],
+                            'city' => [
+                                'sr' => Helper::transliterate($grad,"sr"),
+                                'rs-cyrl' => Helper::transliterate($grad,"rs-cyrl")
+                            ],
                             'zip_code' => $postcode,
-                            'address' => $adresa,
+                            'address' => [
+                                'sr' => Helper::transliterate($adresa,"sr"),
+                                'rs-cyrl' => Helper::transliterate($adresa,"rs-cyrl")
+                            ],
                             'email' => $email,
                             'phone' => $tel,
                         ]
@@ -400,10 +412,19 @@ class Archive extends Controller
                     ],
                     [
                         'worker_id' => Helper::worker(),
-                        'company_name' => $company_name,
-                        'city' => $grad,
+                        'company_name' => [
+                            'sr' => Helper::transliterate($company_name,"sr"),
+                            'rs-cyrl' => Helper::transliterate($company_name,"rs-cyrl")
+                        ],
+                        'city' => [
+                            'sr' => Helper::transliterate($grad,"sr"),
+                            'rs-cyrl' => Helper::transliterate($grad,"rs-cyrl")
+                        ],
                         'zip_code' => $postcode,
-                        'address' => $adresa,
+                        'address' => [
+                            'sr' => Helper::transliterate($adresa,"sr"),
+                            'rs-cyrl' => Helper::transliterate($adresa,"rs-cyrl")
+                        ],
                         'email' => $email,
                         'phone' => $tel,
                         'pib' => $pib,
