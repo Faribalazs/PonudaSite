@@ -17,9 +17,9 @@
         );
     @endphp
 
-    <div class="flex profile-title">
+    {{-- <div class="flex profile-title">
         <p class="text-3xl font-bold">{{ __('app.profile.my-account') }}</p>
-    </div>
+    </div> --}}
 
     <!-- Profile image -->
     <div class="flex mt-5 items-center flex-col">

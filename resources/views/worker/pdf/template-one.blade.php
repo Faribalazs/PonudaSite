@@ -141,6 +141,12 @@
             padding-left: 8px;
             padding-right: 8px;
         }
+
+        thead {
+            page-break-inside: auto;
+            page-break-before: always;
+            page-break-after: always;
+        }
     </style>
 
 </head>
@@ -259,6 +265,8 @@
                                 $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
                                 $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
                                 $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
+                                $overall_price = $item->quantity * $item->unit_price;
+                                $subPrice += $overall_price;
                             @endphp
                             @if ($name_category != null && !in_array($name_category, $uniqueName))
                                 <thead>
@@ -271,24 +279,27 @@
                                             @endphp
                                         </td>
                                     </tr>
+                                    <tr style="page-break-before: avoid; page-break-after: avoid;">
+                                        <th scope="col" class="table-padding-small">
+                                            {{ __('app.create-ponuda.table-r-br') }}</th>
+                                        <th scope="col" class="table-padding w-100">
+                                            {{ __('app.create-ponuda.table-naziv') }}</th>
+                                        <th scope="col" class="table-padding-small">
+                                            {{ __('app.create-ponuda.table-j-m') }}</th>
+                                        <th scope="col" class="table-padding-small">
+                                            {{ __('app.create-ponuda.table-kolicina') }}</th>
+                                        <th scope="col" class="table-padding">
+                                            {{ __('app.create-ponuda.table-jed-cena') }}</th>
+                                        <th scope="col" class="table-padding">
+                                            {{ __('app.create-ponuda.table-ukupno') }}</th>
+                                    </tr>
                                 </thead>
                             @endif
-                            @php
-                                $overall_price = $item->quantity * $item->unit_price;
-                                $subPrice += $overall_price;
-                            @endphp
+
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="table-padding-small">{{ __('app.create-ponuda.table-r-br') }}</th>
-                                    <th scope="col" class="table-padding w-100">{{ __('app.create-ponuda.table-naziv') }}</th>
-                                    <th scope="col" class="table-padding-small">{{ __('app.create-ponuda.table-j-m') }}</th>
-                                    <th scope="col" class="table-padding-small">{{ __('app.create-ponuda.table-kolicina') }}</th>
-                                    <th scope="col" class="table-padding">{{ __('app.create-ponuda.table-jed-cena') }}</th>
-                                    <th scope="col" class="table-padding">{{ __('app.create-ponuda.table-ukupno') }}</th>
-                                </tr>
-                                <tr>
                                     <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-left ponuda-table-des"><b>
+                                    <td class="text-left ponuda-table-des table-padding-small-x"><b>
                                             {{ $title }}
                                         </b><br>
                                         {{ $desc_now }}
@@ -306,7 +317,8 @@
 
                                 @if ($loop->last)
                                     <tr>
-                                        <td colspan="8" class="text-right table-padding border-bold whitespace-nowrap px-1">
+                                        <td colspan="8"
+                                            class="text-right table-padding border-bold whitespace-nowrap px-1">
                                             <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
                                         </td>
                                     </tr>

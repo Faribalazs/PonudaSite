@@ -85,6 +85,32 @@
                                         @endphp
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th class="p-2 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-r-br') }}
+                                    </th>
+                                    <th class="p-2 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-naziv') }}
+                                    </th>
+                                    <th class="p-2 px-6 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-j-m') }}
+                                    </th>
+                                    <th class="p-2 px-6 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-kolicina') }}
+                                    </th>
+                                    <th class="p-2 px-6 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-jed-cena') }}
+                                    </th>
+                                    <th class="p-2 px-6 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-ukupno') }}
+                                    </th>
+                                    <th class="p-2 px-3 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-izmeni') }}
+                                    </th>
+                                    <th class="p-2 px-3 lowercase" scope="col">
+                                        {{ __('app.create-ponuda.table-izbrisi') }}
+                                    </th>
+                                </tr>
                             </thead>
                         @endif
                         @php
@@ -92,32 +118,6 @@
                             $subPrice += $overall_price;
                         @endphp
                         <tbody>
-                            <tr>
-                                <th class="p-2 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-r-br') }}
-                                </th>
-                                <th class="p-2 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-naziv') }}
-                                </th>
-                                <th class="p-2 px-6 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-j-m') }}
-                                </th>
-                                <th class="p-2 px-6 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-kolicina') }}
-                                </th>
-                                <th class="p-2 px-6 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-jed-cena') }}
-                                </th>
-                                <th class="p-2 px-6 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-ukupno') }}
-                                </th>
-                                <th class="p-2 px-3 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-izmeni') }}
-                                </th>
-                                <th class="p-2 px-3 lowercase" scope="col">
-                                    {{ __('app.create-ponuda.table-izbrisi') }}
-                                </th>
-                            </tr>
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-left ponuda-table-des p-1"><b>

@@ -119,6 +119,9 @@ class OptionsController extends Controller
       $request->validate([
          'category' => ['required','min:3'],
          'id' => ['required','exists:App\Models\Category,id'],
+      ],
+      [
+         '*.required' => trans("app.errors.no-category-name"),
       ]);
 
       $name = $request->input('category');
@@ -130,7 +133,8 @@ class OptionsController extends Controller
                'rs-cyrl' => Helper::transliterate($name,"rs-cyrl")
             ]
          ]);
-      return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $name)->with('old_name', Category::select('name')->where('id', $id)->first()->name);
+      Alert::success(__('app.controllers.successfully-saved'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      return redirect(route("worker.options.update"));
    }
 
    public function updateSubcategory(Request $request){
@@ -148,7 +152,8 @@ class OptionsController extends Controller
                'rs-cyrl' => Helper::transliterate($name,"rs-cyrl")
             ]
          ]);
-      return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $name)->with('old_name', Subcategory::select('name')->where('id', $id)->first()->name);
+      Alert::success(__('app.controllers.successfully-saved'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      return redirect(route("worker.options.update"));
    }
 
    public function updatePozicija(Request $request){
@@ -187,8 +192,9 @@ class OptionsController extends Controller
             ],
             'custom_description' => $finalDescription,
             'unit_id' => $unit
-         ]);     
-      return redirect(route("worker.options.update"))->with('successMsg', 'kecske')->with('name', $title)->with('old_name', Pozicija::select('custom_title')->where('id', $id)->first()->custom_title);
+         ]);
+      Alert::success(__('app.controllers.successfully-saved'))->showCloseButton()->showConfirmButton(__('app.basic.close')); 
+      return redirect(route("worker.options.update"));
    }
 
 

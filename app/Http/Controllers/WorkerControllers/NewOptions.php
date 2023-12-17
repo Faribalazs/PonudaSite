@@ -24,6 +24,9 @@ class NewOptions extends Controller
    {
       $request->validate([
          'category_name_sr' => ['required','max:64','string'],
+      ],
+      [
+         '*.required' => trans("app.errors.no-category-name"),
       ]);
 
       $category_name_sr = $request->input('category_name_sr');
@@ -63,6 +66,10 @@ class NewOptions extends Controller
       $request->validate([
          'subcategory_name_sr' => 'required|max:64|regex:/^[a-z\s]+$/i',
          'category' => ['required', new CheckID(Default_category::class, Category::class)],
+      ],
+      [
+         'category.required' => trans("app.errors.no-category-selected"),
+         'subcategory_name_sr.required' => trans("app.errors.no-subcategory-name"),
       ]);
    
       Subcategory::create([
@@ -92,9 +99,15 @@ class NewOptions extends Controller
    {
       $request->validate([
          'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
-         'unit_id' => ['required','exists:App\Models\Units,id_unit'],
          'pozicija_name_sr' => ['required','string'],
          'poz_des_sr' => ['nullable','string'],
+         'unit_id' => ['required','exists:App\Models\Units,id_unit'],
+      ],
+      [
+         'subcategory.required' => trans("app.errors.no-subcategory-selected"),
+         'pozicija_name_sr.required' => trans("app.errors.no-pozicija-name"),
+         'poz_des_sr.required' => trans("app.errors.no-pozicija-des"),
+         'unit_id.required' => trans("app.errors.no-unit-selected"),
       ]);
 
       Pozicija::create([

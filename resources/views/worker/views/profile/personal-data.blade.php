@@ -89,25 +89,12 @@
                 <label for="company_name"
                     class="sm:text-xl text-base my-3">{{ __('app.profile.company-name-correct') }}* :</label>
                 <input class="input-style {{ $errors->has('company_name') ? 'border-error mb-1' : 'mb-3' }}"
-                    placeholder="{{ __('app.profile.company-name-correct') }}" name="company_name" value="{{ old('company_name') }}" maxlength="50" type="text"
-                    oninput="convertToCyrillic(this.value,'output_company_name')" required />
-
-                <!-- Company Name Cyrl -->
-                <input class="input-style mb-3" placeholder="{{ __('app.profile.company-name-correct-cyrl') }}"
-                    name="company_name_rs-cyrl" id="output_company_name" maxlength="50" value="{{ old('company_name_rs-cyrl') }}" type="text" />
-                <p class="{{ $errors->has('company_name') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
-                    {{ $errors->first('company_name') }}</p>
+                    placeholder="{{ __('app.profile.company-name-correct') }}" name="company_name" value="{{ old('company_name') }}" maxlength="50" type="text" required />
 
                 <!-- Country -->
                 <label for="country" class="sm:text-xl text-base mb-3 lg:mt-7 mt-5">{{ __('app.profile.country') }}* :</label>
-                <input placeholder="{{ __('app.profile.country') }}" class="input-style {{ $errors->has('country') ? 'border-error mb-1' : 'mb-3' }}" name="country"
-                    oninput="convertToCyrillic(this.value,'output_country')" value="{{ old('country') }}"
+                <input placeholder="{{ __('app.profile.country') }}" class="input-style {{ $errors->has('country') ? 'border-error mb-1' : 'mb-3' }}" name="country" value="{{ old('country') }}"
                     maxlength="20" type="text" required />
-
-                <!-- Country Cyrl -->
-                <input placeholder="{{ __('app.profile.country-cyrl') }}" class="input-style mb-3" name="country_rs-cyrl" id="output_country" value="{{ old('country_rs-cyrl') }}" maxlength="20" type="text" />
-                <p class="{{ $errors->has('country') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
-                    {{ $errors->first('country') }}</p>
 
                 <div class="flex lg:flex-row flex-col">
                     <div class="flex w-full lg:w-1/2 flex-col lg:pr-2 pr-0">
@@ -115,13 +102,8 @@
                         <!-- City -->
                         <label for="city" class="sm:text-xl text-base mb-3 lg:mt-7 mt-5">{{ __('app.profile.city') }}* :</label>
                         <input placeholder="{{ __('app.profile.city') }}" class="input-style {{ $errors->has('city') ? 'border-error mb-1' : 'mb-3' }}"
-                            name="city" value="{{ old('city') }}" maxlength="30" type="text"
-                            oninput="convertToCyrillic(this.value,'output_city')" required />
+                            name="city" value="{{ old('city') }}" maxlength="30" type="text" required />
 
-                        <!-- City Cyrl -->
-                        <input placeholder="{{ __('app.profile.city-cyrl') }}" class="input-style mb-3" name="city_rs-cyrl" id="output_city" maxlength="30" value="{{ old('city_rs-cyrl') }}" type="text" />
-                        <p class="{{ $errors->has('city') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
-                            {{ $errors->first('city') }}</p>
                     </div>
                     <div class="flex w-full lg:w-1/2 flex-col lg:pl-2 pl-0">
 
@@ -138,14 +120,7 @@
                 <!-- Address -->
                 <label for="address" class="sm:text-xl text-base mb-3 lg:mt-7 mt-5">{{ __('app.profile.address') }}* :</label>
                 <input placeholder="{{ __('app.profile.address') }}" class="input-style {{ $errors->has('address') ? 'border-error mb-1' : 'mb-3' }}"
-                    name="address" value="{{ old('address') }}" maxlength="50" type="text"
-                    oninput="convertToCyrillic(this.value,'output_address')" required />
-
-                <!-- Address Cyrl -->
-                <input placeholder="{{ __('app.profile.address-cyrl') }}" class="input-style mb-3" name="address_rs-cyrl" id="output_address" value="{{ old('address_rs-cyrl') }}" maxlength="50"
-                    type="text" />
-                <p class="{{ $errors->has('address') ? 'flex text-red mt-1 pl-1' : 'hidden' }}">
-                    {{ $errors->first('address') }}</p>
+                    name="address" value="{{ old('address') }}" maxlength="50" type="text" required />
 
                 <!-- E mail -->
                 <label for="email" class="sm:text-xl text-base mb-3 lg:mt-7 mt-5">{{ __('app.profile.email') }}* :</label>
@@ -225,93 +200,6 @@
             document.getElementById("file-upload").onchange = function() {
                 document.getElementById("uploadFile").value = this.value.replace('C:\\fakepath\\', ' ');
             };
-
-            function convertToCyrillic(inputText, id) {
-                const cyrillicText = convertLatinToCyrillic(inputText);
-                document.getElementById(id).value = cyrillicText;
-            }
-
-            function convertLatinToCyrillic(inputText) {
-                const latinToCyrillicMap = {
-                    'NJ': 'Њ',
-                    'LJ': 'Љ',
-                    'DJ': 'Ђ',
-                    'Nj': 'Њ',
-                    'Lj': 'Љ',
-                    'Dj': 'Ђ',
-                    'nj': 'њ',
-                    'lj': 'љ',
-                    'dj': 'ђ',
-                    'č': 'ч',
-                    'š': 'ш',
-                    'Č': 'Ч',
-                    'Š': 'Ш',
-                    'ć': 'ћ',
-                    'Ć': 'Ћ',
-                    'ž': 'ж',
-                    'Ž': 'Ж',
-                    'đ': 'ђ',
-                    'Đ': 'Ђ',
-                    'x': 'кс',
-
-                    'a': 'а',
-                    'b': 'б',
-                    'c': 'ц',
-                    'd': 'д',
-                    'e': 'е',
-                    'f': 'ф',
-                    'g': 'г',
-                    'h': 'х',
-                    'i': 'и',
-                    'j': 'j',
-                    'k': 'к',
-                    'l': 'л',
-                    'm': 'м',
-                    'n': 'н',
-                    'o': 'о',
-                    'p': 'п',
-                    'r': 'р',
-                    's': 'с',
-                    't': 'т',
-                    'u': 'у',
-                    'v': 'в',
-                    'w': 'в',
-                    'y': 'y',
-                    'z': 'з',
-
-                    'A': 'А',
-                    'B': 'Б',
-                    'C': 'Ц',
-                    'D': 'Д',
-                    'E': 'Е',
-                    'F': 'Ф',
-                    'G': 'Г',
-                    'H': 'Х',
-                    'I': 'И',
-                    'J': 'J',
-                    'K': 'К',
-                    'L': 'Л',
-                    'M': 'М',
-                    'N': 'Н',
-                    'O': 'О',
-                    'P': 'П',
-                    'R': 'Р',
-                    'S': 'С',
-                    'T': 'Т',
-                    'U': 'У',
-                    'V': 'В',
-                    'W': 'В',
-                    'X': 'КС',
-                    'Y': 'Y',
-                    'Z': 'З',
-                };
-
-                const cyrillicText = inputText.replace(
-                    /NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|R|S|T|U|V|W|X|Y|Z/g,
-                    match => latinToCyrillicMap[match]);
-
-                return cyrillicText;
-            }
         </script>
     @endif
 </x-worker-profile-layout>

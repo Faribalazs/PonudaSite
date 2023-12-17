@@ -5,6 +5,7 @@
     <x-slot name="header">
         {{ __('app.nav.archive') }}
     </x-slot>
+
     @php
         $finalPrice = 0;
         $titleBold = 0;
@@ -15,10 +16,13 @@
             \Carbon\Carbon::setLocale(app()->getLocale());
         }
     @endphp
+
     @if ($mergedData != null)
+
         @php
             $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
         @endphp
+
         <div class="flex mt-16 sm:mb-0 mb-10">
             <div class="flex justify-center flex-col w-full items-center sm:gap-5 gap-8">
                 <div class="flex w-full sm:gap-5 gap-8 sm:flex-row flex-col">
@@ -43,25 +47,32 @@
         <p class="sm:mt-10 mt-0 sm:mb-0 mb-2 text-lg">
             {{ __('app.archive.created') }}: <b>{{ $ponuda_name->created_at->translatedFormat('l jS F Y H:i') }}</b>
         </p>
+
         @if (isset($ponuda_name->updated_at))
             <p class="sm:mt-10 mt-0 sm:mb-0 mb-2 text-lg">
                 {{ __('app.archive.updated') }}: {{ $ponuda_name->updated_at->translatedFormat('l jS F Y H:i') }}
             </p>
         @endif
+
         <div class="overflow-auto">
             @foreach ($finalData as $data)
                 <table class="ponuda-table w-full mt-5">
+
                     @php
                         $subPrice = 0;
                         $i = 1;
                     @endphp
+
                     @foreach ($data as $item)
                         @php
                             $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
                             $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
                             $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
                             $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
+                            $overall_price = $item->quantity * $item->unit_price;
+                            $subPrice += $overall_price;
                         @endphp
+
                         @if ($name_category != null && !in_array($name_category, $uniqueName))
                             <thead>
                                 <tr>
@@ -73,31 +84,66 @@
                                         @endphp
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-r-br') }}
+                                    </th>
+                                    <th scope="col" class="p-2 text-center">
+                                        {{ __('app.create-ponuda.table-naziv') }}
+                                    </th>
+                                    <th scope="col" class="p-2 px-6 text-center">
+                                        {{ __('app.create-ponuda.table-j-m') }}
+                                    </th>
+                                    <th scope="col" class="p-2 px-6 text-center">
+                                        {{ __('app.create-ponuda.table-kolicina') }}
+                                    </th>
+                                    <th scope="col" class="p-2 px-6 text-center">
+                                        {{ __('app.create-ponuda.table-jed-cena') }}
+                                    </th>
+                                    <th scope="col" class="p-2 px-6 text-center">
+                                        {{ __('app.create-ponuda.table-ukupno') }}</th>
+                                    <th scope="col" class="p-2 px-3 text-center">
+                                        {{ __('app.create-ponuda.table-izbrisi') }}</th>
+                                </tr>
+
+                                @if ($i == 1)
+                                    <tr>
+                                        <td class="text-center">{{ $i++ }}</td>
+                                        <td class="text-left ponuda-table-des p-2"><b>
+                                                {{ $title }}
+                                            </b><br>
+                                            {{ $desc_now }}
+                                            <br>{{ $item->name_service }}
+                                        </td>
+                                        <td class="text-center">{{ $item->unit_name }}</td>
+                                        <td class="text-center">{{ $item->quantity }}</td>
+                                        <td class="text-center lg:px-4 px-3">
+                                            {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                        <td class="whitespace-nowrap lg:px-4 px-3 border-left text-center">
+                                            {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                        <td><button class="delete-btn-table mx-auto"
+                                                onclick="actionSwall('{{ route('worker.archive.delete.element') }}','{{ $title }}', '{{ $item->id }}')">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </button></td>
+
+                                    </tr>
+
+                                    @if ($loop->last)
+                                        <tr>
+                                            <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
+                                                <b>{{ __('app.create-ponuda.table-svega') }}&nbsp;{{ $name_category }}:</b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @continue
+                                @endif
+
                             </thead>
                         @endif
-                        @php
-                            $overall_price = $item->quantity * $item->unit_price;
-                            $subPrice += $overall_price;
-                        @endphp
+
                         <tbody>
-                            <tr>
-                                <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-r-br') }}
-                                </th>
-                                <th scope="col" class="p-2 text-center">{{ __('app.create-ponuda.table-naziv') }}
-                                </th>
-                                <th scope="col" class="p-2 px-6 text-center">{{ __('app.create-ponuda.table-j-m') }}
-                                </th>
-                                <th scope="col" class="p-2 px-6 text-center">
-                                    {{ __('app.create-ponuda.table-kolicina') }}
-                                </th>
-                                <th scope="col" class="p-2 px-6 text-center">
-                                    {{ __('app.create-ponuda.table-jed-cena') }}
-                                </th>
-                                <th scope="col" class="p-2 px-6 text-center">
-                                    {{ __('app.create-ponuda.table-ukupno') }}</th>
-                                <th scope="col" class="p-2 px-3 text-center">
-                                    {{ __('app.create-ponuda.table-izbrisi') }}</th>
-                            </tr>
+
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-left ponuda-table-des p-2"><b>
@@ -120,6 +166,7 @@
                                     </button></td>
 
                             </tr>
+
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
@@ -144,11 +191,13 @@
                             @php
                                 $subPrice = 0;
                             @endphp
+
                             @foreach ($data as $rekapitulacija)
                                 @php
                                     $name_category_rekapitulacija = $rekapitulacija->name_category != null ? $rekapitulacija->name_category : ($rekapitulacija->name_custom_category != null ? $rekapitulacija->name_custom_category : null);
                                     $subPrice += $rekapitulacija->quantity * $rekapitulacija->unit_price;
                                 @endphp
+
                                 @if ($loop->last)
                                     <tr>
                                         <td class="text-left w-full p-1">
@@ -160,6 +209,7 @@
                                     </tr>
                                 @endif
                             @endforeach
+
                             @php
                                 $finalPrice += $subPrice;
                             @endphp
@@ -198,6 +248,7 @@
                 </table>
             </div>
         </div>
+
         @if (isset($ponuda_name->opis))
             <div>
                 <p class="mt-10 font-bold">
@@ -209,7 +260,9 @@
                 </p>
             </div>
         @endif
+
     @endif
+
     <script>
         function actionSwall(url, name, id, realId) {
             Swal.fire({
@@ -228,4 +281,5 @@
             })
         }
     </script>
+
 </x-app-worker-layout>

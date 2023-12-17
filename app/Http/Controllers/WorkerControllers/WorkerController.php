@@ -188,8 +188,11 @@ class WorkerController extends Controller
       } elseif($fizicko_lice->wasChanged()) {
          alert()->success(__('app.controllers.data-is-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
+      elseif(!$fizicko_lice) {
+         alert()->error(__('app.controllers.data-is-not-saved-or-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      }
       else{
-         alert()->info(__('app.controllers.data-is-not-saved-or-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+         alert()->success(__('app.controllers.data-is-changed'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
       }
       return redirect()->route('worker.personal.contacts')->with('selected_fizicko', 'fizicko_lice');
    }

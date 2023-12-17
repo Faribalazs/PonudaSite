@@ -1,13 +1,25 @@
 <x-app-worker-layout>
+
     <x-slot name="pageTitle">
-        {{ __('app.categories.new-pozicija') }}
+        {{ __('app.categories.new-pozicija-title') }}
     </x-slot>
     <x-slot name="header">
-        {{ __('app.categories.new-pozicija') }}
+        {{ __('app.categories.new-pozicija-title') }}
     </x-slot>
+
+    @if (count($errors) != 0)
+        <script>
+            Swal.fire({
+                title: "{{ $errors->first() }}",
+                icon: "error"
+            });
+        </script>
+    @endif
+
     <form method="POST" id="add_new_category" class="mt-36" action="{{ route('worker.options.store.new.pozicija') }}">
+
         @csrf
-        {{-- create ponuda szeruen tudjak kivalasztani az alkategoriat --}}
+
         <div id="subCategory-dropdown">
             <span class="input-label pl-2">{{ __('app.create-ponuda.choose-subcategory') }}:</span>
             <div class="select-menu-subcategory mt-3">
@@ -23,6 +35,7 @@
                         <input type="text" placeholder="Search.." id="subcategory-filter"
                             onkeyup="filterFunctionSub()" class="w-full dropdown-search">
                     </li>
+
                     @foreach ($custom_subcategories as $subcategory)
                         <li class="option-subcategory">
                             <span class="option-text-subcategory">{{ $subcategory->name }}</span>
@@ -30,6 +43,7 @@
                             <p class="sub-id">{{ $subcategory->custom_category_id }}</p>
                         </li>
                     @endforeach
+
                     @foreach ($subcategories as $subcategory)
                         <li class="option-subcategory">
                             <span class="option-text-subcategory">{{ $subcategory->name }}</span>
@@ -37,28 +51,16 @@
                             <p class="sub-id">{{ $subcategory->category_id }}</p>
                         </li>
                     @endforeach
+
                 </ul>
             </div>
         </div>
         <div class="flex flex-col" style="margin-top: -130px">
-            <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name') }}:</span>
-            <div class="add-pozicija-section">
-                <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name-latin') }}: *</span>
-                <input type="text" name="pozicija_name_sr" class="input-style" id="inputTextName"
-                oninput="convertToCyrillic(this.value, 'outputTextName')">
+            <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-name') }}*</span>
+            <input type="text" name="pozicija_name_sr" value="{{ old('pozicija_name_sr') }}" class="input-style" id="inputTextName">
 
-                <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-name-ciril') }}:</span>
-                <input type="text" class="input-style" name="pozicija_name_rs_cyrl" id="outputTextName" >
-            </div>
-
-            <span class="input-label pl-2 mt-20 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}:</span>
-            <div class="add-pozicija-section">
-                <span class="input-label pl-2 mb-3">{{ __('app.create-ponuda.swal-pozicija-des-latin') }}: *</span>
-                <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes" oninput="convertToCyrillic(this.value, 'outputTextDes')"></textarea>
-
-                <span class="input-label py-2 pl-2 mt-5">{{ __('app.create-ponuda.swal-pozicija-des-ciril') }}:</span>
-                <textarea name="poz_des_rs_cyrl" rows="5" class="input-style" id="outputTextDes" ></textarea>
-            </div>
+            <span class="input-label pl-2 mt-20 mb-3">{{ __('app.create-ponuda.swal-pozicija-des') }}*</span>
+            <textarea name="poz_des_sr" rows="5" class="input-style mb-3" id="inputTextDes">{{ old('poz_des_sr') }}</textarea>
         </div>
 
         <div id="obracun-dropdown" class="mt-20" >
@@ -76,12 +78,14 @@
                         <input type="text" placeholder="Search.." id="obracun-filter"
                             onkeyup="filterFunctionObracun()" class="w-full dropdown-search">
                     </li>
+
                     @foreach ($units as $unit)
                         <li class="option-obracun">
                             <span class="option-text-obracun">{{ $unit->name }}</span>
                             <p class="obracun-id">{{ $unit->id_unit }}</p>
                         </li>
                     @endforeach
+
                 </ul>
             </div>
         </div>
@@ -89,6 +93,7 @@
             <button type="submit" class="main-btn mx-auto mt-10">{{ __('app.basic.save') }}</button>
         </div>
     </form>
+
     <script>
         window.addEventListener('keydown', function(e) {
             if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
@@ -256,29 +261,6 @@
         });
         // obracun select end
 
-        function convertToCyrillic(inputText, id) {
-            const cyrillicText = convertLatinToCyrillic(inputText);
-            document.getElementById(id).value = cyrillicText;
-        }
-
-        function convertLatinToCyrillic(inputText) {
-            const latinToCyrillicMap = {
-                'NJ': 'Њ', 'LJ': 'Љ', 'DJ': 'Ђ', 'Nj': 'Њ', 'Lj': 'Љ', 'Dj': 'Ђ', 'nj': 'њ', 'lj': 'љ', 'dj': 'ђ', 'č': 'ч', 'š': 'ш', 'Č': 'Ч', 'Š': 'Ш', 'ć': 'ћ', 'Ć': 'Ћ', 'ž': 'ж', 'Ž': 'Ж', 'đ': 'ђ', 'Đ': 'Ђ','x': 'кс',
-
-                'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г',
-                'h': 'х', 'i': 'и', 'j': 'j', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н',
-                'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
-                'v': 'в', 'w': 'в', 'y': 'y', 'z': 'з',
-
-                'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г',
-                'H': 'Х', 'I': 'И', 'J': 'J', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н',
-                'O': 'О', 'P': 'П', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У',
-                'V': 'В', 'W': 'В', 'X': 'КС', 'Y': 'Y', 'Z': 'З',
-            };
-
-            const cyrillicText = inputText.replace(/NJ|LJ|DJ|Nj|Lj|Dj|nj|lj|dj|č|š|Č|Š|ć|Ć|ž|Ž|đ|Đ|x|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|r|s|t|u|v|w|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|R|S|T|U|V|W|X|Y|Z/g, match => latinToCyrillicMap[match]);
-
-            return cyrillicText;
-        }
     </script>
+
 </x-app-worker-layout>

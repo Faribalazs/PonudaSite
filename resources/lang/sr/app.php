@@ -92,6 +92,9 @@ return [
         'new-category'                  => "Novu kategoriju",
         'new-subcategory'               => "Novu podkategoriju",
         'new-pozicija'                  => "Novu poziciju",
+        'new-category-title'            => "Nova kategorija",
+        'new-subcategory-title'         => "Nova podkategorija",
+        'new-pozicija-title'            => "Nova pozicija",
         'what-you-want-to-add'          => "Šta želiš da dodaš?",
         'update-category'               => "Ažuriraj kategoriju",
         'write-name-category'           => "Upiši naziv kategorije",
@@ -102,7 +105,10 @@ return [
         'description-position'          => "Upiši opis pozicije",
         'calculation'                   => "Obračun",
         'choose-calculation'            => "Odaberi obračun",
-        'catalogue-categories'          => "Katalog pozicije",
+        'catalogue-categories'          => "Katalog pozicija",
+        'delete-category'               => "Izbriši kategoriju",
+        'delete-subcategory'            => "Izbriši subkategoriju",
+        'delete-pozicija'               => "Izbriši poziciju",
     ],
 
     'archive' => [
@@ -237,6 +243,7 @@ return [
         'deleted-pozicija'              => "Uspešno ste izbrisali poziciju!",
         'email-address-is-occupied'     => "E-mail adresa je već u upotrebi.",
         'finish-ponuda-first'           => "Morate završiti uređivanje ponude pre nego što pristupite ovoj stranici.",
+        'successfully-saved'            => "Uspešno sačuvano!",
     ],
 
     'email' => [
@@ -293,5 +300,22 @@ return [
         'new_password'                  => "Nova lozinka se ne poklapa",
         'password-validation'           => "Lozinka mora da bude minimum 8 karektera i treba da sadrži Barem jedno veliko slovo i brojeve",
         'only-char'                     => "Samo slova možete upisati",
+        'no-category-name'              => "Upišite ime kategorije",
+        'no-category-selected'          => "Morate izabrati kategoriju",
+        'no-subcategory-name'           => "Upišite ime subkategorije",
+        'no-subcategory-selected'       => "Morate izabrati subkategoriju",
+        'no-unit-selected'              => "Morate izabrati obračun",
+        'no-pozicija-name'              => "Upišite ime pozicije",
+        'no-pozicija-des'               => "Upišite opis pozicije",
+    ],
+
+    'slider' => [
+        'slider-one-title'              => "PONUDA MAJSTORA",
+        'slider-one-text'               => "Platforma „PONUDA MAJSTORA“ predstavlja savremen i efikasan alat za izradu PONUDA i UGOVORA za izvođenje građevinskih i građevinsko – zanatskih radova",
+        'slider-one-btn-text'           => "Registruj nalog",
+        'slider-two-title'              => "KOME JE NAMENJEN",
+        'slider-two-text'               => "Namenjena je u prvom redu MAJSTORIMA – PREDUZETNICIMA koji žele da svoj angažman na izradama PONUDA kao i sastavljanju UGOVORA svedu na minimalan nivo, a da pri tome njihove ponude i ugovori budu izrađeni po najvišim tehničkim i pravno - formalnim pravilima struke",
+        'slider-three-title'            => "LAKO I BRZO NA TELEFONU",
+        'slider-three-text'             => "Sam način izrade dokumenata se pojednostavljuje do tog nivoa da se dokumentacija može izraditi i uz upotrebu mobilnog telefona, za vreme pauze za doručak ili kafu",
     ],
 ];

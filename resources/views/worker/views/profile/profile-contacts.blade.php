@@ -38,7 +38,7 @@
                 <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="fizicko_search" onkeyup="filterFizickoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.individual') }}">
-                    <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">
+                    <div class="add-new-contact-btn flex rounded-md justify-center md:text-lg text-base mt-2 py-3 mb-6">
                         {{ __("app.profile.add-individual") }}
                     </div>
                 </a>
@@ -46,7 +46,7 @@
                     @foreach ($fizicka_lica as $fizicko_lice)
                         <div style="min-height: max-content"
                             class="flex flex-grow justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
-                            <span class="option-text-fizicka-lica">{{ $fizicko_lice->first_name }}
+                            <span class="option-text-fizicka-lica card-lice-ime">{{ $fizicko_lice->first_name }}
                                 {{ $fizicko_lice->last_name }}</span>
                             <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
                                 <a href="{{ route('worker.personal.contacts.show', ['lice' => 'individual', 'id' => $fizicko_lice->id]) }}"
@@ -64,7 +64,7 @@
             </div>
         @else
             <a href="{{ route('worker.personal.contacts.add.individual') }}">
-                <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
+                <div class="add-new-contact-btn flex rounded-md justify-center md:text-lg text-base mt-3 w-3/4 py-2 mx-auto">
                     {{ __("app.profile.add-individual") }}
                 </div>
             </a>
@@ -79,7 +79,7 @@
                 <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..." id="pravno_search" onkeyup="filterPravnoLice()"
                     class="w-full dropdown-search mb-3">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
-                    <div class="add-new-contact-btn flex rounded-md justify-center mt-2 py-3 mb-6">
+                    <div class="add-new-contact-btn flex rounded-md justify-center md:text-lg text-base mt-2 py-3 mb-6">
                         {{ __("app.profile.add-legal-entity") }}
                     </div>
                 </a>
@@ -87,7 +87,7 @@
                     @foreach ($pravna_lica as $pravno_lice)
                         <div
                             class="flex justify-between border-border-grey border rounded-2xl items-center px-7 py-3 mb-3">
-                            <span class="option-text-fizicka-lica">{{ $pravno_lice->company_name }}</span>
+                            <span class="option-text-fizicka-lica card-lice-ime">{{ $pravno_lice->company_name }}</span>
                             <div class="flex sm:gap-3 gap-0 sm:pl-4 pl-3">
                                 <a href="{{ route('worker.personal.contacts.show', ['lice' => 'legal-entity', 'id' => $pravno_lice->id]) }}"
                                     class="share-btn-table mr-3">
@@ -103,7 +103,7 @@
                 </div>
             </div>
         @else
-            <div class="add-new-contact-btn flex rounded-md justify-center mt-3 w-3/4 py-2 mx-auto">
+            <div class="add-new-contact-btn flex rounded-md justify-center md:text-lg text-base mt-3 w-3/4 py-2 mx-auto">
                 <a href="{{ route('worker.personal.contacts.add.legal-entity') }}">
                     {{ __("app.profile.add-legal-entity") }}
                 </a>

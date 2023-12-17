@@ -271,11 +271,12 @@
 
     function LanguageSwitcher(lang) {
         Swal.fire({
-            html: "@if ($lang == 'sr')<a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='disabled-link'>Srpski - latinica</a><br>" +
-                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='language-name'>Srpski - latinica</a><br> @endif" +
+            html: "<span class='language-title-swall md:text-4xl text-3xl'>{{ __('app.basic.choose-language') }}</span><br>" +
+                "@if ($lang == 'sr')<a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='disabled-link block md:text-2xl text-xl mt-2'>Srpski - latinica</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('sr')) }}' class='language-name block md:text-2xl text-xl mt-2'>Srpski - latinica</a><br> @endif" +
 
-                "@if ($lang == 'rs-cyrl')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='disabled-link'>Српски - ћирилица</a><br>" +
-                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='language-name'>Српски - ћирилица</a><br> @endif",
+                "@if ($lang == 'rs-cyrl')<a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='disabled-link md:text-2xl text-xl'>Српски - ћирилица</a><br>" +
+                "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('rs-cyrl')) }}' class='language-name md:text-2xl text-xl'>Српски - ћирилица</a><br> @endif",
 
             // "@if ($lang == 'hu')<a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='disabled-link'>Magyar</a><br>" +
             // "@else <a href='{{ url(Helper::getCurrentUrlWithLocale('hu')) }}' class='language-name'>Magyar</a><br> @endif" +
