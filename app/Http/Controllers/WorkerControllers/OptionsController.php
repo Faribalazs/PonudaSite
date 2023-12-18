@@ -31,6 +31,7 @@ class OptionsController extends Controller
          )
          ->join('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'categories.id')
          ->join('subcategories as sc', 'sc.category_id', '=', 'categories.id')
+         ->whereNull('c_sc.is_subcategory_deleted')
          ->get();
 
       $c_subcategories = Subcategory::select('custom_subcategories.id','custom_subcategories.name','custom_subcategories.custom_category_id')
@@ -44,6 +45,7 @@ class OptionsController extends Controller
          ->join('pozicija as p', 'p.subcategory_id', '=', 'subcategories.id')
          ->join('custom_pozicija as c_p', 'c_p.custom_subcategory_id', '=', 'subcategories.id')
          ->distinct()
+         ->whereNull('c_p.is_pozicija_deleted')
          ->get();
 
       $custom_pozicije = Pozicija::select('id','custom_title','custom_subcategory_id')->where('worker_id', $worker_id)
@@ -57,8 +59,8 @@ class OptionsController extends Controller
          ->distinct()       
          ->get();
 
-      $custom_categories = $c_categories->merge($categories)->concat($result);      
-      $custom_subcategories = $c_subcategories->merge($subcategories);
+      $custom_categories = $c_categories->merge($categories)->concat($result)->unique('id');      
+      $custom_subcategories = $c_subcategories->merge($subcategories)->unique('id');
 
       return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije])->with('successMsg', '')->with('name','')->with('old_name', '');
    }
