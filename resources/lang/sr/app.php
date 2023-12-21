@@ -257,6 +257,13 @@ return [
         'reset-password-expire'         => "Ova veza za resetovanje lozinke ističe za 60 minuta.",
         'verify-email'                  => "Molimo Vas, potvrdite Vašu email adresu.",
         'banned'                        => "Vaš nalog je suspendovan, molimo Vas kontaktirajte administratora.",
+        'forgot-password-text'          => "Zaboravili ste lozinku? Nema problema. Samo nam javite svoju adresu e-pošte i poslaćemo vam e-poštom vezu za resetovanje lozinke koja će vam omogućiti da odaberete novu.",
+        'forgot-password-btn-text'      => "Link za resetovanje lozinke e-pošte",
+        'forgot password-swal-text'     => "Poslali smo vašu link za resetovanje lozinke e-poštom!",
+        'forgot-password'               => "Zaboravljena lozinka",
+        'reset-password'                => "Resetujte lozinku",
+        'reset-password-success'        => "Lozinka je uspešno promenjena!",
+        'reset-password-success-text'   => "Sada možete da se prijavite sa novom lozinkom",
     ],
 
     'auth' => [
@@ -317,5 +324,6 @@ return [
         'slider-two-text'               => "Namenjena je u prvom redu MAJSTORIMA – PREDUZETNICIMA koji žele da svoj angažman na izradama PONUDA kao i sastavljanju UGOVORA svedu na minimalan nivo, a da pri tome njihove ponude i ugovori budu izrađeni po najvišim tehničkim i pravno - formalnim pravilima struke",
         'slider-three-title'            => "LAKO I BRZO NA TELEFONU",
         'slider-three-text'             => "Sam način izrade dokumenata se pojednostavljuje do tog nivoa da se dokumentacija može izraditi i uz upotrebu mobilnog telefona, za vreme pauze za doručak ili kafu",
+        'slider-one-btn-text-logged-in' => "Počni sad",
     ],
 ];

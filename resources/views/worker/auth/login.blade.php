@@ -60,10 +60,6 @@
     @endif
 
     @if (session('error-email'))
-        <div class="alert alert-danger">
-            {{ session('error-email') }}
-        </div>
-
         @php
             $mama = 0;
             if (session('mama')) {

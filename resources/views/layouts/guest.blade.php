@@ -7,6 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <link rel="icon" href="{{ asset('img/logo.svg') }}">
+
         <!-- Fonts -->
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 

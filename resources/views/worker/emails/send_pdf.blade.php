@@ -16,7 +16,7 @@
             </div>
             <div class="text-div">
                 <span class="text-content">{{__('app.email.regards')}},</span>
-                <span class="text-title">Ponuda</span>
+                <span class="text-title">{{ config('app.name') }}</span>
              </div>
         </div>
     </div>

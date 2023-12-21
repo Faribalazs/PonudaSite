@@ -11,7 +11,6 @@
                <span class="text-content">{{__('app.email.reset-password-text')}}</span>
             </div>
             <div class="btn-div">
-                Worker
                 <a class="verify-btn" href="{{route('worker.password.reset', ['token'=> $url, 'email' => $notifiable->getEmailForPasswordReset()])}}" >{{__('app.email.reset-password-btn-text')}}</a>
             </div>
             <div class="text-div" style="margin-bottom: 35px;">
@@ -19,7 +18,7 @@
             </div>
             <div class="text-div">
                 <span class="text-content">{{__('app.email.regards')}},</span>
-                <span class="text-title">Ponuda</span>
+                <span class="text-title">{{ config('app.name') }}</span>
              </div>
         </div>
     </div>

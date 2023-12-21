@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-        {{ __('Ponuda') }}
+      {{ config('app.name') }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -13,19 +13,25 @@
     <div class="swiper homePageSwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide relative">
-              <img src="/img/slider-1.jpg"/>
+              <img src="{{ asset('img/slider-1.jpg') }}"/>
               <div class="gradient">
                 <span class="image-title">{{ __("app.slider.slider-one-title") }}</span>
                 <p class="image-text lg:w-1/2 w-10/12">
                   {{ __("app.slider.slider-one-text") }}
                 </p>
+                @if(!auth('worker')->check())
                 <a href="{{ route('worker.session.create') }}" class="slider-btn">
                   {{ __("app.slider.slider-one-btn-text") }}
                 </a>
+                @else
+                <a href="{{ route('worker.new.ponuda') }}" class="slider-btn">
+                  {{ __("app.slider.slider-one-btn-text-logged-in") }}
+                </a>
+                @endif
               </div>
             </div>
             <div class="swiper-slide">
-              <img src="/img/slider-2.jpg"/>
+              <img src="{{ asset('img/slider-2.jpg') }}"/>
               <div class="gradient">
                 <span class="image-title">{{ __("app.slider.slider-two-title") }}</span>
                 <p class="image-text lg:w-1/2 w-10/12">
@@ -34,7 +40,7 @@
               </div>
             </div>
             <div class="swiper-slide">
-              <img src="/img/slider-3.jpg"/>
+              <img src="{{ asset('img/slider-3.jpg') }}"/>
               <div class="gradient">
                 <span class="image-title">{{ __("app.slider.slider-three-title") }}</span>
                 <p class="image-text lg:w-1/2 w-10/12">
