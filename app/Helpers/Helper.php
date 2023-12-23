@@ -24,7 +24,7 @@ class Helper
                 return null;
             }
 
-            return "&nbsp";
+            return "&nbsp;";
         }
 
         $textLength = mb_strlen($text, 'UTF-8');

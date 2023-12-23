@@ -9,7 +9,7 @@
 
     @php
         $pozicija_title = $pozicija->custom_title ?? null;
-        $pozicija_desc = $pozicija->custom_description ?? null;
+        $pozicija_desc = $pozicija->custom_description === "&nbsp;" ? '' : $pozicija->custom_description;
         $pozicija_unit = $pozicija->unit->name ?? null;
         $pozicija_id = $pozicija->id ?? null;
     @endphp

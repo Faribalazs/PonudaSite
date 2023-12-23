@@ -26,9 +26,11 @@
                             @else
                                 {{ $custom_category->name }}
                             @endif
-                            <span class="caret">
-                                <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
-                            </span>
+                            @if ($custom_subcategories->where('category_id', $custom_category->id)->isNotEmpty() || $custom_subcategories->where('custom_category_id', $custom_category->id)->isNotEmpty())
+                                <span class="caret">
+                                    <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
+                                </span>
+                            @endif
                         </div>
                         <ul class="nested">
                             @foreach ($custom_subcategories as $custom_subcategory)
@@ -42,9 +44,11 @@
                                             @else
                                                 {{ $custom_subcategory->name }}
                                             @endif
-                                            <span class="caret">
-                                                <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
-                                            </span>
+                                            @if ($custom_pozicije->where('subcategory_id', $custom_subcategory->id)->isNotEmpty() || $custom_pozicije->where('custom_subcategory_id', $custom_subcategory->id)->isNotEmpty())
+                                                <span class="caret">
+                                                    <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
+                                                </span>
+                                            @endif
                                         </div>
                                         <ul class="nested">
                                             @foreach ($custom_pozicije as $custom_pozicija)

@@ -333,7 +333,7 @@
                     @foreach ($custom_pozicija as $poz)
                         <li class="option">
                             <span class="option-text">{{ $poz->custom_title }}</span>
-                            <input class="poz-value" hidden value="{{ $poz->custom_description }}">
+                            <input class="poz-value" hidden value="{{ $poz->custom_description === "&nbsp;" ? '' : $poz->custom_description }}">
                             <p class="poz-id">{{ $poz->custom_subcategory_id }}</p>
                             <p class="poz-unit">{{ $poz->name }}</p>
                             <p class="pozicija_id">{{ $poz->id }}</p>

@@ -18,7 +18,7 @@ class CheckSwapRecord
     {
         if(auth('worker')->check())
         {
-            if(Swap::where('worker_id', auth('worker')->user()->id)->first())
+            if(Swap::where('worker_id', auth('worker')->user()->id)->first() && !request()->routeIs("worker.archive.selected"))
             {
                 return redirect()->route('worker.new.ponuda')->with('accessDenied', __('app.controllers.finish-ponuda-first'));
             }

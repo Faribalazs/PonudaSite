@@ -159,10 +159,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
         ->name('worker.archive.send.mail');
         
     //archive
-    Route::middleware(['checkSwapRecord'])->group(function () {
-        Route::get('contractor/archive', [Archive::class, 'create'])
+    Route::get('contractor/archive', [Archive::class, 'create'])
             ->name('worker.archive');
-
+    Route::middleware(['checkSwapRecord'])->group(function () {
         Route::get('contractor/archive/success', [Archive::class, 'generatePdfSuccess'])
             ->name('worker.archive.success');
 

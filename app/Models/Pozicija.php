@@ -22,7 +22,7 @@ class Pozicija extends Model
         'custom_description',
     ];
 
-    public $translatable = ['custom_title','custom_description'];
+    public $translatable = ['custom_title','custom_description','name'];
 
     public function unit()
     {
