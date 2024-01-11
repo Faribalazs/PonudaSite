@@ -7,11 +7,16 @@
     </x-slot>
     <div class="mt-24 font-bold text-3xl">
         <p class="text-center">
-            {{ __('app.generate-pdf.send-ponuda') }} <b>{{ $name }}.{{ __('app.generate-pdf.pdf') }}</b>
+            {{ __('app.generate-pdf.send-ponuda') }} <b>{{ isset($id) ? "{$name}." . __('app.generate-pdf.pdf') : $name . " " . ($ugovor_br ?? "") }}</b>
         </p>
     </div>
+    @php
+        $route = isset($fields) ? 'worker.archive.send.contract' : 'worker.archive.send.mail';
+    @endphp
+
+    {{-- $contacts --}}
     <form method="POST" id="sendPDF"
-        action="{{ route('worker.archive.send.mail') }}">
+        action="{{ route($route) }}">
         @csrf
         @if (isset($id))
             <input type="hidden" name="id" value="{{ $id }}" />
@@ -28,8 +33,14 @@
         @if (isset($pdf_blade))
             <input type="hidden" name="pdf" value="{{ $pdf_blade }}" />
         @endif
+        @if (isset($fields))
+            <input type="hidden" name="fields" value="{{ htmlspecialchars(json_encode($fields), ENT_QUOTES, 'UTF-8') }}" />
+        @endif
+        @if (isset($ugovor_br))
+            <input type="hidden" name="ugovor_br" value="{{ $ugovor_br }}" />
+        @endif
         <label class="pl-1">{{ __('app.generate-pdf.to-whom-you-send') }}:</label>
-        <input type="email" placeholder="Imejl adresa osobe" name="mailTo"
+        <input type="email" placeholder="{{ __('app.generate-pdf.to-whom-you-send') }}" name="mailTo"
             class="w-full dropdown-search mt-2">
         <label class="mt-4 pl-1">{{ __('app.generate-pdf.subject-email') }}:</label>
         <input type="text" placeholder="{{ __('app.generate-pdf.subject-email') }}" name="mailSubject"

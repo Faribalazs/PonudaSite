@@ -157,6 +157,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
     Route::post('contractor/mail/pdf', [Archive::class, 'sendPDF'])
         ->name('worker.archive.send.mail');
+
+    Route::post('contractor/mail/contract', [Archive::class, 'sendPDFContract'])
+        ->name('worker.archive.send.contract');
         
     //archive
     Route::get('contractor/archive', [Archive::class, 'create'])

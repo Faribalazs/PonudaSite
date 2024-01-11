@@ -64,9 +64,18 @@ class mailPDF extends Mailable
      */
     public function attachments(): array
     {
-        return [
-            Attachment::fromData(fn () => PDF::loadView($this->pdf['pdf_blade'],['mergedData' => $this->pdf['mergedData'], 'ponuda_name' => $this->pdf['ponuda_name'], 'company' => $this->pdf['company'], 'client' => $this->pdf['client'], 'type' => $this->pdf['type'], 'opis' => $this->pdf['opis']])->output(), $this->pdfName . '.pdf')
-                ->withMime('application/pdf'),
-        ];
+        if($this->pdf['pdf_blade'] == 'worker.pdf.contract-individual' || $this->pdf['pdf_blade'] == 'worker.pdf.contract-legal-entity')
+        {
+            return [
+                Attachment::fromData(fn () => PDF::loadView($this->pdf['pdf_blade'],['fields' => $this->pdf['mergedData'], 'ugovorBr' => $this->pdf['ponuda_name']])->output(), 'Ugovor.pdf')
+                    ->withMime('application/pdf'),
+            ];
+        }
+        else{
+            return [
+                Attachment::fromData(fn () => PDF::loadView($this->pdf['pdf_blade'],['mergedData' => $this->pdf['mergedData'], 'ponuda_name' => $this->pdf['ponuda_name'], 'company' => $this->pdf['company'], 'client' => $this->pdf['client'], 'type' => $this->pdf['type'], 'opis' => $this->pdf['opis']])->output(), $this->pdfName . '.pdf')
+                    ->withMime('application/pdf'),
+            ];
+        }
     }
 }

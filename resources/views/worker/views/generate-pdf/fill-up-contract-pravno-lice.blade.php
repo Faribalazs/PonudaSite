@@ -167,8 +167,15 @@
         </div>
         <div class="flex justify-center mt-20">
             <button onClick="showBack()" type="submit"
-                class="sm:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-5">
+                class="sm:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-5"
+                name="skini" value="skini">
                 {{ __('Skini ispunjen Ugovor') }}
+            </button>
+
+            <button onClick="showBack()" type="submit"
+                class="sm:w-1/2 w-full mx-auto text-xl font-bold finish-btn mt-5"
+                name="posalji" value="posalji">
+                {{ __('Pošalji ispunjen Ugovor') }}
             </button>
         </div>
     </form>
