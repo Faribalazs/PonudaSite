@@ -17,6 +17,7 @@ class Ponuda extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('ponuda_id')->unsigned();
+            $table->bigInteger('work_type_id')->unsigned();
             $table->bigInteger('categories_id')->unsigned();
             $table->bigInteger('subcategories_id')->unsigned();
             $table->bigInteger('pozicija_id')->unsigned();

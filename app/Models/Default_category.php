@@ -15,6 +15,7 @@ class Default_category extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'work_type_id',
         'name',
     ];
 

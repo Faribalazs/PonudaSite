@@ -7,49 +7,66 @@
     </x-slot>
     <div class="category-container">
         <ul id="categoryUl">
-            @foreach ($custom_categories as $custom_category)
-                @if (!empty($custom_category->merged_id))
+            @foreach ($custom_work_types as $custom_work_type)
+                @if (!empty($custom_work_type->merged_id))
                     <li>
                         <div class="flex items-center">
-                                {{ $custom_category->name }}
+                                {{ $custom_work_type->name }}
                             <span class="caret">
                                 <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
                             </span>
                         </div>
-                        <ul class="nested">
-                            @foreach ($custom_subcategories as $custom_subcategory)
-                                @if (!empty($custom_subcategory->merged_id) && ($custom_subcategory->category_id == $custom_category->id))
-                                    <li>
-                                        <div class="flex items-center">
+                    <ul class="nested">
+                    @foreach ($custom_categories as $custom_category)
+                        @if (!empty($custom_category->merged_id) && ($custom_category->work_type_id == $custom_work_type->id))
+                            <li>
+                                <div class="flex items-center">
+                                        {{ $custom_category->name }}
+                                    <span class="caret">
+                                        <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
+                                    </span>
+                                </div>
+                                <ul class="nested">
+                                    @foreach ($custom_subcategories as $custom_subcategory)
+                                        @if (!empty($custom_subcategory->merged_id) && ($custom_subcategory->category_id == $custom_category->id))
+                                            <li>
+                                                <div class="flex items-center">
+                                                        {{ $custom_subcategory->name }}
+                                                    <span class="caret">
+                                                        <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
+                                                    </span>
+                                                </div>
+                                                <ul class="nested">
+                                                    @foreach ($custom_pozicije as $custom_pozicija)
+                                                        @if ($custom_pozicija->subcategory_id == $custom_subcategory->id)
+                                                            <li>
+                                                                {{ $custom_pozicija->title }}
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @elseif ($custom_subcategory->custom_category_id == $custom_category->id)
+                                            <li>
                                                 {{ $custom_subcategory->name }}
-                                            <span class="caret">
-                                                <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
-                                            </span>
-                                        </div>
-                                        <ul class="nested">
-                                            @foreach ($custom_pozicije as $custom_pozicija)
-                                                @if ($custom_pozicija->subcategory_id == $custom_subcategory->id)
-                                                    <li>
-                                                        {{ $custom_pozicija->title }}
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                @elseif ($custom_subcategory->custom_category_id == $custom_category->id)
-                                    <li>
-                                        {{ $custom_subcategory->name }}
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                    </li>
-                @else
-                    <li>
-                        {{ $custom_category->name }}
-                    </li>
-                @endif
-            @endforeach
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @elseif ($custom_category->work_type_id === $custom_work_type->id)
+                            <li>
+                                {{ $custom_category->name }}
+                            </li>
+                        @endif
+                    @endforeach
+                    </ul>
+                    @else
+                        <li>
+                            {{ $custom_work_type->name }}
+                        </li>
+                    @endif
+                @endforeach
         </ul>
     </div>
     <script>

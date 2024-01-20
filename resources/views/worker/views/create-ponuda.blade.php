@@ -253,6 +253,39 @@
             @endif
         @endif
 
+        {{-- uj sor --}}
+        <div id="category-dropdown" class="mt-14">
+            <span class="input-label pl-2">{{ __('app.create-ponuda.choose-category') }}:*</span>
+            <div class="select-menu-category pt-3">
+                <div class="select-btn-category">
+                    <span class="sBtn-text-category">{{ __('app.create-ponuda.choose-category') }}</span>
+                    <svg role="img" viewBox="0 0 512 512">
+                        <path
+                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                    </svg>
+                </div>
+                <ul class="options-category" id="category-ul">
+                    <li class="option-subcategory">
+                        <input type="text" placeholder="{{ __('app.create-ponuda.search') }}..."
+                            id="category-search" onkeyup="filterFunctionCategory()" class="w-full dropdown-search">
+                    </li>
+                    @foreach ($custom_work_types as $custom_work_type)
+                        <li class="option-category">
+                            <span class="option-text-category">{{ $custom_work_type->name }}</span>
+                            <p class="category-id">{{ $custom_work_type->id }}</p>
+                        </li>
+                    @endforeach
+                    @foreach ($work_types as $work_type)
+                        <li class="option-category">
+                            <span class="option-text-category">{{ $work_type->name }}</span>
+                            <p class="category-id">{{ $work_type->id }}</p>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        {{-- uj sor vege --}}
+
         <div id="category-dropdown" class="mt-14">
             <span class="input-label pl-2">{{ __('app.create-ponuda.choose-category') }}:*</span>
             <div class="select-menu-category pt-3">
@@ -272,12 +305,18 @@
                         <li class="option-category">
                             <span class="option-text-category">{{ $category->name }}</span>
                             <p class="category-id">{{ $category->id }}</p>
+                            {{-- uj sor --}}
+                            <p class="cat-id">{{ $category->custom_work_type_id }}</p>
+                            {{-- uj sor vege --}}
                         </li>
                     @endforeach
                     @foreach ($categories as $category)
                         <li class="option-category">
                             <span class="option-text-category">{{ $category->name }}</span>
                             <p class="category-id">{{ $category->id }}</p>
+                            {{-- uj sor --}}
+                            <p class="cat-id">{{ $category->work_type_id }}</p>
+                            {{-- uj sor vege --}}
                         </li>
                     @endforeach
                 </ul>

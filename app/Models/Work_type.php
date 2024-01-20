@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class Category extends Model
+class Work_type extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $table = 'custom_categories';
+    protected $table = 'custom_work_types';
 
     public $timestamps = false;
     
     protected $fillable = [
-        'custom_work_type_id',
         'name',
         'worker_id',
     ];

@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\{Default_category, Default_subcategory, Default_pozicija, Units, Ponuda_Service};
+use App\Models\{Default_category, Default_subcategory, Default_pozicija, Units, Ponuda_Service, Default_work_type};
 
 class DataSeeder extends Seeder
 {
@@ -15,60 +15,194 @@ class DataSeeder extends Seeder
      */
     public function run(): void
     {
+      $work_types = 
+        [
+          [
+            'name' => [
+                'sr' => 'Građevinski i građevinsko zanatski',
+                'rs-cyrl' => 'Грађевински и грађевинско занатски',
+            ]
+          ],
+          [
+            'name' => [
+                'sr' => 'Vodovod i kanalizacija',
+                'rs-cyrl' => 'Водовод и канализација',
+            ]
+          ],
+          [
+            'name' => [
+                'sr' => 'Elektroinstalaterski radovi',
+                'rs-cyrl' => 'Електроинсталатерски радови',
+            ]
+          ],
+          [
+            'name' => [
+                'sr' => 'Mašinski radovi',
+                'rs-cyrl' => 'Машински радови',
+            ]
+          ],
+        ];
         $categories =
             [
                 [
+                    'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Rušenje',
                         'rs-cyrl' => 'Рушење',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Demontaža',
                         'rs-cyrl' => 'Демонтажа',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Pripremni i završni radovi',
                         'rs-cyrl' => 'Припремни и завршни радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Zidarski radovi',
                         'rs-cyrl' => 'Зидарски радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Suvomontažni radovi',
                         'rs-cyrl' => 'Сувомонтажни радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Keramičarski radovi',
                         'rs-cyrl' => 'Керамичарски радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Podopolagački radovi',
                         'rs-cyrl' => 'Подополагачки радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Parketarski radovi',
                         'rs-cyrl' => 'Паркетарски радови',
                     ]
                 ],
                 [
+                  'work_type_id' => 1,
                     'name' => [
                         'sr' => 'Molersko farbarski radovi',
                         'rs-cyrl' => 'Молерско фарбарски радови',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Demontaža i probijanja',
+                        'rs-cyrl' => 'Демонтажа и пробијања',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Građevinski radovi',
+                        'rs-cyrl' => 'Грађевински радови',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Unutrašnja vodovodna mreža',
+                        'rs-cyrl' => 'Унутрашња водоводна мрежа',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Unutrašnja kanalizaciona mreža',
+                        'rs-cyrl' => 'Унутрашња канализациона мрежа',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Spoljna vodovodna mreža',
+                        'rs-cyrl' => 'Спољна водоводна мрежа',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Spoljna kanalizaciona mreža',
+                        'rs-cyrl' => 'Спољна канализациона мрежа',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Ventili',
+                        'rs-cyrl' => 'Вентили',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Hidranti',
+                        'rs-cyrl' => 'Хидранти',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'PP aparati',
+                        'rs-cyrl' => 'ПП апарати',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Vodomeri',
+                        'rs-cyrl' => 'Водомери',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Sifoni, olučnjaci, slivnici i rešetke',
+                        'rs-cyrl' => 'Сифони, олучњаци, сливници и решетке',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Ispitivanja',
+                        'rs-cyrl' => 'Испитивања',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Sanitarije',
+                        'rs-cyrl' => 'Санитарије',
+                    ]
+                ],
+                [
+                  'work_type_id' => 2,
+                    'name' => [
+                        'sr' => 'Ostali radovi ViK',
+                        'rs-cyrl' => 'Остали радови ВиК',
                     ]
                 ],
             ];
@@ -3191,10 +3325,12 @@ class DataSeeder extends Seeder
             ],
         ];
 
-        collect($units)->each(function ($units) {
-            Units::create($units); });
-        collect($services)->each(function ($services) {
-            Ponuda_Service::create($services); });
+        collect($units)->each(function ($unit) {
+            Units::create($unit); });
+        collect($services)->each(function ($service) {
+            Ponuda_Service::create($service); });
+        collect($work_types)->each(function ($work_type) {
+            Default_work_type::create($work_type); });
         collect($categories)->each(function ($category) {
             Default_category::create($category); });
         collect($subcategories)->each(function ($subcategory) {

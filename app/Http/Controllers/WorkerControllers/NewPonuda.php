@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use App\Models\{Ponuda, Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija, Swap, Title_Temporary, Pozicija_Temporary, Ponuda_Date, Worker};
+use App\Models\{Ponuda, Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija, Swap, Title_Temporary, Pozicija_Temporary, Ponuda_Date, Worker, Default_work_type, Work_type};
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,28 +14,26 @@ class NewPonuda extends Controller
 {
    public function create()
    {  
-      if(Auth::guard('worker'))
-      {
       $worker_id = Helper::worker();
       $mergedData = $this->mergedData($worker_id);
       
-      list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap) = $this->selectData($worker_id);
+      list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap, $work_types, $custom_work_types) = $this->selectData($worker_id);
 
-      return view('worker.views.create-ponuda', ['categories' => $categories, 'subcategories' => $subcategories, 'pozicija' => $pozicija, 'custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicija' => $custom_pozicija, 'mergedData' => $mergedData, 'swap' => $swap]);
-      }
-      else
-      {
-         return view('worker.views.create-ponuda');
-      }
+      return view('worker.views.create-ponuda',  compact(['categories', 'subcategories', 'pozicija', 'custom_categories', 'custom_subcategories','custom_pozicija','mergedData','swap','work_types','custom_work_types']));
    }
 
    private function selectData($worker_id)
    {
       //default
+      $work_types = Default_work_type::all();
       $categories = Default_category::all();
       $subcategories = Default_subcategory::all();
       $pozicija = Default_pozicija::join('units', 'pozicija.unit_id', '=', 'units.id_unit')->get();
       //custom
+      $custom_work_types = Work_type::where('worker_id', $worker_id)
+      ->whereNull('is_work_type_deleted')
+      ->get();
+
       $custom_categories = Category::where('worker_id', $worker_id)
          ->whereNull('is_category_deleted')
          ->get();
@@ -53,7 +51,7 @@ class NewPonuda extends Controller
          ->where('workers.id', $worker_id)
          ->get();  
 
-      return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap);
+      return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap, $work_types, $custom_work_types);
    }
 
    private function mergedData($worker_id)
@@ -75,7 +73,7 @@ class NewPonuda extends Controller
                'c_poz.custom_description',
                'temp.temporary_description',
                'title.temporary_title',
-               'serv.name_service'
+               'serv.name_service',
          )
          ->leftJoin('categories as c', 'ponuda.categories_id', '=', 'c.id')
          ->leftJoin('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')

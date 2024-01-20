@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker,Default_category,Default_subcategory,Default_pozicija};
+use App\Models\{Company_Data,Fizicko_lice,Pravno_lice,Worker,Default_category,Default_subcategory,Default_pozicija,Default_work_type};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -438,9 +438,19 @@ class WorkerController extends Controller
 
     public function catalogueCategories()
     {
+      $custom_work_types = Default_work_type::select(
+            'work_types.id',
+            'work_types.name',
+            "c.work_type_id AS merged_id"
+         )
+         ->leftJoin('categories as c', 'c.work_type_id', '=', 'work_types.id')
+         ->distinct()
+         ->get();
+
       $custom_categories = Default_category::select(
             'categories.id',
             'categories.name',
+            'categories.work_type_id',
             "sc.category_id AS merged_id"
          )
          ->leftJoin('subcategories as sc', 'sc.category_id', '=', 'categories.id')
@@ -456,6 +466,6 @@ class WorkerController extends Controller
 
          $custom_pozicije = Default_pozicija::select('id','title','subcategory_id')->get();
 
-      return view('worker.views.catalogue-categories', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije]);
+      return view('worker.views.catalogue-categories', compact(['custom_categories','custom_subcategories','custom_pozicije','custom_work_types']));
     }
 }

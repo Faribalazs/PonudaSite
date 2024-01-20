@@ -17,6 +17,7 @@ class Ponuda extends Model
     protected $fillable = [
         'worker_id',
         'ponuda_id',
+        'work_type_id',
         'categories_id',
         'subcategories_id',
         'pozicija_id',

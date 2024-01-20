@@ -15,6 +15,7 @@ class Categories extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Default_work_type::class,'work_type_id')->constrained();
             $table->json('name');
         });
     }
