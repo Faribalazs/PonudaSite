@@ -105,6 +105,12 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/new/options', [NewOptions::class, 'create'])
         ->name('worker.options.new');
     
+    Route::get('contractor/new/worktype', [NewOptions::class, 'WorkTypeCreate'])
+        ->name('worker.options.create.new.work-type');
+
+    Route::post('contractor/new/worktype/store', [NewOptions::class, 'store_worktype'])
+        ->name('worker.options.store.new.work-type');
+
     Route::get('contractor/new/category', [NewOptions::class, 'CategoryCreate'])
         ->name('worker.options.create.new.category');
 
@@ -128,6 +134,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::get('contractor/my-categories/', [OptionsController::class, 'create'])
         ->name('worker.options.update');
 
+    Route::get('contractor/my-categories/show/work-type/{work_type}', [OptionsController::class, 'showWorkType'])
+        ->name('worker.options.show.worktype');
+
     Route::get('contractor/my-categories/show/category/{category}', [OptionsController::class, 'showCategory'])
         ->name('worker.options.show.category');
 
@@ -136,6 +145,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
 
     Route::get('contractor/my-categories/show/pozicija/{pozicija}', [OptionsController::class, 'showPozicija'])
         ->name('worker.options.show.pozicija');
+
+    Route::put('contractor/my-categories/show/work-type/update', [OptionsController::class, 'updateWorkType'])
+        ->name('worker.options.update.worktype');
 
     Route::put('contractor/my-categories/show/category/update', [OptionsController::class, 'updateCategory'])
         ->name('worker.options.update.category');
@@ -146,6 +158,9 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::put('contractor/my-categories/show/pozicija/update', [OptionsController::class, 'updatePozicija'])
         ->name('worker.options.update.pozicija');
     
+    Route::put('contractor/my-categories/delete/work-type', [OptionsController::class, 'deleteWorkType'])
+        ->name('worker.options.delete.worktype');
+
     Route::put('contractor/my-categories/delete/category', [OptionsController::class, 'deleteCategory'])
         ->name('worker.options.delete.category');
 

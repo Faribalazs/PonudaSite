@@ -14,7 +14,7 @@ class CustomCategories extends Migration
     public function up()
     {
         Schema::create('custom_categories', function (Blueprint $table) {
-            $table->id()->startingValue(500);
+            $table->id()->startingValue(5000);
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('custom_work_type_id')->unsigned();
             $table->json('name');

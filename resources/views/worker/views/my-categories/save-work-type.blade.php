@@ -1,17 +1,17 @@
 <x-app-worker-layout>
 
     <x-slot name="pageTitle">
-        {{ __('app.categories.update-category') }}
+        {{ __('app.categories.update-work-type') }}
     </x-slot>
     <x-slot name="header">
-        {{ __('app.categories.update-category') }}
+        {{ __('app.categories.update-work-type') }}
     </x-slot>
 
-    @if ($errors->has('category'))
+    @if ($errors->has('work_type'))
         <script>
 
             Swal.fire({
-                title: "{{ $errors->first('category') }}",
+                title: "{{ $errors->first('work_type') }}",
                 icon: "error"
             });
 
@@ -19,32 +19,32 @@
     @endif
 
     @php
-        $category_name = $category->name ?? null;
-        $category_id = $category->id ?? null;
+        $work_type_name = $work_type->name ?? null;
+        $work_type_id = $work_type->id ?? null;
     @endphp
 
     <div class="md:flex hidden w-full justify-end mt-5">
         <button type="button" class="delete-btn-table text-white flex gap-2 py-3 md:text-xl text-lg px-8"
-            onclick="actionSwall('{{ route('worker.options.delete.category') }}','{{ $category_id }}')">
-            {{ __('app.categories.delete-category') }}
+            onclick="actionSwall('{{ route('worker.options.delete.worktype') }}','{{ $work_type_id }}')">
+            {{ __('app.categories.delete-work-type') }}
             <i class="ri-delete-bin-line"></i>
         </button>
     </div>
 
     <div class="mt-3">
         <div class="flex w-full">
-            <form method="POST" id="formCategory" action="{{ route('worker.options.update.category') }}"
+            <form method="POST" id="formWorkType" action="{{ route('worker.options.update.worktype') }}"
                 class="mt-10 flex flex-col w-full">
                 @csrf
-                <span class="input-label md:text-xl text-lg py-3">{{ __('app.categories.write-name-category') }}:</span>
+                <span class="input-label md:text-xl text-lg py-3">{{ __('app.categories.write-name-work-type') }}:</span>
                 @method('PUT')
-                <input type="text" value="{{ $category_name }}" name="category"
+                <input type="text" value="{{ $work_type_name }}" name="worktype"
                     class="w-full md:text-xl text-lg input-style">
                 <input type="hidden" name="id" value="{{ $id }}" class="w-full input-style">
                 <button type="submit" class="main-btn mx-auto md:w-1/2 w-full md:text-xl text-lg md:mt-20 mt-12">{{ __('app.basic.save') }}</button>
                 <button type="button" class="delete-btn-table text-white flex gap-2 md:text-xl mt-10 py-3 md:hidden text-lg px-8"
-                    onclick="actionSwall('{{ route('worker.options.delete.category') }}','{{ $category_id }}')">
-                    {{ __('app.categories.delete-category') }}
+                    onclick="actionSwall('{{ route('worker.options.delete.worktype') }}','{{ $work_type_id }}')">
+                    {{ __('app.categories.delete-work-type') }}
                     <i class="ri-delete-bin-line"></i>
                 </button>
             </form>

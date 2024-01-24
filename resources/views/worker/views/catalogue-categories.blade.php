@@ -30,13 +30,15 @@
                                     @foreach ($custom_subcategories as $custom_subcategory)
                                         @if (!empty($custom_subcategory->merged_id) && ($custom_subcategory->category_id == $custom_category->id))
                                             <li>
-                                                <div class="flex items-center">
-                                                        {{ $custom_subcategory->name }}
-                                                    <span class="caret">
-                                                        <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
-                                                    </span>
-                                                </div>
-                                                <ul class="nested">
+                                                @if($custom_work_type->merged_id != 2)
+                                                    <div class="flex items-center">
+                                                            {{ $custom_subcategory->name }}
+                                                        <span class="caret">
+                                                            <i class="ri-arrow-right-s-line text-3xl caret-icon"></i>
+                                                        </span>
+                                                    </div>
+                                                    <ul class="nested">
+                                                @endif
                                                     @foreach ($custom_pozicije as $custom_pozicija)
                                                         @if ($custom_pozicija->subcategory_id == $custom_subcategory->id)
                                                             <li>
@@ -44,7 +46,10 @@
                                                             </li>
                                                         @endif
                                                     @endforeach
-                                                </ul>
+                                                @if($custom_work_type->merged_id != 2)
+                                                    </ul>
+                                                @endif
+
                                             </li>
                                         @elseif ($custom_subcategory->custom_category_id == $custom_category->id)
                                             <li>

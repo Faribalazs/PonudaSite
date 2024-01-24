@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Default_pozicija, Units};
+use App\Models\{Work_type, Category, Subcategory, Pozicija, Default_work_type, Default_category, Default_subcategory, Default_pozicija, Units};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,10 +14,31 @@ class OptionsController extends Controller
    public function create()
    {  
       $worker_id = Helper::worker();
+      
+      $c_worktypes = Work_type::select(
+         'custom_work_types.id',
+         'custom_work_types.name',
+      )
+      ->leftJoin('custom_categories as c_c', 'c_c.custom_work_type_id', '=', 'custom_work_types.id')
+      ->leftJoin('categories as c', 'c.work_type_id', '=', 'custom_work_types.id')
+      ->where('custom_work_types.worker_id', $worker_id)
+      ->whereNull('custom_work_types.is_work_type_deleted')
+      ->distinct()
+      ->get();
+
+      $work_types = Default_work_type::select(
+         'work_types.id',
+         'work_types.name',
+      )
+      ->leftJoin('custom_categories as c_c', 'c_c.custom_work_type_id', '=', 'work_types.id')
+      ->leftJoin('categories as c', 'c.work_type_id', '=', 'work_types.id')
+      ->whereNull('c_c.is_category_deleted')
+      ->get();
 
       $c_categories = Category::select(
             'custom_categories.id',
             'custom_categories.name',
+            'custom_categories.custom_work_type_id',
          )
          ->leftJoin('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'custom_categories.id')
          ->leftJoin('subcategories as sc', 'sc.category_id', '=', 'custom_categories.id')
@@ -28,6 +49,7 @@ class OptionsController extends Controller
       $categories = Default_category::select(
             'categories.id',
             'categories.name',
+            'categories.work_type_id',
          )
          ->join('custom_subcategories as c_sc', 'c_sc.custom_category_id', '=', 'categories.id')
          ->join('subcategories as sc', 'sc.category_id', '=', 'categories.id')
@@ -55,14 +77,40 @@ class OptionsController extends Controller
       $mergedIds = $subcategories->pluck('id')->toArray();
       $result = Default_category::join('subcategories as sc', 'sc.category_id', '=', 'categories.id')
          ->whereIn('sc.id', $mergedIds)
-         ->select('categories.id','categories.name')  
+         ->select('categories.id','categories.name','categories.work_type_id')  
          ->distinct()       
          ->get();
 
-      $custom_categories = $c_categories->merge($categories)->concat($result)->unique('id');      
-      $custom_subcategories = $c_subcategories->merge($subcategories)->unique('id');
+      $mergedCategoryIds = $categories->pluck('id')->toArray();
+      $resultWorkType = Default_work_type::join('categories as c', 'c.work_type_id', '=', 'work_types.id')
+         ->whereIn('c.id', $mergedCategoryIds)
+         ->select('work_types.id','work_types.name')  
+         ->distinct()       
+         ->get();
 
-      return view('worker.views.my-categories.index', ['custom_categories' => $custom_categories, 'custom_subcategories' => $custom_subcategories, 'custom_pozicije' => $custom_pozicije])->with('successMsg', '')->with('name','')->with('old_name', '');
+      $custom_work_types = $c_worktypes->merge($work_types)->concat($resultWorkType)->unique('id')->sortBy('id');      
+      $custom_categories = $c_categories->merge($categories)->concat($result)->unique('id')->sortBy('id');      
+      $custom_subcategories = $c_subcategories->merge($subcategories)->unique('id')->sortBy('id');
+
+      return view('worker.views.my-categories.index', compact(['custom_work_types','custom_categories','custom_subcategories','custom_pozicije']))->with('successMsg', '')->with('name','')->with('old_name', '');
+   }
+
+   public function showWorkType($id){
+      $work_type = Work_type::where('id', $id)
+         ->where('worker_id', Helper::worker())
+         ->whereNull('is_work_type_deleted')
+         ->first();
+
+      if($work_type != null)
+      {
+         return view('worker.views.my-categories.save-work-type',
+         [
+            'work_type' => $work_type, 
+            'id' => $id
+         ]);
+      }
+
+      return redirect()->back();
    }
 
    public function showCategory($id){
@@ -115,6 +163,28 @@ class OptionsController extends Controller
       }
 
       return redirect()->back();
+   }
+
+   public function updateWorkType(Request $request){
+      $request->validate([
+         'worktype' => ['required','min:3'],
+         'id' => ['required','exists:App\Models\Work_type,id'],
+      ],
+      [
+         '*.required' => trans("app.errors.no-category-name"),
+      ]);
+
+      $name = $request->input('worktype');
+      $id = $request->input('id');
+      Work_type::where('id', $id)->where('worker_id', Helper::worker())
+         ->update([
+            'name' => [
+               'sr' => Helper::transliterate($name,"sr"),
+               'rs-cyrl' => Helper::transliterate($name,"rs-cyrl")
+            ]
+         ]);
+      Alert::success(__('app.controllers.successfully-saved'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      return redirect(route("worker.options.update"));
    }
 
    public function updateCategory(Request $request){
@@ -199,6 +269,36 @@ class OptionsController extends Controller
       return redirect(route("worker.options.update"));
    }
 
+   public function deleteWorkType(Request $request){
+      $request->validate([
+         'id' => ['required','exists:App\Models\Work_type,id'],
+      ]);
+
+      $id = $request->input('id');
+      Work_type::where('id', $id)
+         ->where('worker_id', Helper::worker())
+         ->update(['is_work_type_deleted' => 1]);
+      $categories = Category::where('custom_work_type_id', $id)->get();
+      Category::where('custom_work_type_id', $id)
+         ->where('worker_id', Helper::worker())
+         ->update(['is_category_deleted' => 1]);
+      foreach($categories as $category)
+      {
+         $subcategories = Subcategory::where('custom_category_id', $category->id)->get();
+         Subcategory::where('custom_category_id', $id)
+            ->where('worker_id', Helper::worker())
+            ->update(['is_subcategory_deleted' => 1]);
+         foreach($subcategories as $subcategory)
+         {
+            Pozicija::where('custom_subcategory_id', $subcategory->id)
+               ->where('worker_id', Helper::worker())
+               ->update(['is_pozicija_deleted' => 1]);
+         }      
+      }
+
+      Alert::success(__('app.controllers.deleted-category'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      return redirect(route("worker.options.update"));
+   }
 
    public function deleteCategory(Request $request){
       $request->validate([

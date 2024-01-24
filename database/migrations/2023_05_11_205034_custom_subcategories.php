@@ -14,7 +14,7 @@ class CustomSubcategories extends Migration
     public function up()
     {
         Schema::create('custom_subcategories', function (Blueprint $table) {
-            $table->id()->startingValue(2000);
+            $table->id()->startingValue(10000);
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('custom_category_id')->unsigned();
             $table->string('name');

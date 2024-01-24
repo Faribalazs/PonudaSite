@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WorkerControllers;
 
-use App\Models\{Category, Subcategory, Pozicija, Default_category, Default_subcategory, Units};
+use App\Models\{Work_type, Category, Subcategory, Pozicija, Default_work_type, Default_category, Default_subcategory, Units};
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +14,37 @@ class NewOptions extends Controller
 {
    //custom category create & store start
 
+   public function WorkTypeCreate()
+   {
+      return view('worker.views.my-categories.add-new-work-type');
+   }
+
+   public function store_worktype(Request $request)
+   {
+      $request->validate([
+         'work_type_name_sr' => ['required','max:64','string'],
+      ],
+      [
+         '*.required' => trans("app.errors.no-category-name"),
+      ]);
+
+      $work_type_name_sr = $request->input('work_type_name_sr');
+
+      Work_type::create([
+         'worker_id' => Helper::worker(),
+         'name' => [
+            'sr' => Helper::transliterate($work_type_name_sr, "sr"),
+            'rs-cyrl' => Helper::transliterate($work_type_name_sr, "rs-cyrl"),
+         ],
+      ]);
+
+      Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
+      return redirect(route('worker.options.update'));  
+   }
+   
    public function CategoryCreate()
    {
-      return view('worker.views.my-categories.add-new-category');
+      return view('worker.views.my-categories.add-new-category', ['work_types' => Default_work_type::all(), 'custom_work_types' => $this->custom_WorkTypes()]);
    }
 
 
@@ -24,6 +52,7 @@ class NewOptions extends Controller
    {
       $request->validate([
          'category_name_sr' => ['required','max:64','string'],
+         'work_type' => ['required', new CheckID(Default_work_type::class, Work_type::class)]
       ],
       [
          '*.required' => trans("app.errors.no-category-name"),
@@ -37,6 +66,7 @@ class NewOptions extends Controller
             'sr' => Helper::transliterate($category_name_sr, "sr"),
             'rs-cyrl' => Helper::transliterate($category_name_sr, "rs-cyrl"),
          ],
+         'custom_work_type_id' => $request->input('work_type')
       ]);
 
       Alert::success(__('app.basic.successfully-added'))->showCloseButton()->showConfirmButton(__('app.basic.close'));
@@ -45,20 +75,24 @@ class NewOptions extends Controller
    //custom category create & store end
 
    //custom subcategory create & store start
-   private function custom_Categories($worker)
+   private function custom_WorkTypes()
    {
-      return Category::where('worker_id', $worker)->whereNull('is_category_deleted')->get();
+      return Work_type::where('worker_id', Helper::worker())->whereNull('is_work_type_deleted')->get();
+   }
+   
+   private function custom_Categories()
+   {
+      return Category::where('worker_id', Helper::worker())->whereNull('is_category_deleted')->get();
    }
 
-   private function custom_Subcategories($worker)
+   private function custom_Subcategories()
    {
-      return Subcategory::where('worker_id', $worker)->whereNull('is_subcategory_deleted')->get();
+      return Subcategory::where('worker_id', Helper::worker())->whereNull('is_subcategory_deleted')->get();
    }
 
    public function SubCategoryCreate()
    {
-      $worker_id = Helper::worker();
-      return view('worker.views.my-categories.add-new-subcategory',['categories' => Default_category::all(), 'custom_categories' => $this->custom_Categories($worker_id)]);
+      return view('worker.views.my-categories.add-new-subcategory',['categories' => Default_category::all(), 'custom_categories' => $this->custom_Categories()]);
    }
 
    public function store_subcategory(Request $request)
@@ -91,8 +125,7 @@ class NewOptions extends Controller
 
    public function pozicijaCreate()
    {
-      $worker_id = Helper::worker();
-      return view('worker.views.my-categories.add-new-pozicija',['categories' => Default_category::all(), 'custom_categories' => $this->custom_Categories($worker_id), 'subcategories' => Default_subcategory::all(), 'custom_subcategories' => $this->custom_Subcategories($worker_id), 'units'=> Units::all()]);
+      return view('worker.views.my-categories.add-new-pozicija',['categories' => Default_category::all(), 'custom_categories' => $this->custom_Categories(), 'subcategories' => Default_subcategory::all(), 'custom_subcategories' => $this->custom_Subcategories(), 'units'=> Units::all()]);
    }
 
    public function store_pozicija(Request $request)

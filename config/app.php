@@ -10,6 +10,11 @@ return [
 
     'phone_number' => '+381 87 452 147',
 
+    'min_id_custom_work_types' => 2000,
+    'min_id_custom_categories' => 5000,
+    'min_id_custom_subcategories' => 10000,
+    'min_id_custom_pozicije' => 20000,
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

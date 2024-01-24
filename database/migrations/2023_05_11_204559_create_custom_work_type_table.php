@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('custom_work_types', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(2000);
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->json('name');
             $table->tinyInteger('is_work_type_deleted')->nullable();

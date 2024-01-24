@@ -14,7 +14,7 @@ class CustomPozicija extends Migration
     public function up()
     {
         Schema::create('custom_pozicija', function (Blueprint $table) {
-            $table->id()->startingValue(10000);
+            $table->id()->startingValue(20000);
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('custom_subcategory_id')->unsigned();
             $table->foreignIdFor(\App\Models\Units::class,'unit_id')->constrained()->references('id_unit')->cascadeOnDelete();
