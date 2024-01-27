@@ -9,13 +9,12 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 
 </head>
 
 <body class="font-sans antialiased">
-    <div class="content-height">
+    <div class="content-height" id="app">
         @include('layouts.navigation')
 
         @if ($header != '')
@@ -29,6 +28,10 @@
             </div>
         @endif
 
+        @if (isset($slider) && $slider != '')
+            {{ $slider }}
+        @endif
+
         <main class="page-padding px-4 py-3 sm:px-6 lg:px-12">
             {{ $slot }}
         </main>
@@ -38,5 +41,6 @@
     @php
         \App\Models\Tracker::hit();
     @endphp
+    <script src="{{ mix('js/vue.js') }}"></script>
 </body>
 </html>

@@ -12,8 +12,9 @@ mix.sass('resources/sass/app.scss', 'css');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
+mix.js('resources/js/app.js', 'public/js').js('resources/js/vue.js', 'public/js').vue().postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
+

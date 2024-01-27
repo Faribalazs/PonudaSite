@@ -22,6 +22,54 @@ class NewPonuda extends Controller
       return view('worker.views.create-ponuda',  compact(['categories', 'subcategories', 'pozicija', 'custom_categories', 'custom_subcategories','custom_pozicija','mergedData','swap','work_types','custom_work_types']));
    }
 
+   //Get Categories for Vue axios endpoint
+   public function getCategoriesFromId($id, $worker_id) 
+   {
+      $default_categories = Default_category::where('work_type_id', $id)->get();
+
+      $custom_categories = Category::where('worker_id', $worker_id)
+         ->whereNull('is_category_deleted')
+         ->get();
+      
+      $categories = $default_categories->merge($custom_categories);
+
+      return json_encode($categories);
+
+   }
+
+   //Get Subcategories for Vue axios endpoint
+   public function getSubcategoriesFromId($id, $worker_id) 
+   {
+      $default_subcategories = Default_subcategory::where('category_id', $id)->get();
+
+      $custom_subcategories = Subcategory::where('worker_id', $worker_id)
+         ->whereNull('is_subcategory_deleted')
+         ->get();
+      
+      $subcategories = $default_subcategories->merge($custom_subcategories);
+
+      return json_encode($subcategories);
+
+   }
+
+   //Get Pozicija for Vue axios endpoint
+   public function getPozicijaFromId($id, $worker_id) 
+   {
+      $default_pozicija = Default_pozicija::where('subcategory_id', $id)
+         ->join('units', 'pozicija.unit_id', '=', 'units.id_unit')
+         ->get();
+
+      $custom_pozicija = Pozicija::where('worker_id', $worker_id)
+         ->whereNull('is_pozicija_deleted')
+         ->join('units', 'custom_pozicija.unit_id', '=', 'units.id_unit')
+         ->get();
+      
+      $pozicija = $default_pozicija->merge($custom_pozicija);
+
+      return json_encode($pozicija);
+
+   }
+
    private function selectData($worker_id)
    {
       //default
@@ -101,13 +149,15 @@ class NewPonuda extends Controller
    {
       try {
          $request->validate([
+            'worktype' => ['required', new CheckID(Default_work_type::class, Work_type::class)],
             'category' => ['required', new CheckID(Default_category::class, Category::class)],
             'subcategory' => ['required', new CheckID(Default_subcategory::class, Subcategory::class)],
-            'pozicija_id' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
+            'pozicija' => ['required', new CheckID(Default_pozicija::class, Pozicija::class)],
             'quantity' => ['required','integer','gt:0','digits_between:1,7'],
             'price' => ['required','numeric','gt:0','regex:/^\d{1,8}(\.\d{1,2})?$/'],
             'radioButton' => 'required|in:1,2',
             'opis' => 'nullable|regex:/\p{L}/u',
+            'edit_des' => 'nullable|regex:/\p{L}/u',
         ]);
 
         $billion = 1000000000;
@@ -120,14 +170,15 @@ class NewPonuda extends Controller
             $counter = $swap!==null?$swap->swap_id:auth('worker')->user()->ponuda_counter;
             $des = $request->input('edit_des') ?? "&nbsp;";
             $title = $request->input('edit_title') ?? "";
-            $pozicija_id = $request->input('pozicija_id');
+            $pozicija_id = $request->input('pozicija');
 
             $new_ponuda = Ponuda::create([
                'worker_id' => $worker_id,
                'ponuda_id' => $counter,
+               'work_type_id' => $request->input('worktype'),
                'categories_id' => $request->input('category'),
                'subcategories_id' => $request->input('subcategory'),
-               'pozicija_id' => $request->input('pozicija_id'),
+               'pozicija_id' => $request->input('pozicija'),
                'service_id' => $request->input('radioButton'),
                'quantity' => $request->input('quantity'),
                'unit_price' => $request->input('price'),

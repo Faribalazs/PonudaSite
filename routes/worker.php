@@ -100,6 +100,18 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
     Route::put('contractor/new/store/updatedesc/', [NewPonuda::class, 'updateDescription'])
         ->name('worker.store.new.update.desc');
 
+    // nova ponuda axios endpoint routes start
+    
+    Route::get('contractor/get-categories/{id}/{worker_id}', [NewPonuda::class, 'getCategoriesFromId'])
+        ->name('worker.new.get.categories');
+
+    Route::get('contractor/get-subcategories/{id}/{worker_id}', [NewPonuda::class, 'getSubcategoriesFromId'])
+        ->name('worker.new.get.subcategories');
+
+    Route::get('contractor/get-pozicija/{id}/{worker_id}', [NewPonuda::class, 'getPozicijaFromId'])
+        ->name('worker.new.get.pozicija');
+
+    // nova ponuda axios endpoint routes end
 
     //nove kategorije
     Route::get('contractor/new/options', [NewOptions::class, 'create'])

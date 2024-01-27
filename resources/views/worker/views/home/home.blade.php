@@ -1,6 +1,6 @@
 <x-app-worker-layout>
     <x-slot name="pageTitle">
-      {{ config('app.name') }}
+        {{ config('app.name') }}
     </x-slot>
     <x-slot name="header">
     </x-slot>
@@ -10,58 +10,62 @@
         }
     @endphp
 
-    <div class="swiper homePageSwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide relative">
-              <img src="{{ asset('img/slider-1.jpg') }}"/>
-              <div class="gradient">
-                <span class="image-title">{{ __("app.slider.slider-one-title") }}</span>
-                <p class="image-text lg:w-1/2 w-10/12">
-                  {{ __("app.slider.slider-one-text") }}
-                </p>
-                @if(!auth('worker')->check())
-                <a href="{{ route('worker.session.create') }}" class="slider-btn">
-                  {{ __("app.slider.slider-one-btn-text") }}
-                </a>
-                @else
-                <a href="{{ route('worker.new.ponuda') }}" class="slider-btn">
-                  {{ __("app.slider.slider-one-btn-text-logged-in") }}
-                </a>
-                @endif
-              </div>
+    <x-slot name="slider">
+        <div class="swiper homePageSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide relative">
+                    <img src="{{ asset('img/slider-1.jpg') }}" />
+                    <div class="gradient">
+                        <span class="image-title">{{ __('app.slider.slider-one-title') }}</span>
+                        <p class="image-text lg:w-1/2 w-10/12">
+                            {{ __('app.slider.slider-one-text') }}
+                        </p>
+                        @if (!auth('worker')->check())
+                            <a href="{{ route('worker.session.create') }}" class="slider-btn">
+                                {{ __('app.slider.slider-one-btn-text') }}
+                            </a>
+                        @else
+                            <a href="{{ route('worker.new.ponuda') }}" class="slider-btn">
+                                {{ __('app.slider.slider-one-btn-text-logged-in') }}
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="{{ asset('img/slider-2.jpg') }}" />
+                    <div class="gradient">
+                        <span class="image-title">{{ __('app.slider.slider-two-title') }}</span>
+                        <p class="image-text lg:w-1/2 w-10/12">
+                            {{ __('app.slider.slider-two-text') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="{{ asset('img/slider-3.jpg') }}" />
+                    <div class="gradient">
+                        <span class="image-title">{{ __('app.slider.slider-three-title') }}</span>
+                        <p class="image-text lg:w-1/2 w-10/12">
+                            {{ __('app.slider.slider-three-text') }}
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="swiper-slide">
-              <img src="{{ asset('img/slider-2.jpg') }}"/>
-              <div class="gradient">
-                <span class="image-title">{{ __("app.slider.slider-two-title") }}</span>
-                <p class="image-text lg:w-1/2 w-10/12">
-                  {{ __("app.slider.slider-two-text") }}
-                </p>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <img src="{{ asset('img/slider-3.jpg') }}"/>
-              <div class="gradient">
-                <span class="image-title">{{ __("app.slider.slider-three-title") }}</span>
-                <p class="image-text lg:w-1/2 w-10/12">
-                  {{ __("app.slider.slider-three-text") }}
-                </p>
-              </div>
-            </div>
+            <div class="swiper-pagination"></div>
         </div>
-        <div class="swiper-pagination"></div>
-    </div>
+    </x-slot>
 
     <script>
-        var homePageSwiper = new Swiper(".homePageSwiper", {
-            pagination: {
-                el: ".swiper-pagination",
-            },
-            autoplay: {
-                delay: 3500,
-                disableOnInteraction: false,
-            },
-        });
+        setTimeout(() => {
+            var homePageSwiper = new Swiper(".homePageSwiper", {
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+                autoplay: {
+                    delay: 3500,
+                    disableOnInteraction: false,
+                },
+            });
+        }, 50);
     </script>
 
     <style>
