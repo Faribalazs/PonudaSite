@@ -13,6 +13,9 @@
             {{ __('app.create-ponuda.create-title') }}
         @endif
     </x-slot>
+    <x-slot name="import">
+        <script src="{{ mix('js/vue.js') }}"></script>
+    </x-slot>
     @php
         $finalPrice = 0;
         $titleBold = 0;

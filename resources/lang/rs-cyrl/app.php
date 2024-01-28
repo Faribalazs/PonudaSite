@@ -56,7 +56,7 @@ return [
         'price-with-material-title'     => "Цена позиција садржи",
         'price-with-material'           => "Цена позиције садржи вредност материјала и услуге",
         'price-without-material'        => "Цена позиције садржи вредност услуге (без материјала)",
-        'price-rsd'                     => "Цена (РСД)",
+        'price-rsd'                     => "Цена ( РСД )",
         'price'                         => "Цена",
         'add-pozicija-btn'              => "Додај позицију",
         'finish-ponuda-btn'             => "Заврши понуду",

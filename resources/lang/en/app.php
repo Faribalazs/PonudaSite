@@ -46,7 +46,7 @@ return [
         'price-with-material-title'         => "The price of the position includes",
         'price-with-material'               => "The price of the position includes the value of materials and services",
         'price-without-material'            => "The price of the position includes the value of the service (without materials)",
-        'price-rsd'                         => "Price (RSD)",
+        'price-rsd'                         => "Price ( RSD )",
         'price'                             => "Price",
         'add-pozicija-btn'                  => "Add position",
         'finish-ponuda-btn'                 => "Complete the offer",

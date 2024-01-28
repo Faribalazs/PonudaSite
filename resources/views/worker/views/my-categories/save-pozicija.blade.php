@@ -6,6 +6,9 @@
     <x-slot name="header">
         {{ __('app.categories.update-position') }}
     </x-slot>
+    <x-slot name="import">
+        <script src="{{ mix('js/vue.js') }}"></script>
+    </x-slot>
 
     @php
         $pozicija_title = $pozicija->custom_title ?? null;
@@ -33,11 +36,17 @@
 
     <div class="mt-3">
         <div class="flex w-full">
-            <form method="POST" id="formPozicija" action="{{ route('worker.options.update.pozicija') }}"
+            <form method="POST" id="formPozicija" onkeydown="return event.key != 'Enter';" action="{{ route('worker.options.update.pozicija') }}"
                 class="mt-10 flex flex-col w-full">
 
                 @csrf
                 @method('PUT')
+
+                @php
+
+                    $lang = app()->getLocale();
+        
+                @endphp
 
                 <span class="input-label md:text-xl text-lg py-3">{{ __('app.categories.write-name-position') }}*</span>
                 <input type="text" placeholder="{{ $pozicija_title }}" value="{{ $pozicija_title }}" name="title"
@@ -47,31 +56,20 @@
                     class="input-label py-3 md:text-xl text-lg mt-5">{{ __('app.categories.description-position') }}*</span>
                 <textarea type="text" rows="5" value="{{ $pozicija_desc }}" name="description"
                     class="w-full input-style md:text-xl text-lg">{{ $pozicija_desc }}</textarea>
-
-                <label for="unit"
-                    class="input-label md:text-xl text-lg py-3 mt-5">{{ __('app.categories.calculation') }}*</label>
-                <div class="select-menu" id="dropdown">
-                    <div class="select-btn">
-                        <span class="sBtn-text">{{ $pozicija_unit }}</span>
-                        <svg role="img" viewBox="0 0 512 512">
-                            <path
-                                d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
-                        </svg>
-                    </div>
-
-                    <div class="relative w-full">
-                        <ul class="options">
-                            @foreach ($units as $unit)
-                                <li class="option">
-                                    <span class="option-text">{{ $unit->name }}</span>
-                                    <p class="pozicija_id">{{ $unit->id_unit }}</p>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+                    
 
                 <input type="hidden" name="id" value="{{ $pozicija_id }}" class="w-full dropdown-search mt-4">
+
+                
+                <dropdown
+                    :data="{{ json_encode($units) }}"
+                    :title="{{ json_encode( __('app.categories.choose-calculation')) }}"
+                    :searchtext="{{ json_encode(__('app.create-ponuda.search')) }}"
+                    :locale="{{ json_encode($lang) }}"
+                    :inputname="{{ json_encode('unit') }}"
+                    :preselectedname="{{ json_encode($pozicija_unit) }}"
+                    :preselectedid="{{ json_encode($pozicija->unit_id) }}">
+                </dropdown>
 
                 <button type="submit"
                     class="main-btn mx-auto md:w-1/2 w-full md:text-xl text-lg md:mt-20 mt-12">{{ __('app.basic.save') }}</button>
@@ -87,51 +85,6 @@
     </div>
 
     <script>
-        const optionMenu = document.querySelector(".select-menu"),
-            selectBtn = optionMenu.querySelector(".select-btn"),
-            options = optionMenu.querySelectorAll(".option"),
-            sBtn_text = optionMenu.querySelector(".sBtn-text");
-
-        selectBtn.addEventListener("click", () =>
-            optionMenu.classList.toggle("active")
-        );
-
-        options.forEach((option) => {
-            option.addEventListener("click", () => {
-                let selectedOption = option.querySelector(".option-text").innerText;
-                var unitID = option.querySelector(".pozicija_id").innerText;
-                sBtn_text.innerText = selectedOption;
-                var existInput = document.getElementById("unit");
-                if (!existInput) {
-                    var div = document.getElementById("dropdown");
-                    var input = document.createElement("input");
-                    var value = document.createTextNode(unitID);
-                    input.id = "unit";
-                    input.name = "unit";
-                    input.type = "text";
-                    input.defaultValue = unitID;
-                    input.value = unitID;
-                    input.appendChild(value);
-                    div.appendChild(input);
-                    categoryId = unitID;
-                } else {
-                    existInput.remove();
-                    var div = document.getElementById("dropdown");
-                    var input = document.createElement("input");
-                    var value = document.createTextNode(unitID);
-                    input.id = "unit";
-                    input.name = "unit";
-                    input.type = "text";
-                    input.defaultValue = unitID;
-                    input.value = unitID;
-                    input.appendChild(value);
-                    div.appendChild(input);
-                    categoryId = unitID;
-                }
-                optionMenu.classList.remove("active");
-            });
-        });
-
         function actionSwall(url, id) {
             Swal.fire({
                 title: '{{ __('app.create-ponuda.swal-are-you-sure-delete') }}?',
@@ -156,15 +109,5 @@
             })
         }
     </script>
-
-    <style>
-        .active .options {
-            position: absolute;
-        }
-
-        #unit {
-            display: none;
-        }
-    </style>
 
 </x-app-worker-layout>

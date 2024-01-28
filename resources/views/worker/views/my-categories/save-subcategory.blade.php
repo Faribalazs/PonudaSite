@@ -22,7 +22,7 @@
 
     <div class="mt-3">
         <div class="flex w-full">
-            <form method="POST" id="formSubcategory" action="{{ route('worker.options.update.subcategory') }}"
+            <form method="POST" id="formSubcategory" onkeydown="return event.key != 'Enter';" action="{{ route('worker.options.update.subcategory') }}"
                 class="mt-10 flex flex-col w-full">
 
                 @csrf

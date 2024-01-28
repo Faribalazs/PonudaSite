@@ -33,7 +33,7 @@
 
     <div class="mt-3">
         <div class="flex w-full">
-            <form method="POST" id="formWorkType" action="{{ route('worker.options.update.worktype') }}"
+            <form method="POST" id="formWorkType" onkeydown="return event.key != 'Enter';" action="{{ route('worker.options.update.worktype') }}"
                 class="mt-10 flex flex-col w-full">
                 @csrf
                 <span class="input-label md:text-xl text-lg py-3">{{ __('app.categories.write-name-work-type') }}:</span>

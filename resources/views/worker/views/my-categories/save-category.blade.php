@@ -33,11 +33,12 @@
 
     <div class="mt-3">
         <div class="flex w-full">
-            <form method="POST" id="formCategory" action="{{ route('worker.options.update.category') }}"
+            <form method="POST" id="formCategory" onkeydown="return event.key != 'Enter';" action="{{ route('worker.options.update.category') }}"
                 class="mt-10 flex flex-col w-full">
                 @csrf
                 <span class="input-label md:text-xl text-lg py-3">{{ __('app.categories.write-name-category') }}:</span>
                 @method('PUT')
+
                 <input type="text" value="{{ $category_name }}" name="category"
                     class="w-full md:text-xl text-lg input-style">
                 <input type="hidden" name="id" value="{{ $id }}" class="w-full input-style">

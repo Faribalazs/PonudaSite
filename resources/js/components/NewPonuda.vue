@@ -10,7 +10,7 @@
 
         <!-- Work Types select start -->
         <div class="h-36 mt-10">
-            <span class="input-label pl-2">{{ worktypesplaceholder }}:*</span>
+            <span class="input-label pl-2">{{ worktypesplaceholder }}*</span>
             <div class="select-menu-work-type" :class="{ active: isActiveWorkTypes }">
                 <div class="select-btn-work-type" @click="toggleMenuWorkTypes">
                     <span class="sBtn-text-work-type">{{ selectedWorkTypeName }}</span>
@@ -38,7 +38,7 @@
         <!-- Category select start -->
 
         <div class="h-36" v-show="showCategory">
-            <span class="input-label pl-2">{{ categoryplaceholder }}:*</span>
+            <span class="input-label pl-2">{{ categoryplaceholder }}*</span>
             <div class="select-menu-category" :class="{ active: isActiveCategory }">
                 <div class="select-btn-category" @click="toggleMenuCategory">
                     <span class="sBtn-text-category">{{ selectedCategoryName }}</span>
@@ -68,7 +68,7 @@
         <!-- Subcategory select start -->
 
         <div class="h-36" v-show="showSubcategory">
-            <span class="input-label pl-2">{{ subcategoryplaceholder }}:*</span>
+            <span class="input-label pl-2">{{ subcategoryplaceholder }}*</span>
             <div class="select-menu-subcategory" :class="{ active: isActiveSubcategory }">
                 <div class="select-btn-subcategory" @click="toggleMenuSubcategory">
                     <span class="sBtn-text-subcategory">{{ selectedSubcategoryName }}</span>
@@ -99,7 +99,7 @@
 
         <div v-show="showPozicija">
             <div class="h-36">
-                <span class="input-label pl-2">{{ pozicijaplaceholder }}:*</span>
+                <span class="input-label pl-2">{{ pozicijaplaceholder }}*</span>
                 <div class="select-menu-pozicija" :class="{ active: isActivePozicija }">
                     <div class="select-btn-pozicija" @click="toggleMenuPozicija">
                         <span class="sBtn-text-pozicija">{{ selectedPozicijaName }}</span>
@@ -134,7 +134,7 @@
                 
                 <div class="quantity-div">
                     <div class="mt-10 mb-2">
-                        <span>{{ materialPriceTitle }}:*</span>
+                        <span>{{ materialPriceTitle }}*</span>
                     </div>
                     <p class="py-3">
                         <input type="radio" id="material" name="radioButton" v-model="radioBtn" value="1">
@@ -145,7 +145,7 @@
                         <label for="service">{{ mterialPriceWithoutMaterial }}</label>
                     </p>
                     <div id="quantity-text" class="mt-10">
-                        {{ unitQtyTitle }}:*
+                        {{ unitQtyTitle }} ( {{ unitName }} )*
                     </div>
 
                     <input type="number" name="quantity" ref="qtyInput" class="quantity-input mt-3 mb-1">
@@ -243,7 +243,8 @@
                 priceTitle: this.pricetitle,
                 desDeleteBtn: this.desdeletebtn,
                 unitQtyTitle: this.unitqtytitle,
-                }
+                unitName: '',
+            }
         },
 
         created() {
@@ -443,6 +444,7 @@
                 this.selectedPozicijaDescription = option.description[this.lang];
                 this.selectedPozicijaId = option.id;
                 this.isActivePozicija = false;
+                this.unitName = option.name[this.lang];
             },
 
             //methods for the pozicija end

@@ -9,7 +9,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 </head>
 
@@ -41,6 +41,8 @@
     @php
         \App\Models\Tracker::hit();
     @endphp
-    <script src="{{ mix('js/vue.js') }}"></script>
+    @if (isset($import) && $import != '')
+        {{ $import }}
+    @endif
 </body>
 </html>
