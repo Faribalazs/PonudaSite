@@ -16,10 +16,17 @@ class NewPonuda extends Controller
    {  
       $worker_id = Helper::worker();
       $mergedData = $this->mergedData($worker_id);
-      
-      list($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap, $work_types, $custom_work_types) = $this->selectData($worker_id);
 
-      return view('worker.views.create-ponuda',  compact(['categories', 'subcategories', 'pozicija', 'custom_categories', 'custom_subcategories','custom_pozicija','mergedData','swap','work_types','custom_work_types']));
+      $work_types = Default_work_type::all();
+      $custom_work_types = Work_type::where('worker_id', $worker_id)
+      ->whereNull('is_work_type_deleted')
+      ->get();
+
+      $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
+         ->where('workers.id', $worker_id)
+         ->get();  
+
+      return view('worker.views.create-ponuda',  compact(['mergedData','swap','work_types','custom_work_types']));
    }
 
    //Get Categories for Vue axios endpoint
@@ -70,38 +77,6 @@ class NewPonuda extends Controller
 
    }
 
-   private function selectData($worker_id)
-   {
-      //default
-      $work_types = Default_work_type::all();
-      $categories = Default_category::all();
-      $subcategories = Default_subcategory::all();
-      $pozicija = Default_pozicija::join('units', 'pozicija.unit_id', '=', 'units.id_unit')->get();
-      //custom
-      $custom_work_types = Work_type::where('worker_id', $worker_id)
-      ->whereNull('is_work_type_deleted')
-      ->get();
-
-      $custom_categories = Category::where('worker_id', $worker_id)
-         ->whereNull('is_category_deleted')
-         ->get();
-
-      $custom_subcategories = Subcategory::where('worker_id', $worker_id)
-         ->whereNull('is_subcategory_deleted')
-         ->get();
-
-      $custom_pozicija = Pozicija::where('worker_id', $worker_id)
-         ->whereNull('is_pozicija_deleted')
-         ->join('units', 'custom_pozicija.unit_id', '=', 'units.id_unit')
-         ->get();
-
-      $swap = Swap::join('workers', 'swap_ponuda.worker_id', '=', 'workers.id')
-         ->where('workers.id', $worker_id)
-         ->get();  
-
-      return array($categories, $subcategories, $pozicija, $custom_categories, $custom_subcategories, $custom_pozicija, $swap, $work_types, $custom_work_types);
-   }
-
    private function mergedData($worker_id)
    {
       $counter = auth('worker')->user()->ponuda_counter ?? -1;
@@ -112,6 +87,8 @@ class NewPonuda extends Controller
                'ponuda.quantity',
                'ponuda.unit_price',
                'ponuda.categories_id',
+               'wt.name AS work_type_name',
+               'c_wt.name AS custom_work_type_name',
                'c.name AS name_category',
                'c_c.name AS name_custom_category',
                'u.name AS unit_name',
@@ -123,8 +100,10 @@ class NewPonuda extends Controller
                'title.temporary_title',
                'serv.name_service',
          )
+         ->leftJoin('work_types as wt', 'ponuda.work_type_id', '=', 'wt.id')
          ->leftJoin('categories as c', 'ponuda.categories_id', '=', 'c.id')
          ->leftJoin('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
+         ->leftJoin('custom_work_types as c_wt', 'ponuda.work_type_id', '=', 'c_wt.id')
          ->leftJoin('custom_categories as c_c', 'ponuda.categories_id', '=', 'c_c.id')
          ->leftJoin('custom_pozicija as c_poz', 'ponuda.pozicija_id', '=', 'c_poz.id')
          ->join('units as u', function ($join) {
@@ -138,6 +117,7 @@ class NewPonuda extends Controller
          ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
          ->where('ponuda.ponuda_id', $counter)
          ->where('ponuda.worker_id', $worker_id)
+         ->whereNull('c_wt.is_work_type_deleted')
          ->whereNull('c_c.is_category_deleted')
          ->whereNull('c_poz.is_pozicija_deleted')
          ->get();

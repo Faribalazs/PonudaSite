@@ -119,13 +119,14 @@ class Archive extends Controller
     }
     
     private function mergedData(){
-        $worker_id = Helper::worker();
         $ponuda = Ponuda::select(
                     'ponuda.id',
                     'ponuda.service_id',
                     'ponuda.quantity',
                     'ponuda.unit_price',
                     'ponuda.categories_id',
+                    'wt.name AS work_type_name',
+                    'c_wt.name AS custom_work_type_name',
                     'c.name AS name_category',
                     'c_c.name AS name_custom_category',
                     'u.name AS unit_name',
@@ -137,8 +138,10 @@ class Archive extends Controller
                     'title.temporary_title',
                     'serv.name_service',
             )
+            ->leftJoin('work_types as wt', 'ponuda.work_type_id', '=', 'wt.id')
             ->leftJoin('categories as c', 'ponuda.categories_id', '=', 'c.id')
             ->leftJoin('pozicija as poz', 'ponuda.pozicija_id', '=', 'poz.id')
+            ->leftJoin('custom_work_types as c_wt', 'ponuda.work_type_id', '=', 'c_wt.id')
             ->leftJoin('custom_categories as c_c', 'ponuda.categories_id', '=', 'c_c.id')
             ->leftJoin('custom_pozicija as c_poz', 'ponuda.pozicija_id', '=', 'c_poz.id')
             ->join('units as u', function ($join) {
@@ -150,7 +153,7 @@ class Archive extends Controller
             ->leftJoin('pozicija_temporary as temp', 'ponuda.id', '=', 'temp.id_of_ponuda')
             ->leftJoin('title_temporary as title', 'ponuda.id', '=', 'title.id_of_ponuda')
             ->join('services as serv', 'ponuda.service_id', '=', 'serv.id_service')
-            ->where('ponuda.worker_id', $worker_id);
+            ->where('ponuda.worker_id', Helper::worker());
             
             return $ponuda;
     }
