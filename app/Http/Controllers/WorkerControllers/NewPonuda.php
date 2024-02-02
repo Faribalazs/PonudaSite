@@ -87,6 +87,7 @@ class NewPonuda extends Controller
                'ponuda.quantity',
                'ponuda.unit_price',
                'ponuda.categories_id',
+               'ponuda.work_type_id',
                'wt.name AS work_type_name',
                'c_wt.name AS custom_work_type_name',
                'c.name AS name_category',

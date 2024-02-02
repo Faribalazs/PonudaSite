@@ -110,7 +110,7 @@ return [
         'write-name-position'           => "Упиши назив позиције",
         'description-position'          => "Упиши опис позиције",
         'calculation'                   => "Обрачун",
-        'choose-calculation'            => "Одабери обрачун",
+        'choose-calculation'            => "Одабери обрачун по",
         'catalogue-categories'          => "Каталог позицијa",
         'delete-work-type'              => "Избриши врсту рада",
         'delete-category'               => "Избриши категорију",

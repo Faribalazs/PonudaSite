@@ -61,109 +61,117 @@
     @endif
     @if ($mergedData->isNotEmpty())
         @php
-            //talan valahogy ezzel a group by al lehetne megcsinalni
-            // $finalData = $mergedData->sortBy('id')->groupBy('work_type_id')->groupBy('categories_id');
-            $finalData = $mergedData->sortBy('id')->groupBy('categories_id');
+            $finalData = $mergedData->sortBy('id')->groupBy('work_type_id');
         @endphp
         <div class="overflow-x-auto">
             @foreach ($finalData as $data)
                 <table class="table mt-7 text-center ponuda-table">
                     @php
-                        $subPrice = 0;
-                        $i = 1;
-                    @endphp
-                    @foreach ($data as $item)
+                        $sumWorkType = 0;
+                        echo $data->pluck('work_type_name')->first() ?? $data->pluck('custom_work_type_name')->first();
+                        foreach($data as $d){
+                            $sumWorkType += $d->unit_price*$d->quantity;
+                        }
+                        echo '<br>Rekapitulacija: '.number_format($sumWorkType, 2);
+                    @endphp 
+                    @foreach($data->sortBy('id')->groupBy('categories_id') as $groupbyCat)
                         @php
-                            $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
-                            $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
-                            $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
-                            $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
+                            $subPrice = 0;
+                            $i = 1;
                         @endphp
-                        @if ($name_category != null && !in_array($name_category, $uniqueName))
-                            <thead>
-                                <tr>
-                                    <td colspan="8" class="text-left border-bold p-1"
-                                        style="background-color: rgba(0, 0, 0, 0.05);">
-                                        <b>{{ $name_category }}</b>
-                                        @php
-                                            $uniqueName[] = $name_category;
-                                        @endphp
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="p-2 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-r-br') }}
-                                    </th>
-                                    <th class="p-2 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-naziv') }}
-                                    </th>
-                                    <th class="p-2 px-6 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-j-m') }}
-                                    </th>
-                                    <th class="p-2 px-6 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-kolicina') }}
-                                    </th>
-                                    <th class="p-2 px-6 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-jed-cena') }}
-                                    </th>
-                                    <th class="p-2 px-6 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-ukupno') }}
-                                    </th>
-                                    <th class="p-2 px-3 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-izmeni') }}
-                                    </th>
-                                    <th class="p-2 px-3 lowercase" scope="col">
-                                        {{ __('app.create-ponuda.table-izbrisi') }}
-                                    </th>
-                                </tr>
-                            </thead>
-                        @endif
-                        @php
-                            $overall_price = $item->quantity * $item->unit_price;
-                            $subPrice += $overall_price;
-                        @endphp
-                        <tbody>
-                            <tr>
-                                <td class="text-center">{{ $i++ }}</td>
-                                <td class="text-left ponuda-table-des p-1"><b>
-                                        {{ $title }}
-                                    </b><br>
-                                    {{ $desc_now }}
-                                    <br>{{ $item->name_service }}
-                                </td>
-                                <td class="text-center">{{ $item->unit_name }}</td>
-                                <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center lg:px-4 px-3">
-                                    {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
-                                </td>
-                                <td class="whitespace-nowrap lg:px-4 px-3 border-left text-center">
-                                    {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
-                                </td>
-                                <td>
-                                    <button class="edit-btn-table mx-auto"
-                                        onclick="UpdateSwall(() => ({ realId: {{ $item->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}', quantity: '{{ $item->quantity }}', unit_price: '{{ $item->unit_price }}', radioBtn: '{{ $item->service_id }}' }))">
-                                        <i class="ri-edit-line"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="delete-btn-table mx-auto"
-                                        onclick="actionSwall('{{ route('worker.store.new.ponuda.delete') }}','{{ $title }}',{{ $item->id }})">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            @if ($loop->last)
-                                <tr>
-                                    <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
-                                        <b>
-                                            {{ __('app.create-ponuda.table-svega') }}&nbsp;
-                                            <span class="lowercase">{{ $name_category }}</span>:
-                                        </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
-                                        {{ __('app.create-ponuda.table-rsd') }}
-                                    </td>
-                                </tr>
+                        @foreach ($groupbyCat as $item)
+                            @php
+                                $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
+                                $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                                $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
+                                $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
+                            @endphp
+                            @if ($name_category != null && !in_array($name_category, $uniqueName))
+                                <thead>
+                                    <tr>
+                                        <td colspan="8" class="text-left border-bold p-1"
+                                            style="background-color: rgba(0, 0, 0, 0.05);">
+                                            <b>{{ $name_category }}</b>
+                                            @php
+                                                $uniqueName[] = $name_category;
+                                            @endphp
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-2 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-r-br') }}
+                                        </th>
+                                        <th class="p-2 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-naziv') }}
+                                        </th>
+                                        <th class="p-2 px-6 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-j-m') }}
+                                        </th>
+                                        <th class="p-2 px-6 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-kolicina') }}
+                                        </th>
+                                        <th class="p-2 px-6 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-jed-cena') }}
+                                        </th>
+                                        <th class="p-2 px-6 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-ukupno') }}
+                                        </th>
+                                        <th class="p-2 px-3 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-izmeni') }}
+                                        </th>
+                                        <th class="p-2 px-3 lowercase" scope="col">
+                                            {{ __('app.create-ponuda.table-izbrisi') }}
+                                        </th>
+                                    </tr>
+                                </thead>
                             @endif
+                            @php
+                                $overall_price = $item->quantity * $item->unit_price;
+                                $subPrice += $overall_price;
+                            @endphp
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">{{ $i++ }}</td>
+                                    <td class="text-left ponuda-table-des p-1"><b>
+                                            {{ $title }}
+                                        </b><br>
+                                        {{ $desc_now }}
+                                        <br>{{ $item->name_service }}
+                                    </td>
+                                    <td class="text-center">{{ $item->unit_name }}</td>
+                                    <td class="text-center">{{ $item->quantity }}</td>
+                                    <td class="text-center lg:px-4 px-3">
+                                        {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                    </td>
+                                    <td class="whitespace-nowrap lg:px-4 px-3 border-left text-center">
+                                        {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                    </td>
+                                    <td>
+                                        <button class="edit-btn-table mx-auto"
+                                            onclick="UpdateSwall(() => ({ realId: {{ $item->id }}, tempDesc: '{{ $desc_now }}', tempTitle: '{{ $title }}', quantity: '{{ $item->quantity }}', unit_price: '{{ $item->unit_price }}', radioBtn: '{{ $item->service_id }}' }))">
+                                            <i class="ri-edit-line"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="delete-btn-table mx-auto"
+                                            onclick="actionSwall('{{ route('worker.store.new.ponuda.delete') }}','{{ $title }}',{{ $item->id }})">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                @if ($loop->last)
+                                    <tr>
+                                        <td colspan="8" class="text-right border-bold whitespace-nowrap p-1">
+                                            <b>
+                                                {{ __('app.create-ponuda.table-svega') }}&nbsp;
+                                                <span class="lowercase">{{ $name_category }}</span>:
+                                            </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
+                                            {{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                    </tr>
+                                @endif
+                        @endforeach
                     @endforeach
                     </tbody>
                 </table>
@@ -179,7 +187,7 @@
                                 </b>
                             </td>
                         </tr>
-                        @foreach ($finalData as $data)
+                        @foreach ($mergedData->sortBy('id')->groupBy('categories_id') as $data)
                             @php
                                 $subPrice = 0;
                             @endphp

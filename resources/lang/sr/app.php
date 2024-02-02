@@ -110,7 +110,7 @@ return [
         'write-name-position'           => "Upiši naziv pozicije",
         'description-position'          => "Upiši opis pozicije",
         'calculation'                   => "Obračun",
-        'choose-calculation'            => "Odaberi obračun",
+        'choose-calculation'            => "Odaberi obračun po",
         'catalogue-categories'          => "Katalog pozicija",
         'delete-work-type'              => "Izbriši vrstu rada",
         'delete-category'               => "Izbriši kategoriju",
