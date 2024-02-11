@@ -134,7 +134,7 @@ return [
     ],
 
     'archive-selected' => [
-        'note'                          => "Напомене",
+        'note'                          => "Напоменa",
         'modify-offer'                  => "Измени понуду",
         'check-pdf'                     => "Погледај ПДФ",
         'generate-pdf'                  => "Генериши ПДФ",

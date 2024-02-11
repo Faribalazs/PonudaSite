@@ -11,8 +11,8 @@
     </x-slot>
 
     @php
-        $pozicija_title = $pozicija->custom_title ?? null;
-        $pozicija_desc = $pozicija->custom_description === "&nbsp;" ? '' : $pozicija->custom_description;
+        $pozicija_title = $pozicija->title ?? null;
+        $pozicija_desc = $pozicija->description === "&nbsp;" ? '' : $pozicija->description;
         $pozicija_unit = $pozicija->unit->name ?? null;
         $pozicija_id = $pozicija->id ?? null;
     @endphp

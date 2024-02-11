@@ -70,7 +70,7 @@ class OptionsController extends Controller
          ->whereNull('c_p.is_pozicija_deleted')
          ->get();
 
-      $custom_pozicije = Pozicija::select('id','custom_title','custom_subcategory_id')->where('worker_id', $worker_id)
+      $custom_pozicije = Pozicija::select('id','title','custom_subcategory_id')->where('worker_id', $worker_id)
          ->whereNull('is_pozicija_deleted')
          ->get();
 
@@ -258,11 +258,11 @@ class OptionsController extends Controller
       Pozicija::where('id', $id)
          ->where('worker_id', Helper::worker())
          ->update([
-            'custom_title' => [
+            'title' => [
                'sr' => Helper::transliterate($title,"sr"),
                'rs-cyrl' => Helper::transliterate($title,"rs-cyrl")
             ],
-            'custom_description' => $finalDescription,
+            'description' => $finalDescription,
             'unit_id' => $unit
          ]);
       Alert::success(__('app.controllers.successfully-saved'))->showCloseButton()->showConfirmButton(__('app.basic.close')); 

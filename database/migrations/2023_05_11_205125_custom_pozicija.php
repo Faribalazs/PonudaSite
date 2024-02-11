@@ -18,8 +18,8 @@ class CustomPozicija extends Migration
             $table->foreignIdFor(\App\Models\Worker::class,'worker_id')->constrained();
             $table->bigInteger('custom_subcategory_id')->unsigned();
             $table->foreignIdFor(\App\Models\Units::class,'unit_id')->constrained()->references('id_unit')->cascadeOnDelete();
-            $table->text('custom_title');
-            $table->text('custom_description');
+            $table->text('title');
+            $table->text('description');
             $table->tinyInteger('is_pozicija_deleted')->nullable();
         });
     }

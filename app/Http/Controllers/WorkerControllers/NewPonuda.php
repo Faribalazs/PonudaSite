@@ -34,7 +34,7 @@ class NewPonuda extends Controller
    {
       $default_categories = Default_category::where('work_type_id', $id)->get();
 
-      $custom_categories = Category::where('worker_id', $worker_id)
+      $custom_categories = Category::where('worker_id', $worker_id)->where('custom_work_type_id', $id)
          ->whereNull('is_category_deleted')
          ->get();
       
@@ -49,7 +49,7 @@ class NewPonuda extends Controller
    {
       $default_subcategories = Default_subcategory::where('category_id', $id)->get();
 
-      $custom_subcategories = Subcategory::where('worker_id', $worker_id)
+      $custom_subcategories = Subcategory::where('worker_id', $worker_id)->where('custom_category_id', $id)
          ->whereNull('is_subcategory_deleted')
          ->get();
       
@@ -66,7 +66,7 @@ class NewPonuda extends Controller
          ->join('units', 'pozicija.unit_id', '=', 'units.id_unit')
          ->get();
 
-      $custom_pozicija = Pozicija::where('worker_id', $worker_id)
+      $custom_pozicija = Pozicija::where('worker_id', $worker_id)->where('custom_subcategory_id', $id)
          ->whereNull('is_pozicija_deleted')
          ->join('units', 'custom_pozicija.unit_id', '=', 'units.id_unit')
          ->get();
@@ -95,8 +95,8 @@ class NewPonuda extends Controller
                'u.name AS unit_name',
                'poz.title',
                'poz.description',
-               'c_poz.custom_title',
-               'c_poz.custom_description',
+               'c_poz.title AS custom_title',
+               'c_poz.description AS custom_description',
                'temp.temporary_description',
                'title.temporary_title',
                'serv.name_service',
@@ -168,12 +168,12 @@ class NewPonuda extends Controller
             $db = Default_pozicija::select('id', 'description', 'title')
                ->where('id', $pozicija_id)
                ->first();      
-            $custom_db = Pozicija::select('id', 'custom_description', 'custom_title')
+            $custom_db = Pozicija::select('id', 'description', 'title')
                ->where('id', $pozicija_id)
                ->first();      
             $id_of_ponuda = $new_ponuda->id;      
-            $default_desc = $db!==null?$db->description:$custom_db->custom_description;
-            $default_title = $db!==null?$db->title:$custom_db->custom_title;
+            $default_desc = $db!==null?$db->description:$custom_db->description;
+            $default_title = $db!==null?$db->title:$custom_db->title;
 
             if($des != $default_desc)
             {

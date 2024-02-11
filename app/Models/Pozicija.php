@@ -18,11 +18,11 @@ class Pozicija extends Model
         'worker_id',
         'custom_subcategory_id',
         'unit_id',
-        'custom_title',
-        'custom_description',
+        'title',
+        'description',
     ];
 
-    public $translatable = ['custom_title','custom_description','name'];
+    public $translatable = ['title','description','name'];
 
     public function unit()
     {

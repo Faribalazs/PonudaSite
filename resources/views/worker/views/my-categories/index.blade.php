@@ -65,7 +65,7 @@
                                                                 @if ($custom_pozicija->custom_subcategory_id == $custom_subcategory->id || $custom_pozicija->subcategory_id == $custom_subcategory->id)
                                                                     <li>
                                                                         <a class="hover:underline hover:text-secondary-color" href="{{ route('worker.options.show.pozicija', ['pozicija' => $custom_pozicija->id]) }}">
-                                                                            {{ $custom_pozicija->title ?? $custom_pozicija->custom_title }}
+                                                                            {{ $custom_pozicija->title ?? $custom_pozicija->title }}
                                                                         </a>
                                                                     </li>
                                                                 @endif

@@ -147,11 +147,11 @@ class NewOptions extends Controller
          'worker_id' => Helper::worker(),
          'custom_subcategory_id' => $request->input('subcategory'),
          'unit_id' => $request->input('unit_id'),
-         'custom_title' => [
+         'title' => [
             'sr' => Helper::transliterate($request->input('pozicija_name_sr'),"sr"),
             'rs-cyrl' => Helper::transliterate($request->input('pozicija_name_sr'),"rs-cyrl"),
          ],
-         'custom_description' => [
+         'description' => [
             'sr' => Helper::transliterate($request->input('poz_des_sr'),"sr"),
             'rs-cyrl' => Helper::transliterate($request->input('poz_des_rs_cyrl'),"rs-cyrl"),
          ],
