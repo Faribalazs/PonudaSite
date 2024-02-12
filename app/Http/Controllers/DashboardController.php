@@ -17,6 +17,11 @@ class DashboardController extends Controller
      }
    }
 
+   public function aboutUs()
+   {
+      return view('worker.views.home.about-us');
+   }
+
    public function profile()
    {
     return view('profile');

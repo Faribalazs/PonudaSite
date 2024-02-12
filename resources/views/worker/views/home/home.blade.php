@@ -47,6 +47,9 @@
                         <p class="image-text lg:w-1/2 w-10/12">
                             {{ __('app.slider.slider-three-text') }}
                         </p>
+                        <a href="{{ route('about.us') }}" class="slider-btn">
+                            {{ __('app.slider.see-more') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -59,10 +62,11 @@
             var homePageSwiper = new Swiper(".homePageSwiper", {
                 pagination: {
                     el: ".swiper-pagination",
+                    clickable: true,
                 },
                 autoplay: {
-                    delay: 3500,
-                    disableOnInteraction: false,
+                    delay: 5500,
+                    disableOnInteraction: true,
                 },
             });
         }, 50);

@@ -6,8 +6,7 @@
         <div class="nav__list px-4 gap-4">
             <div class="nav__list-item mt-32 text-center">
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                            Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.catalogue-categories')" :active="request()->routeIs('worker.catalogue-categories')">
                                 {{ __('app.categories.catalogue-categories') }}
@@ -16,8 +15,7 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                            Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" font-bold py-3 text-2xl space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
                                 {{ __('app.nav.new-ponuda') }}
@@ -26,8 +24,7 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                            Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.my-categories*')">
                                 {{ __('app.nav.my-categories') }}
@@ -36,8 +33,7 @@
                     @endif
                 @endif
                 @if (Auth::guard('worker')->check())
-                    @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                            Auth::guard('worker')->user()->hasRole('super_worker'))
+                    @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                         <div class=" text-2xl font-bold py-3 space-x-8 sm:-my-px sm:ml-10 xl:flex items-center">
                             <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
                                 {{ __('app.nav.archive') }}
@@ -80,8 +76,7 @@
                 @endif
             @endif
             @if (Auth::guard('worker')->check())
-                @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                     <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                         <x-nav-link :href="route('worker.catalogue-categories')" :active="request()->routeIs('worker.catalogue-categories')">
                             {{ __('app.categories.catalogue-categories') }}
@@ -90,8 +85,7 @@
                 @endif
             @endif
             @if (Auth::guard('worker')->check())
-                @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                     <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                         <x-nav-link :href="route('worker.new.ponuda')" :active="request()->routeIs('worker.new.ponuda')">
                             {{ __('app.nav.new-ponuda') }}
@@ -100,8 +94,7 @@
                 @endif
             @endif
             @if (Auth::guard('worker')->check())
-                @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                     <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                         <x-nav-link :href="route('worker.options.update')" :active="request()->routeIs('worker.options*')">
                             {{ __('app.nav.my-categories') }}
@@ -110,8 +103,7 @@
                 @endif
             @endif
             @if (Auth::guard('worker')->check())
-                @if (Auth::guard('worker')->user()->hasRole('worker') ||
-                        Auth::guard('worker')->user()->hasRole('super_worker'))
+                @if (Auth::guard('worker')->user()->hasRole('worker') || Auth::guard('worker')->user()->hasRole('super_worker'))
                     <div class="hidden space-x-8 sm:-my-px xl:flex items-center">
                         <x-nav-link :href="route('worker.archive')" :active="request()->routeIs('worker.archive*')">
                             {{ __('app.nav.archive') }}
@@ -226,7 +218,7 @@
     </div>
 </nav>
 <script>
-    const app = (() => {
+    setTimeout(() => {
         let body;
         let menu;
         let menuItems;
@@ -252,9 +244,8 @@
                 element.classList.add(stringClass);
         }
         init();
-    })();
-
-    var navbar = document.getElementById("nav");
+        var navbar = document.getElementById("nav");
+    }, 10);
 
     function LanguageSwitcher(lang) {
         Swal.fire({

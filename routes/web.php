@@ -23,6 +23,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::get('/', [DashboardController::class, 'home'])->name('home');
 
+Route::get('/about-us', [DashboardController::class, 'aboutUs'])->name('about.us');
+
 //auth route for both 
 Route::group(['middleware' => ['auth']], function() { 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

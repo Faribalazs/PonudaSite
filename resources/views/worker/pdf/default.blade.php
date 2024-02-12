@@ -118,8 +118,8 @@
                         @foreach ($groupbyCat as $item)
                             @php
                                 $name_category = $item->name_category != null ? $item->name_category : ($item->name_custom_category != null ? $item->name_custom_category : '');
-                                $title = $item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : '');
-                                $desc_now = $item->description != null ? $item->description : ($item->custom_description != null ? $item->description : '');
+                                $title = $item->temporary_title != null ? $item->temporary_title : ($item->title != null ? $item->title : ($item->custom_title != null ? $item->custom_title : ''));
+                                $desc_now = $item->temporary_description != null ? $item->temporary_description : ($item->description != null ? $item->description : ($item->custom_description != null ? $item->custom_description : ''));
                                 $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
                                 $work_type_pozicija->push($name_category);
                             @endphp

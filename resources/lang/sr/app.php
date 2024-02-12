@@ -332,5 +332,18 @@ return [
         'slider-three-title'            => "LAKO I BRZO NA TELEFONU",
         'slider-three-text'             => "Sam način izrade dokumenata se pojednostavljuje do tog nivoa da se dokumentacija može izraditi i uz upotrebu mobilnog telefona, za vreme pauze za doručak ili kafu",
         'slider-one-btn-text-logged-in' => "Počni sad",
+        'see-more'                      => "Saznaj više o sajtu",
+        'about-us'                      => "O nama",
+    ],
+
+    'about-us' => [
+        'about-us-title'                => "O nama",
+        'text-one'                      => "Platforma „PONUDA MAJSTORA“ predstavlja savremen i efikasan alat za izradu PONUDA i UGOVORA za izvođenje građevinskih i građevinsko – zanatskih radova.",
+        'text-two'                      => "Namenjena je u prvom redu MAJSTORIMA – PREDUZETNICIMA koji žele da svoj angažman na izradama PONUDA kao i sastavljanju UGOVORA svedu na minimalan nivo, a da pri tome njihove ponude i ugovori budu izrađeni po najvišim tehničkim i pravno - formalnim pravilima struke.",
+        'text-three'                    => "Obzirom da se vreme potrebno za izradu Ponude i Ugovora korišćenjem ovog alata neuporedivo smanjuje, MAJSTOR – PREDUZETNIK svoje slobodno vreme više neće morati trošiti na bavljenje „papirologijom“ , nego na neophodan odmor i relaksaciju u krugu porodice i prijatelja.",
+        'text-four'                     => "Sam način izrade dokumenata se pojednostavljuje do tog nivoa da se dokumentacija može izraditi i uz upotrebu mobilnog telefona, za vreme pauze za doručak ili kafu.",
+        'text-five'                     => "Slanje PONUDE i UGOVORA investitoru se obavlja automatski na e-mail, Viber, WhatsApp, odnosno uz pomoć bilo kog dostupnog  vida komunikacije.",
+        'text-six'                      => "Kreiranjem platforme „PONUDA MAJSTORA“ želeli smo da MAJSTORE – PREDUZETNIKE rasteretimo nepotrebnog gubitka i onako kratkog slobodnog vremena i da im omogućimo da se bave samo onim poslom koji spada u njihovu osnovnu delatnost. ",
+        'text-seven'                    => "Administrativni deo posla će umesto njih uraditi platforma „PONUDA MAJSTORA“.",
     ],
 ];

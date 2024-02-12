@@ -3,7 +3,7 @@
         <div class="mt-4 links">
             <span class="footer-title">{{ __('app.footer.informations') }}</span>
             <div class="flex flex-col">
-                <div class="pt-3"><a href="#" class="footer-category-text">Link</a></div>
+                <div class="pt-3"><a href="{{ route('about.us') }}" class="footer-category-text">{{ __('app.about-us.about-us-title') }}</a></div>
                 <div class="pt-3"><a href="#" class="footer-category-text">Link1</a></div>
                 <div class="pt-3"><a href="#" class="footer-category-text">Link2</a></div>
               </div>

@@ -24,7 +24,7 @@
                     <li class="option-work-type">
                         <input type="text" v-model="searchQueryWorkType" :placeholder="searchPlaceholder + '...'" class="quantity-input">
                     </li>
-                    <li v-for="option in workTypes" :key="option.id" class="option-work-type" v-show="workTypesSearch(option)" @click="selectOptionWorkType(option)">
+                    <li v-for="option in sortWorkTypes" :key="option.id" class="option-work-type" v-show="workTypesSearch(option)" @click="selectOptionWorkType(option)">
                         <span class="option-text-work-type">{{ option.name[lang] }}</span>
                     </li>
                 </ul>
@@ -37,7 +37,7 @@
 
         <!-- Category select start -->
 
-        <div class="h-36" v-show="showCategory">
+        <div class="h-36 categoryDivScrollMargin" ref="categoryDiv" v-show="showCategory" >
             <span class="input-label pl-2">{{ categoryplaceholder }}*</span>
             <div class="select-menu-category" :class="{ active: isActiveCategory }">
                 <div class="select-btn-category" @click="toggleMenuCategory">
@@ -67,7 +67,7 @@
 
         <!-- Subcategory select start -->
 
-        <div class="h-36" v-show="showSubcategory">
+        <div class="h-36 subCategoryDivScrollMargin" ref="subCategoryDiv" v-show="showSubcategory" >
             <span class="input-label pl-2">{{ subcategoryplaceholder }}*</span>
             <div class="select-menu-subcategory" :class="{ active: isActiveSubcategory }">
                 <div class="select-btn-subcategory" @click="toggleMenuSubcategory">
@@ -98,7 +98,7 @@
         <!-- Pozicija select start -->
 
         <div v-show="showPozicija">
-            <div class="h-36">
+            <div class="pozicijaDivScrollMargin" ref="pozicijaDiv" >
                 <span class="input-label pl-2">{{ pozicijaplaceholder }}*</span>
                 <div class="select-menu-pozicija" :class="{ active: isActivePozicija }">
                     <div class="select-btn-pozicija" @click="toggleMenuPozicija">
@@ -121,7 +121,7 @@
                 <input type="hidden" name="pozicija" :value="selectedPozicijaId" />
             </div>
 
-            <div v-show="selectedPozicijaId">
+            <div v-show="selectedPozicijaId" class="pozicijaQtyDivScrollMargin" ref="pozicijaQtyDiv" >
 
                 <div class="flex w-full flex-col">
                     <div class="w-full flex justify-end">
@@ -247,12 +247,18 @@
             }
         },
 
-        created() {
-            //console.log(this.workerId);
+        computed: {
+            //sort Work Types A-Z
+            sortWorkTypes() {
+                let sortedArray = this.workTypes;
+                sortedArray.sort((a, b) => {
+                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
+                });
+                return sortedArray;
+            },
         },
 
         methods: {
-
             //methods for the work types start
             toggleMenuWorkTypes() {
                 //show hide the dropsown for work types
@@ -264,6 +270,15 @@
                 const searchQuery = this.searchQueryWorkType.toLowerCase().trim();
                 const optionName = option.name[this.lang].toLowerCase();
                 return optionName.includes(searchQuery);
+            },
+
+            //sort Categories A-Z
+            sortCategories(categories) {
+                let sortedArray = categories;
+                sortedArray.sort((a, b) => {
+                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
+                });
+                return sortedArray;
             },
 
             selectOptionWorkType(option) {
@@ -298,13 +313,17 @@
                 //get categories from the backend
                 axios.get(categoryUrl)
                     .then(response => {
-                        this.categories = response.data;
+                        this.categories = this.sortCategories(response.data);
 
                         //show the category dropdown div
                         this.showCategory = true;
 
                         //hide the loader
                         this.isLoading = false;
+
+                        setTimeout(() => {
+                            this.$refs.categoryDiv.scrollIntoView({ behavior: 'smooth' }); 
+                        }, 100);
                 });
             },
 
@@ -326,6 +345,14 @@
                 return optionName.includes(searchQuery);
             },
 
+            //sort Subcategories A-Z
+            sortSubcategories(subcategories) {
+                let sortedArray = subcategories;
+                sortedArray.sort((a, b) => {
+                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
+                });
+                return sortedArray;
+            },
 
             selectOptionCategory(option) {
                 //set value for category in the dropdown and for the hidden input
@@ -355,13 +382,17 @@
                 //get subcategories from the backend
                 axios.get(subcategoryUrl)
                     .then(response => {
-                        this.subcategories = response.data;
+                        this.subcategories = this.sortSubcategories(response.data);
 
                         //show the category dropdown div
                         this.showSubcategory = true;
 
                         //hide the loader
                         this.isLoading = false;
+
+                        setTimeout(() => {
+                            this.$refs.subCategoryDiv.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
                 });
             },
 
@@ -381,6 +412,15 @@
                 const searchQuery = this.searchQuerySubcategory.toLowerCase().trim();
                 const optionName = option.name[this.lang].toLowerCase();
                 return optionName.includes(searchQuery);
+            },
+
+            //sort Pozicija A-Z
+            sortPozicija(pozicija) {
+                let sortedArray = pozicija;
+                sortedArray.sort((a, b) => {
+                    return a.title[this.lang].localeCompare(b.title[this.lang], 'sr');
+                });
+                return sortedArray;
             },
 
             selectOptionSubcategory(option) {
@@ -406,13 +446,17 @@
                 //get pozicija from the backend
                 axios.get(pozicijaUrl)
                     .then(response => {
-                        this.pozicije = response.data;
+                        this.pozicije = this.sortPozicija(response.data);
 
                         //show the category dropdown div
                         this.showPozicija = true;
 
                         //hide the loader
                         this.isLoading = false;
+
+                        setTimeout(() => {
+                            this.$refs.pozicijaDiv.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
                 });
             },
 
@@ -445,6 +489,10 @@
                 this.selectedPozicijaId = option.id;
                 this.isActivePozicija = false;
                 this.unitName = option.name[this.lang];
+
+                setTimeout(() => {
+                    this.$refs.pozicijaQtyDiv.scrollIntoView({ behavior: 'smooth' }); 
+                }, 100);
             },
 
             //methods for the pozicija end
@@ -513,6 +561,40 @@
         opacity: 1;
         -webkit-transform: scale(1);
         transform: scale(1);
+    }
+
+    .categoryDivScrollMargin {
+        scroll-margin-top: -20vh;
+        @media (max-width: 880px) {
+            scroll-margin-top: 30vh;
+        }
+    }
+
+    .subCategoryDivScrollMargin {
+        scroll-margin-top: -20vh;
+        @media (max-width: 880px) {
+            scroll-margin-top: 30vh;
+        }
+    }
+
+    .pozicijaDivScrollMargin {
+        scroll-margin-top: -20vh;
+        height: 9rem;
+        @media (max-width: 880px) {
+            height: 10.5rem !important;
+            scroll-margin-top: 30vh;
+        }
+    }
+
+    .sBtn-text-pozicija {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+
+    .pozicijaQtyDivScrollMargin {
+        scroll-margin-top: 20vh;
     }
 </style>
 
