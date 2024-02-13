@@ -116,7 +116,7 @@
                     {{ __('app.auth.profile-pics') }}:
                 </label>
 
-                @if (auth('worker')->user()->image != 'null')
+                @if (auth('worker')->user()->image != null)
                     <img src="{{ route('show.avatar', ['filename' => auth('worker')->user()->image]) }}"
                         class="mt-2 profile-image profile-img">
                 @else
