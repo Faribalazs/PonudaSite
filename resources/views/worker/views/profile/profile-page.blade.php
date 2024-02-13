@@ -24,7 +24,7 @@
     <!-- Profile image -->
     <div class="flex mt-5 items-center flex-col">
 
-        @if (auth('worker')->user()->image != 'null')
+        @if (auth('worker')->user()->image != null)
             <img src="{{ route('show.avatar', ['filename' => auth('worker')->user()->image]) }}" class="profile-image">
         @else
             <img src="{{ asset('img/avatar_placeholder.svg') }}" class="profile-image">

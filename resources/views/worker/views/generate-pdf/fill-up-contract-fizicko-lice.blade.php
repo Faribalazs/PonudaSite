@@ -7,6 +7,8 @@
     </x-slot>
     <form method="POST" action="{{ route('worker.archive.download.contract') }}">
         @csrf
+        @method('post')
+        <input type="hidden" name="mailTo" value="{{ $mailTo }}">
         <div class="con">
             <div class="mt-20 border border-grey rounded lg:p-14 sm:p-10 p-4 main-div">
                 <div class="px-10 flex flex-col">

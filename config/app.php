@@ -4,7 +4,7 @@ return [
 
     //app email
 
-    'email' => 'ponudamajstora@gmail.com',
+    'email' => env('MAIL_FROM_ADDRESS'),
 
     //app phone number
 

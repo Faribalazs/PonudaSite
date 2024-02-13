@@ -14,10 +14,9 @@
         $route = isset($fields) ? 'worker.archive.send.contract' : 'worker.archive.send.mail';
     @endphp
 
-    {{-- $contacts --}}
-    <form method="POST" id="sendPDF"
-        action="{{ route($route) }}">
+    <form method="POST" id="sendPDF" action="{{ route($route) }}">
         @csrf
+        @method('post')
         @if (isset($id))
             <input type="hidden" name="id" value="{{ $id }}" />
         @endif
@@ -39,9 +38,9 @@
         @if (isset($ugovor_br))
             <input type="hidden" name="ugovor_br" value="{{ $ugovor_br }}" />
         @endif
-        <label class="pl-1">{{ __('app.generate-pdf.to-whom-you-send') }}:</label>
-        <input type="email" placeholder="{{ __('app.generate-pdf.to-whom-you-send') }}" name="mailTo"
-            class="w-full dropdown-search mt-2">
+        @if(isset($mailTo))
+            <input type="hidden" name="mailTo" value="{{ $mailTo }}" />
+        @endif
         <label class="mt-4 pl-1">{{ __('app.generate-pdf.subject-email') }}:</label>
         <input type="text" placeholder="{{ __('app.generate-pdf.subject-email') }}" name="mailSubject"
             class="w-full dropdown-search mt-2">

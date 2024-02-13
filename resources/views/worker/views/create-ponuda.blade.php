@@ -292,7 +292,7 @@
         @php
             $workTypesJson = $work_types->merge($custom_work_types);
             $lang = app()->getLocale();
-            $url = env('APP_URL');
+            $url = config('app.url');
             $workerId = auth()->id();
         @endphp
 

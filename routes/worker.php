@@ -254,7 +254,7 @@ Route::group(['middleware' => ['auth:worker', 'role:worker|super_worker']], func
             Route::get('contractor/{lice}/{id}', [Archive::class, 'showLice'])
                 ->name('worker.archive.select.method');
 
-            Route::get('contractor/{lice}/{method}/{id}', [Archive::class, 'contactOrForm'])
+            Route::get('contractor/show/{lice}/{method}/{id}', [Archive::class, 'contactOrForm'])
                 ->name('worker.archive.show.lica');
         });
     
