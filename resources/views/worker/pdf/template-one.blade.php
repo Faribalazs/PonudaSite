@@ -15,11 +15,9 @@
             font-size: 9px;
         }
 
-        .ponuda-table,
         .ponuda-table td,
         .ponuda-table th {
             border: 1px solid black;
-            border-collapse: collapse;
         }
 
         .w-100 {
@@ -29,6 +27,7 @@
         .ponuda-table {
             margin-bottom: 30px;
             width: 100%;
+            border-collapse: collapse;
         }
 
         .border-left {
@@ -154,8 +153,16 @@
             page-break-after: always;
         }
 
+        .no-br-before {
+            page-break-before: avoid;
+        }
+
         .no-br-after {
             page-break-after: avoid;
+        }
+
+        .h-10 {
+            height: 5px;
         }
     </style>
 
@@ -264,7 +271,7 @@
                 @endif
             @endif
             <div class="table-div">
-            @foreach ($finalData as $data)
+                @foreach ($finalData as $data)
                     <table class="ponuda-table">
                         <thead>
                             @php
@@ -276,11 +283,14 @@
                                     $sumWorkType += $d->unit_price * $d->quantity;
                                 }
                             @endphp
-                            <tr>
+                            <tr class="no-br-after">
                                 <td colspan="6" class="text-left border-bold padding-5"
                                     style="background-color: rgba(0, 0, 0, 0.15);">
                                     <b>{{ $name_work_type }}</b>
                                 </td>
+                            </tr>
+                            <tr class="no-br-before">
+                                <td colspan="6" class="h-10" style="border: none !important"></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -327,58 +337,62 @@
                                                 {{ __('app.create-ponuda.table-ukupno') }}
                                             </th>
                                         </tr>
-            @endif
-            @php
-                $overall_price = $item->quantity * $item->unit_price;
-                $subPrice += $overall_price;
-            @endphp
-                <tr>
-                    <td class="text-center">{{ $i++ }}</td>
-                    <td class="text-left ponuda-table-des padding-5"><b>
-                            {{ $title }}
-                        </b><br>
-                        {{ $desc_now }}
-                        <br>{{ $item->name_service }}
-                    </td>
-                    <td class="text-center padding-5">{{ $item->unit_name }}</td>
-                    <td class="text-center padding-5">{{ $item->quantity }}</td>
-                    <td class="text-center padding-5">
-                        {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
-                    </td>
-                    <td class="whitespace-nowrap padding-5 border-left text-center">
-                        {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
-                    </td>
-                </tr>
+                                    @endif
+                                    @php
+                                        $overall_price = $item->quantity * $item->unit_price;
+                                        $subPrice += $overall_price;
+                                    @endphp
+                                    <tr>
+                                        <td class="text-center">{{ $i++ }}</td>
+                                        <td class="text-left ponuda-table-des padding-5"><b>
+                                                {{ $title }}
+                                            </b><br>
+                                            {{ $desc_now }}
+                                            <br>{{ $item->name_service }}
+                                        </td>
+                                        <td class="text-center padding-5">{{ $item->unit_name }}</td>
+                                        <td class="text-center padding-5">{{ $item->quantity }}</td>
+                                        <td class="text-center padding-5">
+                                            {{ number_format($item->unit_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                        <td class="whitespace-nowrap padding-5 border-left text-center">
+                                            {{ number_format($overall_price, 2) }}&nbsp;{{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                    </tr>
 
-                @if ($loop->last)
-                    <tr>
-                        <td colspan="6" class="text-right border-bold whitespace-nowrap padding-5"
-                            style="background-color: rgba(0, 0, 0, 0.05);">
-                            <b>
-                                {{ __('app.create-ponuda.table-svega') }}&nbsp;
-                                <span class="lowercase">{{ $name_category }} :</span>
-                            </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
-                            {{ __('app.create-ponuda.table-rsd') }}
-                        </td>
-                    </tr>
-                @endif
-    @endforeach
-    @if ($loop->last)
-        <tr>
-            <td colspan="6" class="text-right border-bold whitespace-nowrap padding-5"
-                style="background-color: rgba(0, 0, 0, 0.15);">
-                <b>
-                    {{ __('app.create-ponuda.table-svega') }}&nbsp;
-                    <span class="lowercase">{{ $work_type }} :</span>
-                </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
-                {{ __('app.create-ponuda.table-rsd') }}
-            </td>
-        </tr>
-    @endif
-    @endforeach
-    </tbody>
-    </table>
-    </div>
+                                    @if ($loop->last)
+                                        <tr class="no-br-before">
+                                            <td colspan="6"
+                                                class="text-right border-bold whitespace-nowrap padding-5"
+                                                style="background-color: rgba(0, 0, 0, 0.05);">
+                                                <b>
+                                                    {{ __('app.create-ponuda.table-svega') }}&nbsp;
+                                                    <span class="lowercase">{{ $name_category }} :</span>
+                                                </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
+                                                {{ __('app.create-ponuda.table-rsd') }}
+                                            </td>
+                                        </tr>
+                                        <tr class="no-br-before">
+                                            <td colspan="6" class="h-10" style="border: none !important"></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                @if ($loop->last)
+                                    <tr class="no-br-before">
+                                        <td colspan="6" class="text-right border-bold whitespace-nowrap padding-5"
+                                            style="background-color: rgba(0, 0, 0, 0.15);">
+                                            <b>
+                                                {{ __('app.create-ponuda.table-svega') }}&nbsp;
+                                                <span class="lowercase">{{ $work_type }} :</span>
+                                            </b>&nbsp;{{ number_format($sumWorkType, 2) }}&nbsp;
+                                            {{ __('app.create-ponuda.table-rsd') }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+            </div>
     @endforeach
     <div>
         <table class="ponuda-table mt-5" style="page-break-before: always;">

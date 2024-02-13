@@ -71,6 +71,18 @@
     .text-bold {
         font-weight: 600;
     }
+
+    .no-br-before {
+        page-break-before: avoid;
+    }
+
+    .no-br-after {
+        page-break-after: avoid;
+    }
+
+    .h-10 {
+        height: 5px;
+    }
 </style>
 
 <body style="padding-left: 20px; padding-right: 20px;">
@@ -110,6 +122,11 @@
                             <b>{{ $name_work_type }}</b>
                         </td>
                     </tr>
+                    <tr class="no-br-before">
+                        <td colspan="6" class="h-10" style="border: none !important"></td>
+                    </tr>  
+                </thead>
+                <tbody>
                     @foreach ($data->sortBy('id')->groupBy('categories_id') as $groupbyCat)
                         @php
                             $subPrice = 0;
@@ -123,8 +140,8 @@
                                 $desc_now = $desc_now === '&nbsp;' ? '' : $desc_now;
                                 $work_type_pozicija->push($name_category);
                             @endphp
-                            @if ($name_category != null && !in_array($name_category, $uniqueName))
-                                <tr>
+                            @if ($name_category != null && !in_array($name_category, $uniqueName))  
+                                <tr class="no-br-after">
                                     <td colspan="6" class="text-left border-bold padding-5"
                                         style="background-color: rgba(0, 0, 0, 0.05);">
                                         <b>{{ $name_category }}</b>
@@ -133,7 +150,7 @@
                                         @endphp
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="no-br-after">
                                     <th scope="col" class="table-padding-small">
                                         {{ __('app.create-ponuda.table-r-br') }}
                                     </th>
@@ -153,13 +170,11 @@
                                         {{ __('app.create-ponuda.table-ukupno') }}
                                     </th>
                                 </tr>
-                </thead>
         @endif
         @php
             $overall_price = $item->quantity * $item->unit_price;
             $subPrice += $overall_price;
         @endphp
-        <tbody>
             <tr>
                 <td class="text-center">{{ $i++ }}</td>
                 <td class="text-left ponuda-table-des padding-5"><b>
@@ -179,7 +194,7 @@
             </tr>
 
             @if ($loop->last)
-                <tr>
+                <tr class="no-br-before">
                     <td colspan="6" class="text-right border-bold whitespace-nowrap padding-5"
                         style="background-color: rgba(0, 0, 0, 0.05);">
                         <b>
@@ -189,16 +204,19 @@
                         {{ __('app.create-ponuda.table-rsd') }}
                     </td>
                 </tr>
+                <tr class="no-br-before">
+                    <td colspan="6" class="h-10" style="border: none !important"></td>
+                </tr>  
             @endif
     @endforeach
     @if ($loop->last)
-        <tr>
+        <tr class="no-br-before">
             <td colspan="6" class="text-right border-bold whitespace-nowrap padding-5"
                 style="background-color: rgba(0, 0, 0, 0.15);">
                 <b>
                     {{ __('app.create-ponuda.table-svega') }}&nbsp;
                     <span class="lowercase">{{ $work_type }} :</span>
-                </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
+                </b>&nbsp;{{ number_format($sumWorkType, 2) }}&nbsp;
                 {{ __('app.create-ponuda.table-rsd') }}
             </td>
         </tr>

@@ -19,8 +19,8 @@ class DataSeeder extends Seeder
         [
           [
             'name' => [
-                'sr' => 'Građevinski i građevinsko zanatski radova',
-                'rs-cyrl' => 'Грађевински и грађевинско занатски радова',
+                'sr' => 'Građevinski i građevinsko zanatski radovi',
+                'rs-cyrl' => 'Грађевински и грађевинско занатски радови',
             ]
           ],
           [

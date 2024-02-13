@@ -170,7 +170,7 @@
                 <b>
                     {{ __('app.create-ponuda.table-svega') }}&nbsp;
                     <span class="lowercase">{{ $work_type }}</span>:
-                </b>&nbsp;{{ number_format($subPrice, 2) }}&nbsp;
+                </b>&nbsp;{{ number_format($sumWorkType, 2) }}&nbsp;
                 {{ __('app.create-ponuda.table-rsd') }}
             </td>
         </tr>

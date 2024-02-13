@@ -65,7 +65,7 @@
                     clickable: true,
                 },
                 autoplay: {
-                    delay: 5500,
+                    delay: 7000,
                     disableOnInteraction: true,
                 },
             });

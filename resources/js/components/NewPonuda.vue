@@ -24,7 +24,7 @@
                     <li class="option-work-type">
                         <input type="text" v-model="searchQueryWorkType" :placeholder="searchPlaceholder + '...'" class="quantity-input">
                     </li>
-                    <li v-for="option in sortWorkTypes" :key="option.id" class="option-work-type" v-show="workTypesSearch(option)" @click="selectOptionWorkType(option)">
+                    <li v-for="option in workTypes" :key="option.id" class="option-work-type" v-show="workTypesSearch(option)" @click="selectOptionWorkType(option)">
                         <span class="option-text-work-type">{{ option.name[lang] }}</span>
                     </li>
                 </ul>
@@ -248,14 +248,6 @@
         },
 
         computed: {
-            //sort Work Types A-Z
-            sortWorkTypes() {
-                let sortedArray = this.workTypes;
-                sortedArray.sort((a, b) => {
-                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
-                });
-                return sortedArray;
-            },
         },
 
         methods: {
@@ -270,15 +262,6 @@
                 const searchQuery = this.searchQueryWorkType.toLowerCase().trim();
                 const optionName = option.name[this.lang].toLowerCase();
                 return optionName.includes(searchQuery);
-            },
-
-            //sort Categories A-Z
-            sortCategories(categories) {
-                let sortedArray = categories;
-                sortedArray.sort((a, b) => {
-                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
-                });
-                return sortedArray;
             },
 
             selectOptionWorkType(option) {
@@ -313,7 +296,7 @@
                 //get categories from the backend
                 axios.get(categoryUrl)
                     .then(response => {
-                        this.categories = this.sortCategories(response.data);
+                        this.categories = response.data;
 
                         //show the category dropdown div
                         this.showCategory = true;
@@ -345,15 +328,6 @@
                 return optionName.includes(searchQuery);
             },
 
-            //sort Subcategories A-Z
-            sortSubcategories(subcategories) {
-                let sortedArray = subcategories;
-                sortedArray.sort((a, b) => {
-                    return a.name[this.lang].localeCompare(b.name[this.lang], 'sr');
-                });
-                return sortedArray;
-            },
-
             selectOptionCategory(option) {
                 //set value for category in the dropdown and for the hidden input
                 this.selectedCategoryName = option.name[this.lang];
@@ -382,7 +356,7 @@
                 //get subcategories from the backend
                 axios.get(subcategoryUrl)
                     .then(response => {
-                        this.subcategories = this.sortSubcategories(response.data);
+                        this.subcategories = response.data;
 
                         //show the category dropdown div
                         this.showSubcategory = true;
@@ -414,15 +388,6 @@
                 return optionName.includes(searchQuery);
             },
 
-            //sort Pozicija A-Z
-            sortPozicija(pozicija) {
-                let sortedArray = pozicija;
-                sortedArray.sort((a, b) => {
-                    return a.title[this.lang].localeCompare(b.title[this.lang], 'sr');
-                });
-                return sortedArray;
-            },
-
             selectOptionSubcategory(option) {
                 //set value for subcategory in the dropdown and for the hidden input
                 this.selectedSubcategoryName = option.name[this.lang];
@@ -446,7 +411,7 @@
                 //get pozicija from the backend
                 axios.get(pozicijaUrl)
                     .then(response => {
-                        this.pozicije = this.sortPozicija(response.data);
+                        this.pozicije = response.data;
 
                         //show the category dropdown div
                         this.showPozicija = true;
