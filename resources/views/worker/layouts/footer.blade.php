@@ -46,5 +46,5 @@
               </div>
         </div>
     </div>
-    <span class="copyright">Copyright © {{ date("Y") }} {{ __('app.basic.app_name') }} {{ __('app.footer.all-rights-reserved') }}</span>
+    <span class="copyright px-4 sm:px-6 lg:px-12">Copyright © {{ date("Y") }} {{ __('app.basic.app_name') }} {{ __('app.footer.all-rights-reserved') }}</span>
 </div>

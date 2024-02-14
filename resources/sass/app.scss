@@ -219,7 +219,9 @@ pre {
         margin: auto;
         padding-left: 1rem;
         padding-right: 1rem;
-        padding-top: 2.5rem;
+        @media (max-width: 1280px) {
+            padding-top: 7rem !important;
+        }
     }
 
     .disabled-link {
@@ -358,10 +360,11 @@ pre {
 
 .homePageSwiper {
     @media (min-width: 700px) {
-        height: calc(100vh + 0.375rem) !important;
+        height: 100vh !important;
     }
+    
     @media (max-width: 700px) {
-        height: calc(100vh + 1rem) !important;
+        height: 100vh !important;
     }
 }
 
