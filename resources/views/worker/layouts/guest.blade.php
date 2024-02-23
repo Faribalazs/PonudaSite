@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'Ponuda Majstora') }}</title>
 
-        <link rel="icon" type="image/svg+xml" href="{{ asset('img/logo.svg') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
 
         <!-- Fonts -->
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>

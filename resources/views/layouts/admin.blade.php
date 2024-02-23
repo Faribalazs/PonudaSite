@@ -7,7 +7,7 @@
 
         <title>@yield('page-title')</title>
         
-        <link rel="icon" href="{{ asset('img/logo.svg') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">

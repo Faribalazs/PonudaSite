@@ -8,7 +8,7 @@
     <title>{{ $pageTitle }}</title>
 
     <!-- Styles -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('img/logo.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
 
