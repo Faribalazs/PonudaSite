@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Swap;
+use App\Models\Ponuda;
 
 class CheckSwapRecord
 {
@@ -18,7 +18,8 @@ class CheckSwapRecord
     {
         if(auth('worker')->check())
         {
-            if(Swap::where('worker_id', auth('worker')->user()->id)->first() && !request()->routeIs("worker.archive.selected"))
+            $worker = auth('worker')->user();
+            if(Ponuda::where('worker_id', $worker->id)->where('ponuda_id', $worker->ponuda_counter)->first() && !request()->routeIs("worker.archive.selected"))
             {
                 return redirect()->route('worker.new.ponuda')->with('accessDenied', __('app.controllers.finish-ponuda-first'));
             }
