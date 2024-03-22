@@ -120,7 +120,7 @@ class AdminController extends Controller
 
   public function selectWorkers()
   {
-    $users = Worker::select('id','email','name', 'status','ponuda_counter')->paginate(15);
+    $users = Worker::select('id','email','first_name','last_name','status','ponuda_counter')->paginate(15);
     return view('admin.show-workers', ['users' => $users]);
   }
 

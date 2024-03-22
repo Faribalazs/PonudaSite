@@ -21,7 +21,7 @@
             @foreach ($users as $user)
                 <tr>
                     <td>{{$user->id}}</td>
-                    <td>{{$user->name}}</td>
+                    <td>{{$user->first_name.' '.$user->last_name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->ponuda_counter-1}}</td>
                     <td>@if($user->status == 1) Aktivan @else Zabranjen @endif</td>
