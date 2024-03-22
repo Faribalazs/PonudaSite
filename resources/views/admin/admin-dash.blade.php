@@ -8,7 +8,7 @@
         <br>Aktivni korisnici (poslednjih 5 minuta): {{ $active ?? 0}}<br><br>
         Danas prijavljeni radnici: {{ $workers ?? 0 }}<br>
         Radnici prijavljeni u poslednjih 30 dana: {{ $workers_last_30_days ?? 0 }}<br>
-        Najviše poseta radnika: {{ $max_visit->worker->name ?? 'null'}} klikovi: {{ $max_visit->hits ?? 0 }}<br><br>
+        Najviše poseta radnika: @if(isset($max_visit->worker)){{ $max_visit->worker->first_name.' '.$max_visit->worker->last_name }}@else{{ 'null' }}@endif klikovi: {{ $max_visit->hits ?? 0 }}<br><br>
         Ukupna poseta danas: {{ $overall_visit_today ?? 0 }}<br>
         Ukupne posete u poslednjih 30 dana: {{ $overall_visit_last_30_days ?? 0 }}<br><br>
         Danas prijavljeni nalozi sa različitim IP adresama: {{ $diff_ip ?? 0}}<br>

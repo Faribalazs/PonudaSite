@@ -76,6 +76,6 @@ class Tracker extends Model
 
     public function worker()
     {
-        return $this->belongsTo(Worker::class, 'worker_id')->select('name');
+        return $this->belongsTo(Worker::class, 'worker_id')->select('first_name','last_name');
     }
 }
